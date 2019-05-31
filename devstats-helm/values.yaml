@@ -71,7 +71,7 @@
 # skipMetrics: 'users_activity,committers_cum'
 # skipMetrics: 'projects_health'
 # https://itnext.io/efs-persistent-volumes-on-aws-kubernetes-193e0035bbfb
-# storageAccessModes: ReadWriteOnce
+# storageAccessModes: ReadWriteMany
 # storageClass: efs
 # storageClass: gp2
 # syncCommandArgs:
@@ -151,7 +151,7 @@ requestsProvisionsCPU: '6000m'
 requestsProvisionsMemory: '16Gi'
 secretType: Opaque
 servicePodName: devstats-service
-storageAccessModes: ReadWriteMany
+storageAccessModes: ReadWriteOnce
 storageClass: default
 skipTemp: 1
 syncCommand: devstats

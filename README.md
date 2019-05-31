@@ -37,6 +37,10 @@ DevStats deployment on bare metal Kubernetes using Helm.
 - Create provisioner: `kubectl apply -f localstorage/provisioner.yaml`. It is a customized `sig-storage-local-static-provisioner` installation.
 
 
+- Install OpenEBS: `kubectl apply -f https://openebs.github.io/charts/openebs-operator-0.9.0.yaml`.
+- Make its local-storage driver the default storage class: `kubectl patch storageclass openebs-hostpath -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'`.
+
+
 # Adding new projects
 
 See `cncf/devstats-helm-example`:`ADDING_NEW_PROJECTS.md` for informations about how to add more projects.
