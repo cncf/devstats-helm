@@ -29,6 +29,11 @@ DevStats deployment on bare metal Kubernetes using Helm.
 - `Note that helm v3 no longer needs tiller`.
 
 
+# Setup per-node local storage
+
+- Create storage class: `kubectl apply -f localstorage/storage-class.yaml`.
+
+
 # Adding new projects
 
 See `cncf/devstats-helm-example`:`ADDING_NEW_PROJECTS.md` for informations about how to add more projects.
