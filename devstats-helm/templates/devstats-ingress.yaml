@@ -19,9 +19,10 @@ spec:
 {{- $root := . -}}
 {{ range $index, $_ := .Values.projects }}
 {{ if and (or (eq ($index|int) ($root.Values.indexIngressesFrom|int)) (gt ($index|int) ($root.Values.indexIngressesFrom|int))) (lt ($index|int) ($root.Values.indexIngressesTo|int)) }}
+{{- $proj := .proj -}}
 {{ range $jndex, $dom := $root.Values.domainNames }}
 {{ if and (or (eq ($jndex|int) ($root.Values.indexDomainsFrom|int)) (gt ($jndex|int) ($root.Values.indexDomainsFrom|int))) (lt ($jndex|int) ($root.Values.indexDomainsTo|int)) }}
-    - {{ .proj }}.{{ $dom }}
+    - {{ $proj }}.{{ $dom }}
 {{ end }}
 {{ end }}
 {{ end }}
@@ -32,14 +33,15 @@ spec:
 {{- $root := . -}}
 {{ range $index, $_ := .Values.projects }}
 {{ if and (or (eq ($index|int) ($root.Values.indexIngressesFrom|int)) (gt ($index|int) ($root.Values.indexIngressesFrom|int))) (lt ($index|int) ($root.Values.indexIngressesTo|int)) }}
+{{- $proj := .proj -}}
 {{ range $jndex, $dom := $root.Values.domainNames }}
 {{ if and (or (eq ($jndex|int) ($root.Values.indexDomainsFrom|int)) (gt ($jndex|int) ($root.Values.indexDomainsFrom|int))) (lt ($jndex|int) ($root.Values.indexDomainsTo|int)) }}
-  - host: {{ .proj }}.{{ $dom }}
+  - host: {{ $proj }}.{{ $dom }}
     http:
       paths:
       - path: /
         backend:
-          serviceName: devstats-service-{{ .proj }}
+          serviceName: devstats-service-{{ $proj }}
           servicePort: 80
 {{ end }}
 {{ end }}
