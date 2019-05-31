@@ -15,24 +15,34 @@ metadata:
 spec:
   tls:
   - hosts:
+# FIXME: here per-project domains list (some projects are only in some specific domains)
 {{- $root := . -}}
 {{ range $index, $_ := .Values.projects }}
 {{ if and (or (eq ($index|int) ($root.Values.indexIngressesFrom|int)) (gt ($index|int) ($root.Values.indexIngressesFrom|int))) (lt ($index|int) ($root.Values.indexIngressesTo|int)) }}
-    - {{ .proj }}.{{ $root.Values.domainName }}
+{{ range $jndex, $dom := $root.Values.domainNames }}
+{{ if and (or (eq ($jndex|int) ($root.Values.indexDomainsFrom|int)) (gt ($jndex|int) ($root.Values.indexDomainsFrom|int))) (lt ($jndex|int) ($root.Values.indexDomainsTo|int)) }}
+    - {{ .proj }}.{{ $dom }}
+{{ end }}
+{{ end }}
 {{ end }}
 {{ end }}
     secretName: devstats-tls
   rules:
+# FIXME: here per-project domains list (some projects are only in some specific domains)
 {{- $root := . -}}
 {{ range $index, $_ := .Values.projects }}
 {{ if and (or (eq ($index|int) ($root.Values.indexIngressesFrom|int)) (gt ($index|int) ($root.Values.indexIngressesFrom|int))) (lt ($index|int) ($root.Values.indexIngressesTo|int)) }}
-  - host: {{ .proj }}.{{ $root.Values.domainName }}
+{{ range $jndex, $dom := $root.Values.domainNames }}
+{{ if and (or (eq ($jndex|int) ($root.Values.indexDomainsFrom|int)) (gt ($jndex|int) ($root.Values.indexDomainsFrom|int))) (lt ($jndex|int) ($root.Values.indexDomainsTo|int)) }}
+  - host: {{ .proj }}.{{ $dom }}
     http:
       paths:
       - path: /
         backend:
           serviceName: devstats-service-{{ .proj }}
           servicePort: 80
+{{ end }}
+{{ end }}
 {{ end }}
 {{ end }}
 {{ end }}

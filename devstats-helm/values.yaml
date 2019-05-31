@@ -47,10 +47,6 @@
 # grafanaCommandArgs:
 #   - "36000"
 #   - arg2
-appNodeSelector:
-  node: devstats-app
-dbNodeSelector:
-  node2: devstats-db
 # onlyMetrics: 'events,tz'
 # overwritePostgresCommand: true
 # postgresCommand: 'sleep'
@@ -81,6 +77,10 @@ dbNodeSelector:
 # syncCommandArgs:
 #   - "syncarg"
 affiliations: 'github_users.json'
+appNodeSelector:
+  node: devstats-app
+dbNodeSelector:
+  node2: devstats-db
 bootstrapCommand: './example/deploy_all.sh'
 bootstrapLDrop: ''
 bootstrapNoCreate: ''
@@ -89,7 +89,7 @@ bootstrapRestartPolicy: Never
 bootstrapUDrop: ''
 companyAcq: "companies.yaml"
 concurrencyPolicy: Forbid
-domainName: 'devstats-demo.net'
+domainNames: ['teststats.cncf.io', 'devstats.cncf.io', 'devstats.cd.foundation', 'devstats.graphql.org']
 fullnameOverride: devstats
 grafanaCommand: 'grafana_start.sh'
 grafanaImage: 'lukaszgryglicki/devstats-grafana'
@@ -113,16 +113,16 @@ indexPVsFrom: 0
 indexPVsTo: 100
 indexServicesFrom: 0
 indexServicesTo: 100
-limitsBootstrapCPU: '2000m'
-limitsBootstrapMemory: '2Gi'
-limitsCronsCPU: '6000m'
-limitsCronsMemory: '16Gi'
-limitsGrafanasCPU: '2000m'
-limitsGrafanasMemory: '8Gi'
-limitsPostgresCPU: '8000m'
-limitsPostgresMemory: '16Gi'
-limitsProvisionsCPU: '8000m'
-limitsProvisionsMemory: '16Gi'
+limitsBootstrapCPU: '8000m'
+limitsBootstrapMemory: '16Gi'
+limitsCronsCPU: '48000m'
+limitsCronsMemory: '128Gi'
+limitsGrafanasCPU: '16000m'
+limitsGrafanasMemory: '32Gi'
+limitsPostgresCPU: '56000m'
+limitsPostgresMemory: '380Gi'
+limitsProvisionsCPU: '48000m'
+limitsProvisionsMemory: '128Gi'
 name: devstats
 nameOverride: devstats
 oauthSecret: github-oauth
@@ -134,19 +134,19 @@ provisionPodName: devstats-provision
 provisionRestartPolicy: Never
 postgresSvcName: 'devstats-postgres'
 postgresImageName: 'lukaszgryglicki/devstats-patroni'
-postgresStorageSize: '100Gi'
-postgresNodes: 3
+postgresStorageSize: '2800Gi'
+postgresNodes: 4
 pvName: devstats-pvc
-requestsBootstrapCPU: '200m'
-requestsBootstrapMemory: '256Mi'
+requestsBootstrapCPU: '1000m'
+requestsBootstrapMemory: '1Gi'
 requestsCronsCPU: '1000m'
 requestsCronsMemory: '2Gi'
-requestsGrafanasCPU: '300m'
-requestsGrafanasMemory: '512Mi'
-requestsPostgresCPU: '2000m'
-requestsPostgresMemory: '4Gi'
-requestsProvisionsCPU: '1000m'
-requestsProvisionsMemory: '2Gi'
+requestsGrafanasCPU: '1000m'
+requestsGrafanasMemory: '2Gi'
+requestsPostgresCPU: '6000m'
+requestsPostgresMemory: '32Gi'
+requestsProvisionsCPU: '6000m'
+requestsProvisionsMemory: '16Gi'
 secretType: Opaque
 servicePodName: devstats-service
 storageAccessModes: ReadWriteOnce
