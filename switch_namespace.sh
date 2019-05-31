@@ -6,5 +6,4 @@ then
   exit 1
 fi
 
-kubectl config set-context $(kubectl config current-context) --namespace="$1"
-kubectl config view | grep namespace
+kubectl config use-context $1
