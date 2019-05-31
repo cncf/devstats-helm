@@ -138,9 +138,11 @@ spec:
        volume.alpha.kubernetes.io/storage-class: {{ .Values.storageClass }}
       name: pgdata
     spec:
-     accessModes:
-     - ReadWriteOnce
-     resources:
-       requests:
-         storage: '{{ .Values.postgresStorageSize }}'
+      securityContext:
+        fsGroup: 999
+      accessModes:
+      - {{ .Values.storageAccessModes }}
+      resources:
+        requests:
+          storage: '{{ .Values.postgresStorageSize }}'
 {{ end }}
