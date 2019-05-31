@@ -76,7 +76,7 @@ You can install only selected templates, see `values.yaml` for detalis (refer to
 - `helm install --dry-run --debug --generate-name ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,runTests=1`.
 
 You can restrict ranges of projects provisioned and/or range of cron jobs to create via:
-- `--set indexPVsFrom=5,indexPVsTo=9,indexProvisionsFrom=5,indexProvisionsTo=9,indexCronsFrom=5,indexCronsTo=9,indexGrafanasFrom=5,indexGrafanasTo=9,indexServicesFrom=5,indexServicesTo=9,indexIngressesFrom=5,indexIngressesTo=9`.
+- `--set indexPVsFrom=5,indexPVsTo=9,indexProvisionsFrom=5,indexProvisionsTo=9,indexCronsFrom=5,indexCronsTo=9,indexGrafanasFrom=5,indexGrafanasTo=9,indexServicesFrom=5,indexServicesTo=9,indexIngressesFrom=5,indexIngressesTo=9,indexDomainsFrom=0,indexDomainsTo=2`.
 
 You can overwrite the number of CPUs autodetected in each pod, setting this to 1 will make each pod single-threaded
 - `--set nCPUs=1`.
