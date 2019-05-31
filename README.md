@@ -14,3 +14,4 @@ DevStats deployment on bare metal Kubernetes using Helm
 - `kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/62e44c867a2846fefb68bd5f178daf4da3095ccb/Documentation/kube-flannel.yml`.
 - `kubectl get pods --all-namespaces`.
 - `kubectl taint nodes --all node-role.kubernetes.io/master-`.
+- `kubectl get nodes`.
