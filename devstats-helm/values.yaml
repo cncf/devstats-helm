@@ -103,6 +103,8 @@ grafanaSecret: grafana-secret
 imagePullPolicy: Always
 indexCronsFrom: 0
 indexCronsTo: 100
+indexDomainsFrom: 0
+indexDomainsTo: 4
 indexGrafanasFrom: 0
 indexGrafanasTo: 100
 indexIngressesFrom: 0
