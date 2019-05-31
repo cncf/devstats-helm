@@ -6,5 +6,5 @@ then
   exit 1
 fi
 
-kubectl config set-context $(kubectl config current-context) --namespace=$1
-echo "Changed to: `kubectl get sa default -o jsonpath='{.metadata.namespace}'`"
+kubectl config set-context $(kubectl config current-context) --namespace="$1"
+kubectl config view | grep namespace
