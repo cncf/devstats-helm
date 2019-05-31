@@ -1,0 +1,17 @@
+{{- $skipPostgres := .Values.skipPostgres -}}
+{{ if not $skipPostgres }}
+{{- /*
+Endpoint for PostgreSQL master service.
+On deploy, this does nothing; once spun up, the master pod will direct it to itself.
+*/ -}}
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: '{{ .Values.postgresSvcName }}-config'
+  labels:
+    name: devstats
+    type: postgres
+    cluster-name: '{{ .Values.postgresSvcName }}'
+subsets: []
+{{ end }}

@@ -1,0 +1,25 @@
+{{- $skipPVs := .Values.skipPVs -}}
+{{ if not $skipPVs }}
+{{- $root := . -}}
+{{- range $index, $_ := .Values.projects -}}
+{{- if and (or (eq ($index|int) ($root.Values.indexPVsFrom|int)) (gt ($index|int) ($root.Values.indexPVsFrom|int))) (lt ($index|int) ($root.Values.indexPVsTo|int)) -}}
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: '{{ $root.Values.pvName }}-{{ .proj }}'
+  labels:
+    name: devstats
+    type: 'pvc'
+    proj: {{ .proj }}
+  annotations:
+    volume.alpha.kubernetes.io/storage-class: {{ $root.Values.storageClass }}
+spec:
+  accessModes:
+    - {{ $root.Values.storageAccessModes }}
+  resources:
+    requests:
+      storage: {{ .disk }}
+{{ end }}
+{{ end }}
+{{ end }}

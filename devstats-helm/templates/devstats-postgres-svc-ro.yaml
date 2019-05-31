@@ -1,0 +1,28 @@
+{{- $skipPostgres := .Values.skipPostgres -}}
+{{ if not $skipPostgres }}
+{{- /*
+Service for load-balanced, read-only connections to the pool of PostgreSQL instances.
+*/ -}}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: '{{ .Values.postgresSvcName }}-ro'
+  labels:
+    name: devstats
+    type: postgres
+    cluster-name: '{{ .Values.postgresSvcName }}'
+spec:
+  clusterIP: None
+  spec:
+  ports:
+  - port: 5432
+    name: psql
+  - port: 8008
+    name: patronictl
+  selector:
+    name: devstats
+    type: postgres
+    role: replica
+    cluster-name: '{{ .Values.postgresSvcName }}'
+{{ end }}

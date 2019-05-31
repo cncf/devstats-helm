@@ -1,0 +1,146 @@
+{{- $skipPostgres := .Values.skipPostgres -}}
+{{ if not $skipPostgres }}
+{{- /*
+Actual Postgres nodes, running patroni
+*/ -}}
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: '{{ .Values.postgresSvcName }}'
+  labels:
+    name: devstats
+    type: postgres
+    cluster-name: '{{ .Values.postgresSvcName }}'
+spec:
+  selector:
+    matchLabels:
+      name: devstats
+      type: postgres
+      cluster-name: '{{ .Values.postgresSvcName }}'
+  replicas: {{ .Values.postgresNodes }}
+  serviceName: '{{ .Values.postgresSvcName }}'
+  template:
+    metadata:
+      labels:
+        name: devstats
+        type: postgres
+        cluster-name: '{{ .Values.postgresSvcName }}'
+    spec:
+      securityContext:
+        fsGroup: 999
+      serviceAccountName: '{{ .Values.postgresSvcName }}'
+      volumes:
+      - name: devshm
+        emptyDir:
+          medium: Memory
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: type
+                operator: In
+                values:
+                - postgres
+            topologyKey: "kubernetes.io/hostname"
+      containers:
+      - name: '{{ .Values.postgresSvcName }}'
+{{ if .Values.overwritePostgresCommand }}
+        command:
+          - {{ .Values.postgresCommand }}
+{{ if .Values.postgresCommandArgs }}
+        args:
+{{- with .Values.postgresCommandArgs -}}
+{{ toYaml . | nindent 10 }}
+{{ end }}
+{{ end }}
+{{ end }}
+{{ if .Values.usePostgresResourcesLimits }}
+        resources:
+          requests:
+            memory: '{{ .Values.requestsPostgresMemory }}'
+            cpu: '{{ .Values.requestsPostgresCPU }}'
+          limits:
+            memory: '{{ .Values.limitsPostgresMemory }}'
+            cpu: '{{ .Values.limitsPostgresCPU }}'
+{{ end }}
+        image: '{{ .Values.postgresImageName }}'
+        imagePullPolicy: '{{ .Values.imagePullPolicy }}'
+        ports:
+        - containerPort: 8008
+          protocol: TCP
+        - containerPort: 5432
+          protocol: TCP
+        volumeMounts:
+        - mountPath: /home/postgres/pgdata
+          name: pgdata
+        - mountPath: /dev/shm
+          name: devshm
+        env:
+        - name: PATRONI_KUBERNETES_POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        - name: POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        - name: PATRONI_KUBERNETES_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: PATRONI_KUBERNETES_LABELS
+          value: '{"name": "devstats", "type": "postgres", "cluster-name": "{{ .Values.postgresSvcName }}"}'
+        - name: PATRONI_KUBERNETES_PORTS
+          value: '[{"name": "postgresql", "port": 5432}]'
+        - name: PATRONI_SUPERUSER_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.pgSecret }}
+              key: PG_ADMIN_USER.secret
+        - name: PATRONI_SUPERUSER_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.pgSecret }}
+              key: PG_PASS.secret
+        - name: PATRONI_REPLICATION_USERNAME
+          value: standby
+        - name: PATRONI_REPLICATION_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.pgSecret }}
+              key: PG_PASS_REP.secret
+        - name: PATRONI_SCOPE
+          value: '{{ .Values.postgresSvcName }}'
+        - name: PATRONI_KUBERNETES_USE_ENDPOINTS
+          value: 'true'
+        - name: PATRONI_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: PATRONI_POSTGRESQL_DATA_DIR
+          value: /home/postgres/pgdata/pgroot/data
+        - name: PATRONI_POSTGRESQL_PGPASS
+          value: /tmp/pgpass
+        - name: PATRONI_POSTGRESQL_LISTEN
+          value: '0.0.0.0:5432'
+        - name: PATRONI_RESTAPI_LISTEN
+          value: '0.0.0.0:8008'
+      terminationGracePeriodSeconds: 0
+      nodeSelector:
+{{- with .Values.dbNodeSelector -}}
+{{ toYaml . | nindent 8 }}
+{{ end }}
+  volumeClaimTemplates:
+  - metadata:
+      annotations:
+       volume.alpha.kubernetes.io/storage-class: {{ .Values.storageClass }}
+      name: pgdata
+    spec:
+     accessModes:
+     - ReadWriteOnce
+     resources:
+       requests:
+         storage: '{{ .Values.postgresStorageSize }}'
+{{ end }}

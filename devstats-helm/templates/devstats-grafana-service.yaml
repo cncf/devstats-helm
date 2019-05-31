@@ -1,0 +1,26 @@
+{{- $skipServices := .Values.skipServices -}}
+{{ if not $skipServices }}
+{{- $root := . -}}
+{{- range $index, $_ := .Values.projects -}}
+{{- if and (or (eq ($index|int) ($root.Values.indexServicesFrom|int)) (gt ($index|int) ($root.Values.indexServicesFrom|int))) (lt ($index|int) ($root.Values.indexServicesTo|int)) -}}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: '{{ $root.Values.servicePodName }}-{{ .proj }}'
+  labels:
+    name: devstats
+    type: 'service'
+    proj: {{ .proj }}
+spec:
+  ports:
+  - port: 80
+    targetPort: {{ $root.Values.grafanaPort }}
+    protocol: TCP
+  selector:
+    name: devstats
+    type: 'grafana'
+    proj: {{ .proj }}
+{{ end }}
+{{ end }}
+{{ end }}

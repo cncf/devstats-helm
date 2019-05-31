@@ -1,0 +1,205 @@
+# ARTWORK
+# Secrets that can be set via files in `./secrets/*.secret`, via command line by `--set 'pgAdminUser=xyz,pgHost=host.com,...'` or even uncomment them in the lines below.
+# pgAdminUser: ''
+# pgHost: ''
+# pgHostRO: ''
+# pgPass: ''
+# pgPassRO: ''
+# pgPassTeam: ''
+# pgPassRep: ''
+# githubOAuth: ''
+# grafanaUser: ''
+# grafanaPassword: ''
+#
+# You can skip some parts of the deployment (useful when deploying partailly again)
+# skipBootstrap (will not run initial bootstrapping - creating logs and users, but you don't need to skip it - bootstrap pod detects already created resources)
+# skipCrons (will not create new cronjobs, you should set it when cron jobs are already created, if you want to recreate cron jobs, delete existing ones first and do not set this flag)
+# skipGrafanas (will not create Grafana deployments)
+# skipPVs (will not attempt to create persistent volume claims, this is usually needed to avoid creating existing resource)
+# skipProvisions (will not create provisioning pods, usually not needed, provisioning pod will detect already provisioned projects and only provision new ones)
+# skipSecrets (will not attempt to create secrets, if you want to create new secrets delete current secrets first and do not set this flag)
+# skipServices (will not attempt to create services (Load Balancers))
+# skipPostgres (will not attempt to create patroni postgres)
+# skipIngress (will not attempt to create ingress)
+# skipBootstrap: 1
+# skipCrons: 1
+# skipGrafanas: 1
+# skipPVs: 1
+# skipProvisions: 1
+# skipSecrets: 1
+# skipServices: 1
+# skipPostgres: 1
+# skipIngress: 1
+#
+# You can overwrite the number of CPU autodetected in each pod, setting this to 1 will make each pod single-threaded
+# nCPUs: 0
+#
+# Other evrironment options
+# bootstrapCommand: 'sleep'
+# bootstrapCommandArgs:
+#   - "36000"
+#   - "bootarg"
+# cmdDebug: 1
+# debug: 1
+# excludeVars: 'projects_health_partial_html'
+# forceComputeAll: 1
+# githubDebug: 1
+# grafanaCommandArgs:
+#   - "36000"
+#   - arg2
+# appNodeSelector:
+#   node: devstats-app
+# dbNodeSelector:
+#   node: devstats-db
+# onlyMetrics: 'events,tz'
+# overwritePostgresCommand: true
+# postgresCommand: 'sleep'
+# postgresCommandArgs:
+#   - "36000"
+# postgresImageName: 'jberkus/simple-patroni:v3'
+# postgresImageName: 'lukaszgryglicki/devstats-patroni'
+# periods: 'd7:t,m:f,q:t,y10:f'
+# provisionCommand: './example/repos.sh'
+# provisionCommand: './example/affs.sh'
+# provisionCommand: './example/vars.sh'
+# provisionCommand: './example/health.sh'
+# provisionCommand: './example/clear_devstats_running_flag.sh'
+# provisionCommand: './example/set_provisioned_flag.sh'
+# provisionCommand: './example/add_metric.sh'
+# provisionCommand: 'sleep'
+# provisionCommandArgs:
+#   - "36000"
+# queryOut: 1
+# reposDir: "/root/devstats_repos/"
+# runTests: true
+# skipMetrics: 'users_activity,committers_cum'
+# skipMetrics: 'projects_health'
+# https://itnext.io/efs-persistent-volumes-on-aws-kubernetes-193e0035bbfb
+# storageAccessModes: ReadWriteMany
+# storageClass: efs
+# storageClass: gp2
+# syncCommandArgs:
+#   - "syncarg"
+affiliations: 'github_users.json'
+bootstrapCommand: './example/deploy_all.sh'
+bootstrapLDrop: ''
+bootstrapNoCreate: ''
+bootstrapPodName: devstats-provision-bootstrap
+bootstrapRestartPolicy: Never
+bootstrapUDrop: ''
+companyAcq: "companies.yaml"
+concurrencyPolicy: Forbid
+domainName: 'devstats-demo.net'
+fullnameOverride: devstats
+grafanaCommand: 'grafana_start.sh'
+grafanaImage: 'lukaszgryglicki/devstats-grafana'
+grafanaMaxSurge: 1
+grafanaMaxUnavailable: 1
+grafanaNReplicas: 2
+grafanaPodName: devstats-grafana
+grafanaPort: 3000
+grafanaRestartPolicy: Always
+grafanaSecret: grafana-secret
+imagePullPolicy: Always
+indexCronsFrom: 0
+indexCronsTo: 100
+indexGrafanasFrom: 0
+indexGrafanasTo: 100
+indexIngressesFrom: 0
+indexIngressesTo: 100
+indexProvisionsFrom: 0
+indexProvisionsTo: 100
+indexPVsFrom: 0
+indexPVsTo: 100
+indexServicesFrom: 0
+indexServicesTo: 100
+limitsBootstrapCPU: '2000m'
+limitsBootstrapMemory: '2Gi'
+limitsCronsCPU: '6000m'
+limitsCronsMemory: '16Gi'
+limitsGrafanasCPU: '2000m'
+limitsGrafanasMemory: '8Gi'
+limitsPostgresCPU: '8000m'
+limitsPostgresMemory: '16Gi'
+limitsProvisionsCPU: '8000m'
+limitsProvisionsMemory: '16Gi'
+name: devstats
+nameOverride: devstats
+oauthSecret: github-oauth
+pgSecret: pg-db
+proivisionImage: 'lukaszgryglicki/devstats'
+projectsFile: 'example/projects.yaml'
+provisionCommand: './example/deploy_all.sh'
+provisionPodName: devstats-provision
+provisionRestartPolicy: Never
+postgresSvcName: 'devstats-postgres'
+postgresImageName: 'lukaszgryglicki/devstats-patroni'
+postgresStorageSize: '100Gi'
+postgresNodes: 3
+pvName: devstats-pvc
+requestsBootstrapCPU: '200m'
+requestsBootstrapMemory: '256Mi'
+requestsCronsCPU: '1000m'
+requestsCronsMemory: '2Gi'
+requestsGrafanasCPU: '300m'
+requestsGrafanasMemory: '512Mi'
+requestsPostgresCPU: '2000m'
+requestsPostgresMemory: '4Gi'
+requestsProvisionsCPU: '1000m'
+requestsProvisionsMemory: '2Gi'
+secretType: Opaque
+servicePodName: devstats-service
+storageAccessModes: ReadWriteOnce
+storageClass: default
+skipTemp: 1
+syncCommand: devstats
+syncImage: 'lukaszgryglicki/devstats-minimal'
+syncPodName: devstats
+syncRestartPolicy: Never
+testsImage: 'lukaszgryglicki/devstats-test'
+testsPodName: devstats-tests
+testsRestartPolicy: Never
+volumeMountName: data
+volumeMountPath: '/root'
+volumeName: data
+useFlags: ''
+useBootstrapResourcesLimits: 1
+useCronsResourcesLimits: 1
+useGrafanasResourcesLimits: 1
+useProvisionsResourcesLimits: 1
+usePostgresResourcesLimits: 1
+waitForBootstrap: 60
+waitForPostgres: 15
+projects:
+  - proj: cncf
+    db: cncf
+    icon: 'cncf'
+    org: 'CNCF'
+    repo: 'cncf/landscapeapp'
+    cron: '20 * * * *'
+    disk: 30Gi
+    i: 0
+  - proj: prometheus
+    db: prometheus
+    icon: 'prometheus'
+    org: 'Prometheus'
+    repo: 'prometheus/prometheus'
+    cron: '10 * * * *'
+    disk: 10Gi
+    i: 1
+  - proj: kubeflow
+    db: kubeflow
+    icon: 'kubeflow'
+    org: 'Kubeflow'
+    repo: 'kubeflow/kubeflow'
+    cron: '30 * * * *'
+    disk: 10Gi
+    i: 2
+  - proj: istio
+    db: istio
+    icon: 'istio'
+    org: 'Istio'
+    repo: 'istio/istio'
+    cron: '40 * * * *'
+    disk: 10Gi
+    i: 3

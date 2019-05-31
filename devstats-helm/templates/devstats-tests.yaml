@@ -1,0 +1,21 @@
+{{- $runTests := .Values.runTests -}}
+{{ if $runTests }}
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: {{ .Values.testsPodName }}
+  labels:
+    name: devstats
+    type: tests
+spec:
+  containers:
+  - image: {{ .Values.testsImage }}
+    imagePullPolicy: {{ .Values.imagePullPolicy }}
+    name: {{ .Values.testsPodName }}
+  restartPolicy: {{ .Values.testsRestartPolicy }}
+  nodeSelector:
+{{- with .Values.appNodeSelector -}}
+{{ toYaml . | nindent 4 }}
+{{ end }}
+{{ end }}

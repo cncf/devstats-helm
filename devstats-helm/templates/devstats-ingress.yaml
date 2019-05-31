@@ -1,0 +1,38 @@
+{{- $skipIngress := .Values.skipIngress -}}
+{{ if not $skipIngress }}
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: devstats-ingress
+  labels:
+    name: devstats
+    type: 'ingress'
+  annotations:
+    kubernetes.io/ingress.class: "nginx"    
+    certmanager.k8s.io/issuer: "letsencrypt-prod"
+    certmanager.k8s.io/acme-challenge-type: http01
+spec:
+  tls:
+  - hosts:
+{{- $root := . -}}
+{{ range $index, $_ := .Values.projects }}
+{{ if and (or (eq ($index|int) ($root.Values.indexIngressesFrom|int)) (gt ($index|int) ($root.Values.indexIngressesFrom|int))) (lt ($index|int) ($root.Values.indexIngressesTo|int)) }}
+    - {{ .proj }}.{{ $root.Values.domainName }}
+{{ end }}
+{{ end }}
+    secretName: devstats-tls
+  rules:
+{{- $root := . -}}
+{{ range $index, $_ := .Values.projects }}
+{{ if and (or (eq ($index|int) ($root.Values.indexIngressesFrom|int)) (gt ($index|int) ($root.Values.indexIngressesFrom|int))) (lt ($index|int) ($root.Values.indexIngressesTo|int)) }}
+  - host: {{ .proj }}.{{ $root.Values.domainName }}
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: devstats-service-{{ .proj }}
+          servicePort: 80
+{{ end }}
+{{ end }}
+{{ end }}

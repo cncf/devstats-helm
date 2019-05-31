@@ -1,0 +1,26 @@
+{{- $skipPostgres := .Values.skipPostgres -}}
+{{ if not $skipPostgres }}
+{{- /*
+Service for read/write connections, that is connections to the master node.
+*/ -}}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: '{{ .Values.postgresSvcName }}'
+  labels:
+    name: devstats
+    type: postgres
+    cluster-name: '{{ .Values.postgresSvcName }}'
+spec:
+  clusterIP: None
+  spec:
+  ports:
+  - port: 5432
+    name: psql
+  selector:
+    name: devstats
+    type: postgres
+    role: master
+    cluster-name: '{{ .Values.postgresSvcName }}'
+{{ end }}

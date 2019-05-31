@@ -1,0 +1,22 @@
+{{- $skipPostgres := .Values.skipPostgres -}}
+{{ if not $skipPostgres }}
+{{- /*
+Postgres RBAC role binding.
+*/ -}}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: '{{ .Values.postgresSvcName }}'
+  labels:
+    name: devstats
+    type: postgres
+    cluster-name: '{{ .Values.postgresSvcName }}'
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: '{{ .Values.postgresSvcName }}'
+subjects:
+- kind: ServiceAccount
+  name: '{{ .Values.postgresSvcName }}'
+{{ end }}
