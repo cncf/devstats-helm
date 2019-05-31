@@ -17,20 +17,24 @@ DevStats deployment on bare metal Kubernetes using Helm.
 - `kubectl get nodes`.
 
 
+# Install Helm
+
+- `wget https://get.helm.sh/helm-v3.0.0-alpha.1-linux-amd64.tar.gz`.
+- `tar zxfv helm-v3.0.0-alpha.1-linux-amd64.tar.gz`.
+- `mv linux-amd64/helm /usr/local/bin`.
+- `rm -rf linux-amd64/ helm-v3.0.0-alpha.1-linux-amd64.tar.gz`.
+- `helm init`.
+- `Note that helm v3 no longer needs tiller`.
+
+
 # Adding new projects
 
 See `cncf/devstats-helm-example`:`ADDING_NEW_PROJECTS.md` for informations about how to add more projects.
 
 
-# Helm and Tiller
-
-You need to have a Helm client installed locally and Tiller installed on the cluser:
-- `scripts/install_tiller.sh` - installs Tiller on the cluster.
-
-
 # Domain, DNS and Ingress
 
-Please configure domain, DNS and Ingress first, for example `AWS.md`.
+Please configure domain, DNS and Ingress first.
 
 
 # SSL
