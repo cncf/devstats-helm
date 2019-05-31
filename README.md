@@ -31,8 +31,10 @@ DevStats deployment on bare metal Kubernetes using Helm.
 
 # Setup per-node local storage
 
+- Have your storage mounted under `/data/disk`.
 - Create storage class: `kubectl apply -f localstorage/storage-class.yaml`.
-- make it default: `kubernetes patch storageclass local-storage -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'`.
+- Make it default: `kubectl patch storageclass local-storage -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'`.
+- Create provisioner: `kubectl apply -f localstorage/provisioner.yaml`.
 
 
 # Adding new projects
