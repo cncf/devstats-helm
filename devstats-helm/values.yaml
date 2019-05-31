@@ -151,7 +151,7 @@ requestsProvisionsCPU: '6000m'
 requestsProvisionsMemory: '16Gi'
 secretType: Opaque
 servicePodName: devstats-service
-storageAccessModes: ReadWriteOnce
+storageAccessModes: ReadWriteMany
 storageClass: default
 skipTemp: 1
 syncCommand: devstats
