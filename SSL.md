@@ -2,7 +2,7 @@
 
 Remember to set `KUBECONFIG`.
 
-Please make sure that you have DNS configured and ingress controlled working with self-signed certs visible to the outside world on your domain.
+Please make sure that you have DNS configured and ingress controller working with self-signed certs visible to the outside world on your domain.
 
 - `kubectl apply -f https://raw.githubusercontent.com/jetstack/cert-manager/release-0.7/deploy/manifests/00-crds.yaml`.
 - Needed only if `cert-manager` namespace already exists: `kubectl label namespace cert-manager certmanager.k8s.io/disable-validation="true"`.

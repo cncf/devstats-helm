@@ -15,6 +15,8 @@ DevStats deployment on bare metal Kubernetes using Helm.
 - `kubectl get pods --all-namespaces`.
 - `kubectl taint nodes --all node-role.kubernetes.io/master-`.
 - `kubectl get nodes`.
+- Your should now label nodes for `db` and `app` (you can mark all of them `app` and `db` if youd want to allow all types of pods running on all nodes).
+- `kubectl label nodes <node-name> <label-key>=<label-value>`.
 
 
 # Install Helm
@@ -71,7 +73,7 @@ List of secrets:
 You can select which secret(s) should be skipped via: `--set skipPGSecret=1,skipGitHubSecret=1,skipGrafanaSecret=1`.
 
 You can install only selected templates, see `values.yaml` for detalis (refer to `skipXYZ` variables in comments), example:
-- `helm install --dry-run --debug ./devstats-helm-example --set skipSecrets=1,skipPVs=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,runTests=1`.
+- `helm install --dry-run --debug ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,runTests=1`.
 
 You can restrict ranges of projects provisioned and/or range of cron jobs to create via:
 - `--set indexPVsFrom=5,indexPVsTo=9,indexProvisionsFrom=5,indexProvisionsTo=9,indexCronsFrom=5,indexCronsTo=9,indexGrafanasFrom=5,indexGrafanasTo=9,indexServicesFrom=5,indexServicesTo=9,indexIngressesFrom=5,indexIngressesTo=9`.
@@ -79,26 +81,19 @@ You can restrict ranges of projects provisioned and/or range of cron jobs to cre
 You can overwrite the number of CPUs autodetected in each pod, setting this to 1 will make each pod single-threaded
 - `--set nCPUs=1`.
 
-Please note variables commented out in `./devstats-helm-example/values.yaml`. You can either uncomment them or pass their values via `--set variable=name`.
+Please note variables commented out in `./devstats-helm/values.yaml`. You can either uncomment them or pass their values via `--set variable=name`.
 
 Resource types used: secret, pv, pvc, po, cronjob, deployment, svc
 
 To debug provisioning use:
-- `helm install --debug --dry-run ./devstats-helm-example --set skipSecrets=1,skipPVs=1,skipBootstrap=1,skipCrons=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,indexProvisionsFrom=0,indexProvisionsTo=1,provisionPodName=debug,provisionCommand=sleep,provisionCommandArgs={36000s}`.
-- `helm install ./devstats-helm-example --set skipSecrets=1,skipPVs=1,skipProvisions=1,skipCrons=1,skipGrafanas=1,skipServices=1,skipIngress=1,skipPostgres=1,bootstrapPodName=debug,bootstrapCommand=sleep,bootstrapCommandArgs={36000s}`
+- `helm install --debug --dry-run ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBootstrap=1,skipCrons=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,indexProvisionsFrom=0,indexProvisionsTo=1,provisionPodName=debug,provisionCommand=sleep,provisionCommandArgs={36000s}`.
+- `helm install ./devstats-helm --set skipSecrets=1,skipPVs=1,skipProvisions=1,skipCrons=1,skipGrafanas=1,skipServices=1,skipIngress=1,skipPostgres=1,bootstrapPodName=debug,bootstrapCommand=sleep,bootstrapCommandArgs={36000s}`
 - Bash into it: `github.com/cncf/devstats-k8s-lf`: `./util/pod_shell.sh devstats-provision-cncf`.
 - Then for example: `PG_USER=gha_admin db.sh psql cncf`, followed: `select dt, proj, prog, msg from gha_logs where proj = 'cncf' order by dt desc limit 40;`.
 - Finally delete pod: `kubectl delete pod devstats-provision-cncf`.
 
 
 # Architecture
-
-Final deployments:
-
-- [CNCF](https://cncf.devstats-demo.net).
-- [Prometheus](https://prometheus.devstats-demo.net).
-- [Kubeflow](https://kubeflow.devstats-demo.net).
-- [Istio](https://istio.devstats-demo.net).
 
 DevStats data sources:
 
@@ -109,12 +104,12 @@ DevStats data sources:
 Storage:
 
 - All data from datasources are stored in HA Postgres database (patroni).
-- Git repository clones are stored in per-pod persistent volumes (type AWS EBS). Each project has its own persisntent volume claim to store its git data.
+- Git repository clones are stored in per-pod persistent volumes (type node local storage). Each project has its own persisntent volume claim to store its git data.
 - All volumes used for databas eor git storage use `ReadWriteOnce` and are private to their corresponding pods.
 
 Database:
 
-- We are using HA patroni postgres 11 database consisting of 3 nodes. Each node has its own persistent volume claim (AWS EBS) that stores database data. This gives 3x redundancy.
+- We are using HA patroni postgres 11 database consisting of 4 nodes. Each node has its own persistent volume claim (local node storage) that stores database data. This gives 4x redundancy.
 - Docker limits each pod's shared memory to 64MB, so all patroni pods are mounting special volume (type: memory) under /dev/shm, that way each pod has unlimited SHM memory (actually limited by RAM accessible to pod).
 - Patroni image runs as postgres user so we're using security context filesystem group 999 (postgres) when mounting PVC for patroni pod to make that volume writable for patroni pod.
 - Patroni supports automatic master election (it uses RBAC's and manipulates service endpoints to make that transparent for app pods).
@@ -125,9 +120,9 @@ Database:
 
 Cluster:
 
-- We are using AWS EKS cluster running `v1.12` Kubernetes that is set up via [eksctl tool](https://eksctl.io).
-- Currently we're using 3 EC2 nodes (type `m5.2xlarge`) in `us-east-1` zone.
-- We are using Helm + Tiller for deploying entire DevStats project.
+- We are using bare metal cluster running `v1.14.2` Kubernetes that is set up manually as descibed in this document.
+- Currently we're using 4 packet.net servers (type `m2.xlarge.x86`) in `SJC1` zone (US West coast).
+- We are using Helm for deploying entire DevStats project.
 
 UI:
 
@@ -139,10 +134,7 @@ UI:
 
 DNS:
 
-- We're using AWS Route 53 domain registered automatically from a shell script that points to `nginx-ingress` AWS ELB endpoint: devstats-demo.net.
-- That domain automatically creates AWS hosted zone that maintains its and its subdomains DNS configuration.
-- For that domain we're adding wildcard subdomain `*.devstats-demo.net` (also using automated scripts). Domain and all sub domains are pointing to ingress ELB enternal IP.
-- Subdomains use CNAME records to point to ingress ELB, while domain itself uses Alias (AWS requires this).
+- We're using CNCF registered wildcard domain pointing to our MetalLB load balancer with nginx-ingress controller.
 
 SSL/HTTPS:
 
@@ -153,13 +145,13 @@ Ingress:
 
 - We're using `nginx-ingress` to provide HTTPS and to disable plain HTTP access.
 - Ingress holds SSL certificate data in annotations (this is managed by `cert-manager`).
-- Based on the request hostname `prometheus.devstats-demo.net` or `cncf.devstats-demo.net` we're redirecting trafic to a specific Grafana service (running on port 80 inside the cluster).
+- Based on the request hostname `prometheus.teststats.cncf.io` or `envoy.devstats.cncf.io` we're redirecting trafic to a specific Grafana service (running on port 80 inside the cluster).
 - Each Grafana has internal (only inside the cluster) service from port 3000 to port 80.
 
 Deployment:
 
-- Helm chart allows very specific deployments, you can specify which obejcts should be created and also for which projects
-- For example you can create only Grafana service for prometheus, or only provision CNCF with a non-standar command etc.
+- Helm chart allows very specific deployments, you can specify which obejcts should be created and also for which projects.
+- For example you can create only Grafana service for Prometheus, or only provision CNCF with a non-standar command etc.
 
 Resource configuration:
 
@@ -201,7 +193,7 @@ Architecture:
 - Postgres endpoint - endpoint for PostgreSQL master service. On deploy, this does nothing; once spun up, the master pod will direct it to itself.
 - Postgres rolebinding - Postgres RBAC role binding.
 - Postgres role - Postgres RBAC role. Required for the deployed postgres pods to have control over configmaps, endpoint and services required to control leader election and failover.
-- Postgres statefulset - main patroni objcet - creates 3 nodes, uses security group to allow mounting its volume as a postgres user. Creates 3 nodes (1 becomes master, 2 read-replicas). Each node has its own EBS storage (which is replicated from master). Uses SHM memory hack to allow docker containers use full RAM for SHM. gets postgres credentials from secret file. each node exposes postgres port and a special `patroni` REST API port 8008. Holds full patroni configuration.
+- Postgres statefulset - main patroni objcet - creates 4 nodes, uses security group to allow mounting its volume as a postgres user. Creates 4 nodes (1 becomes master, 3 read-replicas). Each node has its own per-node local storage (which is replicated from master). Uses SHM memory hack to allow docker containers use full RAM for SHM. gets postgres credentials from secret file. each node exposes postgres port and a special `patroni` REST API port 8008. Holds full patroni configuration.
 - Postgres service account - needed to manage Postgres RBAC.
 - Postgres service config - placeholder service to keep the leader election endpoint from getting deleted during initial deployment. Not useful for connecting to anything: `postgres-service-config`.
 - Postgres service read-only - service for load-balanced, read-only connections to the pool of PostgreSQL instances: `postgres-service-ro`.

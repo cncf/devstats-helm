@@ -47,10 +47,10 @@
 # grafanaCommandArgs:
 #   - "36000"
 #   - arg2
-# appNodeSelector:
-#   node: devstats-app
-# dbNodeSelector:
-#   node: devstats-db
+appNodeSelector:
+  node: devstats-app
+dbNodeSelector:
+  node2: devstats-db
 # onlyMetrics: 'events,tz'
 # overwritePostgresCommand: true
 # postgresCommand: 'sleep'
