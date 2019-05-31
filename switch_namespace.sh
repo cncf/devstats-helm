@@ -1,5 +1,5 @@
 #!/bin/bash
-# Rememeber to set correct kubectl parameters, for example AWS_PROFILE and/or KUBECONFIG
+export KUBECONFIG=/root/.kube/config_cncf
 if [ -z "$1" ]
 then
   echo "$0: you need to provide namespace name as an argument, use 'default' to switch to the default namespace"
@@ -7,3 +7,4 @@ then
 fi
 
 kubectl config set-context $(kubectl config current-context) --namespace=$1
+echo "Changed to: `kubectl get sa default -o jsonpath='{.metadata.namespace}'`"
