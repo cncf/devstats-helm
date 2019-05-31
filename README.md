@@ -34,7 +34,7 @@ DevStats deployment on bare metal Kubernetes using Helm.
 - Have your storage mounted under `/data/disk`.
 - Create storage class: `kubectl apply -f localstorage/storage-class.yaml`.
 - Make it default: `kubectl patch storageclass local-storage -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'`.
-- Create provisioner: `kubectl apply -f localstorage/provisioner.yaml`.
+- Create provisioner: `kubectl apply -f localstorage/provisioner.yaml`. It is a customized `sig-storage-local-static-provisioner` installation.
 
 
 # Adding new projects
@@ -121,9 +121,9 @@ Database:
 - Docker limits each pod's shared memory to 64MB, so all patroni pods are mounting special volume (type: memory) under /dev/shm, that way each pod has unlimited SHM memory (actually limited by RAM accessible to pod).
 - Patroni image runs as postgres user so we're using security context filesystem group 999 (postgres) when mounting PVC for patroni pod to make that volume writable for patroni pod.
 - Patroni supports automatic master election (it uses RBAC's and manipulates service endpoints to make that transparent for app pods).
-- Patroni is providing continuous replication within those 3 nodes.
+- Patroni is providing continuous replication within those 4 nodes.
 - We are using pod anti-affinity to make sure each patroni pod is running on a different node.
-- Write performance is limited by single node power, read performance is up to 3x (2 read replicas and master).
+- Write performance is limited by single node power, read performance is up to 4x (3 read replicas and master).
 - We're using time-series like approach when generating final data displayed on dashboards (custom time-series implementation at top of postgres database).
 
 Cluster:
@@ -135,7 +135,7 @@ Cluster:
 UI:
 
 - We are using Grafana 6.1.6, all dashboards, users and datasources are automatically provisioned from JSONs and template files.
-- We're using read-only connection to HA patroni database to take advantage of read-replicas and 3x faster read connections.
+- We're using read-only connection to HA patroni database to take advantage of read-replicas and 4x faster read connections.
 - Grafana is running on plain HTTP and port 3000, ingress controller is responsible for SSL/HTTPS layer.
 - We're using liveness and readiness probles for Grafana instances to allow detecting unhealhty instances and auto-replace by Kubernetes in such cases.
 - We're using rolling updates when adding new dashboards to ensure no downtime, we are keeping 2 replicas for Grafanas all time.
