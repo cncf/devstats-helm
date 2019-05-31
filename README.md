@@ -31,12 +31,6 @@ DevStats deployment on bare metal Kubernetes using Helm.
 
 # Setup per-node local storage
 
-- Have your storage mounted under `/data/disk`.
-- Create storage class: `kubectl apply -f localstorage/storage-class.yaml`.
-- Make it default: `kubectl patch storageclass local-storage -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'`.
-- Create provisioner: `kubectl apply -f localstorage/provisioner.yaml`. It is a customized `sig-storage-local-static-provisioner` installation.
-
-
 - Install OpenEBS: `kubectl apply -f https://openebs.github.io/charts/openebs-operator-0.9.0.yaml`.
 - Make its local-storage driver the default storage class: `kubectl patch storageclass openebs-hostpath -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'`.
 
