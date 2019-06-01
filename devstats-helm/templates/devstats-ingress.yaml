@@ -15,34 +15,35 @@ metadata:
 spec:
   tls:
   - hosts:
-# FIXME: here per-project domains list (some projects are only in some specific domains)
 {{- $root := . -}}
-{{ range $index, $_ := .Values.projects }}
-{{ if and (or (eq ($index|int) ($root.Values.indexIngressesFrom|int)) (gt ($index|int) ($root.Values.indexIngressesFrom|int))) (lt ($index|int) ($root.Values.indexIngressesTo|int)) }}
-{{- $proj := .proj -}}
-{{ range $jndex, $dom := $root.Values.domainNames }}
+{{ range $jndex, $dom := .Values.domainNames }}
 {{ if and (or (eq ($jndex|int) ($root.Values.indexDomainsFrom|int)) (gt ($jndex|int) ($root.Values.indexDomainsFrom|int))) (lt ($jndex|int) ($root.Values.indexDomainsTo|int)) }}
-    - {{ $proj }}.{{ $dom }}
+{{ range $index, $_ := $root.Values.projects }}
+{{ if and (or (eq ($index|int) ($root.Values.indexIngressesFrom|int)) (gt ($index|int) ($root.Values.indexIngressesFrom|int))) (lt ($index|int) ($root.Values.indexIngressesTo|int)) }}
+{{ if gt ((index .domains $jndex)|int) 0 }}
+    - {{ .proj }}.{{ $dom }}
+{{ end }}
 {{ end }}
 {{ end }}
 {{ end }}
 {{ end }}
     secretName: devstats-tls
   rules:
-# FIXME: here per-project domains list (some projects are only in some specific domains)
 {{- $root := . -}}
-{{ range $index, $_ := .Values.projects }}
-{{ if and (or (eq ($index|int) ($root.Values.indexIngressesFrom|int)) (gt ($index|int) ($root.Values.indexIngressesFrom|int))) (lt ($index|int) ($root.Values.indexIngressesTo|int)) }}
-{{- $proj := .proj -}}
-{{ range $jndex, $dom := $root.Values.domainNames }}
+{{ range $jndex, $dom := .Values.domainNames }}
 {{ if and (or (eq ($jndex|int) ($root.Values.indexDomainsFrom|int)) (gt ($jndex|int) ($root.Values.indexDomainsFrom|int))) (lt ($jndex|int) ($root.Values.indexDomainsTo|int)) }}
-  - host: {{ $proj }}.{{ $dom }}
+{{ range $index, $_ := $root.Values.projects }}
+{{ if and (or (eq ($index|int) ($root.Values.indexIngressesFrom|int)) (gt ($index|int) ($root.Values.indexIngressesFrom|int))) (lt ($index|int) ($root.Values.indexIngressesTo|int)) }}
+{{ if gt ((index .domains $jndex)|int) 0 }}
+  - host: {{ .proj }}.{{ $dom }}
+    domains: {{ index .domains $jndex }}
     http:
       paths:
       - path: /
         backend:
-          serviceName: devstats-service-{{ $proj }}
+          serviceName: devstats-service-{{ .proj }}
           servicePort: 80
+{{ end }}
 {{ end }}
 {{ end }}
 {{ end }}

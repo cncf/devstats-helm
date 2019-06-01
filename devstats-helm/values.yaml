@@ -360,6 +360,7 @@ projects:
     repo: 'cloudevents/spec'
     cron: '33 * * * *'
     disk: 3Gi
+    domains: [1, 1, 0, 0]
     i: 20
   - proj: telepresence
     db: telepresence
@@ -611,6 +612,7 @@ projects:
     repo: 'graphql/graphiql'
     cron: '51 * * * *'
     disk: 3Gi
+    domains: [0, 0, 0, 1]
     i: 48
   - proj: graphqlspec
     db: graphqlspec
