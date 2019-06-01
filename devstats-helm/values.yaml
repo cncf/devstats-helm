@@ -180,6 +180,7 @@ projects:
     repo: 'kubernetes/kubernetes'
     cron: '13 * * * *'
     disk: 50Gi
+    domains: [1, 1, 0, 0]
     i: 0
   - proj: prometheus
     db: prometheus
@@ -188,6 +189,7 @@ projects:
     repo: 'prometheus/prometheus'
     cron: '18 * * * *'
     disk: 5Gi
+    domains: [1, 1, 0, 0]
     i: 1
   - proj: opentracing
     db: opentracing
@@ -196,6 +198,7 @@ projects:
     repo: 'opentracing/opentracing-go'
     cron: '20 * * * *'
     disk: 3Gi
+    domains: [1, 1, 0, 0]
     i: 2
   - proj: fluentd
     db: fluentd
@@ -204,6 +207,7 @@ projects:
     repo: 'fluent/fluentd'
     cron: '21 * * * *'
     disk: 4Gi
+    domains: [1, 1, 0, 0]
     i: 3
   - proj: linkerd
     db: linkerd
@@ -212,6 +216,7 @@ projects:
     repo: 'linkerd/linkerd'
     cron: '22 * * * *'
     disk: 4Gi
+    domains: [1, 1, 0, 0]
     i: 4
   - proj: grpc
     db: grpc
@@ -220,6 +225,7 @@ projects:
     repo: 'grpc/grpc'
     cron: '23 * * * *'
     disk: 4Gi
+    domains: [1, 1, 0, 0]
     i: 5
   - proj: coredns
     db: coredns
@@ -228,6 +234,7 @@ projects:
     repo: 'coredns/coredns'
     cron: '25 * * * *'
     disk: 4Gi
+    domains: [1, 1, 0, 0]
     i: 6
   - proj: containerd
     db: containerd
@@ -236,6 +243,7 @@ projects:
     repo: 'containerd/containerd'
     cron: '26 * * * *'
     disk: 3Gi
+    domains: [1, 1, 0, 0]
     i: 7
   - proj: rkt
     db: rkt
@@ -244,6 +252,7 @@ projects:
     repo: 'rkt/rkt'
     cron: '26 * * * *'
     disk: 3Gi
+    domains: [1, 1, 0, 0]
     i: 8
   - proj: cni
     db: cni
@@ -252,6 +261,7 @@ projects:
     repo: 'containernetworking/cni'
     cron: '27 * * * *'
     disk: 3Gi
+    domains: [1, 1, 0, 0]
     i: 9
   - proj: envoy
     db: envoy
@@ -260,6 +270,7 @@ projects:
     repo: 'envoyproxy/envoy'
     cron: '9 * * * *'
     disk: 4Gi
+    domains: [1, 1, 0, 0]
     i: 10
   - proj: jaeger
     db: jaeger
@@ -268,6 +279,7 @@ projects:
     repo: 'jaegertracing/jaeger'
     cron: '28 * * * *'
     disk: 4Gi
+    domains: [1, 1, 0, 0]
     i: 11
   - proj: notary
     db: notary
@@ -276,6 +288,7 @@ projects:
     repo: 'theupdateframework/notary'
     cron: '29 * * * *'
     disk: 3Gi
+    domains: [1, 1, 0, 0]
     i: 12
   - proj: tuf
     db: tuf
@@ -284,6 +297,7 @@ projects:
     repo: 'theupdateframework/tuf'
     cron: '29 * * * *'
     disk: 3Gi
+    domains: [1, 1, 0, 0]
     i: 13
   - proj: rook
     db: rook
@@ -292,6 +306,7 @@ projects:
     repo: 'rook/rook'
     cron: '31 * * * *'
     disk: 4Gi
+    domains: [1, 1, 0, 0]
     i: 14
   - proj: vitess
     db: vitess
@@ -300,6 +315,7 @@ projects:
     repo: 'vitessio/vitess'
     cron: '31 * * * *'
     disk: 5Gi
+    domains: [1, 1, 0, 0]
     i: 15
   - proj: nats
     db: nats
@@ -308,6 +324,7 @@ projects:
     repo: 'nats-io/gnatsd'
     cron: '32 * * * *'
     disk: 5Gi
+    domains: [1, 1, 0, 0]
     i: 16
   - proj: opa
     db: opa
@@ -316,6 +333,7 @@ projects:
     repo: 'open-policy-agent/opa'
     cron: '32 * * * *'
     disk: 5Gi
+    domains: [1, 1, 0, 0]
     i: 17
   - proj: spiffe
     db: spiffe
@@ -324,6 +342,7 @@ projects:
     repo: 'spiffe/spiffe'
     cron: '33 * * * *'
     disk: 4Gi
+    domains: [1, 1, 0, 0]
     i: 18
   - proj: spire
     db: spire
@@ -332,6 +351,7 @@ projects:
     repo: 'spiffe/spire'
     cron: '33 * * * *'
     disk: 3Gi
+    domains: [1, 1, 0, 0]
     i: 19
   - proj: cloudevents
     db: cloudevents
@@ -348,6 +368,7 @@ projects:
     repo: 'telepresenceio/telepresence'
     cron: '34 * * * *'
     disk: 3Gi
+    domains: [1, 1, 0, 0]
     i: 21
   - proj: helm
     db: helm
@@ -356,6 +377,7 @@ projects:
     repo: 'helm/helm'
     cron: '34 * * * *'
     disk: 8Gi
+    domains: [1, 1, 0, 0]
     i: 22
   - proj: openmetrics
     db: openmetrics
@@ -364,6 +386,7 @@ projects:
     repo: 'OpenObservability/OpenMetrics'
     cron: '36 * * * *'
     disk: 3Gi
+    domains: [1, 1, 0, 0]
     i: 23
   - proj: harbor
     db: harbor
@@ -372,6 +395,7 @@ projects:
     repo: 'goharbor/harbor'
     cron: '36 * * * *'
     disk: 4Gi
+    domains: [1, 1, 0, 0]
     i: 24
   - proj: etcd
     db: etcd
@@ -380,6 +404,7 @@ projects:
     repo: 'etcd-io/etcd'
     cron: '37 * * * *'
     disk: 4Gi
+    domains: [1, 1, 0, 0]
     i: 25
   - proj: tikv
     db: tikv
@@ -388,6 +413,7 @@ projects:
     repo: 'tikv/tikv'
     cron: '38 * * * *'
     disk: 3Gi
+    domains: [1, 1, 0, 0]
     i: 26
   - proj: cortex
     db: cortex
@@ -396,6 +422,7 @@ projects:
     repo: 'cortexproject/cortex'
     cron: '38 * * * *'
     disk: 3Gi
+    domains: [1, 1, 0, 0]
     i: 27
   - proj: buildpacks
     db: buildpacks
@@ -404,6 +431,7 @@ projects:
     repo: 'buildpack/lifecycle'
     cron: '39 * * * *'
     disk: 3Gi
+    domains: [1, 1, 0, 0]
     i: 28
   - proj: falco
     db: falco
@@ -412,6 +440,7 @@ projects:
     repo: 'falcosecurity/falco'
     cron: '39 * * * *'
     disk: 3Gi
+    domains: [1, 1, 0, 0]
     i: 29
   - proj: dragonfly
     db: dragonfly
@@ -420,6 +449,7 @@ projects:
     repo: 'dragonflyoss/Dragonfly'
     cron: '40 * * * *'
     disk: 3Gi
+    domains: [1, 1, 0, 0]
     i: 30
   - proj: virtualkubelet
     db: virtualkubelet
@@ -428,6 +458,7 @@ projects:
     repo: 'virtual-kubelet/virtual-kubelet'
     cron: '40 * * * *'
     disk: 3Gi
+    domains: [1, 1, 0, 0]
     i: 31
   - proj: cncf
     db: cncf
@@ -436,6 +467,7 @@ projects:
     repo: 'cncf/landscapeapp'
     cron: '41 * * * *'
     disk: 30Gi
+    domains: [1, 0, 0, 0]
     i: 32
   - proj: opencontainers
     db: opencontainers
@@ -444,6 +476,7 @@ projects:
     repo: 'opencontainers/runc'
     cron: '41 * * * *'
     disk: 3Gi
+    domains: [1, 0, 0, 0]
     i: 33
   - proj: istio
     db: istio
@@ -452,6 +485,7 @@ projects:
     repo: 'istio/istio'
     cron: '42 * * * *'
     disk: 8Gi
+    domains: [1, 0, 0, 0]
     i: 34
   - proj: spinnaker
     db: spinnaker
@@ -460,6 +494,7 @@ projects:
     repo: 'spinnaker/spinnaker'
     cron: '43 * * * *'
     disk: 4Gi
+    domains: [0, 0, 1, 0]
     i: 35
   - proj: knative
     db: knative
@@ -468,6 +503,7 @@ projects:
     repo: 'knative/serving'
     cron: '44 * * * *'
     disk: 4Gi
+    domains: [1, 0, 0, 0]
     i: 36
   - proj: kubeedge
     db: kubeedge
@@ -476,6 +512,7 @@ projects:
     repo: 'kubeedge/kubeedge'
     cron: '44 * * * *'
     disk: 3Gi
+    domains: [1, 1, 0, 0]
     i: 37
   - proj: brigade
     db: brigade
@@ -484,6 +521,7 @@ projects:
     repo: 'Azure/brigade'
     cron: '45 * * * *'
     disk: 3Gi
+    domains: [1, 1, 0, 0]
     i: 38
   - proj: crio
     db: crio
@@ -492,6 +530,7 @@ projects:
     repo: 'cri-o/cri-o'
     cron: '45 * * * *'
     disk: 3Gi
+    domains: [1, 1, 0, 0]
     i: 39
   - proj: tekton
     db: tekton
@@ -500,6 +539,7 @@ projects:
     repo: 'knative/build'
     cron: '46 * * * *'
     disk: 3Gi
+    domains: [0, 0, 1, 0]
     i: 40
   - proj: jenkinsx
     db: jenkinsx
@@ -508,6 +548,7 @@ projects:
     repo: 'jenkins-x/jx'
     cron: '46 * * * *'
     disk: 6Gi
+    domains: [0, 0, 1, 0]
     i: 41
   - proj: jenkins
     db: jenkins
@@ -516,6 +557,7 @@ projects:
     repo: 'jenkinsci/jenkins'
     cron: '47 * * * *'
     disk: 40Gi
+    domains: [0, 0, 1, 0]
     i: 42
   - proj: networkservicemesh
     db: networkservicemesh
@@ -523,6 +565,7 @@ projects:
     org: 'Network Service Mesh'
     repo: 'networkservicemesh/networkservicemesh'
     cron: '48 * * * *'
+    domains: [1, 1, 0, 0]
     disk: 3Gi
     i: 43
   - proj: openebs
@@ -532,6 +575,7 @@ projects:
     repo: 'openebs/openebs'
     cron: '48 * * * *'
     disk: 10Gi
+    domains: [1, 1, 0, 0]
     i: 44
   - proj: opentelemetry
     db: opentelemetry
@@ -540,6 +584,7 @@ projects:
     repo: 'open-telemetry/opentelemetry-java'
     cron: '49 * * * *'
     disk: 3Gi
+    domains: [1, 1, 0, 0]
     i: 45
   - proj: graphql
     db: graphql
@@ -548,6 +593,7 @@ projects:
     repo: 'graphql/graphql-js'
     cron: '50 * * * *'
     disk: 30Gi
+    domains: [0, 0, 0, 1]
     i: 46
   - proj: graphqljs
     db: graphqljs
@@ -556,6 +602,7 @@ projects:
     repo: 'graphql/graphql-js'
     cron: '51 * * * *'
     disk: 3Gi
+    domains: [0, 0, 0, 1]
     i: 47
   - proj: graphiql
     db: graphiql
@@ -572,6 +619,7 @@ projects:
     repo: 'graphql/graphql-spec'
     cron: '51 * * * *'
     disk: 3Gi
+    domains: [0, 0, 0, 1]
     i: 49
   - proj: expressgraphql
     db: expressgraphql
@@ -580,5 +628,41 @@ projects:
     repo: 'graphql/express-graphql'
     cron: '51 * * * *'
     disk: 3Gi
+    domains: [0, 0, 0, 1]
     i: 50
-# FIXME: missing allprj, allcdf, linux, zephyr, contrib, nodejs, lg
+  - proj: all
+    db: allprj
+    icon: 'cncf'
+    org: 'All CNCF'
+    repo: ''
+    cron: '51 * * * *'
+    disk: 150Gi
+    domains: [1, 1, 0, 0]
+    i: 51
+  - proj: allcdf
+    db: allcdf
+    icon: 'cdf'
+    org: 'All CDF'
+    repo: ''
+    cron: '51 * * * *'
+    disk: 50Gi
+    domains: [0, 0, 1, 0]
+    i: 52
+  - proj: zephyr
+    db: zephyr
+    icon: 'cncf'
+    org: 'Zephyr'
+    repo: 'zephyrproject-rtos/zephyr'
+    cron: '11 * * * *'
+    disk: 8Gi
+    domains: [1, 0, 0, 0]
+    i: 53
+  - proj: linux
+    db: linux
+    icon: 'cncf'
+    org: 'Linux'
+    repo: 'torvalds/linux'
+    cron: '12 * * * *'
+    disk: 10Gi
+    domains: [1, 0, 0, 0]
+    i: 54
