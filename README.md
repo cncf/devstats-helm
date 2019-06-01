@@ -111,7 +111,8 @@ Storage:
 
 - All data from datasources are stored in HA Postgres database (patroni).
 - Git repository clones are stored in per-pod persistent volumes (type node local storage). Each project has its own persisntent volume claim to store its git data.
-- All volumes used for databas eor git storage use `ReadWriteOnce` and are private to their corresponding pods.
+- All volumes used for database or git storage use `ReadWriteOnce` and are private to their corresponding pods.
+- We are using OpenEBS to dynamically provision persistent volumes using local-storage.
 
 Database:
 
