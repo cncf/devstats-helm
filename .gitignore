@@ -56,3 +56,4 @@ sqlite/*.sql
 *.secret
 /error.yaml
 /cert/cert-issuer.yaml
+/metallb/config.yaml

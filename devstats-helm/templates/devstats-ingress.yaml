@@ -13,6 +13,9 @@ metadata:
     certmanager.k8s.io/issuer: "letsencrypt-prod"
     certmanager.k8s.io/acme-challenge-type: http01
 spec:
+  backend:
+    serviceName: static-service
+    servicePort: 80
   tls:
   - hosts:
 {{- $root := . -}}
