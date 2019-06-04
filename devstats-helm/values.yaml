@@ -90,7 +90,19 @@ bootstrapRestartPolicy: Never
 bootstrapUDrop: ''
 companyAcq: "companies.yaml"
 concurrencyPolicy: Forbid
-domainNames: ['teststats.cncf.io', 'devstats.cncf.io', 'devstats.cd.foundation', 'devstats.graphql.org']
+domains:
+  - name: 'teststats.cncf.io'
+    image: 'lukaszgryglicki/devstats-image-test'
+    shortname: test
+  - name: 'devstats.cncf.io'
+    image: 'lukaszgryglicki/devstats-image-prod'
+    shortname: prod
+  - name: 'devstats.cd.foundation'
+    image: 'lukaszgryglicki/devstats-image-cdf'
+    shortname: cdf
+  - name: 'devstats.graphql.org'
+    image: 'lukaszgryglicki/devstats-image-graphql'
+    shortname: graphql
 fullnameOverride: devstats
 grafanaCommand: 'grafana_start.sh'
 grafanaImage: 'lukaszgryglicki/devstats-grafana'
@@ -155,7 +167,6 @@ servicePodName: devstats-service
 storageAccessModes: ReadWriteOnce
 storageClass: default
 skipTemp: 1
-staticImage: 'lukaszgryglicki/devstats-static'
 syncCommand: devstats
 syncImage: 'lukaszgryglicki/devstats-minimal'
 syncPodName: devstats

@@ -14,12 +14,18 @@ metadata:
     certmanager.k8s.io/acme-challenge-type: http01
 spec:
   backend:
-    serviceName: static-service
+    serviceName: static-service-default
     servicePort: 80
   tls:
   - hosts:
 {{- $root := . -}}
-{{ range $jndex, $dom := .Values.domainNames }}
+{{ range $jndex, $_ := .Values.domains }}
+{{ if and (or (eq ($jndex|int) ($root.Values.indexDomainsFrom|int)) (gt ($jndex|int) ($root.Values.indexDomainsFrom|int))) (lt ($jndex|int) ($root.Values.indexDomainsTo|int)) }}
+    - {{ .name }}
+{{ end }}
+{{ end }}
+{{ range $jndex, $_ := .Values.domains }}
+{{- $dom := .name -}}
 {{ if and (or (eq ($jndex|int) ($root.Values.indexDomainsFrom|int)) (gt ($jndex|int) ($root.Values.indexDomainsFrom|int))) (lt ($jndex|int) ($root.Values.indexDomainsTo|int)) }}
 {{ range $index, $_ := $root.Values.projects }}
 {{ if and (or (eq ($index|int) ($root.Values.indexIngressesFrom|int)) (gt ($index|int) ($root.Values.indexIngressesFrom|int))) (lt ($index|int) ($root.Values.indexIngressesTo|int)) }}
@@ -32,8 +38,19 @@ spec:
 {{ end }}
     secretName: devstats-tls
   rules:
-{{- $root := . -}}
-{{ range $jndex, $dom := .Values.domainNames }}
+{{ range $jndex, $_ := .Values.domains }}
+{{ if and (or (eq ($jndex|int) ($root.Values.indexDomainsFrom|int)) (gt ($jndex|int) ($root.Values.indexDomainsFrom|int))) (lt ($jndex|int) ($root.Values.indexDomainsTo|int)) }}
+  - host: {{ .name }}
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: static-service-{{ .shortname }}
+          servicePort: 80
+{{ end }}
+{{ end }}
+{{ range $jndex, $_ := .Values.domains }}
+{{- $dom := .name -}}
 {{ if and (or (eq ($jndex|int) ($root.Values.indexDomainsFrom|int)) (gt ($jndex|int) ($root.Values.indexDomainsFrom|int))) (lt ($jndex|int) ($root.Values.indexDomainsTo|int)) }}
 {{ range $index, $_ := $root.Values.projects }}
 {{ if and (or (eq ($index|int) ($root.Values.indexIngressesFrom|int)) (gt ($index|int) ($root.Values.indexIngressesFrom|int))) (lt ($index|int) ($root.Values.indexIngressesTo|int)) }}
