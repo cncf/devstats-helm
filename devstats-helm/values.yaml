@@ -92,16 +92,16 @@ companyAcq: "companies.yaml"
 concurrencyPolicy: Forbid
 domains:
   - name: 'teststats.cncf.io'
-    image: 'lukaszgryglicki/devstats-image-test'
+    image: 'lukaszgryglicki/devstats-static-test'
     shortname: test
   - name: 'devstats.cncf.io'
-    image: 'lukaszgryglicki/devstats-image-prod'
+    image: 'lukaszgryglicki/devstats-static-prod'
     shortname: prod
   - name: 'devstats.cd.foundation'
-    image: 'lukaszgryglicki/devstats-image-cdf'
+    image: 'lukaszgryglicki/devstats-static-cdf'
     shortname: cdf
   - name: 'devstats.graphql.org'
-    image: 'lukaszgryglicki/devstats-image-graphql'
+    image: 'lukaszgryglicki/devstats-static-graphql'
     shortname: graphql
 fullnameOverride: devstats
 grafanaCommand: 'grafana_start.sh'

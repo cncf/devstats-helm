@@ -4,7 +4,7 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: static-default
+  name: devstats-static-default
   labels:
     name: devstats
     type: static
@@ -22,14 +22,14 @@ spec:
       - env:
         image: {{ .Values.staticImage }}
         imagePullPolicy: {{ .Values.imagePullPolicy }}
-        name: static-default
+        name: devstats-static-default
         ports:
         - containerPort: 80
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: static-service-default
+  name: devstats-static-service-default
   labels:
     name: devstats
     type: static-service-default
@@ -49,7 +49,7 @@ spec:
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: 'static-{{ .shortname }}'
+  name: 'devstats-static-{{ .shortname }}'
   labels:
     name: devstats
     type: static
@@ -67,14 +67,14 @@ spec:
       - env:
         image: '{{ .image }}'
         imagePullPolicy: {{ $root.Values.imagePullPolicy }}
-        name: 'static-{{ .shortname }}'
+        name: 'devstats-static-{{ .shortname }}'
         ports:
         - containerPort: 80
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: 'static-service-{{ .shortname }}'
+  name: 'devstats-static-service-{{ .shortname }}'
   labels:
     name: devstats
     type: 'static-service-{{ .shortname }}'
