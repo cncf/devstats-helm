@@ -4,10 +4,11 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: static
+  name: static-default
   labels:
     name: devstats
     type: static
+    proj: default
 spec:
   replicas: 1
   template:
@@ -15,24 +16,24 @@ spec:
       labels:
         name: devstats
         type: static
+        proj: default
     spec:
       containers:
       - env:
         image: {{ .Values.staticImage }}
         imagePullPolicy: {{ .Values.imagePullPolicy }}
-        name: static
+        name: static-default
         ports:
         - containerPort: 80
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: static-service
+  name: static-service-default
   labels:
     name: devstats
-    type: static-service
+    type: static-service-default
 spec:
-  # type: LoadBalancer
   ports:
   - name: http
     port: 80
@@ -40,4 +41,52 @@ spec:
   selector:
     name: devstats
     type: static
+    proj: default
+{{- $root := . -}}
+{{ range $jndex, $_ := .Values.domains }}
+{{ if and (or (eq ($jndex|int) ($root.Values.indexStaticsFrom|int)) (gt ($jndex|int) ($root.Values.indexStaticsFrom|int))) (lt ($jndex|int) ($root.Values.indexStaticsTo|int)) }}
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: 'static-{{ .shortname }}'
+  labels:
+    name: devstats
+    type: static
+    proj: '{{ .shortname }}'
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: devstats
+        type: static
+        proj: '{{ .shortname }}'
+    spec:
+      containers:
+      - env:
+        image: '{{ .image }}'
+        imagePullPolicy: {{ $root.Values.imagePullPolicy }}
+        name: 'static-{{ .shortname }}'
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: 'static-service-{{ .shortname }}'
+  labels:
+    name: devstats
+    type: 'static-service-{{ .shortname }}'
+spec:
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
+  selector:
+    name: devstats
+    type: static
+    proj: '{{ .shortname }}'
+{{ end }}
+{{ end }}
 {{ end }}

@@ -128,6 +128,8 @@ indexPVsFrom: 0
 indexPVsTo: 100
 indexServicesFrom: 0
 indexServicesTo: 100
+indexStaticsFrom: 0
+indexStaticsTo: 10
 limitsBootstrapCPU: '8000m'
 limitsBootstrapMemory: '16Gi'
 limitsCronsCPU: '48000m'
@@ -167,6 +169,7 @@ servicePodName: devstats-service
 storageAccessModes: ReadWriteOnce
 storageClass: default
 skipTemp: 1
+staticImage: 'lukaszgryglicki/devstats-static-default'
 syncCommand: devstats
 syncImage: 'lukaszgryglicki/devstats-minimal'
 syncPodName: devstats
