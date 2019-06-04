@@ -30,6 +30,7 @@
 # skipServices: 1
 # skipPostgres: 1
 # skipIngress: 1
+# skipStatic: 1
 #
 # You can overwrite the number of CPU autodetected in each pod, setting this to 1 will make each pod single-threaded
 # nCPUs: 0
@@ -154,6 +155,7 @@ servicePodName: devstats-service
 storageAccessModes: ReadWriteOnce
 storageClass: default
 skipTemp: 1
+staticImage: 'lukaszgryglicki/devstats-static'
 syncCommand: devstats
 syncImage: 'lukaszgryglicki/devstats-minimal'
 syncPodName: devstats
