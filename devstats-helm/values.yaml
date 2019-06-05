@@ -520,56 +520,6 @@ projects:
     domains: [1, 1, 0, 0]
     ga: 'UA-108085315-36'
     i: 31
-  - proj: cncf
-    db: cncf
-    icon: 'cncf'
-    org: 'CNCF'
-    repo: 'cncf/landscapeapp'
-    cron: '19 * * * *'
-    disk: 30Gi
-    domains: [1, 0, 0, 0]
-    ga: 'UA-108085315-8'
-    i: 32
-  - proj: opencontainers
-    db: opencontainers
-    icon: 'opencontainers'
-    org: 'OCI'
-    repo: 'opencontainers/runc'
-    cron: '20 * * * *'
-    disk: 3Gi
-    domains: [1, 0, 0, 0]
-    ga: 'UA-108085315-19'
-    i: 33
-  - proj: istio
-    db: istio
-    icon: 'cncf'
-    org: 'Istio'
-    repo: 'istio/istio'
-    cron: '20 * * * *'
-    disk: 8Gi
-    domains: [1, 0, 0, 0]
-    ga: ''
-    i: 34
-  - proj: spinnaker
-    db: spinnaker
-    icon: 'spinnaker'
-    org: 'Spinnaker'
-    repo: 'spinnaker/spinnaker'
-    cron: '20 * * * *'
-    disk: 4Gi
-    domains: [0, 0, 1, 0]
-    ga: 'UA-108085315-38'
-    i: 35
-  - proj: knative
-    db: knative
-    icon: 'cncf'
-    org: 'Knative'
-    repo: 'knative/serving'
-    cron: '21 * * * *'
-    disk: 4Gi
-    domains: [1, 0, 0, 0]
-    ga: ''
-    i: 36
   - proj: kubeedge
     db: kubeedge
     icon: 'kubeedge'
@@ -579,7 +529,7 @@ projects:
     disk: 3Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-108085315-43'
-    i: 37
+    i: 32
   - proj: brigade
     db: brigade
     icon: 'brigade'
@@ -589,7 +539,7 @@ projects:
     disk: 3Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-108085315-44'
-    i: 38
+    i: 33
   - proj: crio
     db: crio
     icon: 'crio'
@@ -599,37 +549,7 @@ projects:
     disk: 3Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-108085315-45'
-    i: 39
-  - proj: tekton
-    db: tekton
-    icon: 'tekton'
-    org: 'Tekton'
-    repo: 'knative/build'
-    cron: '22 * * * *'
-    disk: 3Gi
-    domains: [0, 0, 1, 0]
-    ga: 'UA-108085315-39'
-    i: 40
-  - proj: jenkinsx
-    db: jenkinsx
-    icon: 'jenkinsx'
-    org: 'Jenkins X'
-    repo: 'jenkins-x/jx'
-    cron: '22 * * * *'
-    disk: 6Gi
-    domains: [0, 0, 1, 0]
-    ga: 'UA-108085315-41'
-    i: 41
-  - proj: jenkins
-    db: jenkins
-    icon: 'jenkins'
-    org: 'Jenkins'
-    repo: 'jenkinsci/jenkins'
-    cron: '23 * * * *'
-    disk: 40Gi
-    domains: [0, 0, 1, 0]
-    ga: 'UA-108085315-40'
-    i: 42
+    i: 34
   - proj: networkservicemesh
     db: networkservicemesh
     icon: 'networkservicemesh'
@@ -639,7 +559,7 @@ projects:
     disk: 3Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-108085315-46'
-    i: 43
+    i: 35
   - proj: openebs
     db: openebs
     icon: 'openebs'
@@ -649,7 +569,7 @@ projects:
     disk: 10Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-108085315-47'
-    i: 44
+    i: 36
   - proj: opentelemetry
     db: opentelemetry
     icon: 'opentelemetry'
@@ -659,57 +579,7 @@ projects:
     disk: 3Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-108085315-48'
-    i: 45
-  - proj: graphql
-    db: graphql
-    icon: 'graphql'
-    org: 'GraphQL'
-    repo: 'graphql/graphql-js'
-    cron: '24 * * * *'
-    disk: 30Gi
-    domains: [0, 0, 0, 1]
-    ga: ''
-    i: 46
-  - proj: graphqljs
-    db: graphqljs
-    icon: 'graphqljs'
-    org: 'GraphQL JavaScript'
-    repo: 'graphql/graphql-js'
-    cron: '25 * * * *'
-    disk: 3Gi
-    domains: [0, 0, 0, 1]
-    ga: ''
-    i: 47
-  - proj: graphiql
-    db: graphiql
-    icon: 'graphiql'
-    org: 'GraphQL IDE'
-    repo: 'graphql/graphiql'
-    cron: '25 * * * *'
-    disk: 3Gi
-    domains: [0, 0, 0, 1]
-    ga: ''
-    i: 48
-  - proj: graphqlspec
-    db: graphqlspec
-    icon: 'graphqlspec'
-    org: 'GraphQL Spec'
-    repo: 'graphql/graphql-spec'
-    cron: '26 * * * *'
-    disk: 3Gi
-    domains: [0, 0, 0, 1]
-    ga: ''
-    i: 49
-  - proj: expressgraphql
-    db: expressgraphql
-    icon: 'expressgraphql'
-    org: 'Express GraphQL'
-    repo: 'graphql/express-graphql'
-    cron: '26 * * * *'
-    disk: 3Gi
-    domains: [0, 0, 0, 1]
-    ga: ''
-    i: 50
+    i: 37
   - proj: all
     db: allprj
     icon: 'cncf'
@@ -719,7 +589,47 @@ projects:
     disk: 150Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-108085315-20'
-    i: 51
+    i: 38
+  - proj: tekton
+    db: tekton
+    icon: 'tekton'
+    org: 'Tekton'
+    repo: 'knative/build'
+    cron: '22 * * * *'
+    disk: 3Gi
+    domains: [1, 0, 1, 0]
+    ga: 'UA-108085315-39'
+    i: 39
+  - proj: spinnaker
+    db: spinnaker
+    icon: 'spinnaker'
+    org: 'Spinnaker'
+    repo: 'spinnaker/spinnaker'
+    cron: '20 * * * *'
+    disk: 4Gi
+    domains: [1, 0, 1, 0]
+    ga: 'UA-108085315-38'
+    i: 40
+  - proj: jenkinsx
+    db: jenkinsx
+    icon: 'jenkinsx'
+    org: 'Jenkins X'
+    repo: 'jenkins-x/jx'
+    cron: '22 * * * *'
+    disk: 6Gi
+    domains: [1, 0, 1, 0]
+    ga: 'UA-108085315-41'
+    i: 41
+  - proj: jenkins
+    db: jenkins
+    icon: 'jenkins'
+    org: 'Jenkins'
+    repo: 'jenkinsci/jenkins'
+    cron: '23 * * * *'
+    disk: 40Gi
+    domains: [1, 0, 1, 0]
+    ga: 'UA-108085315-40'
+    i: 42
   - proj: allcdf
     db: allcdf
     icon: 'cdf'
@@ -727,8 +637,98 @@ projects:
     repo: ''
     cron: '28 * * * *'
     disk: 50Gi
-    domains: [0, 0, 1, 0]
+    domains: [1, 0, 1, 0]
     ga: 'UA-108085315-42'
+    i: 43
+  - proj: graphqljs
+    db: graphqljs
+    icon: 'graphqljs'
+    org: 'GraphQL JavaScript'
+    repo: 'graphql/graphql-js'
+    cron: '25 * * * *'
+    disk: 3Gi
+    domains: [1, 0, 0, 1]
+    ga: ''
+    i: 44
+  - proj: graphiql
+    db: graphiql
+    icon: 'graphiql'
+    org: 'GraphQL IDE'
+    repo: 'graphql/graphiql'
+    cron: '25 * * * *'
+    disk: 3Gi
+    domains: [1, 0, 0, 1]
+    ga: ''
+    i: 45
+  - proj: graphqlspec
+    db: graphqlspec
+    icon: 'graphqlspec'
+    org: 'GraphQL Spec'
+    repo: 'graphql/graphql-spec'
+    cron: '26 * * * *'
+    disk: 3Gi
+    domains: [1, 0, 0, 1]
+    ga: ''
+    i: 46
+  - proj: expressgraphql
+    db: expressgraphql
+    icon: 'expressgraphql'
+    org: 'Express GraphQL'
+    repo: 'graphql/express-graphql'
+    cron: '26 * * * *'
+    disk: 3Gi
+    domains: [1, 0, 0, 1]
+    ga: ''
+    i: 47
+  - proj: graphql
+    db: graphql
+    icon: 'graphql'
+    org: 'GraphQL'
+    repo: 'graphql/graphql-js'
+    cron: '24 * * * *'
+    disk: 30Gi
+    domains: [1, 0, 0, 1]
+    ga: ''
+    i: 48
+  - proj: cncf
+    db: cncf
+    icon: 'cncf'
+    org: 'CNCF'
+    repo: 'cncf/landscapeapp'
+    cron: '19 * * * *'
+    disk: 30Gi
+    domains: [1, 0, 0, 0]
+    ga: 'UA-108085315-8'
+    i: 49
+  - proj: opencontainers
+    db: opencontainers
+    icon: 'opencontainers'
+    org: 'OCI'
+    repo: 'opencontainers/runc'
+    cron: '20 * * * *'
+    disk: 3Gi
+    domains: [1, 0, 0, 0]
+    ga: 'UA-108085315-19'
+    i: 50
+  - proj: istio
+    db: istio
+    icon: 'cncf'
+    org: 'Istio'
+    repo: 'istio/istio'
+    cron: '20 * * * *'
+    disk: 8Gi
+    domains: [1, 0, 0, 0]
+    ga: ''
+    i: 51
+  - proj: knative
+    db: knative
+    icon: 'cncf'
+    org: 'Knative'
+    repo: 'knative/serving'
+    cron: '21 * * * *'
+    disk: 4Gi
+    domains: [1, 0, 0, 0]
+    ga: ''
     i: 52
   - proj: zephyr
     db: zephyr
