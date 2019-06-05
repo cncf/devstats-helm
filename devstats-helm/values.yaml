@@ -108,7 +108,7 @@ grafanaCommand: 'grafana_start.sh'
 grafanaImage: 'lukaszgryglicki/devstats-grafana'
 grafanaMaxSurge: 1
 grafanaMaxUnavailable: 1
-grafanaNReplicas: 2
+grafanaNReplicas: 1
 grafanaPodName: devstats-grafana
 grafanaPort: 3000
 grafanaRestartPolicy: Always
