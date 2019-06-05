@@ -56,6 +56,7 @@
 # postgresImageName: 'jberkus/simple-patroni:v3'
 # postgresImageName: 'lukaszgryglicki/devstats-patroni'
 # periods: 'd7:t,m:f,q:t,y10:f'
+# projectsOverride: '+cncf,+opencontainers,+istio,+knative,+zephyr,+linux,+nodejs'
 # provisionCommand: './devstats-helm/repos.sh'
 # provisionCommand: './devstats-helm/affs.sh'
 # provisionCommand: './devstats-helm/vars.sh'
@@ -146,6 +147,7 @@ oauthSecret: github-oauth
 pgSecret: pg-db
 proivisionImage: 'lukaszgryglicki/devstats'
 projectsFile: 'devstats-helm/projects.yaml'
+projectsOverride: ''
 provisionCommand: './devstats-helm/deploy_all.sh'
 provisionPodName: devstats-provision
 provisionRestartPolicy: Never
