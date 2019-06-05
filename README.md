@@ -40,11 +40,10 @@ DevStats deployment on bare metal Kubernetes using Helm.
 See `cncf/devstats-helm-example`:`ADDING_NEW_PROJECTS.md` for informations about how to add more projects.
 
 
-
 # Contexts and namespaces
 
 - You need to have at least two namespaces: `devstats-test` and `devstats-prod`. create them via: `kubectl apply -f namespaces/namespaces.yaml`.
-- You need to have at least those 3 context in your `~/.kube/config`:
+- You need to have at least those 2 contexts in your `~/.kube/config`:
 ```
 - context:
     cluster: kubernetes
@@ -66,19 +65,26 @@ See `cncf/devstats-helm-example`:`ADDING_NEW_PROJECTS.md` for informations about
 
 # Domain, DNS and Ingress
 
-- Switch to `shared` context via: ``.
-- First you need `nginx-ingress`: `helm install nginx-ingress stable/nginx-ingress`.
+- Switch to `test` context via: `./switch_context.sh test`.
+- First you need `nginx-ingress`: `helm install nginx-ingress-test stable/nginx-ingress --set controller.ingressClass=nginx-test`.
+- Switch to `prod` context via: `./switch_context.sh prod`.
+- Install `nginx-ingress`: `helm install nginx-ingress-prod stable/nginx-ingress --set controller.ingressClass=nginx-prod`.
+- Switch to `shared` context via: `./switch_context.sh shared`.
 - Install MetalLB (load balancer): `kubectl apply -f https://raw.githubusercontent.com/google/metallb/v0.7.3/manifests/metallb.yaml`.
-- Configure MetalLB IP addresse (use one of your cluster nodes or master): `https://metallb.universe.tf/configuration/`. Use `metallb/config.yaml.example` as an example, replace X.Y.Z.V with one of your nodes static IP.
+- Configure MetalLB IP addresses (use two IPs from your cluster nodes and/or master): `https://metallb.universe.tf/configuration/`. Use `metallb/config.yaml.example` as an example, replace X.Y.Z.V with one of your nodes static IP.
+- Note External-IP fields from `kubectl --namespace devstats-test get services -o wide -w nginx-ingress-test-controller` and `kubectl --namespace devstats-prod get services -o wide -w nginx-ingress-prod-controller`.
 
 
 # SSL
 
-- You should set context and namespace to 'devstats-test' or 'devstats-prod' first: `KUBECONFIG=... ./switch_context.sh test`.
-- Note External-IP field from `kubectl --namespace devstats-test get services -o wide -w nginx-ingress-controller`.
+You need to have domain name pointing to your MetalLB IP before proceeding.
 
 Install SSL certificates using Let's encrypt and auto renewal using `cert-manager`: `SSL.md`.
 
+
+# DevStats deployment
+
+See either `test/README.md` or `prod/README.md`.
 
 # Usage
 
@@ -103,7 +109,7 @@ List of secrets:
 You can select which secret(s) should be skipped via: `--set skipPGSecret=1,skipGitHubSecret=1,skipGrafanaSecret=1`.
 
 You can install only selected templates, see `values.yaml` for detalis (refer to `skipXYZ` variables in comments), example:
-- `helm install --dry-run --debug --generate-name ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,runTests=1`.
+- `helm install --dry-run --debug --generate-name ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,runTests=1,ingressClass=nginx-test`.
 
 You can restrict ranges of projects provisioned and/or range of cron jobs to create via:
 - `--set indexPVsFrom=5,indexPVsTo=9,indexProvisionsFrom=5,indexProvisionsTo=9,indexCronsFrom=5,indexCronsTo=9,indexGrafanasFrom=5,indexGrafanasTo=9,indexServicesFrom=5,indexServicesTo=9,indexIngressesFrom=5,indexIngressesTo=9,indexDomainsFrom=0,indexDomainsTo=2,indexStaticsFrom=0,indexStaticsTo=2`.
@@ -116,8 +122,8 @@ Please note variables commented out in `./devstats-helm/values.yaml`. You can ei
 Resource types used: secret, pv, pvc, po, cronjob, deployment, svc
 
 To debug provisioning use:
-- `helm install --debug --dry-run --generate-name ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBootstrap=1,skipCrons=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,indexProvisionsFrom=0,indexProvisionsTo=1,provisionPodName=debug,provisionCommand=sleep,provisionCommandArgs={36000s}`.
-- `helm install --generate-name ./devstats-helm --set skipSecrets=1,skipPVs=1,skipProvisions=1,skipCrons=1,skipGrafanas=1,skipServices=1,skipIngress=1,skipStatic=1,skipPostgres=1,bootstrapPodName=debug,bootstrapCommand=sleep,bootstrapCommandArgs={36000s}`
+- `helm install --debug --dry-run --generate-name ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBootstrap=1,skipCrons=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,ingressClass=nginx-test,indexProvisionsFrom=0,indexProvisionsTo=1,provisionPodName=debug,provisionCommand=sleep,provisionCommandArgs={36000s}`.
+- `helm install --generate-name ./devstats-helm --set skipSecrets=1,skipPVs=1,skipProvisions=1,skipCrons=1,skipGrafanas=1,skipServices=1,skipIngress=1,skipStatic=1,skipPostgres=1,ingressClass=nginx-test,bootstrapPodName=debug,bootstrapCommand=sleep,bootstrapCommandArgs={36000s}`
 - Bash into it: `github.com/cncf/devstats-k8s-lf`: `./util/pod_shell.sh devstats-provision-cncf`.
 - Then for example: `PG_USER=gha_admin db.sh psql cncf`, followed: `select dt, proj, prog, msg from gha_logs where proj = 'cncf' order by dt desc limit 40;`.
 - Finally delete pod: `kubectl delete pod devstats-provision-cncf`.

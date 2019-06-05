@@ -9,7 +9,7 @@ metadata:
     name: devstats
     type: 'ingress'
   annotations:
-    kubernetes.io/ingress.class: "nginx"    
+    kubernetes.io/ingress.class: {{ .Values.ingressClass }}
     certmanager.k8s.io/issuer: "letsencrypt-prod"
     certmanager.k8s.io/acme-challenge-type: http01
 spec:

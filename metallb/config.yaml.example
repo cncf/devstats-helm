@@ -6,7 +6,11 @@ metadata:
 data:
   config: |
     address-pools:
-    - name: default
+    - name: prod
+      protocol: layer2
+      addresses:
+      - X.Y.Z.V/32
+    - name: test
       protocol: layer2
       addresses:
       - X.Y.Z.V/32

@@ -48,6 +48,8 @@
 # grafanaCommandArgs:
 #   - "36000"
 #   - arg2
+# ingressClass: 'nginx-test'
+# ingressClass: 'nginx-prod'
 # onlyMetrics: 'events,tz'
 # overwritePostgresCommand: true
 # postgresCommand: 'sleep'
@@ -115,6 +117,7 @@ grafanaPort: 3000
 grafanaRestartPolicy: Always
 grafanaSecret: grafana-secret
 imagePullPolicy: Always
+ingressClass: 'nginx'
 indexCronsFrom: 0
 indexCronsTo: 100
 indexDomainsFrom: 0
