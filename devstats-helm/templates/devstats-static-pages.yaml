@@ -10,7 +10,7 @@ metadata:
     type: static
     proj: default
 spec:
-  replicas: 1
+  replicas: {{ .Values.staticNReplicas }}
   template:
     metadata:
       labels:
@@ -55,7 +55,7 @@ metadata:
     type: static
     proj: '{{ .shortname }}'
 spec:
-  replicas: 1
+  replicas: {{ $root.Values.staticNReplicas }}
   template:
     metadata:
       labels:
