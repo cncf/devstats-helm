@@ -68,13 +68,13 @@ See `cncf/devstats-helm-example`:`ADDING_NEW_PROJECTS.md` for informations about
 
 - Switch to `shared` context via: ``.
 - First you need `nginx-ingress`: `helm install nginx-ingress stable/nginx-ingress`.
+- Install MetalLB (load balancer): `kubectl apply -f https://raw.githubusercontent.com/google/metallb/v0.7.3/manifests/metallb.yaml`.
+- Configure MetalLB IP addresse (use one of your cluster nodes or master): `https://metallb.universe.tf/configuration/`. Use `metallb/config.yaml.example` as an example, replace X.Y.Z.V with one of your nodes static IP.
 
 
 # SSL
 
 - You should set context and namespace to 'devstats-test' or 'devstats-prod' first: `KUBECONFIG=... ./switch_context.sh test`.
-- Install MetalLB (load balancer): `kubectl apply -f https://raw.githubusercontent.com/google/metallb/v0.7.3/manifests/metallb.yaml`.
-- Configure MetalLB IP addresses (list all your nodes and master): `https://metallb.universe.tf/configuration/`. Use `metallb/config.yaml.example` as an example, replace X.Y.Z.V with one of your nodes static IP.
 - Note External-IP field from `kubectl --namespace devstats-test get services -o wide -w nginx-ingress-controller`.
 
 Install SSL certificates using Let's encrypt and auto renewal using `cert-manager`: `SSL.md`.
