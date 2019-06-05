@@ -1,0 +1,14 @@
+---
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: devstats-test
+  labels:
+    name: devstats-test
+---
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: devstats-prod
+  labels:
+    name: devstats-prod

@@ -1,5 +1,5 @@
 #!/bin/bash
-./switch_namespace.sh prod || exit 1
+./switch_context.sh prod || exit 1
 ./current_context.sh || exit 1
 cat devstats-helm/secrets/*.secret || exit 1
 helm install --dry-run --debug --generate-name ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1 || exit 1

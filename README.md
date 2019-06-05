@@ -40,15 +40,39 @@ DevStats deployment on bare metal Kubernetes using Helm.
 See `cncf/devstats-helm-example`:`ADDING_NEW_PROJECTS.md` for informations about how to add more projects.
 
 
+
+# Contexts and namespaces
+
+- You need to have at least two namespaces: `devstats-test` and `devstats-prod`. create them via: `kubectl apply -f namespaces/namespaces.yaml`.
+- You need to have at least those 3 context in your `~/.kube/config`:
+```
+- context:
+    cluster: kubernetes
+    namespace: devstats-prod
+    user: kubernetes-admin
+  name: prod
+- context:
+    cluster: kubernetes
+    namespace: devstats-test
+    user: kubernetes-admin
+  name: test
+- context:
+    cluster: kubernetes
+    namespace: default
+    user: kubernetes-admin
+  name: shared
+```
+
+
 # Domain, DNS and Ingress
 
-Please configure domain, DNS and Ingress first.
+- Switch to `shared` context via: ``.
+- First you need `nginx-ingress`: `helm install nginx-ingress stable/nginx-ingress`.
 
 
 # SSL
 
-- You should set context and namespace to 'devstats-test' or 'devstats-prod' first: `KUBECONFIG=... ./switch_namespace.sh devstats-xyz`.
-- First you need `nginx-ingress`: `helm install nginx-ingress-xyz stable/nginx-ingress`.
+- You should set context and namespace to 'devstats-test' or 'devstats-prod' first: `KUBECONFIG=... ./switch_context.sh test`.
 - Install MetalLB (load balancer): `kubectl apply -f https://raw.githubusercontent.com/google/metallb/v0.7.3/manifests/metallb.yaml`.
 - Configure MetalLB IP addresses (list all your nodes and master): `https://metallb.universe.tf/configuration/`. Use `metallb/config.yaml.example` as an example, replace X.Y.Z.V with one of your nodes static IP.
 - Note External-IP field from `kubectl --namespace devstats-test get services -o wide -w nginx-ingress-controller`.
@@ -58,7 +82,7 @@ Install SSL certificates using Let's encrypt and auto renewal using `cert-manage
 
 # Usage
 
-You should set namespace to 'devstats-test' or 'devstats-prod' first: `./switch_namespace.sh devstats-xyz`.
+You should set namespace to 'devstats-test' or 'devstats-prod' first: `./switch_context.sh test`.
 
 Please provide secret values for each file in `./secrets/*.secret.example` saving it as `./secrets/*.secret` or specify them from the command line.
 
