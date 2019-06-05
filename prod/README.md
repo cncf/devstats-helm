@@ -1,4 +1,4 @@
-# prod namespace deployments
+# Prod namespace deployments
 
 - First switch namespace to prod: `./switch_namespace.sh prod`.
 - Second confirm that the current context is prod: `./current_context.sh`.
