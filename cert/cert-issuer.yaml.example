@@ -3,6 +3,7 @@ apiVersion: certmanager.k8s.io/v1alpha1
 kind: Issuer
 metadata:
   name: letsencrypt-prod
+  namespace: devstats-prod
 spec:
   acme:
     # The ACME server URL
@@ -19,6 +20,7 @@ apiVersion: certmanager.k8s.io/v1alpha1
 kind: Issuer
 metadata:
   name: letsencrypt-test
+  namespace: devstats-test
 spec:
   acme:
     # The ACME server URL
