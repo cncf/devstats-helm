@@ -15,5 +15,6 @@
 - Create hourly sync cron jobs (only for GraphQL): `helm install devstats-prod-crons ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBootstrap=1,skipProvisions=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,indexCronsFrom=44,indexCronsTo=49`.
 - Create Grafana services for GraphQL projects: `helm install devstats-prod-grafanas ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipPostgres=1,skipIngress=1,skipStatic=1,indexGrafanasFrom=44,indexGrafanasTo=49,indexServicesFrom=44,indexServicesTo=49`.
 - Shell into bootstraping pod: `helm install --generate-name ./devstats-helm --set skipSecrets=1,skipPVs=1,skipProvisions=1,skipCrons=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,ingressClass=nginx-prod,bootstrapPodName=debug,bootstrapCommand=sleep,bootstrapCommandArgs={36000s}`.
-- Shell into manual work pods: `../devstats-k8s-lf/util/pod_shell.sh debug`. Then: `kubectl delete po debug`
+- Shell into manual work pods: `../devstats-k8s-lf/util/pod_shell.sh debug`. Then: `kubectl delete po debug`.
+- Deploy CDF using DB backups available on its bare metal server: `helm install --generate-name ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBootstrap=1,skipCrons=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,indexProvisionsFrom=39,indexProvisionsTo=44,provisionCommand='devstats-helm/restore.sh',restoreFrom='https://devstats.cd.foundation/'`.
 - You can run all those commands via: `./prod/run.sh`.
