@@ -14,3 +14,4 @@
 - Shell into manual work pods: `../devstats-k8s-lf/util/pod_shell.sh devstats-provision-expressgraphql`.
 - Create hourly sync cron jobs (only for GraphQL): `helm install devstats-prod-crons ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBootstrap=1,skipProvisions=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,indexCronsFrom=46,indexCronsTo=51`.
 - Create Grafana services for GraphQL projects: `helm install devstats-prod-grafanas ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipPostgres=1,skipIngress=1,skipStatic=1,indexGrafanasFrom=46,indexGrafanasTo=51,indexServicesFrom=46,indexServicesTo=51`.
+- You can run all those commands via: `./prod/run.sh`.
