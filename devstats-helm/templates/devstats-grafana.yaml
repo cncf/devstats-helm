@@ -59,6 +59,8 @@ spec:
           value: {{ .icon }}
         - name: ORGNAME
           value: {{ .org }}
+        - name: GA
+          value: {{ .ga }}
         - name: PROJ
           value: {{ .proj }}
         - name: PG_DB

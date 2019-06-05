@@ -195,493 +195,548 @@ projects:
     icon: 'k8s'
     org: 'Kubernetes'
     repo: 'kubernetes/kubernetes'
-    cron: '13 * * * *'
+    cron: '7 * * * *'
     disk: 50Gi
     domains: [1, 1, 0, 0]
+    ga: ''
     i: 0
   - proj: prometheus
     db: prometheus
     icon: 'prometheus'
     org: 'Prometheus'
     repo: 'prometheus/prometheus'
-    cron: '18 * * * *'
+    cron: '8 * * * *'
     disk: 5Gi
     domains: [1, 1, 0, 0]
+    ga: ''
     i: 1
   - proj: opentracing
     db: opentracing
     icon: 'opentracing'
     org: 'OpenTracing'
     repo: 'opentracing/opentracing-go'
-    cron: '20 * * * *'
+    cron: '8 * * * *'
     disk: 3Gi
     domains: [1, 1, 0, 0]
+    ga: ''
     i: 2
   - proj: fluentd
     db: fluentd
     icon: 'fluentd'
     org: 'Fluentd'
     repo: 'fluent/fluentd'
-    cron: '21 * * * *'
+    cron: '9 * * * *'
     disk: 4Gi
     domains: [1, 1, 0, 0]
+    ga: ''
     i: 3
   - proj: linkerd
     db: linkerd
     icon: 'linkerd'
     org: 'Linkerd'
     repo: 'linkerd/linkerd'
-    cron: '22 * * * *'
+    cron: '9 * * * *'
     disk: 4Gi
     domains: [1, 1, 0, 0]
+    ga: ''
     i: 4
   - proj: grpc
     db: grpc
     icon: 'grpc'
     org: 'gRPC'
     repo: 'grpc/grpc'
-    cron: '23 * * * *'
+    cron: '10 * * * *'
     disk: 4Gi
     domains: [1, 1, 0, 0]
+    ga: ''
     i: 5
   - proj: coredns
     db: coredns
     icon: 'coredns'
     org: 'CoreDNS'
     repo: 'coredns/coredns'
-    cron: '25 * * * *'
+    cron: '10 * * * *'
     disk: 4Gi
     domains: [1, 1, 0, 0]
+    ga: ''
     i: 6
   - proj: containerd
     db: containerd
     icon: 'containerd'
     org: 'containerd'
     repo: 'containerd/containerd'
-    cron: '26 * * * *'
+    cron: '11 * * * *'
     disk: 3Gi
     domains: [1, 1, 0, 0]
+    ga: ''
     i: 7
   - proj: rkt
     db: rkt
     icon: 'rkt'
     org: 'rkt'
     repo: 'rkt/rkt'
-    cron: '26 * * * *'
+    cron: '11 * * * *'
     disk: 3Gi
     domains: [1, 1, 0, 0]
+    ga: ''
     i: 8
   - proj: cni
     db: cni
     icon: 'cni'
     org: 'CNI'
     repo: 'containernetworking/cni'
-    cron: '27 * * * *'
+    cron: '11 * * * *'
     disk: 3Gi
     domains: [1, 1, 0, 0]
+    ga: ''
     i: 9
   - proj: envoy
     db: envoy
     icon: 'envoy'
     org: 'Envoy'
     repo: 'envoyproxy/envoy'
-    cron: '9 * * * *'
+    cron: '12 * * * *'
     disk: 4Gi
     domains: [1, 1, 0, 0]
+    ga: ''
     i: 10
   - proj: jaeger
     db: jaeger
     icon: 'jaeger'
     org: 'Jaeger'
     repo: 'jaegertracing/jaeger'
-    cron: '28 * * * *'
+    cron: '12 * * * *'
     disk: 4Gi
     domains: [1, 1, 0, 0]
+    ga: ''
     i: 11
   - proj: notary
     db: notary
     icon: 'notary'
     org: 'Notary'
     repo: 'theupdateframework/notary'
-    cron: '29 * * * *'
+    cron: '13 * * * *'
     disk: 3Gi
     domains: [1, 1, 0, 0]
+    ga: ''
     i: 12
   - proj: tuf
     db: tuf
     icon: 'tuf'
     org: 'TUF'
     repo: 'theupdateframework/tuf'
-    cron: '29 * * * *'
+    cron: '13 * * * *'
     disk: 3Gi
     domains: [1, 1, 0, 0]
+    ga: ''
     i: 13
   - proj: rook
     db: rook
     icon: 'rook'
     org: 'Rook'
     repo: 'rook/rook'
-    cron: '31 * * * *'
+    cron: '13 * * * *'
     disk: 4Gi
     domains: [1, 1, 0, 0]
+    ga: ''
     i: 14
   - proj: vitess
     db: vitess
     icon: 'vitess'
     org: 'Vitess'
     repo: 'vitessio/vitess'
-    cron: '31 * * * *'
+    cron: '14 * * * *'
     disk: 5Gi
     domains: [1, 1, 0, 0]
+    ga: ''
     i: 15
   - proj: nats
     db: nats
     icon: 'nats'
     org: 'NATS'
     repo: 'nats-io/gnatsd'
-    cron: '32 * * * *'
+    cron: '14 * * * *'
     disk: 5Gi
     domains: [1, 1, 0, 0]
+    ga: ''
     i: 16
   - proj: opa
     db: opa
     icon: 'opa'
     org: 'OPA'
     repo: 'open-policy-agent/opa'
-    cron: '32 * * * *'
+    cron: '14 * * * *'
     disk: 5Gi
     domains: [1, 1, 0, 0]
+    ga: ''
     i: 17
   - proj: spiffe
     db: spiffe
     icon: 'spiffe'
     org: 'SPIFFE'
     repo: 'spiffe/spiffe'
-    cron: '33 * * * *'
+    cron: '15 * * * *'
     disk: 4Gi
     domains: [1, 1, 0, 0]
+    ga: ''
     i: 18
   - proj: spire
     db: spire
     icon: 'spire'
     org: 'SPIRE'
     repo: 'spiffe/spire'
-    cron: '33 * * * *'
+    cron: '15 * * * *'
     disk: 3Gi
     domains: [1, 1, 0, 0]
+    ga: ''
     i: 19
   - proj: cloudevents
     db: cloudevents
     icon: 'cloudevents'
     org: 'CloudEvents'
     repo: 'cloudevents/spec'
-    cron: '33 * * * *'
+    cron: '15 * * * *'
     disk: 3Gi
     domains: [1, 1, 0, 0]
+    ga: ''
     i: 20
   - proj: telepresence
     db: telepresence
     icon: 'telepresence'
     org: 'Telepresence'
     repo: 'telepresenceio/telepresence'
-    cron: '34 * * * *'
+    cron: '15 * * * *'
     disk: 3Gi
     domains: [1, 1, 0, 0]
+    ga: ''
     i: 21
   - proj: helm
     db: helm
     icon: 'helm'
     org: 'Helm'
     repo: 'helm/helm'
-    cron: '34 * * * *'
+    cron: '16 * * * *'
     disk: 8Gi
     domains: [1, 1, 0, 0]
+    ga: ''
     i: 22
   - proj: openmetrics
     db: openmetrics
     icon: 'openmetrics'
     org: 'OpenMetrics'
     repo: 'OpenObservability/OpenMetrics'
-    cron: '36 * * * *'
+    cron: '16 * * * *'
     disk: 3Gi
     domains: [1, 1, 0, 0]
+    ga: ''
     i: 23
   - proj: harbor
     db: harbor
     icon: 'harbor'
     org: 'Harbor'
     repo: 'goharbor/harbor'
-    cron: '36 * * * *'
+    cron: '17 * * * *'
     disk: 4Gi
     domains: [1, 1, 0, 0]
+    ga: ''
     i: 24
   - proj: etcd
     db: etcd
     icon: 'etcd'
     org: 'etcd'
     repo: 'etcd-io/etcd'
-    cron: '37 * * * *'
+    cron: '17 * * * *'
     disk: 4Gi
     domains: [1, 1, 0, 0]
+    ga: ''
     i: 25
   - proj: tikv
     db: tikv
     icon: 'tikv'
     org: 'TiKV'
     repo: 'tikv/tikv'
-    cron: '38 * * * *'
+    cron: '17 * * * *'
     disk: 3Gi
     domains: [1, 1, 0, 0]
+    ga: ''
     i: 26
   - proj: cortex
     db: cortex
     icon: 'cortex'
     org: 'Cortex'
     repo: 'cortexproject/cortex'
-    cron: '38 * * * *'
+    cron: '18 * * * *'
     disk: 3Gi
     domains: [1, 1, 0, 0]
+    ga: ''
     i: 27
   - proj: buildpacks
     db: buildpacks
     icon: 'buildpacks'
     org: 'Buildpacks'
     repo: 'buildpack/lifecycle'
-    cron: '39 * * * *'
+    cron: '18 * * * *'
     disk: 3Gi
     domains: [1, 1, 0, 0]
+    ga: ''
     i: 28
   - proj: falco
     db: falco
     icon: 'falco'
     org: 'Falco'
     repo: 'falcosecurity/falco'
-    cron: '39 * * * *'
+    cron: '18 * * * *'
     disk: 3Gi
     domains: [1, 1, 0, 0]
+    ga: ''
     i: 29
   - proj: dragonfly
     db: dragonfly
     icon: 'dragonfly'
     org: 'Dragonfly'
     repo: 'dragonflyoss/Dragonfly'
-    cron: '40 * * * *'
+    cron: '19 * * * *'
     disk: 3Gi
     domains: [1, 1, 0, 0]
+    ga: ''
     i: 30
   - proj: virtualkubelet
     db: virtualkubelet
     icon: 'virtualkubelet'
     org: 'Virtual Kubelet'
     repo: 'virtual-kubelet/virtual-kubelet'
-    cron: '40 * * * *'
+    cron: '19 * * * *'
     disk: 3Gi
     domains: [1, 1, 0, 0]
+    ga: ''
     i: 31
   - proj: cncf
     db: cncf
     icon: 'cncf'
     org: 'CNCF'
     repo: 'cncf/landscapeapp'
-    cron: '41 * * * *'
+    cron: '19 * * * *'
     disk: 30Gi
     domains: [1, 0, 0, 0]
+    ga: ''
     i: 32
   - proj: opencontainers
     db: opencontainers
     icon: 'opencontainers'
     org: 'OCI'
     repo: 'opencontainers/runc'
-    cron: '41 * * * *'
+    cron: '20 * * * *'
     disk: 3Gi
     domains: [1, 0, 0, 0]
+    ga: ''
     i: 33
   - proj: istio
     db: istio
     icon: 'cncf'
     org: 'Istio'
     repo: 'istio/istio'
-    cron: '42 * * * *'
+    cron: '20 * * * *'
     disk: 8Gi
     domains: [1, 0, 0, 0]
+    ga: ''
     i: 34
   - proj: spinnaker
     db: spinnaker
     icon: 'spinnaker'
     org: 'Spinnaker'
     repo: 'spinnaker/spinnaker'
-    cron: '43 * * * *'
+    cron: '20 * * * *'
     disk: 4Gi
     domains: [0, 0, 1, 0]
+    ga: ''
     i: 35
   - proj: knative
     db: knative
     icon: 'cncf'
     org: 'Knative'
     repo: 'knative/serving'
-    cron: '44 * * * *'
+    cron: '21 * * * *'
     disk: 4Gi
     domains: [1, 0, 0, 0]
+    ga: ''
     i: 36
   - proj: kubeedge
     db: kubeedge
     icon: 'kubeedge'
     org: 'KubeEdge'
     repo: 'kubeedge/kubeedge'
-    cron: '44 * * * *'
+    cron: '21 * * * *'
     disk: 3Gi
     domains: [1, 1, 0, 0]
+    ga: ''
     i: 37
   - proj: brigade
     db: brigade
     icon: 'brigade'
     org: 'Brigade'
     repo: 'Azure/brigade'
-    cron: '45 * * * *'
+    cron: '21 * * * *'
     disk: 3Gi
     domains: [1, 1, 0, 0]
+    ga: ''
     i: 38
   - proj: crio
     db: crio
     icon: 'crio'
     org: 'CRI-O'
     repo: 'cri-o/cri-o'
-    cron: '45 * * * *'
+    cron: '22 * * * *'
     disk: 3Gi
     domains: [1, 1, 0, 0]
+    ga: ''
     i: 39
   - proj: tekton
     db: tekton
     icon: 'tekton'
     org: 'Tekton'
     repo: 'knative/build'
-    cron: '46 * * * *'
+    cron: '22 * * * *'
     disk: 3Gi
     domains: [0, 0, 1, 0]
+    ga: ''
     i: 40
   - proj: jenkinsx
     db: jenkinsx
     icon: 'jenkinsx'
     org: 'Jenkins X'
     repo: 'jenkins-x/jx'
-    cron: '46 * * * *'
+    cron: '22 * * * *'
     disk: 6Gi
     domains: [0, 0, 1, 0]
+    ga: ''
     i: 41
   - proj: jenkins
     db: jenkins
     icon: 'jenkins'
     org: 'Jenkins'
     repo: 'jenkinsci/jenkins'
-    cron: '47 * * * *'
+    cron: '23 * * * *'
     disk: 40Gi
     domains: [0, 0, 1, 0]
+    ga: ''
     i: 42
   - proj: networkservicemesh
     db: networkservicemesh
     icon: 'networkservicemesh'
     org: 'Network Service Mesh'
     repo: 'networkservicemesh/networkservicemesh'
-    cron: '48 * * * *'
-    domains: [1, 1, 0, 0]
+    cron: '23 * * * *'
     disk: 3Gi
+    domains: [1, 1, 0, 0]
+    ga: ''
     i: 43
   - proj: openebs
     db: openebs
     icon: 'openebs'
     org: 'OpenEBS'
     repo: 'openebs/openebs'
-    cron: '48 * * * *'
+    cron: '24 * * * *'
     disk: 10Gi
     domains: [1, 1, 0, 0]
+    ga: ''
     i: 44
   - proj: opentelemetry
     db: opentelemetry
     icon: 'opentelemetry'
     org: 'OpenTelemetry'
     repo: 'open-telemetry/opentelemetry-java'
-    cron: '49 * * * *'
+    cron: '24 * * * *'
     disk: 3Gi
     domains: [1, 1, 0, 0]
+    ga: ''
     i: 45
   - proj: graphql
     db: graphql
     icon: 'graphql'
     org: 'GraphQL'
     repo: 'graphql/graphql-js'
-    cron: '50 * * * *'
+    cron: '24 * * * *'
     disk: 30Gi
     domains: [0, 0, 0, 1]
+    ga: ''
     i: 46
   - proj: graphqljs
     db: graphqljs
     icon: 'graphqljs'
     org: 'GraphQL JavaScript'
     repo: 'graphql/graphql-js'
-    cron: '51 * * * *'
+    cron: '25 * * * *'
     disk: 3Gi
     domains: [0, 0, 0, 1]
+    ga: ''
     i: 47
   - proj: graphiql
     db: graphiql
     icon: 'graphiql'
     org: 'GraphQL IDE'
     repo: 'graphql/graphiql'
-    cron: '51 * * * *'
+    cron: '25 * * * *'
     disk: 3Gi
     domains: [0, 0, 0, 1]
+    ga: ''
     i: 48
   - proj: graphqlspec
     db: graphqlspec
     icon: 'graphqlspec'
     org: 'GraphQL Spec'
     repo: 'graphql/graphql-spec'
-    cron: '51 * * * *'
+    cron: '26 * * * *'
     disk: 3Gi
     domains: [0, 0, 0, 1]
+    ga: ''
     i: 49
   - proj: expressgraphql
     db: expressgraphql
     icon: 'expressgraphql'
     org: 'Express GraphQL'
     repo: 'graphql/express-graphql'
-    cron: '51 * * * *'
+    cron: '26 * * * *'
     disk: 3Gi
     domains: [0, 0, 0, 1]
+    ga: ''
     i: 50
   - proj: all
     db: allprj
     icon: 'cncf'
     org: 'All CNCF'
     repo: ''
-    cron: '51 * * * *'
+    cron: '27 * * * *'
     disk: 150Gi
     domains: [1, 1, 0, 0]
+    ga: ''
     i: 51
   - proj: allcdf
     db: allcdf
     icon: 'cdf'
     org: 'All CDF'
     repo: ''
-    cron: '51 * * * *'
+    cron: '28 * * * *'
     disk: 50Gi
     domains: [0, 0, 1, 0]
+    ga: ''
     i: 52
   - proj: zephyr
     db: zephyr
     icon: 'cncf'
     org: 'Zephyr'
     repo: 'zephyrproject-rtos/zephyr'
-    cron: '11 * * * *'
+    cron: '29 * * * *'
     disk: 8Gi
     domains: [1, 0, 0, 0]
+    ga: ''
     i: 53
   - proj: linux
     db: linux
     icon: 'cncf'
     org: 'Linux'
     repo: 'torvalds/linux'
-    cron: '12 * * * *'
+    cron: '29 * * * *'
     disk: 10Gi
     domains: [1, 0, 0, 0]
+    ga: ''
     i: 54
