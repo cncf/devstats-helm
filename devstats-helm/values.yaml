@@ -198,7 +198,7 @@ projects:
     cron: '7 * * * *'
     disk: 50Gi
     domains: [1, 1, 0, 0]
-    ga: ''
+    ga: 'UA-108085315-1'
     i: 0
   - proj: prometheus
     db: prometheus
@@ -208,7 +208,7 @@ projects:
     cron: '8 * * * *'
     disk: 5Gi
     domains: [1, 1, 0, 0]
-    ga: ''
+    ga: 'UA-108085315-3'
     i: 1
   - proj: opentracing
     db: opentracing
@@ -218,7 +218,7 @@ projects:
     cron: '8 * * * *'
     disk: 3Gi
     domains: [1, 1, 0, 0]
-    ga: ''
+    ga: 'UA-108085315-4'
     i: 2
   - proj: fluentd
     db: fluentd
@@ -228,7 +228,7 @@ projects:
     cron: '9 * * * *'
     disk: 4Gi
     domains: [1, 1, 0, 0]
-    ga: ''
+    ga: 'UA-108085315-5'
     i: 3
   - proj: linkerd
     db: linkerd
@@ -238,7 +238,7 @@ projects:
     cron: '9 * * * *'
     disk: 4Gi
     domains: [1, 1, 0, 0]
-    ga: ''
+    ga: 'UA-108085315-6'
     i: 4
   - proj: grpc
     db: grpc
@@ -248,7 +248,7 @@ projects:
     cron: '10 * * * *'
     disk: 4Gi
     domains: [1, 1, 0, 0]
-    ga: ''
+    ga: 'UA-108085315-7'
     i: 5
   - proj: coredns
     db: coredns
@@ -258,7 +258,7 @@ projects:
     cron: '10 * * * *'
     disk: 4Gi
     domains: [1, 1, 0, 0]
-    ga: ''
+    ga: 'UA-108085315-9'
     i: 6
   - proj: containerd
     db: containerd
@@ -268,7 +268,7 @@ projects:
     cron: '11 * * * *'
     disk: 3Gi
     domains: [1, 1, 0, 0]
-    ga: ''
+    ga: 'UA-108085315-10'
     i: 7
   - proj: rkt
     db: rkt
@@ -278,7 +278,7 @@ projects:
     cron: '11 * * * *'
     disk: 3Gi
     domains: [1, 1, 0, 0]
-    ga: ''
+    ga: 'UA-108085315-11'
     i: 8
   - proj: cni
     db: cni
@@ -288,7 +288,7 @@ projects:
     cron: '11 * * * *'
     disk: 3Gi
     domains: [1, 1, 0, 0]
-    ga: ''
+    ga: 'UA-108085315-12'
     i: 9
   - proj: envoy
     db: envoy
@@ -298,7 +298,7 @@ projects:
     cron: '12 * * * *'
     disk: 4Gi
     domains: [1, 1, 0, 0]
-    ga: ''
+    ga: 'UA-108085315-13'
     i: 10
   - proj: jaeger
     db: jaeger
@@ -308,7 +308,7 @@ projects:
     cron: '12 * * * *'
     disk: 4Gi
     domains: [1, 1, 0, 0]
-    ga: ''
+    ga: 'UA-108085315-14'
     i: 11
   - proj: notary
     db: notary
@@ -318,7 +318,7 @@ projects:
     cron: '13 * * * *'
     disk: 3Gi
     domains: [1, 1, 0, 0]
-    ga: ''
+    ga: 'UA-108085315-15'
     i: 12
   - proj: tuf
     db: tuf
@@ -328,7 +328,7 @@ projects:
     cron: '13 * * * *'
     disk: 3Gi
     domains: [1, 1, 0, 0]
-    ga: ''
+    ga: 'UA-108085315-16'
     i: 13
   - proj: rook
     db: rook
@@ -338,7 +338,7 @@ projects:
     cron: '13 * * * *'
     disk: 4Gi
     domains: [1, 1, 0, 0]
-    ga: ''
+    ga: 'UA-108085315-17'
     i: 14
   - proj: vitess
     db: vitess
@@ -348,7 +348,7 @@ projects:
     cron: '14 * * * *'
     disk: 5Gi
     domains: [1, 1, 0, 0]
-    ga: ''
+    ga: 'UA-108085315-18'
     i: 15
   - proj: nats
     db: nats
@@ -358,7 +358,7 @@ projects:
     cron: '14 * * * *'
     disk: 5Gi
     domains: [1, 1, 0, 0]
-    ga: ''
+    ga: 'UA-108085315-21'
     i: 16
   - proj: opa
     db: opa
@@ -368,7 +368,7 @@ projects:
     cron: '14 * * * *'
     disk: 5Gi
     domains: [1, 1, 0, 0]
-    ga: ''
+    ga: 'UA-108085315-22'
     i: 17
   - proj: spiffe
     db: spiffe
@@ -378,7 +378,7 @@ projects:
     cron: '15 * * * *'
     disk: 4Gi
     domains: [1, 1, 0, 0]
-    ga: ''
+    ga: 'UA-108085315-23'
     i: 18
   - proj: spire
     db: spire
@@ -388,7 +388,7 @@ projects:
     cron: '15 * * * *'
     disk: 3Gi
     domains: [1, 1, 0, 0]
-    ga: ''
+    ga: 'UA-108085315-24'
     i: 19
   - proj: cloudevents
     db: cloudevents
@@ -398,7 +398,7 @@ projects:
     cron: '15 * * * *'
     disk: 3Gi
     domains: [1, 1, 0, 0]
-    ga: ''
+    ga: 'UA-108085315-25'
     i: 20
   - proj: telepresence
     db: telepresence
@@ -408,7 +408,7 @@ projects:
     cron: '15 * * * *'
     disk: 3Gi
     domains: [1, 1, 0, 0]
-    ga: ''
+    ga: 'UA-108085315-26'
     i: 21
   - proj: helm
     db: helm
@@ -418,7 +418,7 @@ projects:
     cron: '16 * * * *'
     disk: 8Gi
     domains: [1, 1, 0, 0]
-    ga: ''
+    ga: 'UA-108085315-27'
     i: 22
   - proj: openmetrics
     db: openmetrics
@@ -428,7 +428,7 @@ projects:
     cron: '16 * * * *'
     disk: 3Gi
     domains: [1, 1, 0, 0]
-    ga: ''
+    ga: 'UA-108085315-28'
     i: 23
   - proj: harbor
     db: harbor
@@ -438,7 +438,7 @@ projects:
     cron: '17 * * * *'
     disk: 4Gi
     domains: [1, 1, 0, 0]
-    ga: ''
+    ga: 'UA-108085315-29'
     i: 24
   - proj: etcd
     db: etcd
@@ -448,7 +448,7 @@ projects:
     cron: '17 * * * *'
     disk: 4Gi
     domains: [1, 1, 0, 0]
-    ga: ''
+    ga: 'UA-108085315-30'
     i: 25
   - proj: tikv
     db: tikv
@@ -458,7 +458,7 @@ projects:
     cron: '17 * * * *'
     disk: 3Gi
     domains: [1, 1, 0, 0]
-    ga: ''
+    ga: 'UA-108085315-31'
     i: 26
   - proj: cortex
     db: cortex
@@ -468,7 +468,7 @@ projects:
     cron: '18 * * * *'
     disk: 3Gi
     domains: [1, 1, 0, 0]
-    ga: ''
+    ga: 'UA-108085315-32'
     i: 27
   - proj: buildpacks
     db: buildpacks
@@ -478,7 +478,7 @@ projects:
     cron: '18 * * * *'
     disk: 3Gi
     domains: [1, 1, 0, 0]
-    ga: ''
+    ga: 'UA-108085315-33'
     i: 28
   - proj: falco
     db: falco
@@ -488,7 +488,7 @@ projects:
     cron: '18 * * * *'
     disk: 3Gi
     domains: [1, 1, 0, 0]
-    ga: ''
+    ga: 'UA-108085315-34'
     i: 29
   - proj: dragonfly
     db: dragonfly
@@ -498,7 +498,7 @@ projects:
     cron: '19 * * * *'
     disk: 3Gi
     domains: [1, 1, 0, 0]
-    ga: ''
+    ga: 'UA-108085315-35'
     i: 30
   - proj: virtualkubelet
     db: virtualkubelet
@@ -508,7 +508,7 @@ projects:
     cron: '19 * * * *'
     disk: 3Gi
     domains: [1, 1, 0, 0]
-    ga: ''
+    ga: 'UA-108085315-36'
     i: 31
   - proj: cncf
     db: cncf
@@ -518,7 +518,7 @@ projects:
     cron: '19 * * * *'
     disk: 30Gi
     domains: [1, 0, 0, 0]
-    ga: ''
+    ga: 'UA-108085315-8'
     i: 32
   - proj: opencontainers
     db: opencontainers
@@ -528,7 +528,7 @@ projects:
     cron: '20 * * * *'
     disk: 3Gi
     domains: [1, 0, 0, 0]
-    ga: ''
+    ga: 'UA-108085315-19'
     i: 33
   - proj: istio
     db: istio
@@ -548,7 +548,7 @@ projects:
     cron: '20 * * * *'
     disk: 4Gi
     domains: [0, 0, 1, 0]
-    ga: ''
+    ga: 'UA-108085315-38'
     i: 35
   - proj: knative
     db: knative
@@ -568,7 +568,7 @@ projects:
     cron: '21 * * * *'
     disk: 3Gi
     domains: [1, 1, 0, 0]
-    ga: ''
+    ga: 'UA-108085315-43'
     i: 37
   - proj: brigade
     db: brigade
@@ -578,7 +578,7 @@ projects:
     cron: '21 * * * *'
     disk: 3Gi
     domains: [1, 1, 0, 0]
-    ga: ''
+    ga: 'UA-108085315-44'
     i: 38
   - proj: crio
     db: crio
@@ -588,7 +588,7 @@ projects:
     cron: '22 * * * *'
     disk: 3Gi
     domains: [1, 1, 0, 0]
-    ga: ''
+    ga: 'UA-108085315-45'
     i: 39
   - proj: tekton
     db: tekton
@@ -598,7 +598,7 @@ projects:
     cron: '22 * * * *'
     disk: 3Gi
     domains: [0, 0, 1, 0]
-    ga: ''
+    ga: 'UA-108085315-39'
     i: 40
   - proj: jenkinsx
     db: jenkinsx
@@ -608,7 +608,7 @@ projects:
     cron: '22 * * * *'
     disk: 6Gi
     domains: [0, 0, 1, 0]
-    ga: ''
+    ga: 'UA-108085315-41'
     i: 41
   - proj: jenkins
     db: jenkins
@@ -618,7 +618,7 @@ projects:
     cron: '23 * * * *'
     disk: 40Gi
     domains: [0, 0, 1, 0]
-    ga: ''
+    ga: 'UA-108085315-40'
     i: 42
   - proj: networkservicemesh
     db: networkservicemesh
@@ -628,7 +628,7 @@ projects:
     cron: '23 * * * *'
     disk: 3Gi
     domains: [1, 1, 0, 0]
-    ga: ''
+    ga: 'UA-108085315-46'
     i: 43
   - proj: openebs
     db: openebs
@@ -638,7 +638,7 @@ projects:
     cron: '24 * * * *'
     disk: 10Gi
     domains: [1, 1, 0, 0]
-    ga: ''
+    ga: 'UA-108085315-47'
     i: 44
   - proj: opentelemetry
     db: opentelemetry
@@ -648,7 +648,7 @@ projects:
     cron: '24 * * * *'
     disk: 3Gi
     domains: [1, 1, 0, 0]
-    ga: ''
+    ga: 'UA-108085315-48'
     i: 45
   - proj: graphql
     db: graphql
@@ -708,7 +708,7 @@ projects:
     cron: '27 * * * *'
     disk: 150Gi
     domains: [1, 1, 0, 0]
-    ga: ''
+    ga: 'UA-108085315-20'
     i: 51
   - proj: allcdf
     db: allcdf
@@ -718,7 +718,7 @@ projects:
     cron: '28 * * * *'
     disk: 50Gi
     domains: [0, 0, 1, 0]
-    ga: ''
+    ga: 'UA-108085315-42'
     i: 52
   - proj: zephyr
     db: zephyr
