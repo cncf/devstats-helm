@@ -189,8 +189,8 @@ useCronsResourcesLimits: 1
 useGrafanasResourcesLimits: 1
 useProvisionsResourcesLimits: 1
 usePostgresResourcesLimits: 1
-waitForBootstrap: 60
-waitForPostgres: 15
+waitForBootstrap: 120
+waitForPostgres: 30
 projects:
   - proj: kubernetes
     db: gha
