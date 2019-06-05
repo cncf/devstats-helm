@@ -56,13 +56,13 @@
 # postgresImageName: 'jberkus/simple-patroni:v3'
 # postgresImageName: 'lukaszgryglicki/devstats-patroni'
 # periods: 'd7:t,m:f,q:t,y10:f'
-# provisionCommand: './example/repos.sh'
-# provisionCommand: './example/affs.sh'
-# provisionCommand: './example/vars.sh'
-# provisionCommand: './example/health.sh'
-# provisionCommand: './example/clear_devstats_running_flag.sh'
-# provisionCommand: './example/set_provisioned_flag.sh'
-# provisionCommand: './example/add_metric.sh'
+# provisionCommand: './devstats-helm/repos.sh'
+# provisionCommand: './devstats-helm/affs.sh'
+# provisionCommand: './devstats-helm/vars.sh'
+# provisionCommand: './devstats-helm/health.sh'
+# provisionCommand: './devstats-helm/clear_devstats_running_flag.sh'
+# provisionCommand: './devstats-helm/set_provisioned_flag.sh'
+# provisionCommand: './devstats-helm/add_metric.sh'
 # provisionCommand: 'sleep'
 # provisionCommandArgs:
 #   - "36000"
@@ -82,7 +82,7 @@ appNodeSelector:
   node: devstats-app
 dbNodeSelector:
   node2: devstats-db
-bootstrapCommand: './example/deploy_all.sh'
+bootstrapCommand: './devstats-helm/deploy_all.sh'
 bootstrapLDrop: ''
 bootstrapNoCreate: ''
 bootstrapPodName: devstats-provision-bootstrap
@@ -145,8 +145,8 @@ nameOverride: devstats
 oauthSecret: github-oauth
 pgSecret: pg-db
 proivisionImage: 'lukaszgryglicki/devstats'
-projectsFile: 'example/projects.yaml'
-provisionCommand: './example/deploy_all.sh'
+projectsFile: 'devstats-helm/projects.yaml'
+provisionCommand: './devstats-helm/deploy_all.sh'
 provisionPodName: devstats-provision
 provisionRestartPolicy: Never
 postgresSvcName: 'devstats-postgres'
