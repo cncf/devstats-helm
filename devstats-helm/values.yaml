@@ -66,11 +66,13 @@
 # provisionCommand: './devstats-helm/clear_devstats_running_flag.sh'
 # provisionCommand: './devstats-helm/set_provisioned_flag.sh'
 # provisionCommand: './devstats-helm/add_metric.sh'
+# provisionCommand: './devstats-helm/restore.sh'
 # provisionCommand: 'sleep'
 # provisionCommandArgs:
 #   - "36000"
 # queryOut: 1
 # reposDir: "/root/devstats_repos/"
+# restoreFrom: 'https://teststats.cncf.io/'
 # runTests: true
 # skipMetrics: 'users_activity,committers_cum'
 # skipMetrics: 'projects_health'
@@ -170,6 +172,7 @@ requestsPostgresCPU: '6000m'
 requestsPostgresMemory: '32Gi'
 requestsProvisionsCPU: '6000m'
 requestsProvisionsMemory: '16Gi'
+restoreFrom: 'https://devstats.cncf.io/'
 secretType: Opaque
 servicePodName: devstats-service
 storageAccessModes: ReadWriteOnce

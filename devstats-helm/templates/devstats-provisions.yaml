@@ -50,6 +50,8 @@ spec:
       value: "1"
     - name: ONLY
       value: {{ .proj }}
+    - name: RESTORE_FROM
+      value: '{{ $root.Values.restoreFrom }}'
     - name: WAITBOOT
       value: '{{ $root.Values.waitForBootstrap }}'
     - name: GHA2DB_PROPAGATE_ONLY_VAR
