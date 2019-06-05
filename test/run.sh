@@ -1,3 +1,4 @@
+#!/bin/bash
 ./switch_namespace.sh test || exit 1
 ./current_context.sh || exit 1
 cat devstats-helm/secrets/*.secret || exit 1
