@@ -120,7 +120,7 @@ grafanaPort: 3000
 grafanaRestartPolicy: Always
 grafanaSecret: grafana-secret
 imagePullPolicy: Always
-ingressClass: 'nginx'
+ingressClass: 'nginx-test'
 indexCronsFrom: 0
 indexCronsTo: 100
 indexDomainsFrom: 0
