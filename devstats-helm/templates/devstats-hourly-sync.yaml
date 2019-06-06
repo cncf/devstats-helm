@@ -82,6 +82,8 @@ spec:
               value: '{{ $root.Values.periods }}'
             - name: GHA2DB_PROJECTS_YAML
               value: {{ $root.Values.projectsFile }}
+            - name: GHA2DB_PROJECTS_OVERRIDE
+              value: {{ $root.Values.projectsOverride }}
             - name: PG_PORT
               value: '5432'
             - name: GHA2DB_GITHUB_OAUTH
