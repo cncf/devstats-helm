@@ -168,6 +168,7 @@ postgresMaxConn: 200
 postgresMaxWorkers: 56
 postgresWorkMem: '2G'
 postgresWalBuffers: '128MB'
+postgresMaxTempFile: '50G'
 pvName: devstats-pvc
 requestsBootstrapCPU: '1000m'
 requestsBootstrapMemory: '1Gi'

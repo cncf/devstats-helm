@@ -148,6 +148,8 @@ spec:
           value: '{{ .Values.postgresWorkMem }}'
         - name: PATRONI_POSTGRES_WAL_BUFFERS
           value: '{{ .Values.postgresWalBuffers }}'
+        - name: PATRONI_POSTGRES_MAX_TEMP_FILE
+          value: '{{ .Values.postgresMaxTempFile }}'
       terminationGracePeriodSeconds: 0
       nodeSelector:
 {{- with .Values.dbNodeSelector -}}
