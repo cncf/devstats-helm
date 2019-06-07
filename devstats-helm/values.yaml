@@ -162,8 +162,8 @@ postgresSvcName: 'devstats-postgres'
 postgresImageName: 'lukaszgryglicki/devstats-patroni-new'
 postgresStorageSize: '2800Gi'
 postgresNodes: 4
-postgresSharedBuffers: '80GB'
-postgresMaxConn: 200
+postgresSharedBuffers: '96GB'
+postgresMaxConn: 1024
 postgresMaxParallelWorkersPerGather: 12
 postgresMaxWorkerProcesses: 56
 postgresMaxParallelWorkers: 56
