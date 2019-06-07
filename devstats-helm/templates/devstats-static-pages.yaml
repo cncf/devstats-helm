@@ -25,6 +25,20 @@ spec:
         name: devstats-static-default
         ports:
         - containerPort: 80
+        livenessProbe:
+          exec:
+            command:
+            - '/usr/bin/static_page_health_check.sh'
+            - '127.0.0.1:80'
+          initialDelaySeconds: 30
+          periodSeconds: 30
+        readinessProbe:
+          exec:
+            command:
+            - '/usr/bin/static_page_health_check.sh'
+            - '127.0.0.1:80'
+          initialDelaySeconds: 10
+          periodSeconds: 30
 {{ if .Values.useStaticsResourcesLimits }}
         resources:
           requests:
@@ -79,6 +93,20 @@ spec:
         name: 'devstats-static-{{ .shortname }}'
         ports:
         - containerPort: 80
+        livenessProbe:
+          exec:
+            command:
+            - '/usr/bin/static_page_health_check.sh'
+            - '127.0.0.1:80'
+          initialDelaySeconds: 30
+          periodSeconds: 30
+        readinessProbe:
+          exec:
+            command:
+            - '/usr/bin/static_page_health_check.sh'
+            - '127.0.0.1:80'
+          initialDelaySeconds: 10
+          periodSeconds: 30
 {{ if $root.Values.useStaticsResourcesLimits }}
         resources:
           requests:
