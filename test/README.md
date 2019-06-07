@@ -20,6 +20,6 @@
 - Shell into manual work pods: `../devstats-k8s-lf/util/pod_shell.sh devstats-provision-allcdf`.
 - Create hourly sync cron jobs: `helm install devstats-test-crons ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBootstrap=1,skipProvisions=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,projectsOverride='+cncf\,+opencontainers\,+istio\,+knative\,+zephyr\,+linux'`.
 - Create Grafana services: `helm install devstats-test-grafanas ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipPostgres=1,skipIngress=1,skipStatic=1`.
-- Reinit Kubernetes: `helm install reinit-kuberentes ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBootstrap=1,skipCrons=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,indexProvisionsTo=1,provisionCommand='./devstats-helm/reinit.sh'`.
+- Reinit Kubernetes: `helm install reinit-kubernetes ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBootstrap=1,skipCrons=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,indexProvisionsTo=1,provisionCommand='./devstats-helm/reinit.sh'`.
 - Patroni REST API: first shell into the patroni master node: `../devstats-k8s-lf/util/pod_shell.sh devstats-postgres-0`, then: `curl -s localhost:8008/config | jq .` or see `scripts/patroni_rest_api.sh`.
 - You can run all those commands via: `./test/run.sh`.
