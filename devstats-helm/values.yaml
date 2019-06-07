@@ -57,6 +57,7 @@
 #   - "36000"
 # postgresImageName: 'jberkus/simple-patroni:v3'
 # postgresImageName: 'lukaszgryglicki/devstats-patroni'
+# postgresImageName: 'lukaszgryglicki/devstats-patroni-new'
 # periods: 'd7:t,m:f,q:t,y10:f'
 # projectsOverride: '+cncf,+opencontainers,+istio,+knative,+zephyr,+linux,+nodejs'
 # provisionCommand: './devstats-helm/repos.sh'
@@ -158,9 +159,15 @@ provisionCommand: './devstats-helm/deploy_all.sh'
 provisionPodName: devstats-provision
 provisionRestartPolicy: Never
 postgresSvcName: 'devstats-postgres'
-postgresImageName: 'lukaszgryglicki/devstats-patroni'
+postgresImageName: 'lukaszgryglicki/devstats-patroni-new'
 postgresStorageSize: '2800Gi'
 postgresNodes: 4
+postgresSharedBuffers: '80G'
+postgresMaxParallel: 12
+postgresMaxConn: 200
+postgresMaxWorkers: 56
+postgresWorkMem: '2G'
+postgresWalBuffers: '128MB'
 pvName: devstats-pvc
 requestsBootstrapCPU: '1000m'
 requestsBootstrapMemory: '1Gi'
