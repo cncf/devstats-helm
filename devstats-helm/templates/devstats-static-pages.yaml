@@ -25,6 +25,15 @@ spec:
         name: devstats-static-default
         ports:
         - containerPort: 80
+{{ if .Values.useStaticsResourcesLimits }}
+        resources:
+          requests:
+            memory: '{{ .Values.requestsStaticsMemory }}'
+            cpu: '{{ .Values.requestsStaticsCPU }}'
+          limits:
+            memory: '{{ .Values.limitsStaticsMemory }}'
+            cpu: '{{ .Values.limitsStaticsCPU }}'
+{{ end }}
 ---
 apiVersion: v1
 kind: Service
@@ -70,6 +79,15 @@ spec:
         name: 'devstats-static-{{ .shortname }}'
         ports:
         - containerPort: 80
+{{ if $root.Values.useStaticsResourcesLimits }}
+        resources:
+          requests:
+            memory: '{{ $root.Values.requestsStaticsMemory }}'
+            cpu: '{{ $root.Values.requestsStaticsCPU }}'
+          limits:
+            memory: '{{ $root.Values.limitsStaticsMemory }}'
+            cpu: '{{ $root.Values.limitsStaticsCPU }}'
+{{ end }}
 ---
 apiVersion: v1
 kind: Service

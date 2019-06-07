@@ -148,6 +148,8 @@ limitsPostgresCPU: '56000m'
 limitsPostgresMemory: '380Gi'
 limitsProvisionsCPU: '48000m'
 limitsProvisionsMemory: '128Gi'
+limitsStaticsCPU: '4000m'
+limitsStaticsMemory: '2Gi'
 name: devstats
 nameOverride: devstats
 oauthSecret: github-oauth
@@ -181,6 +183,8 @@ requestsPostgresCPU: '6000m'
 requestsPostgresMemory: '32Gi'
 requestsProvisionsCPU: '6000m'
 requestsProvisionsMemory: '16Gi'
+requestsStaticsCPU: '500m'
+requestsStaticsMemory: '512Mi'
 restoreFrom: 'https://devstats.cncf.io/'
 secretType: Opaque
 servicePodName: devstats-service
@@ -206,6 +210,7 @@ useCronsResourcesLimits: 1
 useGrafanasResourcesLimits: 1
 useProvisionsResourcesLimits: 1
 usePostgresResourcesLimits: 1
+useStaticsResourcesLimits: 1
 waitForBootstrap: 120
 waitForPostgres: 30
 projects:
