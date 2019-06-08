@@ -39,6 +39,8 @@ spec:
                 cpu: '{{ .Values.limitsBackupsCPU }}'
 {{ end }}
             env:
+            - name: TEST_SERVER
+              value: "1"
             - name: ONLY
               value: '{{ .Values.backupsOnlyProjects}}'
             - name: DBDEBUG
