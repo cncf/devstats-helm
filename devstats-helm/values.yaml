@@ -153,7 +153,7 @@ indexServicesFrom: 0
 indexServicesTo: 100
 indexStaticsFrom: 0
 indexStaticsTo: 4
-limitsBackupsCPU: '8000m'
+limitsBackupsCPU: '16000m'
 limitsBackupsMemory: '32Gi'
 limitsBootstrapCPU: '8000m'
 limitsBootstrapMemory: '16Gi'
@@ -190,7 +190,7 @@ postgresWorkMem: '2GB'
 postgresWalBuffers: '128MB'
 postgresMaxTempFile: '50GB'
 pvName: devstats-pvc
-requestsBackupsCPU: '1000m'
+requestsBackupsCPU: '4000m'
 requestsBackupsMemory: '2Gi'
 requestsBootstrapCPU: '1000m'
 requestsBootstrapMemory: '1Gi'
