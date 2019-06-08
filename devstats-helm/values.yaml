@@ -38,6 +38,7 @@
 # nCPUs: 0
 #
 # Other evrironment options
+# backupsOnlyProjects: 'kubernetes prometheus fluentd'
 # bootstrapCommand: 'sleep'
 # bootstrapCommandArgs:
 #   - "36000"
@@ -86,13 +87,23 @@
 # storageClass: gp2
 # syncCommandArgs:
 #   - "syncarg"
+# backupCommandArgs:
+#   - "backupsarg"
 affiliations: 'github_users.json'
 appNodeSelector:
   node: devstats-app
+backupsNodeSelector:
+  node: devstats-app
 dbNodeSelector:
   node2: devstats-db
+backupsCron: '0 4 * * *'
+backupsCommand: './devstats-helm/backups.sh'
+backupsOnlyProjects: ''
+backupsImage: 'lukaszgryglicki/devstats'
+backupsPodName: 'devstats-backups'
 backupsPVName: devstats-backups
 backupsPVSize: '160Gi'
+backupsRestartPolicy: Never
 bootstrapCommand: './devstats-helm/deploy_all.sh'
 bootstrapLDrop: ''
 bootstrapNoCreate: ''
@@ -142,6 +153,8 @@ indexServicesFrom: 0
 indexServicesTo: 100
 indexStaticsFrom: 0
 indexStaticsTo: 4
+limitsBackupsCPU: '8000m'
+limitsBackupsMemory: '32Gi'
 limitsBootstrapCPU: '8000m'
 limitsBootstrapMemory: '16Gi'
 limitsCronsCPU: '48000m'
@@ -177,6 +190,8 @@ postgresWorkMem: '2GB'
 postgresWalBuffers: '128MB'
 postgresMaxTempFile: '50GB'
 pvName: devstats-pvc
+requestsBackupsCPU: '1000m'
+requestsBackupsMemory: '2Gi'
 requestsBootstrapCPU: '1000m'
 requestsBootstrapMemory: '1Gi'
 requestsCronsCPU: '1000m'
@@ -209,6 +224,7 @@ volumeMountName: data
 volumeMountPath: '/root'
 volumeName: data
 useFlags: ''
+useBackupsResourcesLimits: 1
 useBootstrapResourcesLimits: 1
 useCronsResourcesLimits: 1
 useGrafanasResourcesLimits: 1

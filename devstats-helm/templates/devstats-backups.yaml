@@ -1,0 +1,73 @@
+{{- $skipBackups := .Values.skipBackups -}}
+{{ if not $skipBackups }}
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: '{{ .Values.backupsPodName }}'
+  labels:
+    name: devstats
+    type: 'backups-cron'
+spec:
+  schedule: '{{ .Values.backupsCron }}'
+  concurrencyPolicy: {{ .Values.concurrencyPolicy }}
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          name: '{{ .Values.backupsPodName }}'
+          labels:
+            name: devstats
+            type: 'backups-sync'
+        spec:
+          containers:
+          - command:
+            - {{ .Values.backupsCommand }}
+{{ if .Values.backupsCommandArgs }}
+            args:
+{{- with .Values.backupsCommandArgs -}}
+{{ toYaml . | nindent 14 }}
+{{ end }}
+{{ end }}
+{{ if .Values.useBackupsResourcesLimits }}
+            resources:
+              requests:
+                memory: '{{ .Values.requestsBackupsMemory }}'
+                cpu: '{{ .Values.requestsBackupsCPU }}'
+              limits:
+                memory: '{{ .Values.limitsBackupsMemory }}'
+                cpu: '{{ .Values.limitsBackupsCPU }}'
+{{ end }}
+            env:
+            - name: ONLY
+              value: {{ .Values.backupsOnlyProjects}}
+            - name: DBDEBUG
+              value: '{{ .Values.debug }}'
+            - name: PG_PORT
+              value: '5432'
+            - name: PG_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.pgSecret }}
+                  key: PG_HOST.secret
+            - name: PG_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.pgSecret }}
+                  key: PG_PASS.secret
+            image: {{ .Values.backupsImage }}
+            imagePullPolicy: {{ .Values.imagePullPolicy }}
+            name: '{{ .Values.backupsPodName }}'
+            volumeMounts:
+            - name: '{{ .Values.volumeMountName }}-backups'
+              mountPath: '{{ .Values.volumeMountPath }}'
+          volumes:
+          - name: '{{ .Values.volumeName }}-backups'
+            persistentVolumeClaim:
+              claimName: '{{ .Values.backupsPVName }}'
+          restartPolicy: {{ .Values.backupsRestartPolicy }}
+          nodeSelector:
+{{- with .Values.backupsNodeSelector -}}
+{{ toYaml . | nindent 12 }}
+{{ end }}
+{{ end }}
