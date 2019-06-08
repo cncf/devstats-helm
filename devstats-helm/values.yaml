@@ -21,6 +21,7 @@
 # skipServices (will not attempt to create services (Load Balancers))
 # skipPostgres (will not attempt to create patroni postgres)
 # skipIngress (will not attempt to create ingress)
+# skipBackupsPV (will not attempt to create backups PV)
 # skipBootstrap: 1
 # skipCrons: 1
 # skipGrafanas: 1
@@ -31,6 +32,7 @@
 # skipPostgres: 1
 # skipIngress: 1
 # skipStatic: 1
+# skipBackupsPV: 1
 #
 # You can overwrite the number of CPU autodetected in each pod, setting this to 1 will make each pod single-threaded
 # nCPUs: 0
@@ -89,6 +91,8 @@ appNodeSelector:
   node: devstats-app
 dbNodeSelector:
   node2: devstats-db
+backupsPVName: devstats-backups
+backupsPVSize: '160Gi'
 bootstrapCommand: './devstats-helm/deploy_all.sh'
 bootstrapLDrop: ''
 bootstrapNoCreate: ''
