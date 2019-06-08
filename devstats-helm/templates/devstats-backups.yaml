@@ -40,7 +40,7 @@ spec:
 {{ end }}
             env:
             - name: ONLY
-              value: {{ .Values.backupsOnlyProjects}}
+              value: '{{ .Values.backupsOnlyProjects}}'
             - name: DBDEBUG
               value: '{{ .Values.debug }}'
             - name: PG_PORT
