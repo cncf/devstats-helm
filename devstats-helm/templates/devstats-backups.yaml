@@ -40,7 +40,9 @@ spec:
 {{ end }}
             env:
             - name: TEST_SERVER
-              value: "1"
+              value: '{{ .Values.backupsTestServer }}'
+            - name: PROD_SERVER
+              value: '{{ .Values.backupsProdServer }}'
             - name: ONLY
               value: '{{ .Values.backupsOnlyProjects}}'
             - name: DBDEBUG

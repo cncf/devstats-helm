@@ -101,9 +101,11 @@ backupsCommand: './devstats-helm/backups.sh'
 backupsOnlyProjects: ''
 backupsImage: 'lukaszgryglicki/devstats'
 backupsPodName: 'devstats-backups'
+backupsProdServer: ''
 backupsPVName: devstats-backups
 backupsPVSize: '160Gi'
 backupsRestartPolicy: Never
+backupsTestServer: '1'
 bootstrapCommand: './devstats-helm/deploy_all.sh'
 bootstrapLDrop: ''
 bootstrapNoCreate: ''
