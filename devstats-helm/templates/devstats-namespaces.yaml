@@ -1,3 +1,5 @@
+{{- $skipNamespaces := .Values.skipNamespaces -}}
+{{ if not $skipNamespaces }}
 ---
 kind: Namespace
 apiVersion: v1
@@ -12,3 +14,4 @@ metadata:
   name: devstats-prod
   labels:
     name: devstats-prod
+    {{ end }}

@@ -21,8 +21,11 @@
 # skipServices (will not attempt to create services (Load Balancers))
 # skipPostgres (will not attempt to create patroni postgres)
 # skipIngress (will not attempt to create ingress)
+# skipStatic (will not create devstats nginx static pages)
 # skipBackupsPV (will not attempt to create backups PV)
+# skipBackups (will not attempt to create backups cronjob)
 # skipGA (will skip setting Google Analytics)
+# skipNamespaces (will skip creating devstats-test and devstats-prod anmespaces)
 # skipBootstrap: 1
 # skipCrons: 1
 # skipGrafanas: 1
@@ -34,7 +37,9 @@
 # skipIngress: 1
 # skipStatic: 1
 # skipBackupsPV: 1
+# skipBackups: 1
 # skipGA: 1
+# skipNamespaces: 1
 #
 # You can overwrite the number of CPU autodetected in each pod, setting this to 1 will make each pod single-threaded
 # nCPUs: 0
