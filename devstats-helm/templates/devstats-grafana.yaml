@@ -61,9 +61,9 @@ spec:
           value: {{ .org }}
         - name: GA
 {{ if $root.Values.skipGA }}
-          value: {{ .ga }}
-{{ else }}
           value: ''
+{{ else }}
+          value: {{ .ga }}
 {{ end }}
         - name: PROJ
           value: {{ .proj }}
