@@ -60,7 +60,11 @@ spec:
         - name: ORGNAME
           value: {{ .org }}
         - name: GA
+{{ if $root.Values.skipGA }}
           value: {{ .ga }}
+{{ else }}
+          value: ''
+{{ end }}
         - name: PROJ
           value: {{ .proj }}
         - name: PG_DB

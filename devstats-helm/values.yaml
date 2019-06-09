@@ -22,6 +22,7 @@
 # skipPostgres (will not attempt to create patroni postgres)
 # skipIngress (will not attempt to create ingress)
 # skipBackupsPV (will not attempt to create backups PV)
+# skipGA (will skip setting Google Analytics)
 # skipBootstrap: 1
 # skipCrons: 1
 # skipGrafanas: 1
@@ -33,6 +34,7 @@
 # skipIngress: 1
 # skipStatic: 1
 # skipBackupsPV: 1
+# skipGA: 1
 #
 # You can overwrite the number of CPU autodetected in each pod, setting this to 1 will make each pod single-threaded
 # nCPUs: 0
