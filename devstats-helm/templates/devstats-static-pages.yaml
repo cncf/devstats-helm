@@ -4,6 +4,7 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
+  namespace: '{{ .Values.namespace }}'
   name: devstats-static-default
   labels:
     name: devstats
@@ -13,6 +14,7 @@ spec:
   replicas: {{ .Values.staticNReplicas }}
   template:
     metadata:
+      namespace: '{{ .Values.namespace }}'
       labels:
         name: devstats
         type: static
@@ -52,6 +54,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  namespace: '{{ .Values.namespace }}'
   name: devstats-static-service-default
   labels:
     name: devstats
@@ -72,6 +75,7 @@ spec:
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
+  namespace: '{{ $root.Values.namespace }}'
   name: 'devstats-static-{{ .shortname }}'
   labels:
     name: devstats
@@ -81,6 +85,7 @@ spec:
   replicas: {{ $root.Values.staticNReplicas }}
   template:
     metadata:
+      namespace: '{{ $root.Values.namespace }}'
       labels:
         name: devstats
         type: static
@@ -120,6 +125,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  namespace: '{{ $root.Values.namespace }}'
   name: 'devstats-static-service-{{ .shortname }}'
   labels:
     name: devstats

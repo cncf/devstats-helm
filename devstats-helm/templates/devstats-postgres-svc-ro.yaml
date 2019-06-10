@@ -7,6 +7,7 @@ Service for load-balanced, read-only connections to the pool of PostgreSQL insta
 apiVersion: v1
 kind: Service
 metadata:
+  namespace: '{{ .Values.namespace }}'
   name: '{{ .Values.postgresSvcName }}-ro'
   labels:
     name: devstats

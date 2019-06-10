@@ -9,6 +9,7 @@ configmaps, endpoint and services required to control leader election and failov
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
+  namespace: '{{ .Values.namespace }}'
   name: '{{ .Values.postgresSvcName }}'
   labels:
     name: devstats

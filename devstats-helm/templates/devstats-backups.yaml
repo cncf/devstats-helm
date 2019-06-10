@@ -4,6 +4,7 @@
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
+  namespace: '{{ .Values.namespace }}'
   name: '{{ .Values.backupsPodName }}'
   labels:
     name: devstats
@@ -15,6 +16,7 @@ spec:
     spec:
       template:
         metadata:
+          namespace: '{{ .Values.namespace }}'
           name: '{{ .Values.backupsPodName }}'
           labels:
             name: devstats

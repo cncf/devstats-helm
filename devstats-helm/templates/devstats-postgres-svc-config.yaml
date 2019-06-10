@@ -9,6 +9,7 @@ Not useful for connecting to anything.
 apiVersion: v1
 kind: Service
 metadata:
+  namespace: '{{ .Values.namespace }}'
   name: '{{ .Values.postgresSvcName }}-config'
   labels:
     name: devstats

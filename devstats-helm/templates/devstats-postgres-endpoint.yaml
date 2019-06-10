@@ -8,6 +8,7 @@ On deploy, this does nothing; once spun up, the master pod will direct it to its
 apiVersion: v1
 kind: Endpoints
 metadata:
+  namespace: '{{ .Values.namespace }}'
   name: '{{ .Values.postgresSvcName }}-config'
   labels:
     name: devstats

@@ -7,6 +7,7 @@ Actual Postgres nodes, running patroni
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
+  namespace: '{{ .Values.namespace }}'
   name: '{{ .Values.postgresSvcName }}'
   labels:
     name: devstats
@@ -22,6 +23,7 @@ spec:
   serviceName: '{{ .Values.postgresSvcName }}'
   template:
     metadata:
+      namespace: '{{ .Values.namespace }}'
       labels:
         name: devstats
         type: postgres

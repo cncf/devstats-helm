@@ -7,6 +7,7 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
+  namespace: '{{ $root.Values.namespace }}'
   name: '{{ $root.Values.grafanaPodName }}-{{ .proj }}'
   labels:
     name: devstats
@@ -26,6 +27,7 @@ spec:
       proj: {{ .proj }}
   template:
     metadata:
+      namespace: '{{ $root.Values.namespace }}'
       labels:
         name: devstats
         type: 'grafana'

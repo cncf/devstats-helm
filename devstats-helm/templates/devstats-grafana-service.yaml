@@ -7,6 +7,7 @@
 apiVersion: v1
 kind: Service
 metadata:
+  namespace: '{{ $root.Values.namespace }}'
   name: '{{ $root.Values.servicePodName }}-{{ .proj }}'
   labels:
     name: devstats

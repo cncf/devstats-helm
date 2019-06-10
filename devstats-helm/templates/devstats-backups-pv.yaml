@@ -4,6 +4,7 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
+  namespace: '{{ .Values.namespace }}'
   name: '{{ .Values.backupsPVName }}'
   labels:
     name: devstats
