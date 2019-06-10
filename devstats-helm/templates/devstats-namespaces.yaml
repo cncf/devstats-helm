@@ -4,14 +4,14 @@
 kind: Namespace
 apiVersion: v1
 metadata:
-  name: devstats-test
+  name: '{{ .Values.testNamespace }}'
   labels:
-    name: devstats-test
+    name: '{{ .Values.testNamespace }}'
 ---
 kind: Namespace
 apiVersion: v1
 metadata:
-  name: devstats-prod
+  name: '{{ .Values.prodNamespace }}'
   labels:
-    name: devstats-prod
-    {{ end }}
+    name: '{{ .Values.prodNamespace }}'
+{{ end }}

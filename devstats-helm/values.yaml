@@ -60,6 +60,7 @@
 #   - arg2
 # ingressClass: 'nginx-test'
 # ingressClass: 'nginx-prod'
+# namespace: 'devstats-prod'
 # onlyMetrics: 'events,tz'
 # overwritePostgresCommand: true
 # postgresCommand: 'sleep'
@@ -177,13 +178,15 @@ limitsProvisionsMemory: '128Gi'
 limitsStaticsCPU: '4000m'
 limitsStaticsMemory: '2Gi'
 name: devstats
+namespace: 'devstats-test'
 nameOverride: devstats
 oauthSecret: github-oauth
 pgSecret: pg-db
-proivisionImage: 'lukaszgryglicki/devstats'
+prodNamespace: 'devstats-prod'
 projectsFile: 'devstats-helm/projects.yaml'
 projectsOverride: ''
 provisionCommand: './devstats-helm/deploy_all.sh'
+provisionImage: 'lukaszgryglicki/devstats'
 provisionPodName: devstats-provision
 provisionRestartPolicy: Never
 postgresSvcName: 'devstats-postgres'
@@ -226,6 +229,7 @@ syncImage: 'lukaszgryglicki/devstats-minimal'
 syncPodName: devstats
 syncRestartPolicy: Never
 sslEnv: test
+testNamespace: 'devstats-test'
 testsImage: 'lukaszgryglicki/devstats-test'
 testsPodName: devstats-tests
 testsRestartPolicy: Never

@@ -111,7 +111,7 @@ spec:
         secretKeyRef:
           name: {{ .Values.pgSecret }}
           key: PG_ADMIN_USER.secret
-    image: {{ .Values.proivisionImage }}
+    image: {{ .Values.provisionImage }}
     imagePullPolicy: {{ .Values.imagePullPolicy }}
     name: {{ .Values.bootstrapPodName }}
   restartPolicy: {{ .Values.bootstrapRestartPolicy }}

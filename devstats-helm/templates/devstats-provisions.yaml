@@ -120,7 +120,7 @@ spec:
         secretKeyRef:
           name: {{ $root.Values.pgSecret }}
           key: PG_ADMIN_USER.secret
-    image: {{ $root.Values.proivisionImage }}
+    image: {{ $root.Values.provisionImage }}
     imagePullPolicy: {{ $root.Values.imagePullPolicy }}
     name: '{{ $root.Values.provisionPodName }}-{{ .proj }}'
     volumeMounts:
