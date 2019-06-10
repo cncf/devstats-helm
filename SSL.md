@@ -19,6 +19,7 @@ curl https://raw.githubusercontent.com/jetstack/cert-manager/release-0.7/docs/tu
 - If you deployed DevStats before applying cert issuer, you need to delete devstats-ingress and recreate - it will pick up cert issuer and get its certificates.
 - Eventually delete old secret with self-signed certificate: `kubectl delete secret devstats-tls`.
 - `kubectl describe secret devstats-tls`, `kubectl get certificates`, `kubectl get order`, `kubectl describe order devstats-tls-xxx`.
+- By default test server uses staging certificates that display warning, to change that update `cert/cert-issuer.yaml` to specify prod type issuer for test deployment and also use `sslEnv=prod` when creating ingress.
 
 
 # Helm approach
