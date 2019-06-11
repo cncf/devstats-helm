@@ -114,7 +114,7 @@ backupsPVName: devstats-backups
 backupsPVSize: '160Gi'
 backupsRestartPolicy: Never
 backupsStorageAccessModes: ReadWriteMany
-backupsStorageClass: 'openebs-disk-cstor'
+backupsStorageClass: 'nfs-openebs-localstorage'
 backupsTestServer: '1'
 bootstrapCommand: './devstats-helm/deploy_all.sh'
 bootstrapLDrop: ''
