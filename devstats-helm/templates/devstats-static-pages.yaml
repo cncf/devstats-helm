@@ -20,11 +20,18 @@ spec:
         type: static
         proj: default
     spec:
+      volumes:
+      - name: '{{ .Values.volumeName }}-backups'
+        persistentVolumeClaim:
+          claimName: '{{ .Values.backupsPVName }}'
       containers:
       - env:
         image: {{ .Values.staticImage }}
         imagePullPolicy: {{ .Values.imagePullPolicy }}
         name: devstats-static-default
+        volumeMounts:
+        - name: '{{ .Values.volumeMountName }}-backups'
+          mountPath: '{{ .Values.backupsVolumeMountPath }}'
         ports:
         - containerPort: 80
         livenessProbe:
@@ -91,18 +98,18 @@ spec:
         type: static
         proj: '{{ .shortname }}'
     spec:
-      containers:
       volumes:
-      - name: '{{ .Values.volumeName }}-backups'
+      - name: '{{ $root.Values.volumeName }}-backups'
         persistentVolumeClaim:
-          claimName: '{{ .Values.backupsPVName }}'
+          claimName: '{{ $root.Values.backupsPVName }}'
+      containers:
       - env:
         image: '{{ .image }}'
         imagePullPolicy: {{ $root.Values.imagePullPolicy }}
         name: 'devstats-static-{{ .shortname }}'
         volumeMounts:
-        - name: '{{ .Values.volumeMountName }}-backups'
-          mountPath: '{{ .Values.backupsVolumeMountPath }}'
+        - name: '{{ $root.Values.volumeMountName }}-backups'
+          mountPath: '{{ $root.Values.backupsVolumeMountPath }}'
         ports:
         - containerPort: 80
         livenessProbe:
