@@ -35,6 +35,7 @@ DevStats deployment on bare metal Kubernetes using Helm.
 - Make its local-storage driver the default storage class: `kubectl patch storageclass openebs-hostpath -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'`.
 - Make sure that `/var/openebs` directory on all nodes is placed on the physical volume you want to use for local storage. You can have a huge NVMe disk mounted on `/disk` for instance. In this case `mv /var/openebs /disk/openebs; ln -s /disk/openebs /var/openebs`.
 - You will also need a shared storage for backups (ReadWriteMany access mode - backup pods are writing, static pages are reading).
+- Install nfs-utils on all your nodes: `apt install -y nfs-common`.
 - Install NFS provisioner that will use OpenEBS local storage while on `default` namespace: `helm install local-storage-nfs stable/nfs-server-provisioner --set=persistence.enabled=true,persistence.storageClass=openebs-hostpath,persistence.size=2Ti,storageClass.name=nfs-openebs-localstorage`
 
 
