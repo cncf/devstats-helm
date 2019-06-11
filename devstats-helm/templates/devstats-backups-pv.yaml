@@ -11,10 +11,10 @@ metadata:
     type: pvc
     proj: backups
   annotations:
-    volume.alpha.kubernetes.io/storage-class: {{ .Values.storageClass }}
+    volume.alpha.kubernetes.io/storage-class: {{ .Values.backupsStorageClass }}
 spec:
   accessModes:
-    - {{ .Values.storageAccessModes }}
+    - {{ .Values.backupsStorageAccessModes }}
   resources:
     requests:
       storage: {{ .Values.backupsPVSize }}
