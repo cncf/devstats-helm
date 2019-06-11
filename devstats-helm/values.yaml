@@ -71,6 +71,7 @@
 # postgresImageName: 'lukaszgryglicki/devstats-patroni-new'
 # periods: 'd7:t,m:f,q:t,y10:f'
 # projectsOverride: '+cncf,+opencontainers,+istio,+knative,+zephyr,+linux,+nodejs'
+# provisionImage: 'lukaszgryglicki/devstats-prod'
 # provisionCommand: './devstats-helm/repos.sh'
 # provisionCommand: './devstats-helm/affs.sh'
 # provisionCommand: './devstats-helm/vars.sh'
@@ -189,7 +190,7 @@ prodNamespace: 'devstats-prod'
 projectsFile: 'devstats-helm/projects.yaml'
 projectsOverride: ''
 provisionCommand: './devstats-helm/deploy_all.sh'
-provisionImage: 'lukaszgryglicki/devstats'
+provisionImage: 'lukaszgryglicki/devstats-test'
 provisionPodName: devstats-provision
 provisionRestartPolicy: Never
 postgresSvcName: 'devstats-postgres'
