@@ -35,7 +35,8 @@ DevStats deployment on bare metal Kubernetes using Helm.
 - Make its local-storage driver the default storage class: `kubectl patch storageclass openebs-hostpath -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'`.
 - Make sure that `/var/openebs` directory on all nodes is placed on the physical volume you want to use for local storage. You can have a huge NVMe disk mounted on `/disk` for instance. In this case `mv /var/openebs /disk/openebs; ln -s /disk/openebs /var/openebs`.
 - You will also need a shared storage for backups (ReadWriteMany access mode - backup pods are writing, static pages are reading).
-- List you disks by calling `k get disks`. Then copy `cp openebs/cstor-pool-config.yaml.example openebs/cstor-pool-config.yaml` and add your disks there.
+- List you disks by calling `k get disks`. Then copy `cp openebs/cstor-pool-config.yaml.example openebs/cstor-pool-config.yaml` and add your disks there. Them `kubectl apply -f openebs/cstor-pool-config.yaml`.
+- Create storage class for newly create cStor pool: `k apply -f openebs/cstor-storageclass.yaml`. Now you have RWX cStor using local disks. A bit slower than local-storage but still very fast.
 
 
 # Adding new projects

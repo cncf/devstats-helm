@@ -19,3 +19,6 @@ spec:
     poolType: striped
   disks:
     diskList:
+# Replace the following with actual disk CRs from your cluster from `kubectl get disks`
+#   - disk-184d99015253054c48c4aa3f17d137b1
+#   - disk-2f6bced7ba9b2be230ca5138fd0b07f1
