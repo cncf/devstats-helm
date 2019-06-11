@@ -34,6 +34,8 @@ DevStats deployment on bare metal Kubernetes using Helm.
 - Install OpenEBS: `kubectl apply -f https://openebs.github.io/charts/openebs-operator-0.9.0.yaml`.
 - Make its local-storage driver the default storage class: `kubectl patch storageclass openebs-hostpath -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'`.
 - Make sure that `/var/openebs` directory on all nodes is placed on the physical volume you want to use for local storage. You can have a huge NVMe disk mounted on `/disk` for instance. In this case `mv /var/openebs /disk/openebs; ln -s /disk/openebs /var/openebs`.
+- You will also need a shared storage for backups (ReadWriteMany access mode - backup pods are writing, static pages are reading).
+- List you disks by calling `k get disks`. Then copy `cp openebs/cstor-pool-config.yaml.example openebs/cstor-pool-config.yaml` and add your disks there.
 
 
 # Adding new projects

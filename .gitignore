@@ -57,3 +57,4 @@ sqlite/*.sql
 /error.yaml
 /cert/cert-issuer.yaml
 /metallb/config.yaml
+/openebs/cstor-pool-config.yaml
