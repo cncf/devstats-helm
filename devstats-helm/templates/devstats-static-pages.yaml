@@ -92,10 +92,17 @@ spec:
         proj: '{{ .shortname }}'
     spec:
       containers:
+      volumes:
+      - name: '{{ .Values.volumeName }}-backups'
+        persistentVolumeClaim:
+          claimName: '{{ .Values.backupsPVName }}'
       - env:
         image: '{{ .image }}'
         imagePullPolicy: {{ $root.Values.imagePullPolicy }}
         name: 'devstats-static-{{ .shortname }}'
+        volumeMounts:
+        - name: '{{ .Values.volumeMountName }}-backups'
+          mountPath: '{{ .Values.backupsVolumeMountPath }}'
         ports:
         - containerPort: 80
         livenessProbe:

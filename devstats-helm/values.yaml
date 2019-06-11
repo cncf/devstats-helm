@@ -116,6 +116,7 @@ backupsRestartPolicy: Never
 backupsStorageAccessModes: ReadWriteMany
 backupsStorageClass: 'nfs-openebs-localstorage'
 backupsTestServer: '1'
+backupsVolumeMountPath: '/usr/share/nginx/html/backups'
 bootstrapCommand: './devstats-helm/deploy_all.sh'
 bootstrapLDrop: ''
 bootstrapNoCreate: ''
