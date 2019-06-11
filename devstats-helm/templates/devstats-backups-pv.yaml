@@ -15,6 +15,7 @@ metadata:
 spec:
   accessModes:
     - {{ .Values.backupsStorageAccessModes }}
+  storageClassName: {{ .Values.backupsStorageClass }}
   resources:
     requests:
       storage: {{ .Values.backupsPVSize }}

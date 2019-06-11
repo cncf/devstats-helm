@@ -18,6 +18,7 @@ metadata:
 spec:
   accessModes:
     - {{ $root.Values.storageAccessModes }}
+  storageClassName: {{ .Values.storageClass }}
   resources:
     requests:
       storage: {{ .disk }}
