@@ -28,7 +28,7 @@ spec:
 {{ range $index, $_ := $root.Values.projects }}
 {{ if and (or (eq ($index|int) ($root.Values.indexIngressesFrom|int)) (gt ($index|int) ($root.Values.indexIngressesFrom|int))) (lt ($index|int) ($root.Values.indexIngressesTo|int)) }}
 {{ if gt ((index .domains $jndex)|int) 0 }}
-    - {{ .proj }}.{{ $dom }}
+    - {{ .url }}.{{ $dom }}
 {{ end }}
 {{ end }}
 {{ end }}
@@ -58,7 +58,7 @@ spec:
 {{ range $index, $_ := $root.Values.projects }}
 {{ if and (or (eq ($index|int) ($root.Values.indexIngressesFrom|int)) (gt ($index|int) ($root.Values.indexIngressesFrom|int))) (lt ($index|int) ($root.Values.indexIngressesTo|int)) }}
 {{ if gt ((index .domains $jndex)|int) 0 }}
-  - host: {{ .proj }}.{{ $dom }}
+  - host: {{ .url }}.{{ $dom }}
     http:
       paths:
       - path: /
