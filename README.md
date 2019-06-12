@@ -154,6 +154,8 @@ Storage:
 - Git repository clones are stored in per-pod persistent volumes (type node local storage). Each project has its own persisntent volume claim to store its git data.
 - All volumes used for database or git storage use `ReadWriteOnce` and are private to their corresponding pods.
 - We are using OpenEBS to dynamically provision persistent volumes using local-storage.
+- For ReadWriteMany (RWX) access we're using OpenEBS local-storgae (which provides ReadWriteOnce) and nfs-server-provisioner which allows multiple write access (this is used for backups and exposing Grafana DBs).
+- You can also use OpenEBS cStor for storage (optional and not used - this gives redundance at the storage level instead of depending Kubernetes statefulset for redundancy).
 
 Database:
 
@@ -165,6 +167,7 @@ Database:
 - We are using pod anti-affinity to make sure each patroni pod is running on a different node.
 - Write performance is limited by single node power, read performance is up to 4x (3 read replicas and master).
 - We're using time-series like approach when generating final data displayed on dashboards (custom time-series implementation at top of postgres database).
+- We're using cron job to backups GitHub API events data for all projects daily (only GitHub API data is backed up because GHA and git data can be regenerated from scratch without any dataloss).
 
 Cluster:
 
@@ -174,7 +177,7 @@ Cluster:
 
 UI:
 
-- We are using Grafana 6.1.6, all dashboards, users and datasources are automatically provisioned from JSONs and template files.
+- We are using Grafana 6.2.2, all dashboards, users and datasources are automatically provisioned from JSONs and template files.
 - We're using read-only connection to HA patroni database to take advantage of read-replicas and 4x faster read connections.
 - Grafana is running on plain HTTP and port 3000, ingress controller is responsible for SSL/HTTPS layer.
 - We're using liveness and readiness probles for Grafana instances to allow detecting unhealhty instances and auto-replace by Kubernetes in such cases.
@@ -214,11 +217,11 @@ Secrets:
 Docker images:
 
 - We're using docker as our container engine, all images are defined in `github.com/cncf/devstats-docker-images` and pushed to the docker hub under `lukaszgryglicki` username.
-- `devstats` - full devstats image, contining provisioning/bootstrap scripts - used for provisioning each project and initial bootstapping database.
+- `devstats-test`, `devstats-prod` - full devstats images, contining provisioning/bootstrap scripts - used for provisioning each project and initial bootstapping database (different for test and prod deployments).
 - `devstats-minimal` - minimal devstats image, used by hourly-sync cron jobs (contains only tools needed to do a hourly sync).
 - `devstats-grafana` - Grafana image containing all tools to provision Grafana for a given project (dashboards JSONs, datasource/config templates etc.).
-- `devstats-test` - image containing all DevStats tests (it contains Go 1.12 runtime and postgres 11 database, executes database, series, metrics, regexp and other tests and other checks: format, lint, imports, vet, const, usedexports, errcheck).
-- `jberkus/simple-patroni:v3` - image containing patroni HA database. `lukaszgryglicki/devstats-patroni` - patched patroni for handling database directory permissions on already existing PVs.
+- `devstats-tests` - image containing all DevStats tests (it contains Go 1.12 runtime and postgres 11 database, executes database, series, metrics, regexp and other tests and other checks: format, lint, imports, vet, const, usedexports, errcheck).
+- `lukaszgryglicki/devstats-patroni` - patroni for handling database directory permissions on already existing PVs.
 
 CI/CD:
 
@@ -250,4 +253,5 @@ Architecture:
 - Persistent Volumes - each project has its own persistent volume for git repo clones storage, this is used only by provisioning pods and cron jobs.
 - Secrets - holds GitHub OAuth token(s) (DevStats can use >1 token and switch between them when approaching API limits), Postgres credentials and connection parameters, Grafana credentials.
 - Grafana services - each project has its own grafana service. It maps from Grafana port 3000 into 80. They're endpoint for Ingress depending on project (distinguised by hostname).
-
+- Backups - cron job that runs daily (at 3 AM or 4 AM test/prod) - it backups all GitHub API data into a RWX volume (OpenEBS + local-storage + NFS) - this is also mounted by Grafana services (to expose each Grafana's SQLite DB) and static content pod (to display links to GH API data backups for all projects).
+- Static content pods - one for default backend showing list of foundations (domains) handled by DevStats, and one for every domain served (to display given domain's projects and DB backups): teststats.cncf.io, devstats.cncf.io, devstats.cd.foundation, devstats.graphql.org.
