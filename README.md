@@ -2,7 +2,7 @@
 DevStats deployment on bare metal Kubernetes using Helm.
 
 This is deployed:
-- [CNCF test](https://teststats.cncf.io) (this also includes CDF, GraphQL test instance, for example [GraphQL All](https://graphql.teststats.cncf.io) and [CDF All](allcdf.teststats.cncf.io)).
+- [CNCF test](https://teststats.cncf.io) (this also includes CDF, GraphQL test instance, for example [GraphQL All](https://graphql.teststats.cncf.io) and [CDF All](https://allcdf.teststats.cncf.io)).
 - [CNCF prod](https://devstats.cncf.io).
 - [CDF prod](https://devstats.cd.foundation).
 - [GraphQL prod](https://devstats.graphql.org).
