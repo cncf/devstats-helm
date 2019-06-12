@@ -33,6 +33,10 @@ spec:
         type: 'grafana'
         proj: {{ .proj }}
     spec:
+      volumes:
+      - name: '{{ $root.Values.volumeName }}-backups'
+        persistentVolumeClaim:
+          claimName: '{{ $root.Values.backupsPVName }}'
       containers:
       - command:
         - {{ $root.Values.grafanaCommand }}
@@ -54,6 +58,9 @@ spec:
         name: '{{ $root.Values.grafanaPodName }}-{{ .proj }}'
         image: {{ $root.Values.grafanaImage }}
         imagePullPolicy: {{ $root.Values.imagePullPolicy }}
+        volumeMounts:
+        - name: '{{ $root.Values.volumeMountName }}-backups'
+          mountPath: '{{ $root.Values.volumeMountPath }}'
         ports:
         - containerPort: {{ $root.Values.grafanaPort }}
         env:
