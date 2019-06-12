@@ -48,9 +48,9 @@ spec:
     - name: SKIPADDALL
       value: "1"
     - name: TEST_SERVER
-      value: '{{ .Values.testServer }}'
+      value: '{{ $root.Values.testServer }}'
     - name: PROD_SERVER
-      value: '{{ .Values.prodServer }}'
+      value: '{{ $root.Values.prodServer }}'
     - name: ONLY
       value: {{ .proj }}
     - name: RESTORE_FROM
