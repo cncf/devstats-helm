@@ -205,6 +205,7 @@ postgresMaxParallelWorkers: 56
 postgresWorkMem: '2GB'
 postgresWalBuffers: '128MB'
 postgresMaxTempFile: '50GB'
+prodServer: ''
 pvName: devstats-pvc
 requestsBackupsCPU: '4000m'
 requestsBackupsMemory: '2Gi'
@@ -233,6 +234,7 @@ syncImage: 'lukaszgryglicki/devstats-minimal'
 syncPodName: devstats
 syncRestartPolicy: Never
 sslEnv: test
+testServer: '1'
 testNamespace: 'devstats-test'
 testsImage: 'lukaszgryglicki/devstats-test'
 testsPodName: devstats-tests
