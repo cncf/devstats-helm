@@ -1,6 +1,13 @@
 # devstats-helm
 DevStats deployment on bare metal Kubernetes using Helm.
 
+This is deployed:
+- [CNCF test](https://teststats.cncf.io) (this also includes CDF, GraphQL test instance, for example [GraphQL All](https://graphql.teststats.cncf.io) and [CDF All](allcdf.teststats.cncf.io)).
+- [CNCF prod](https://devstats.cncf.io).
+- [CDF prod](https://devstats.cd.foundation).
+- [GraphQL prod](https://devstats.graphql.org).
+
+
 # Installing Kubernetes on bare metal
 
 - Setup 4 packet.net servers, give them hostnames: master, node-0, node-1, node-2.
