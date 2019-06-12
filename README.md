@@ -49,7 +49,7 @@ This is optional. You can setup a cStor OpenEBS storage (handles disk stripping/
 
 # Adding new projects
 
-See `cncf/devstats-helm-example`:`ADDING_NEW_PROJECTS.md` for informations about how to add more projects.
+See `ADDING_NEW_PROJECTS.md` for informations about how to add more projects.
 
 
 # Contexts

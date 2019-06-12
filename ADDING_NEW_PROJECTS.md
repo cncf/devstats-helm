@@ -30,7 +30,13 @@
 - Eventually run `DOCKER_USER=... ./images/remove_images.sh` to remove image locally (new image is pushed to the Docker hub).
 
 
-4. Go to `cncf/devstats-helm-example`:
+4. Go to `cncf/devstats-helm`:
+
+- Update `github.com/cncf/devstats-helm/devstats-helm/values.yaml` (add project).
+- Recreate all objects following example sin `./test/` and `./prod/` directories.
+
+
+5. Go to `cncf/devstats-helm-example` (optional):
 
 - Update `README.md` - add new project.
 - Update `github.com/cncf/devstats-helm-example/devstats-helm-example/values.yaml` (add project).
@@ -41,4 +47,3 @@
 - You can do 3 last steps in one step instead: `helm install ./devstats-helm-example --set skipSecrets=1,skipBootstrap=1,skipPostgres=1,skipIngress=1,indexProvisionsFrom=N,indexProvisionsTo=M,indexCronsFrom=N,indexCronsTo=M,indexGrafanasFrom=N,indexGrafanasTo=M,indexServicesFrom=N,indexServicesTo=M,indexPVsFrom=N,indexPVsTo=M`.
 - Recreate ingress with a new hostname: `kubectl delete ingress devstats-ingress`, `helm install ./devstats-helm-example --set skipSecrets=1,skipPVs=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipGrafanas=1,skipServices=1,skipPostgres=1`.
 - Eventually do something very similar for `cncf/devstats-helm-graphql` or `cncf/devstats-helm-lf`.
-
