@@ -45,6 +45,7 @@
 # nCPUs: 0
 #
 # Other evrironment options
+# backupsImage: 'lukaszgryglicki/devstats-prod'
 # backupsOnlyProjects: 'kubernetes prometheus fluentd'
 # bootstrapCommand: 'sleep'
 # bootstrapCommandArgs:
@@ -90,10 +91,11 @@
 # skipMetrics: 'users_activity,committers_cum'
 # skipMetrics: 'projects_health'
 # https://itnext.io/efs-persistent-volumes-on-aws-kubernetes-193e0035bbfb
-# sslEnv: prod
+# sslEnv: test
 # storageAccessModes: ReadWriteMany
 # storageClass: efs
 # storageClass: gp2
+# syncImage: 'lukaszgryglicki/devstats-minimal-prod'
 # syncCommandArgs:
 #   - "syncarg"
 # backupCommandArgs:
@@ -108,7 +110,7 @@ dbNodeSelector:
 backupsCron: '0 4 * * *'
 backupsCommand: './devstats-helm/backups.sh'
 backupsOnlyProjects: ''
-backupsImage: 'lukaszgryglicki/devstats'
+backupsImage: 'lukaszgryglicki/devstats-test'
 backupsPodName: 'devstats-backups'
 backupsProdServer: ''
 backupsPVName: devstats-backups
@@ -230,13 +232,13 @@ skipTemp: 1
 staticImage: 'lukaszgryglicki/devstats-static-default'
 staticNReplicas: 1
 syncCommand: devstats
-syncImage: 'lukaszgryglicki/devstats-minimal'
+syncImage: 'lukaszgryglicki/devstats-minimal-test'
 syncPodName: devstats
 syncRestartPolicy: Never
-sslEnv: test
+sslEnv: prod
 testServer: '1'
 testNamespace: 'devstats-test'
-testsImage: 'lukaszgryglicki/devstats-test'
+testsImage: 'lukaszgryglicki/devstats-tests'
 testsPodName: devstats-tests
 testsRestartPolicy: Never
 volumeMountName: data

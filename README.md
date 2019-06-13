@@ -225,7 +225,7 @@ Docker images:
 
 - We're using docker as our container engine, all images are defined in `github.com/cncf/devstats-docker-images` and pushed to the docker hub under `lukaszgryglicki` username.
 - `devstats-test`, `devstats-prod` - full devstats images, contining provisioning/bootstrap scripts - used for provisioning each project and initial bootstapping database (different for test and prod deployments).
-- `devstats-minimal` - minimal devstats image, used by hourly-sync cron jobs (contains only tools needed to do a hourly sync).
+- `devstats-minimal-test`, `devstats-minimal-prod` - minimal devstats images, used by hourly-sync cron jobs (contains only tools needed to do a hourly sync).
 - `devstats-grafana` - Grafana image containing all tools to provision Grafana for a given project (dashboards JSONs, datasource/config templates etc.).
 - `devstats-tests` - image containing all DevStats tests (it contains Go 1.12 runtime and postgres 11 database, executes database, series, metrics, regexp and other tests and other checks: format, lint, imports, vet, const, usedexports, errcheck).
 - `lukaszgryglicki/devstats-patroni` - patroni for handling database directory permissions on already existing PVs.
