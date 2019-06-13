@@ -70,6 +70,8 @@ spec:
       value: '{{ .Values.companyAcq }}'
     - name: GHA2DB_PROJECTS_YAML
       value: {{ .Values.projectsFile }}
+    - name: GHA2DB_PROJECTS_OVERRIDE
+      value: {{ .Values.projectsOverride }}
     - name: GHA2DB_AFFILIATIONS_JSON
       value: '{{ .Values.affiliations }}'
     - name: GHA2DB_COMPUTE_ALL
