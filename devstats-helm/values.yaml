@@ -24,6 +24,7 @@
 # skipStatic (will not create devstats nginx static pages)
 # skipBackupsPV (will not attempt to create backups PV)
 # skipBackups (will not attempt to create backups cronjob)
+# skipVacuum (will not attempt to create vacuum cronjob)
 # skipGA (will skip setting Google Analytics)
 # skipNamespaces (will skip creating devstats-test and devstats-prod anmespaces)
 # skipBootstrap: 1
@@ -38,6 +39,7 @@
 # skipStatic: 1
 # skipBackupsPV: 1
 # skipBackups: 1
+# skipVacuum: 1
 # skipGA: 1
 # skipNamespaces: 1
 #
@@ -183,6 +185,8 @@ limitsProvisionsCPU: '48000m'
 limitsProvisionsMemory: '128Gi'
 limitsStaticsCPU: '4000m'
 limitsStaticsMemory: '2Gi'
+limitsVacuumCPU: '2000m'
+limitsVacuumMemory: '1Gi'
 name: devstats
 namespace: 'devstats-test'
 nameOverride: devstats
@@ -223,6 +227,8 @@ requestsProvisionsCPU: '6000m'
 requestsProvisionsMemory: '16Gi'
 requestsStaticsCPU: '500m'
 requestsStaticsMemory: '512Mi'
+requestsVacuumCPU: '250m'
+requestsVacuumMemory: '256Mi'
 restoreFrom: 'https://devstats.cncf.io/'
 secretType: Opaque
 servicePodName: devstats-service
@@ -241,6 +247,11 @@ testNamespace: 'devstats-test'
 testsImage: 'lukaszgryglicki/devstats-tests'
 testsPodName: devstats-tests
 testsRestartPolicy: Never
+vacuumCron: '0 0 * * 6'
+vacuumCommand: './devel/vacuum_all.sh'
+vacuumImage: 'lukaszgryglicki/devstats-test'
+vacuumPodName: 'devstats-vacuum'
+vacuumRestartPolicy: Never
 volumeMountName: data
 volumeMountPath: '/root'
 volumeName: data
@@ -252,6 +263,7 @@ useGrafanasResourcesLimits: 1
 useProvisionsResourcesLimits: 1
 usePostgresResourcesLimits: 1
 useStaticsResourcesLimits: 1
+useVacuumResourcesLimits: 1
 waitForBootstrap: 120
 waitForPostgres: 30
 projects:
