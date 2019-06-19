@@ -27,13 +27,13 @@
 3. Go to `cncf/devstats-docker-images`:
 
 - Run `DOCKER_USER=... ./images/build_images.sh` to build a new image.
-- Eventually run `DOCKER_USER=... ./images/remove_images.sh` to remove image locally (new image is pushed to the Docker hub).
+- Eventually run `DOCKER_USER=... ./images/remove_images.sh` to remove image locally (new image is pushed to the Docker Hub).
 
 
-4. Go to `cncf/devstats-helm`:
+4. Go to `cncf/devstats-helm` or `cncf/devstats-helm-lf`:
 
 - Update `github.com/cncf/devstats-helm/devstats-helm/values.yaml` (add project).
-- Recreate all objects following example sin `./test/` and `./prod/` directories.
+- Recreate all objects following examples in `./test/` and `./prod/` directories.
 
 
 5. Go to `cncf/devstats-helm-example` (optional):
