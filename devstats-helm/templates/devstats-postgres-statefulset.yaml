@@ -154,6 +154,20 @@ spec:
           value: '{{ .Values.postgresWalBuffers }}'
         - name: PATRONI_POSTGRES_MAX_TEMP_FILE
           value: '{{ .Values.postgresMaxTempFile }}'
+        - name: PATRONI_POSTGRES_USE_SLOTS
+          value: '{{ .Values.postgresUseSlots }}'
+        - name: PATRONI_POSTGRES_HOT_STANDBY
+          value: '{{ .Values.postgresHotStandby }}'
+        - name: PATRONI_POSTGRES_WAL_LOG_HINTS
+          value: '{{ .Values.postgresWalLogHints }}'
+        - name: PATRONI_POSTGRES_WAL_KEEP_SEGMENTS
+          value: '{{ .Values.postgresWalKeepSegments }}'
+        - name: PATRONI_POSTGRES_WAL_LEVEL
+          value: '{{ .Values.postgresWalLevel }}'
+        - name: PATRONI_POSTGRES_MAX_WAL_SENDERS
+          value: '{{ .Values.postgresMaxWalSenders }}'
+        - name: PATRONI_POSTGRES_MAX_REPLICATION_SLOTS
+          value: '{{ .Values.postgresMaxReplicationSlots }}'
       terminationGracePeriodSeconds: 0
       nodeSelector:
 {{- with .Values.dbNodeSelector -}}

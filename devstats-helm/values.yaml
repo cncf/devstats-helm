@@ -211,6 +211,13 @@ postgresMaxParallelWorkers: 56
 postgresWorkMem: '2GB'
 postgresWalBuffers: '128MB'
 postgresMaxTempFile: '50GB'
+postgresUseSlots: true
+postgresHotStandby: 'on'
+postgresWalLogHints: 'on'
+postgresWalKeepSegments: 10
+postgresWalLevel: 'hot_standby'
+postgresMaxWalSenders: 5
+postgresMaxReplicationSlots: 5
 prodServer: ''
 pvName: devstats-pvc
 requestsBackupsCPU: '4000m'
