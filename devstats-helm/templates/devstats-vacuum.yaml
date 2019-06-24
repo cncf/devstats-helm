@@ -11,6 +11,7 @@ metadata:
     type: 'vacuum-cron'
 spec:
   schedule: '{{ .Values.vacuumCron }}'
+  successfulJobsHistoryLimit: {{ .Values.vacuumCronHistoryLimit }}
   concurrencyPolicy: {{ .Values.concurrencyPolicy }}
   jobTemplate:
     spec:
