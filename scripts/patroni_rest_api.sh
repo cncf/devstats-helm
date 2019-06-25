@@ -9,6 +9,7 @@ curl -s -XPATCH -d '{"postgresql": {"use_slots": true, "parameters": {"hot_stand
 curl -s -XPATCH -d '{"loop_wait": "20", "retry_timeout": "45", "ttl": "45"}' http://localhost:8008/config | jq .
 # From master node only
 PG_USER=postgres psql -c 'select application_name, replay_lag, sync_state from pg_stat_replication'
+# \watch 2
 patronictl list
 patronictl show-config
 patronictl restart devstats-postgres
