@@ -39,7 +39,7 @@
 # skipStatic: 1
 # skipBackupsPV: 1
 # skipBackups: 1
-# skipVacuum: 1
+# skipVacuum: ''
 # skipGA: 1
 # skipNamespaces: 1
 #
@@ -243,6 +243,8 @@ servicePodName: devstats-service
 storageAccessModes: ReadWriteOnce
 storageClass: default
 skipTemp: 1
+# We're using patroni's autovacuum feature.
+skipVacuum: 1
 staticImage: 'lukaszgryglicki/devstats-static-default'
 staticNReplicas: 1
 syncCommand: devstats
