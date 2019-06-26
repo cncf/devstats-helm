@@ -109,7 +109,7 @@ backupsNodeSelector:
   node: devstats-app
 dbNodeSelector:
   node2: devstats-db
-backupsCron: '0 4 * * *'
+backupsCron: '45 3 * * *'
 backupsCronHistoryLimit: 5
 backupsCommand: './devstats-helm/backups.sh'
 backupsOnlyProjects: ''
