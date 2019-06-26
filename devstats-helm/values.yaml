@@ -110,7 +110,7 @@ backupsNodeSelector:
 dbNodeSelector:
   node2: devstats-db
 backupsCron: '45 3 * * *'
-backupsCronHistoryLimit: 5
+backupsCronHistoryLimit: 2
 backupsCommand: './devstats-helm/backups.sh'
 backupsOnlyProjects: ''
 backupsImage: 'lukaszgryglicki/devstats-test'
@@ -253,7 +253,7 @@ skipVacuum: 1
 staticImage: 'lukaszgryglicki/devstats-static-default'
 staticNReplicas: 1
 syncCommand: devstats
-syncCronHistoryLimit: 30
+syncCronHistoryLimit: 3
 syncImage: 'lukaszgryglicki/devstats-minimal-test'
 syncPodName: devstats
 syncRestartPolicy: Never
@@ -264,7 +264,7 @@ testsImage: 'lukaszgryglicki/devstats-tests'
 testsPodName: devstats-tests
 testsRestartPolicy: Never
 vacuumCron: '0 0 * * 6'
-vacuumCronHistoryLimit: 5
+vacuumCronHistoryLimit: 1
 vacuumCommand: './devel/vacuum_all.sh'
 vacuumImage: 'lukaszgryglicki/devstats-test'
 vacuumPodName: 'devstats-vacuum'
