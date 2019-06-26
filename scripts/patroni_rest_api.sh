@@ -13,3 +13,4 @@ PG_USER=postgres psql -c 'select application_name, replay_lag, sync_state from p
 patronictl list
 patronictl show-config
 patronictl restart devstats-postgres
+patronictl query --password -d devstats -c 'select dt, proj, prog, msg from gha_logs order by dt desc limit 50'
