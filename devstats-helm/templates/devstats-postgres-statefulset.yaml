@@ -168,6 +168,16 @@ spec:
           value: '{{ .Values.postgresMaxWalSenders }}'
         - name: PATRONI_POSTGRES_MAX_REPLICATION_SLOTS
           value: '{{ .Values.postgresMaxReplicationSlots }}'
+        - name: PATRONI_LOOP_WAIT
+          value: '{{ .Values.patroniLoopWait}}'
+        - name: PATRONI_TTL
+          value: '{{ .Values.patroniTtl }}'
+        - name: PATRONI_RETRY_TIMEOUT
+          value: '{{ .Values.patroniRetryTimeout }}'
+        - name: PATRONI_MASTER_START_TIMEOUT
+          value: '{{ .Values.patroniMasterStartTimeout }}'
+        - name: PATRONI_MAXIMUM_LAG_ON_FAILOVER
+          value: '{{ .Values.patroniMaximumLagOnFailover }}'
       terminationGracePeriodSeconds: 0
       nodeSelector:
 {{- with .Values.dbNodeSelector -}}

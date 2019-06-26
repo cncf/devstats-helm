@@ -192,6 +192,11 @@ name: devstats
 namespace: 'devstats-test'
 nameOverride: devstats
 oauthSecret: github-oauth
+patroniLoopWait: 15
+patroniTtl: 60
+patroniRetryTimeout: 60
+patroniMasterStartTimeout: 600
+patroniMaximumLagOnFailover: 5368709120
 pgSecret: pg-db
 prodNamespace: 'devstats-prod'
 projectsFile: 'devstats-helm/projects.yaml'
