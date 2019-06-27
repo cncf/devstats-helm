@@ -77,6 +77,7 @@
 # provisionImage: 'lukaszgryglicki/devstats-prod'
 # provisionCommand: './devstats-helm/reinit.sh'
 # provisionCommand: './devstats-helm/repos.sh'
+# provisionCommand: './devstats-helm/repo_groups.sh'
 # provisionCommand: './devstats-helm/affs.sh'
 # provisionCommand: './devstats-helm/vars.sh'
 # provisionCommand: './devstats-helm/health.sh'
@@ -95,6 +96,7 @@
 # skipMetrics: 'projects_health'
 # https://itnext.io/efs-persistent-volumes-on-aws-kubernetes-193e0035bbfb
 # sslEnv: test
+# useRepos: '1'
 # storageAccessModes: ReadWriteMany
 # storageClass: efs
 # storageClass: gp2
@@ -274,6 +276,7 @@ volumeMountName: data
 volumeMountPath: '/root'
 volumeName: data
 useFlags: '1'
+useRepos: ''
 useBackupsResourcesLimits: 1
 useBootstrapResourcesLimits: 1
 useCronsResourcesLimits: 1

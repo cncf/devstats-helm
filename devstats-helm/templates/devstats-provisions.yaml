@@ -91,6 +91,8 @@ spec:
       value: '{{ $root.Values.periods }}'
     - name: USE_FLAGS
       value: '{{ $root.Values.useFlags }}'
+    - name: REPOS
+      value: '{{ $root.Values.useRepos }}'
     - name: PG_PORT
       value: '5432'
     - name: GHA2DB_GITHUB_OAUTH
