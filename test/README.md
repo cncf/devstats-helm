@@ -38,4 +38,6 @@
 - Update Kubernetes repo groups definitions: `helm install repogroups-kubernetes ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipCrons=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipNamespaces=1,indexProvisionsTo=1,provisionCommand='./devstats-helm/repo_groups.sh',useRepos=1`.
 - Create reports pod: `helm install devstats-reports ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipNamespaces=1,reportsPod=1`
 - Shell into reports pod: `../devstats-k8s-lf/util/pod_shell.sh devstats-reports` and then run some report: `` (see `cncf/devstats-reports:README.md`).
+- If you move any generated CSV file into the `/data` directory (which is RWX PV mount) - that file will be available at: `https://teststats.cncf.io/backups/`.
+- Finally delete reporting pod: `helm delete devstats-reports` (but you can leave it running, it is just sleeping forever waiting for shell connection).
 - You can run all those commands via: `./test/run.sh`.
