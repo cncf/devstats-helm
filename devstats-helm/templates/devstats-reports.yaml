@@ -1,0 +1,74 @@
+{{- $reportsPod := .Values.reportsPod -}}
+{{ if $reportsPod }}
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  namespace: '{{ .Values.namespace }}'
+  name: {{ .Values.reportsPodName }}
+  labels:
+    name: devstats
+    type: 'reports'
+spec:
+  volumes:
+  - name: '{{ .Values.volumeName }}-backups'
+    persistentVolumeClaim:
+      claimName: '{{ .Values.backupsPVName }}'
+  containers:
+  - command:
+    - {{ .Values.reportsCommand }}
+{{ if .Values.reportsCommandArgs }}
+    args:
+{{- with .Values.reportsCommandArgs -}}
+{{ toYaml . | nindent 6 }}
+{{ end }}
+{{ end }}
+{{ if .Values.useReportsResourcesLimits }}
+    resources:
+      requests:
+        memory: '{{ .Values.requestsReportsMemory }}'
+        cpu: '{{ .Values.requestsReportsCPU }}'
+      limits:
+        memory: '{{ .Values.limitsReportsMemory }}'
+        cpu: '{{ .Values.limitsReportsCPU }}'
+{{ end }}
+    env:
+    - name: TEST_SERVER
+      value: '{{ .Values.testServer }}'
+    - name: PROD_SERVER
+      value: '{{ .Values.prodServer }}'
+    - name: GHA2DB_DEBUG
+      value: '{{ .Values.debug }}'
+    - name: GHA2DB_CMDDEBUG
+      value: '{{ .Values.cmdDebug }}'
+    - name: GHA2DB_QOUT
+      value: '{{ .Values.queryOut }}'
+    - name: PG_PORT
+      value: '5432'
+    - name: PG_HOST
+      valueFrom:
+        secretKeyRef:
+          name: {{ .Values.pgSecret }}
+          key: PG_HOST.secret
+    - name: PG_PASS
+      valueFrom:
+        secretKeyRef:
+          name: {{ .Values.pgSecret }}
+          key: PG_PASS.secret
+    - name: PG_ADMIN_USER
+      valueFrom:
+        secretKeyRef:
+          name: {{ .Values.pgSecret }}
+          key: PG_ADMIN_USER.secret
+    image: {{ .Values.reportsImage }}
+    imagePullPolicy: {{ .Values.imagePullPolicy }}
+    name: {{ .Values.reportsPodName }}
+    volumeMounts:
+    - name: '{{ .Values.volumeMountName }}-backups'
+      mountPath: '{{ .Values.reportsVolumeMountPath }}'
+  restartPolicy: {{ .Values.reportsRestartPolicy }}
+  nodeSelector:
+{{- with .Values.dbNodeSelector -}}
+{{ toYaml . | nindent 4 }}
+{{ end }}
+{{ end }}

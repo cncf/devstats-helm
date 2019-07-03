@@ -187,6 +187,8 @@ limitsPostgresCPU: '56000m'
 limitsPostgresMemory: '380Gi'
 limitsProvisionsCPU: '16000m'
 limitsProvisionsMemory: '128Gi'
+limitsReportsCPU: '2000m'
+limitsReportsMemory: '8Gi'
 limitsStaticsCPU: '4000m'
 limitsStaticsMemory: '2Gi'
 limitsVacuumCPU: '1000m'
@@ -229,6 +231,13 @@ postgresMaxWalSenders: 5
 postgresMaxReplicationSlots: 5
 prodServer: ''
 pvName: devstats-pvc
+reportsPod: ''
+reportsPodName: 'devstats-reports'
+reportsCommand: '/bin/sleep'
+reportsCommandArgs: ['36525d']
+reportsImage: 'lukaszgryglicki/devstats-reports'
+reportsRestartPolicy: 'Never'
+reportsVolumeMountPath: '/root/data'
 requestsBackupsCPU: '1000m'
 requestsBackupsMemory: '2Gi'
 requestsBootstrapCPU: '1000m'
@@ -241,6 +250,8 @@ requestsPostgresCPU: '8000m'
 requestsPostgresMemory: '32Gi'
 requestsProvisionsCPU: '4000m'
 requestsProvisionsMemory: '8Gi'
+requestsReportsCPU: '200m'
+requestsReportsMemory: '256Mi'
 requestsStaticsCPU: '500m'
 requestsStaticsMemory: '512Mi'
 requestsVacuumCPU: '250m'
@@ -283,6 +294,7 @@ useCronsResourcesLimits: 1
 useGrafanasResourcesLimits: 1
 useProvisionsResourcesLimits: 1
 usePostgresResourcesLimits: 1
+useReportsResourcesLimits: 1
 useStaticsResourcesLimits: 1
 useVacuumResourcesLimits: 1
 waitForBootstrap: 120
