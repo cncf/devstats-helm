@@ -237,7 +237,7 @@ reportsCommand: '/bin/sleep'
 reportsCommandArgs: ['36525d']
 reportsImage: 'lukaszgryglicki/devstats-reports'
 reportsRestartPolicy: 'Never'
-reportsVolumeMountPath: '/root/data'
+reportsVolumeMountPath: '/data'
 requestsBackupsCPU: '1000m'
 requestsBackupsMemory: '2Gi'
 requestsBootstrapCPU: '1000m'
