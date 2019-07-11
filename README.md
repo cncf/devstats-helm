@@ -135,6 +135,8 @@ You can restrict ranges of projects provisioned and/or range of cron jobs to cre
 You can overwrite the number of CPUs autodetected in each pod, setting this to 1 will make each pod single-threaded
 - `--set nCPUs=1`.
 
+You can deploy reports pod (it waits forever) so you can bash into it and generate DevStats reports: `--set reportsPod=1`. See `test/README.md` for details, search for `reportsPod`.
+
 Please note variables commented out in `./devstats-helm/values.yaml`. You can either uncomment them or pass their values via `--set variable=name`.
 
 Resource types used: secret, pv, pvc, po, cronjob, deployment, svc
@@ -262,3 +264,4 @@ Architecture:
 - Grafana services - each project has its own grafana service. It maps from Grafana port 3000 into 80. They're endpoint for Ingress depending on project (distinguised by hostname).
 - Backups - cron job that runs daily (at 3 AM or 4 AM test/prod) - it backups all GitHub API data into a RWX volume (OpenEBS + local-storage + NFS) - this is also mounted by Grafana services (to expose each Grafana's SQLite DB) and static content pod (to display links to GH API data backups for all projects).
 - Static content pods - one for default backend showing list of foundations (domains) handled by DevStats, and one for every domain served (to display given domain's projects and DB backups): teststats.cncf.io, devstats.cncf.io, devstats.cd.foundation, devstats.graphql.org.
+- Reports pod - this is a pod doing nothing and waiting forever, you can shell ito it and create DevStats reports from it. It has backups PV mounted RW, so you can put output files there, it is mounted into shared nginx directory, so those reports can be downloaded from the outside world.
