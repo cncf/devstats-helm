@@ -52,3 +52,8 @@
 6. Go to `cncf/contributors` (optional):
 
 - Update `contrib_projects.yaml`.
+
+
+7 . Go to `cncf/velocity` (optional):
+
+- Update `reports/cncf_projects_config.csv`.
