@@ -17,6 +17,8 @@
 - Update `projects.yaml` file, also update `all:`.
 - Copy setup scripts and then adjust them: `cp -R oldproject/ projectname/`, `vim projectname/*`. Most them can be shared for all projects in `./shared/`, usually only `psql.sh` is project specific.
 - Update `devel/all_*.txt`, `all/psql.sh`, `grafana/dashboards/all/dashboards.json`, `scripts/all/repo_groups.sql` files.
+- Add Google Analytics (GA) for the new domain and keep the `UA-...` code for deployment.
+- Update automatic deploy script: `./devel/deploy_all.sh`.
 - Copy `metrics/oldproject` to `metrics/projectname`. Update `./metrics/projectname/vars.yaml` file.
 - `cp -Rv scripts/oldproject/ scripts/projectname`, `vim scripts/projectname/*`. Usually it is only `repo_groups.sql` and in simple cases it can fallback to `scripts/shared/repo_groups.sql`, you can skip copy then.
 - `cp -Rv grafana/oldproject/ grafana/projectname/` and then update files. Usually `%s/oldproject/newproject/g|w|next` and `%s/Old Project/New Project/g|w|next`.
