@@ -16,9 +16,10 @@
 - Do not commit changes until all is ready, or commit with `[no deploy]` in the commit message.
 - Update `projects.yaml` file, also update `all:`.
 - Copy setup scripts and then adjust them: `cp -R oldproject/ projectname/`, `vim projectname/*`. Most them can be shared for all projects in `./shared/`, usually only `psql.sh` is project specific.
-- Update `devel/all_*.txt`, `all/psql.sh`, `grafana/dashboards/all/dashboards.json`, `scripts/all/repo_groups.sql` files.
+- Update `devel/all_*.txt`, `all/psql.sh`, `grafana/dashboards/all/dashboards.json`, `scripts/all/repo_groups.sql`, `devel/get_icon_type.sh`, `devel/get_icon_source.sh` files.
 - Add Google Analytics (GA) for the new domain and keep the `UA-...` code for deployment.
 - Update automatic deploy script: `./devel/deploy_all.sh`.
+- Update `partials/projects.html partials/projects_health.html metrics/all/sync_vars.yaml` (number of projects and partials).
 - Copy `metrics/oldproject` to `metrics/projectname`. Update `./metrics/projectname/vars.yaml` file.
 - `cp -Rv scripts/oldproject/ scripts/projectname`, `vim scripts/projectname/*`. Usually it is only `repo_groups.sql` and in simple cases it can fallback to `scripts/shared/repo_groups.sql`, you can skip copy then.
 - `cp -Rv grafana/oldproject/ grafana/projectname/` and then update files. Usually `%s/oldproject/newproject/g|w|next` and `%s/Old Project/New Project/g|w|next`.
@@ -28,6 +29,7 @@
 - `` for f in `cat ../devstats-docker-images/k8s/all_test_projects.txt`; do cp grafana/dashboards/oldproject/new-contributors-table.json grafana/dashboards/$f/; done ``, then: `FROM_PROJ=oldproject ./util_sh/replace_proj_name_tag.sh new-contributors-table.json`.
 - When adding new dashboard to projects that use dashboards folders (like Kubernetes) update `cncf/devstats:grafana/proj/custom_sqlite.sql` file.
 - To actually deploy on bare metal follow `cncf/devstats:ADDING_NEW_PROJECT.md`.
+- If not deploying, then generate grafana artwork: `./devel/update_artwork.sh`, then `./grafana/create_images.sh`.
 
 
 3. Go to `cncf/devstats-docker-images`:
