@@ -100,6 +100,8 @@
 # storageAccessModes: ReadWriteMany
 # storageClass: efs
 # storageClass: gp2
+# storageClass: openebs-hostpath
+# storageClass: nfs-openebs-localstorage
 # syncImage: 'lukaszgryglicki/devstats-minimal-prod'
 # syncCommandArgs:
 #   - "syncarg"
@@ -260,7 +262,7 @@ restoreFrom: 'https://devstats.cncf.io/'
 secretType: Opaque
 servicePodName: devstats-service
 storageAccessModes: ReadWriteOnce
-storageClass: default
+storageClass: openebs-hostpath
 skipTemp: 1
 # We're using patroni's autovacuum feature.
 skipVacuum: 1
