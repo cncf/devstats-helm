@@ -905,3 +905,14 @@ projects:
     domains: [1, 0, 0, 0]
     ga: ''
     i: 54
+  - proj: thanos
+    url: thanos
+    db: thanos
+    icon: 'thanos'
+    org: 'Thanos'
+    repo: 'improbable-eng/thanos'
+    cron: '24 * * * *'
+    disk: 3Gi
+    domains: [1, 1, 0, 0]
+    ga: 'UA-108085315-49'
+    i: 55

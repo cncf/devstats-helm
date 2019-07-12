@@ -18,6 +18,7 @@
 - Copy setup scripts and then adjust them: `cp -R oldproject/ projectname/`, `vim projectname/*`. Most them can be shared for all projects in `./shared/`, usually only `psql.sh` is project specific.
 - Update `devel/all_*.txt`, `all/psql.sh`, `grafana/dashboards/all/dashboards.json`, `scripts/all/repo_groups.sql`, `devel/get_icon_type.sh`, `devel/get_icon_source.sh` files.
 - Add Google Analytics (GA) for the new domain and keep the `UA-...` code for deployment.
+- Update static index pages `apache/www/index_*`.
 - Update automatic deploy script: `./devel/deploy_all.sh`.
 - Update `partials/projects.html partials/projects_health.html metrics/all/sync_vars.yaml` (number of projects and partials).
 - Copy `metrics/oldproject` to `metrics/projectname`. Update `./metrics/projectname/vars.yaml` file.
@@ -44,7 +45,19 @@
 - Recreate all objects following examples in `./test/` and `./prod/` directories.
 
 
-5. Go to `cncf/devstats-helm-example` (optional):
+5. Go to `cncf/devstats-helm`:
+
+- Update `devstats-helm/values.yaml` (add project).
+- Now: N - index of the new project added to `github.com/cncf/devstats-helm-example/devstats-helm-example/values.yaml`. M=N+1. Inside `github.com/cncf/devstats-helm-example`:
+- Run `helm install ./devstats-helm-example --set skipSecrets=1,skipBootstrap=1,skipCrons=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,indexProvisionsFrom=N,indexProvisionsTo=M,indexPVsFrom=N,indexPVsTo=M` to create provisioning pods.
+- Run `helm install ./devstats-helm-example --set skipSecrets=1,skipPVs=1,skipBootstrap=1,skipProvisions=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,indexCronsFrom=N,indexCronsTo=M` to create cronjobs (they will wait for provisioning to finish).
+- Run `helm install ./devstats-helm-example --set skipSecrets=1,skipPVs=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipPostgres=1,skipIngress=1,indexGrafanasFrom=N,indexGrafanasTo=M,indexServicesFrom=N,indexServicesTo=M` to create grafana deployments and services. Grafanas will be usable when full provisioning is completed.
+- You can do 3 last steps in one step instead: `helm install ./devstats-helm-example --set skipSecrets=1,skipBootstrap=1,skipPostgres=1,skipIngress=1,indexProvisionsFrom=N,indexProvisionsTo=M,indexCronsFrom=N,indexCronsTo=M,indexGrafanasFrom=N,indexGrafanasTo=M,indexServicesFrom=N,indexServicesTo=M,indexPVsFrom=N,indexPVsTo=M`.
+- Recreate ingress with a new hostname: `kubectl delete ingress devstats-ingress`, `helm install ./devstats-helm-example --set skipSecrets=1,skipPVs=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipGrafanas=1,skipServices=1,skipPostgres=1`.
+- Eventually do something very similar for `cncf/devstats-helm-graphql` or `cncf/devstats-helm-lf`.
+
+
+6. Go to `cncf/devstats-helm-example` (optional):
 
 - Update `README.md` - add new project.
 - Update `github.com/cncf/devstats-helm-example/devstats-helm-example/values.yaml` (add project).
@@ -57,12 +70,12 @@
 - Eventually do something very similar for `cncf/devstats-helm-graphql` or `cncf/devstats-helm-lf`.
 
 
-6. Go to `cncf/contributors` (optional):
+7. Go to `cncf/contributors` (optional):
 
 - Update `contrib_projects.yaml`.
 
 
-7 . Go to `cncf/velocity` (optional):
+8. Go to `cncf/velocity` (optional):
 
 - Update `reports/cncf_projects_config.csv`.
 - Update `BigQuery/velocity_lf.sql`, `BigQuery/velocity_cncf.sql`.
