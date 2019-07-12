@@ -1,18 +1,19 @@
 # Adding new projects
 
 1. Go to `cncf/devstats-docker-images`:
-- Add project entry to `example/projects.yaml` file. Find projects orgs, repos, select start date, eventually add test coverage for complex regular expression in `cncf/devstatscode`:`regexp_test.go`.
+- Add project entry to `devstats-helm/projects.yaml` file. Find projects orgs, repos, select start date, eventually add test coverage for complex regular expression in `cncf/devstatscode`:`regexp_test.go`.
 - To identify repo and/or org name changes, date ranges for entrire projest use `cncf/devstats`:`util_sh/(repo|org)_name_changes_bigquery.sh org|org/repo`.
 - You may need to update `cncf/devstats`:`util_sql/(org_repo)_name_changes_bigquery.sql` to include newest months.
 - For other Helm deployments (like LF or GraphQL) update `k8s/projects.yaml` or `gql/projects.yaml` or `devstats-helm/projects.yaml` file instead of `example/projects.yaml`.
 - Update `./images/build_images.sh` (add project's directory).
-- Update `./k8s/all_*.txt` or `./example/all_*.txt` or `./gql/all_*.txt` or `./devstats-helm/projects.yaml` (lists of projects to process).
+- Update `./k8s/all_*.txt` or `./example/all_*.txt` or `./gql/all_*.txt` or `devstats-helm/all_*` or `./devstats-helm/projects.yaml` (lists of projects to process).
 - Update `images/Dockerfile.full.prod` and `images/Dockerfile.full.test` files.
 
 
 2. Go to `cncf/devstats`:
 
 - Do not commit changes until all is ready, or commit with `[no deploy]` in the commit message.
+- Update `projects.yaml` file.
 - Copy setup scripts and then adjust them: `cp -R oldproject/ projectname/`, `vim projectname/*`. Most them can be shared for all projects in `./shared/`, usually only `psql.sh` is project specific.
 - Copy `metrics/oldproject` to `metrics/projectname`. Update `./metrics/projectname/vars.yaml` file.
 - `cp -Rv scripts/oldproject/ scripts/projectname`, `vim scripts/projectname/*`. Usually it is only `repo_groups.sql` and in simple cases it can fallback to `scripts/shared/repo_groups.sql`, you can skip copy then.
@@ -57,3 +58,4 @@
 7 . Go to `cncf/velocity` (optional):
 
 - Update `reports/cncf_projects_config.csv`.
+- Update `BigQuery/velocity_lf.sql`, `BigQuery/velocity_cncf.sql`.
