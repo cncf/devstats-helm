@@ -7,7 +7,7 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  namespace: '{{ .Values.namespace }}'
+  namespace: '{{ $root.Values.namespace }}'
   name: '{{ $root.Values.pvName }}-{{ .proj }}'
   labels:
     name: devstats
