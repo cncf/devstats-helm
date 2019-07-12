@@ -39,16 +39,10 @@
 - Eventually run `DOCKER_USER=... ./images/remove_images.sh` to remove image locally (new image is pushed to the Docker Hub).
 
 
-4. Go to `cncf/devstats-helm` or `cncf/devstats-helm-lf`:
-
-- Update `github.com/cncf/devstats-helm/devstats-helm/values.yaml` (add project).
-- Recreate all objects following examples in `./test/` and `./prod/` directories.
-
-
-5. Go to `cncf/devstats-helm`:
+4. Go to `cncf/devstats-helm`:
 
 - Update `devstats-helm/values.yaml` (add project).
-- Now: N - index of the new project added to `github.com/cncf/devstats-helm/devstats-helme/values.yaml`. M=N+1. Inside `github.com/cncf/devstats-helm`:
+- Now: N - index of the new project added to `github.com/cncf/devstats-helm/devstats-helm/values.yaml`. M=N+1. Inside `github.com/cncf/devstats-helm`:
 
 While on the `devstats-test` namespace, for example if N=55 (index of the new project):
 
@@ -61,6 +55,13 @@ While on the `devstats-prod` namespace, for example if N=55 (index of the new pr
 - Install new project (excluding static pages and ingress): `helm install devstats-prod-thanos ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,indexPVsFrom=55,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,indexProvisionsFrom=55,indexCronsFrom=55,indexGrafanasFrom=55,indexServicesFrom=55,skipPostgres=1,skipIngress=1,skipStatic=1,skipNamespaces=1`.
 - Recreate static pages handler: `helm delete devstats-prod-statics`, `helm install devstats-prod-statics ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipNamespaces=1,indexStaticsFrom=1`.
 - Recreate ingress with a new hostname: `helm delete devstats-prod-ingress`, `helm install devstats-prod-ingress ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipStatic=1,skipNamespaces=1,indexDomainsFrom=1,ingressClass=nginx-prod,sslEnv=prod`.
+
+
+5. Go to `cncf/devstats-helm-lf`:
+
+- Update `devstats-helm/values.yaml` (add project).
+- Now: N - index of the new project added to `github.com/cncf/devstats-helm-lf/devstats-helm/values.yaml`. M=N+1. Inside `github.com/cncf/devstats-helm`:
+- If N=63, then: `AWS_PROFILE=... KUBECONFIG=... helm2 install ./devstats-helm --set skipSecrets=1,indexPVsFrom=63,skipBootstrap=1,indexProvisionsFrom=63,indexCronsFrom=63,skipGrafanas=1,skipServices=1,skipNamespace=1 --name devstats-thanos`.
 
 
 6. Go to `cncf/devstats-helm-example` (optional):
