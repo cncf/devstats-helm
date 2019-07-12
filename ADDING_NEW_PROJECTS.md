@@ -8,6 +8,7 @@
 - Update `./images/build_images.sh` (add project's directory).
 - Update `./k8s/all_*.txt` or `./example/all_*.txt` or `./gql/all_*.txt` or `devstats-helm/all_*` or `./devstats-helm/projects.yaml` (lists of projects to process).
 - Update `images/Dockerfile.full.prod` and `images/Dockerfile.full.test` files.
+- Update `images/Dockerfile.minimal.prod` and `images/Dockerfile.minimal.test` files.
 
 
 2. Go to `cncf/devstats`:
@@ -23,6 +24,7 @@
 - When adding new dashboard to all projects, you can add to single project (for example "cncf") and then populate to all others via something like:
 - `` for f in `cat ../devstats-docker-images/k8s/all_test_projects.txt`; do cp grafana/dashboards/oldproject/new-contributors-table.json grafana/dashboards/$f/; done ``, then: `FROM_PROJ=oldproject ./util_sh/replace_proj_name_tag.sh new-contributors-table.json`.
 - When adding new dashboard to projects that use dashboards folders (like Kubernetes) update `cncf/devstats:grafana/proj/custom_sqlite.sql` file.
+- To actually deploy on bare metal follow `cncf/devstats:ADDING_NEW_PROJECT.md`.
 
 
 3. Go to `cncf/devstats-docker-images`:
