@@ -11,6 +11,5 @@ kubectl cp debug:k8s_yearly_contributors_with_50.csv k8s_yearly_contributors_wit
 kubectl cp debug:top_50_k8s_yearly_contributors.csv top_50_k8s_yearly_contributors.csv
 helm delete devstats-test-debug
 zip -9 ~/contrib.zip contributors_and_emails.csv contributing_actors.csv contributing_actors_data.csv k8s_contributors_and_emails.csv top_50_k8s_yearly_contributors.csv k8s_yearly_contributors_with_50.csv
-mv contrib.zip ~
 rm contributors_and_emails.csv contributing_actors.csv contributing_actors_data.csv k8s_contributors_and_emails.csv top_50_k8s_yearly_contributors.csv k8s_yearly_contributors_with_50.csv
 echo 'OK'
