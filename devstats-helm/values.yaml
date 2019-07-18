@@ -725,7 +725,7 @@ projects:
     db: allprj
     icon: 'cncf'
     org: 'All CNCF'
-    repo: ''
+    repo: '-'
     cron: '27 * * * *'
     disk: 150Gi
     domains: [1, 1, 0, 0]
@@ -780,7 +780,7 @@ projects:
     db: allcdf
     icon: 'cdf'
     org: 'All CDF'
-    repo: ''
+    repo: '-'
     cron: '28 * * * *'
     disk: 50Gi
     domains: [1, 0, 1, 0]
