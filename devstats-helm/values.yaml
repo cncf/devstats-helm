@@ -233,6 +233,7 @@ postgresMaxWalSenders: 5
 postgresMaxReplicationSlots: 5
 prodServer: ''
 pvName: devstats-pvc
+reinitDropDB: ''
 reportsPod: ''
 reportsPodName: 'devstats-reports'
 reportsCommand: '/bin/sleep'

@@ -93,6 +93,8 @@ spec:
       value: '{{ $root.Values.useFlags }}'
     - name: REPOS
       value: '{{ $root.Values.useRepos }}'
+    - name: PDROP
+      value: '{{ $root.Values.reinitDropDB }}'
     - name: PG_PORT
       value: '5432'
     - name: GHA2DB_GITHUB_OAUTH
