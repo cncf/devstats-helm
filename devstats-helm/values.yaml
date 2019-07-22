@@ -913,7 +913,7 @@ projects:
     db: thanos
     icon: 'thanos'
     org: 'Thanos'
-    repo: 'improbable-eng/thanos'
+    repo: 'thanos-io/thanos'
     cron: '24 * * * *'
     disk: 3Gi
     domains: [1, 1, 0, 0]
