@@ -20,6 +20,7 @@ curl https://raw.githubusercontent.com/jetstack/cert-manager/release-0.7/docs/tu
 - Eventually delete old secret with self-signed certificate: `kubectl delete secret devstats-tls`.
 - `kubectl describe secret devstats-tls`, `kubectl get certificates`, `kubectl get order`, `kubectl describe order devstats-tls-xxx`.
 - By default test server uses staging certificates that display warning, to change that update `cert/cert-issuer.yaml` to specify prod type issuer for test deployment and also use `sslEnv=prod` when creating ingress.
+- In practice you must add prod-issuer on the devstats-test namespace, so special/test projects can also be accessible without SSL warning (and examples in test/README.txt assue this).
 
 
 # Helm approach

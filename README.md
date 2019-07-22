@@ -104,6 +104,15 @@ Install SSL certificates using Let's encrypt and auto renewal using `cert-manage
 
 See either `test/README.md` or `prod/README.md`.
 
+
+# Tweak patroni
+
+You should tweak deployed patroni instances:
+
+- Manually login to a deployed patroni instance (on test and prod namespaces): `cncf/devstats-k8s-lf`:`util/pod_shell.sh devstats-postrges-0`.
+- Apply the "final one" config from `scripts/patroni_rest_api.sh` script.
+
+
 # Usage
 
 You should set namespace to 'devstats-test' or 'devstats-prod' first: `./switch_context.sh test`.
