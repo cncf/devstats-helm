@@ -79,6 +79,7 @@
 # provisionCommand: './devstats-helm/repos.sh'
 # provisionCommand: './devstats-helm/repo_groups.sh'
 # provisionCommand: './devstats-helm/affs.sh'
+# provisionCommand: './devstats-helm/annotations.sh'
 # provisionCommand: './devstats-helm/vars.sh'
 # provisionCommand: './devstats-helm/health.sh'
 # provisionCommand: './devstats-helm/clear_devstats_running_flag.sh'
