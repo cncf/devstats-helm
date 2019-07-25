@@ -26,7 +26,7 @@
 # skipBackups (will not attempt to create backups cronjob)
 # skipVacuum (will not attempt to create vacuum cronjob)
 # skipGA (will skip setting Google Analytics)
-# skipNamespaces (will skip creating devstats-test and devstats-prod anmespaces)
+# skipNamespaces (will skip creating devstats-test and devstats-prod namespaces)
 # skipBootstrap: 1
 # skipCrons: 1
 # skipGrafanas: 1
