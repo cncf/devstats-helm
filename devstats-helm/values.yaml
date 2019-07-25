@@ -106,8 +106,9 @@
 # syncImage: 'lukaszgryglicki/devstats-minimal-prod'
 # syncCommandArgs:
 #   - "syncarg"
-# backupCommandArgs:
-#   - "backupsarg"
+# backupsCommand: '/bin/sleep'
+# backupsCommandArgs:
+#   - "36000s"
 affiliations: 'github_users.json'
 appNodeSelector:
   node: devstats-app
