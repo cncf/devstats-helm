@@ -51,12 +51,15 @@ spec:
             - name: DBDEBUG
               value: '{{ .Values.debug }}'
             - name: PG_PORT
-              value: '5432'
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.pgSecret }}
+                 key: PG_PORT.secret
             - name: PG_HOST
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.pgSecret }}
-                  key: PG_HOST.secret
+                  key: PG_HOST_RO.secret
             - name: PG_PASS
               valueFrom:
                 secretKeyRef:

@@ -95,8 +95,6 @@ spec:
       value: '{{ $root.Values.useRepos }}'
     - name: PDROP
       value: '{{ $root.Values.reinitDropDB }}'
-    - name: PG_PORT
-      value: '5432'
     - name: GHA2DB_GITHUB_OAUTH
       valueFrom:
         secretKeyRef:
@@ -107,6 +105,11 @@ spec:
         secretKeyRef:
           name: {{ $root.Values.pgSecret }}
           key: PG_HOST.secret
+    - name: PG_PORT
+      valueFrom:
+        secretKeyRef:
+          name: {{ $root.Values.pgSecret }}
+          key: PG_PORT.secret
     - name: PG_PASS
       valueFrom:
         secretKeyRef:

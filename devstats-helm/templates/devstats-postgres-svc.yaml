@@ -17,7 +17,7 @@ spec:
   clusterIP: None
   spec:
   ports:
-  - port: 5432
+  - port: {{ .Values.postgresPort }}
     name: psql
   selector:
     name: devstats

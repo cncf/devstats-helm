@@ -44,7 +44,10 @@ spec:
     - name: GHA2DB_QOUT
       value: '{{ .Values.queryOut }}'
     - name: PG_PORT
-      value: '5432'
+      valueFrom:
+        secretKeyRef:
+          name: {{ .Values.pgSecret }}
+          key: PG_PORT.secret
     - name: PG_HOST
       valueFrom:
         secretKeyRef:

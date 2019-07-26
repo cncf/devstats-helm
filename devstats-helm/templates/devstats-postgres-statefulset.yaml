@@ -81,7 +81,7 @@ spec:
         ports:
         - containerPort: 8008
           protocol: TCP
-        - containerPort: 5432
+        - containerPort: {{ .Values.postgresPort }}
           protocol: TCP
         volumeMounts:
         - mountPath: /home/postgres/pgdata
@@ -104,7 +104,7 @@ spec:
         - name: PATRONI_KUBERNETES_LABELS
           value: '{"name": "devstats", "type": "postgres", "cluster-name": "{{ .Values.postgresSvcName }}"}'
         - name: PATRONI_KUBERNETES_PORTS
-          value: '[{"name": "postgresql", "port": 5432}]'
+          value: '[{"name": "postgresql", "port": {{ .Values.postgresPort }}}]'
         - name: PATRONI_SUPERUSER_USERNAME
           valueFrom:
             secretKeyRef:
@@ -135,7 +135,7 @@ spec:
         - name: PATRONI_POSTGRESQL_PGPASS
           value: /tmp/pgpass
         - name: PATRONI_POSTGRESQL_LISTEN
-          value: '0.0.0.0:5432'
+          value: '0.0.0.0:{{ .Values.postgresPort }}'
         - name: PATRONI_RESTAPI_LISTEN
           value: '0.0.0.0:8008'
         - name: PATRONI_POSTGRES_BUFFERS
