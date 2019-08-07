@@ -89,5 +89,5 @@ While on the `devstats-prod` namespace, for example if N=55 (index of the new pr
 8. Go to `cncf/velocity` (optional):
 
 - Update `reports/cncf_projects_config.csv`.
-- Update `BigQuery/velocity_lf.sql`, `BigQuery/velocity_cncf.sql`.
-- Update `map/hints.csv`, `map/defmaps.csv`, `map/urls.csv`, `map/ranges_sane.csv`.
+- Update `BigQuery/velocity_lf.sql BigQuery/velocity_cncf.sql`.
+- Update `map/hints.csv map/defmaps.csv map/urls.csv map/ranges_sane.csv`.
