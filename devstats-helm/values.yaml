@@ -934,3 +934,14 @@ projects:
     domains: [1, 1, 0, 0]
     ga: 'UA-108085315-50'
     i: 56
+  - proj: intoto
+    url: intoto
+    db: intoto
+    icon: 'cncf'
+    org: 'in-toto'
+    repo: 'in-toto/in-toto'
+    cron: '25 * * * *'
+    disk: 3Gi
+    domains: [1, 1, 0, 0]
+    ga: 'UA-145264316-1'
+    i: 57
