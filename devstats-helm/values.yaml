@@ -238,6 +238,7 @@ postgresMaxReplicationSlots: 5
 prodServer: ''
 pvName: devstats-pvc
 reinitDropDB: ''
+mergeMode: ''
 reportsPod: ''
 reportsPodName: 'devstats-reports'
 reportsCommand: '/bin/sleep'

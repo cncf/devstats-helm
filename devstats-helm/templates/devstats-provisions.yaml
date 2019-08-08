@@ -95,6 +95,8 @@ spec:
       value: '{{ $root.Values.useRepos }}'
     - name: PDROP
       value: '{{ $root.Values.reinitDropDB }}'
+    - name: MERGE_MODE
+      value: '{{ $root.Values.mergeMode }}'
     - name: GHA2DB_GITHUB_OAUTH
       valueFrom:
         secretKeyRef:
