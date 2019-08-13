@@ -97,7 +97,7 @@ spec:
     - name: PG_PORT
       valueFrom:
         secretKeyRef:
-          name: {{ .Values.oauthSecret }}
+          name: {{ .Values.pgSecret }}
           key: PG_PORT.secret
     - name: PG_PASS
       valueFrom:
