@@ -404,7 +404,7 @@ projects:
     repo: 'rkt/rkt'
     cron: '11 * * * *'
     disk: 3Gi
-    domains: [1, 1, 0, 0]
+    domains: [1, 0, 0, 0]
     ga: 'UA-108085315-11'
     i: 8
   - proj: cni
