@@ -71,7 +71,7 @@ Both test & prod namespaces:
 
 - Update `devstats-helm/values.yaml` (add project).
 - Now: N - index of the new project added to `github.com/cncf/devstats-helm-lf/devstats-helm/values.yaml`. M=N+1. Inside `github.com/cncf/devstats-helm`:
-- If N=63, then: `AWS_PROFILE=... KUBECONFIG=... helm2 install ./devstats-helm --set skipSecrets=1,indexPVsFrom=63,skipBootstrap=1,indexProvisionsFrom=63,indexCronsFrom=63,skipGrafanas=1,skipServices=1,skipNamespace=1 --name devstats-thanos`.
+- If N=63, then: `AWS_PROFILE=... KUBECONFIG=... helm2 install ./devstats-helm --set skipSecrets=1,indexPVsFrom=63,skipBootstrap=1,indexProvisionsFrom=63,indexCronsFrom=63,skipGrafanas=1,skipServices=1,skipNamespace=1 --name devstats-projname`.
 
 
 6. Go to `cncf/devstats-helm-example` (optional):
@@ -90,6 +90,7 @@ Both test & prod namespaces:
 7. Go to `cncf/contributors` (optional):
 
 - Update `contrib_projects.yaml`.
+_ eventually update `scripts/contrib/repo_groups.sql`.
 
 
 8. Go to `cncf/velocity` (optional):
