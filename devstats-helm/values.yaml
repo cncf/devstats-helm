@@ -96,8 +96,8 @@
 # runTests: true
 # skipMetrics: 'users_activity,committers_cum'
 # skipMetrics: 'projects_health'
-# skipAddAll: '1'
-# forceAddAll: ''
+# skipAddAll: ''
+# forceAddAll: '1'
 # https://itnext.io/efs-persistent-volumes-on-aws-kubernetes-193e0035bbfb
 # sslEnv: test
 # useRepos: '1'
@@ -154,7 +154,7 @@ domains:
   - name: 'devstats.graphql.org'
     image: 'lukaszgryglicki/devstats-static-graphql'
     shortname: graphql
-forceAddAll: '1'
+forceAddAll: ''
 fullnameOverride: devstats
 grafanaCommand: 'grafana_start.sh'
 grafanaImage: 'lukaszgryglicki/devstats-grafana'
@@ -272,7 +272,7 @@ secretType: Opaque
 servicePodName: devstats-service
 storageAccessModes: ReadWriteOnce
 storageClass: openebs-hostpath
-skipAddAll: ''
+skipAddAll: '1'
 skipTemp: 1
 # We're using patroni's autovacuum feature.
 skipVacuum: 1
