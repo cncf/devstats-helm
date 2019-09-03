@@ -56,12 +56,13 @@ While on the `devstats-test` namespace, `git pull` and then for example if N=55 
 
 While on the `devstats-prod` namespace, `git pull` and then for example if N=55 (index of the new project):
 
-- Install new project (excluding static pages and ingress): `helm install devstats-prod-thanos ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,indexPVsFrom=55,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,indexProvisionsFrom=55,indexCronsFrom=55,indexGrafanasFrom=55,indexServicesFrom=55,skipPostgres=1,skipIngress=1,skipStatic=1,skipNamespaces=1`.
+- Install new project (excluding static pages and ingress): `helm install devstats-prod-projname ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,indexPVsFrom=55,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,indexProvisionsFrom=55,indexCronsFrom=55,indexGrafanasFrom=55,indexServicesFrom=55,skipPostgres=1,skipIngress=1,skipStatic=1,skipNamespaces=1`.
 - Recreate static pages handler: `helm delete devstats-prod-statics`, `helm install devstats-prod-statics ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipNamespaces=1,indexStaticsFrom=1`.
 - Recreate ingress with a new hostname: `helm delete devstats-prod-ingress`, `helm install devstats-prod-ingress ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipStatic=1,skipNamespaces=1,indexDomainsFrom=1,ingressClass=nginx-prod,sslEnv=prod`.
 - Redeploy All CNCF Grafana (new project in health dashboards): `kubectl edit deployment devstats-grafana-all` - change `image:` add or remove `:latest` which will force rolling update without downtime.
 - Run vars regenerate on all projects (excluding new one, this is needed to update home dahsboard's list of all projects): `helm install --generate-name ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipCrons=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipNamespaces=1,testServer='',prodServer='1',provisionImage='lukaszgryglicki/devstats-prod',indexProvisionsTo=55,provisionCommand='devstats-helm/vars.sh'`.
 
+Both test & prod namespaces:
 - To have all dashboards recreated you can also kill all Grafana pods via `../devstats-k8s-lf/util/delete_objects.sh po devstats-grafana`, deployments will recreate them with the newest projects lists.
 - Delete intermediate helm installs - those with auto generated name like `devstats-helm-1565240123`: `helm delete devstats-helm-1565240123`.
 
