@@ -927,7 +927,7 @@ projects:
   - proj: flux
     url: flux
     db: flux
-    icon: 'cncf'
+    icon: 'flux'
     org: 'Flux'
     repo: 'fluxcd/flux'
     cron: '25 * * * *'
@@ -946,3 +946,14 @@ projects:
     domains: [1, 1, 0, 0]
     ga: 'UA-145264316-1'
     i: 57
+  - proj: strimzi
+    url: strimzi
+    db: strimzi
+    icon: 'cncf'
+    org: 'Strimzi'
+    repo: 'strimzi/strimzi-kafka-operator'
+    cron: '26 * * * *'
+    disk: 3Gi
+    domains: [1, 1, 0, 0]
+    ga: 'UA-145264316-2'
+    i: 58
