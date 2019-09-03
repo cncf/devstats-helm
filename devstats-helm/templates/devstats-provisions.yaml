@@ -46,7 +46,9 @@ spec:
     - name: NOBACKUP
       value: "1"
     - name: SKIPADDALL
-      value: "1"
+      value: '{{ $root.Values.skipAddAll }}'
+    - name: FORCEADDALL
+      value: '{{ $root.Values.forceAddAll }}'
     - name: TEST_SERVER
       value: '{{ $root.Values.testServer }}'
     - name: PROD_SERVER
