@@ -38,7 +38,7 @@
 3. Go to `cncf/devstats-docker-images`:
 
 - Run `DOCKER_USER=... ./images/build_images.sh` to build a new image.
-- Eventually run `DOCKER_USER=... ./images/remove_images.sh` to remove image locally (new image is pushed to the Docker Hub).
+- Eventually run `DOCKER_USER=... ./images/remove_images.sh` to remove image(s) locally (new image is pushed to the Docker Hub).
 
 
 4. Go to `cncf/devstats-helm`:
