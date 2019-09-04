@@ -961,3 +961,69 @@ projects:
     domains: [1, 1, 0, 0]
     ga: 'UA-145264316-2'
     i: 58
+  - proj: sam
+    url: sam
+    db: sam
+    icon: 'cncf'
+    org: 'AWS SAM'
+    repo: 'awslabs/serverless-application-model'
+    cron: '26 * * * *'
+    disk: 3Gi
+    domains: [1, 0, 0, 0]
+    ga: ''
+    i: 59
+  - proj: azf
+    url: azf
+    db: azf
+    icon: 'cncf'
+    org: 'AZF'
+    repo: 'Azure/azure-webjobs-sdk'
+    cron: '26 * * * *'
+    disk: 3Gi
+    domains: [1, 0, 0, 0]
+    ga: ''
+    i: 60
+  - proj: riff
+    url: riff
+    db: riff
+    icon: 'cncf'
+    org: 'Pivotal Riff'
+    repo: 'projectriff/riff'
+    cron: '27 * * * *'
+    disk: 3Gi
+    domains: [1, 0, 0, 0]
+    ga: ''
+    i: 61
+  - proj: fn
+    url: fn
+    db: fn
+    icon: 'cncf'
+    org: 'Oracle Fn'
+    repo: 'fnproject/fn'
+    cron: '27 * * * *'
+    disk: 3Gi
+    domains: [1, 0, 0, 0]
+    ga: ''
+    i: 62
+  - proj: openwhisk
+    url: openwhisk
+    db: openwhisk
+    icon: 'cncf'
+    org: 'Apache OpenWhisk'
+    repo: 'apache/openwhisk'
+    cron: '27 * * * *'
+    disk: 3Gi
+    domains: [1, 0, 0, 0]
+    ga: ''
+    i: 63
+  - proj: openfaas
+    url: openfaas
+    db: openfaas
+    icon: 'cncf'
+    org: 'OpenFaaS'
+    repo: 'openfaas/faas'
+    cron: '28 * * * *'
+    disk: 3Gi
+    domains: [1, 0, 0, 0]
+    ga: ''
+    i: 64
