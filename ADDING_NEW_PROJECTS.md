@@ -114,7 +114,7 @@ Prod:
 7. Go to `cncf/contributors` (optional):
 
 - Update `contrib_projects.yaml`.
-_ eventually update `scripts/contrib/repo_groups.sql`.
+- Eventually update `scripts/contrib/repo_groups.sql`.
 
 
 8. Go to `cncf/velocity` (optional):
