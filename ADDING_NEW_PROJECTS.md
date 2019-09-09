@@ -45,7 +45,7 @@
 
 - Update `devstats-helm/values.yaml` (add project).
 - Now: N - index of the new project added to `github.com/cncf/devstats-helm/devstats-helm/values.yaml`. M=N+1. Inside `github.com/cncf/devstats-helm`:
-- Consider `forceAddAll` and `skipAddAll` flags when adding multiple projects, or any project which is disabled or not included in 'All ...'
+- Consider `forceAddAll=1|tsbd|''` and `skipAddAll=1|''` flags when adding multiple projects, or any project which is disabled or not included in 'All ...'
 
 While on the `devstats-test` namespace, `git pull` and then for example if N=55 (index of the new project):
 
