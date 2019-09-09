@@ -1027,3 +1027,14 @@ projects:
     domains: [1, 0, 0, 0]
     ga: ''
     i: 64
+  - proj: kubevirt
+    url: kubevirt
+    db: kubevirt
+    icon: 'cncf'
+    org: 'KubeVirt'
+    repo: 'kubevirt/kubevirt'
+    cron: '28 * * * *'
+    disk: 3Gi
+    domains: [1, 1, 0, 0]
+    ga: 'UA-145264316-3'
+    i: 65
