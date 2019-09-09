@@ -49,6 +49,8 @@ spec:
       value: '{{ $root.Values.skipAddAll }}'
     - name: FORCEADDALL
       value: '{{ $root.Values.forceAddAll }}'
+    - name: HEALTH
+      value: '{{ $root.Values.health }}'
     - name: TEST_SERVER
       value: '{{ $root.Values.testServer }}'
     - name: PROD_SERVER

@@ -46,6 +46,8 @@ spec:
       value: '{{ .Values.skipAddAll }}'
     - name: FORCEADDALL
       value: '{{ .Values.forceAddAll }}'
+    - name: HEALTH
+      value: '{{ .Values.health }}'
     - name: TEST_SERVER
       value: '{{ .Values.testServer }}'
     - name: PROD_SERVER

@@ -165,6 +165,7 @@ grafanaPodName: devstats-grafana
 grafanaPort: 3000
 grafanaRestartPolicy: Always
 grafanaSecret: grafana-secret
+health: ''
 imagePullPolicy: Always
 ingressClass: 'nginx-test'
 indexCronsFrom: 0
