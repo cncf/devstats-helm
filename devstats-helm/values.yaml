@@ -943,7 +943,7 @@ projects:
   - proj: intoto
     url: intoto
     db: intoto
-    icon: 'cncf'
+    icon: 'intoto'
     org: 'in-toto'
     repo: 'in-toto/in-toto'
     cron: '25 * * * *'
@@ -954,7 +954,7 @@ projects:
   - proj: strimzi
     url: strimzi
     db: strimzi
-    icon: 'cncf'
+    icon: 'strimzi'
     org: 'Strimzi'
     repo: 'strimzi/strimzi-kafka-operator'
     cron: '26 * * * *'
@@ -1031,7 +1031,7 @@ projects:
   - proj: kubevirt
     url: kubevirt
     db: kubevirt
-    icon: 'cncf'
+    icon: 'kubevirt'
     org: 'KubeVirt'
     repo: 'kubevirt/kubevirt'
     cron: '28 * * * *'
