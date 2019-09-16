@@ -54,7 +54,7 @@ spec:
             - name: PROJREPO
               value: '{{ .repo }}'
             - name: SKIPTEMP
-              value: '{{ .affUseTemp }}'
+              value: '{{ .affSkipTemp }}'
             - name: GET_AFFS_FILES
               value: '{{ $root.Values.affiliationsGetAffsFiles }}'
             - name: GHA2DB_CHECK_IMPORTED_SHA

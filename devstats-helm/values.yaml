@@ -340,7 +340,7 @@ projects:
     repo: 'kubernetes/kubernetes'
     cron: '7 * * * *'
     affCron: '0 2 * * 0'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 50Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-108085315-1'
@@ -353,7 +353,7 @@ projects:
     repo: 'prometheus/prometheus'
     cron: '8 * * * *'
     affCron: '0 2 * * 1'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 5Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-108085315-3'
@@ -366,7 +366,7 @@ projects:
     repo: 'opentracing/opentracing-go'
     cron: '8 * * * *'
     affCron: '0 2 * * 2'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 3Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-108085315-4'
@@ -379,7 +379,7 @@ projects:
     repo: 'fluent/fluentd'
     cron: '9 * * * *'
     affCron: '0 2 * * 3'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 4Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-108085315-5'
@@ -392,7 +392,7 @@ projects:
     repo: 'linkerd/linkerd'
     cron: '9 * * * *'
     affCron: '0 2 * * 4'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 4Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-108085315-6'
@@ -405,7 +405,7 @@ projects:
     repo: 'grpc/grpc'
     cron: '10 * * * *'
     affCron: '0 2 * * 5'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 4Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-108085315-7'
@@ -418,7 +418,7 @@ projects:
     repo: 'coredns/coredns'
     cron: '10 * * * *'
     affCron: '0 2 * * 6'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 4Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-108085315-9'
@@ -431,7 +431,7 @@ projects:
     repo: 'containerd/containerd'
     cron: '11 * * * *'
     affCron: '15 2 * * 0'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 3Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-108085315-10'
@@ -444,7 +444,7 @@ projects:
     repo: 'rkt/rkt'
     cron: '11 * * * *'
     affCron: '15 2 * * 1'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 3Gi
     domains: [1, 0, 0, 0]
     ga: 'UA-108085315-11'
@@ -457,7 +457,7 @@ projects:
     repo: 'containernetworking/cni'
     cron: '11 * * * *'
     affCron: '15 2 * * 2'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 3Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-108085315-12'
@@ -470,7 +470,7 @@ projects:
     repo: 'envoyproxy/envoy'
     cron: '12 * * * *'
     affCron: '15 2 * * 3'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 4Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-108085315-13'
@@ -483,7 +483,7 @@ projects:
     repo: 'jaegertracing/jaeger'
     cron: '12 * * * *'
     affCron: '15 2 * * 4'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 4Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-108085315-14'
@@ -496,7 +496,7 @@ projects:
     repo: 'theupdateframework/notary'
     cron: '13 * * * *'
     affCron: '15 2 * * 5'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 3Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-108085315-15'
@@ -509,7 +509,7 @@ projects:
     repo: 'theupdateframework/tuf'
     cron: '13 * * * *'
     affCron: '15 2 * * 6'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 3Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-108085315-16'
@@ -522,7 +522,7 @@ projects:
     repo: 'rook/rook'
     cron: '13 * * * *'
     affCron: '30 2 * * 0'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 4Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-108085315-17'
@@ -535,7 +535,7 @@ projects:
     repo: 'vitessio/vitess'
     cron: '14 * * * *'
     affCron: '30 2 * * 1'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 5Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-108085315-18'
@@ -548,7 +548,7 @@ projects:
     repo: 'nats-io/gnatsd'
     cron: '14 * * * *'
     affCron: '30 2 * * 2'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 5Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-108085315-21'
@@ -561,7 +561,7 @@ projects:
     repo: 'open-policy-agent/opa'
     cron: '14 * * * *'
     affCron: '30 2 * * 3'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 5Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-108085315-22'
@@ -574,7 +574,7 @@ projects:
     repo: 'spiffe/spiffe'
     cron: '15 * * * *'
     affCron: '30 2 * * 4'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 4Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-108085315-23'
@@ -587,7 +587,7 @@ projects:
     repo: 'spiffe/spire'
     cron: '15 * * * *'
     affCron: '30 2 * * 5'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 3Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-108085315-24'
@@ -600,7 +600,7 @@ projects:
     repo: 'cloudevents/spec'
     cron: '15 * * * *'
     affCron: '30 2 * * 6'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 3Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-108085315-25'
@@ -613,7 +613,7 @@ projects:
     repo: 'telepresenceio/telepresence'
     cron: '15 * * * *'
     affCron: '45 2 * * 0'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 3Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-108085315-26'
@@ -626,7 +626,7 @@ projects:
     repo: 'helm/helm'
     cron: '16 * * * *'
     affCron: '45 2 * * 1'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 8Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-108085315-27'
@@ -639,7 +639,7 @@ projects:
     repo: 'OpenObservability/OpenMetrics'
     cron: '16 * * * *'
     affCron: '45 2 * * 2'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 3Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-108085315-28'
@@ -652,7 +652,7 @@ projects:
     repo: 'goharbor/harbor'
     cron: '17 * * * *'
     affCron: '45 2 * * 3'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 4Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-108085315-29'
@@ -665,7 +665,7 @@ projects:
     repo: 'etcd-io/etcd'
     cron: '17 * * * *'
     affCron: '45 2 * * 4'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 4Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-108085315-30'
@@ -678,7 +678,7 @@ projects:
     repo: 'tikv/tikv'
     cron: '17 * * * *'
     affCron: '45 2 * * 5'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 3Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-108085315-31'
@@ -691,7 +691,7 @@ projects:
     repo: 'cortexproject/cortex'
     cron: '18 * * * *'
     affCron: '45 2 * * 6'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 3Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-108085315-32'
@@ -704,7 +704,7 @@ projects:
     repo: 'buildpack/lifecycle'
     cron: '18 * * * *'
     affCron: '0 3 * * 0'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 3Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-108085315-33'
@@ -717,7 +717,7 @@ projects:
     repo: 'falcosecurity/falco'
     cron: '18 * * * *'
     affCron: '0 3 * * 1'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 3Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-108085315-34'
@@ -730,7 +730,7 @@ projects:
     repo: 'dragonflyoss/Dragonfly'
     cron: '19 * * * *'
     affCron: '0 3 * * 2'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 3Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-108085315-35'
@@ -743,7 +743,7 @@ projects:
     repo: 'virtual-kubelet/virtual-kubelet'
     cron: '19 * * * *'
     affCron: '0 3 * * 3'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 3Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-108085315-36'
@@ -756,7 +756,7 @@ projects:
     repo: 'kubeedge/kubeedge'
     cron: '21 * * * *'
     affCron: '0 3 * * 4'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 3Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-108085315-43'
@@ -769,7 +769,7 @@ projects:
     repo: 'Azure/brigade'
     cron: '21 * * * *'
     affCron: '0 3 * * 5'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 3Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-108085315-44'
@@ -782,7 +782,7 @@ projects:
     repo: 'cri-o/cri-o'
     cron: '22 * * * *'
     affCron: '0 3 * * 6'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 3Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-108085315-45'
@@ -795,7 +795,7 @@ projects:
     repo: 'networkservicemesh/networkservicemesh'
     cron: '23 * * * *'
     affCron: '15 3 * * 0'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 3Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-108085315-46'
@@ -808,7 +808,7 @@ projects:
     repo: 'openebs/openebs'
     cron: '24 * * * *'
     affCron: '15 3 * * 1'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 10Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-108085315-47'
@@ -821,7 +821,7 @@ projects:
     repo: 'open-telemetry/opentelemetry-java'
     cron: '24 * * * *'
     affCron: '15 3 * * 2'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 3Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-108085315-48'
@@ -834,7 +834,7 @@ projects:
     repo: '-'
     cron: '27 * * * *'
     affCron: '15 7 * * 6'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 150Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-108085315-20'
@@ -847,7 +847,7 @@ projects:
     repo: 'knative/build'
     cron: '22 * * * *'
     affCron: '15 3 * * 3'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 3Gi
     domains: [1, 0, 1, 0]
     ga: 'UA-108085315-39'
@@ -860,7 +860,7 @@ projects:
     repo: 'spinnaker/spinnaker'
     cron: '20 * * * *'
     affCron: '15 3 * * 4'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 4Gi
     domains: [1, 0, 1, 0]
     ga: 'UA-108085315-38'
@@ -873,7 +873,7 @@ projects:
     repo: 'jenkins-x/jx'
     cron: '22 * * * *'
     affCron: '15 3 * * 5'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 6Gi
     domains: [1, 0, 1, 0]
     ga: 'UA-108085315-41'
@@ -886,7 +886,7 @@ projects:
     repo: 'jenkinsci/jenkins'
     cron: '23 * * * *'
     affCron: '15 3 * * 6'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 40Gi
     domains: [1, 0, 1, 0]
     ga: 'UA-108085315-40'
@@ -899,7 +899,7 @@ projects:
     repo: '-'
     cron: '28 * * * *'
     affCron: '0 6 * * 0'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 50Gi
     domains: [1, 0, 1, 0]
     ga: 'UA-108085315-42'
@@ -912,7 +912,7 @@ projects:
     repo: 'graphql/graphql-js'
     cron: '25 * * * *'
     affCron: '0 6 * * 1'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 3Gi
     domains: [1, 0, 0, 1]
     ga: ''
@@ -925,7 +925,7 @@ projects:
     repo: 'graphql/graphiql'
     cron: '25 * * * *'
     affCron: '0 6 * * 2'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 3Gi
     domains: [1, 0, 0, 1]
     ga: ''
@@ -938,7 +938,7 @@ projects:
     repo: 'graphql/graphql-spec'
     cron: '26 * * * *'
     affCron: '0 6 * * 3'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 3Gi
     domains: [1, 0, 0, 1]
     ga: ''
@@ -951,7 +951,7 @@ projects:
     repo: 'graphql/express-graphql'
     cron: '26 * * * *'
     affCron: '0 6 * * 4'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 3Gi
     domains: [1, 0, 0, 1]
     ga: ''
@@ -964,7 +964,7 @@ projects:
     repo: 'graphql/graphql-js'
     cron: '24 * * * *'
     affCron: '0 6 * * 5'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 30Gi
     domains: [1, 0, 0, 1]
     ga: ''
@@ -977,7 +977,7 @@ projects:
     repo: 'cncf/landscapeapp'
     cron: '19 * * * *'
     affCron: '0 6 * * 6'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 30Gi
     domains: [1, 0, 0, 0]
     ga: 'UA-108085315-8'
@@ -990,7 +990,7 @@ projects:
     repo: 'opencontainers/runc'
     cron: '20 * * * *'
     affCron: '15 6 * * 0'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 3Gi
     domains: [1, 0, 0, 0]
     ga: 'UA-108085315-19'
@@ -1003,7 +1003,7 @@ projects:
     repo: 'istio/istio'
     cron: '20 * * * *'
     affCron: '15 6 * * 1'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 8Gi
     domains: [1, 0, 0, 0]
     ga: ''
@@ -1016,7 +1016,7 @@ projects:
     repo: 'knative/serving'
     cron: '21 * * * *'
     affCron: '15 6 * * 2'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 4Gi
     domains: [1, 0, 0, 0]
     ga: ''
@@ -1029,7 +1029,7 @@ projects:
     repo: 'zephyrproject-rtos/zephyr'
     cron: '29 * * * *'
     affCron: '15 6 * * 3'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 8Gi
     domains: [1, 0, 0, 0]
     ga: ''
@@ -1042,7 +1042,7 @@ projects:
     repo: 'torvalds/linux'
     cron: '29 * * * *'
     affCron: '15 6 * * 4'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 10Gi
     domains: [1, 0, 0, 0]
     ga: ''
@@ -1055,7 +1055,7 @@ projects:
     repo: 'thanos-io/thanos'
     cron: '24 * * * *'
     affCron: '15 6 * * 5'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 3Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-108085315-49'
@@ -1068,7 +1068,7 @@ projects:
     repo: 'fluxcd/flux'
     cron: '25 * * * *'
     affCron: '15 6 * * 6'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 3Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-108085315-50'
@@ -1081,7 +1081,7 @@ projects:
     repo: 'in-toto/in-toto'
     cron: '25 * * * *'
     affCron: '30 6 * * 0'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 3Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-145264316-1'
@@ -1094,7 +1094,7 @@ projects:
     repo: 'strimzi/strimzi-kafka-operator'
     cron: '26 * * * *'
     affCron: '30 6 * * 1'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 3Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-145264316-2'
@@ -1107,7 +1107,7 @@ projects:
     repo: 'awslabs/serverless-application-model'
     cron: '26 * * * *'
     affCron: '30 6 * * 2'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 3Gi
     domains: [1, 0, 0, 0]
     ga: ''
@@ -1120,7 +1120,7 @@ projects:
     repo: 'Azure/azure-webjobs-sdk'
     cron: '26 * * * *'
     affCron: '30 6 * * 3'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 3Gi
     domains: [1, 0, 0, 0]
     ga: ''
@@ -1133,7 +1133,7 @@ projects:
     repo: 'projectriff/riff'
     cron: '27 * * * *'
     affCron: '30 6 * * 4'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 3Gi
     domains: [1, 0, 0, 0]
     ga: ''
@@ -1146,7 +1146,7 @@ projects:
     repo: 'fnproject/fn'
     cron: '27 * * * *'
     affCron: '30 6 * * 5'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 3Gi
     domains: [1, 0, 0, 0]
     ga: ''
@@ -1159,7 +1159,7 @@ projects:
     repo: 'apache/openwhisk'
     cron: '27 * * * *'
     affCron: '30 6 * * 6'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 3Gi
     domains: [1, 0, 0, 0]
     ga: ''
@@ -1172,7 +1172,7 @@ projects:
     repo: 'openfaas/faas'
     cron: '28 * * * *'
     affCron: '45 6 * * 0'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 3Gi
     domains: [1, 0, 0, 0]
     ga: ''
@@ -1185,7 +1185,7 @@ projects:
     repo: 'kubevirt/kubevirt'
     cron: '28 * * * *'
     affCron: '45 6 * * 1'
-    affUseTemp: ''
+    affSkipTemp: '1'
     disk: 3Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-145264316-3'
