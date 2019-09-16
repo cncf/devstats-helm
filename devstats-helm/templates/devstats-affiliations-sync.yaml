@@ -1,61 +1,75 @@
-{{- $skipCrons := .Values.skipCrons -}}
-{{ if not $skipCrons }}
+{{- $skipAffiliations := .Values.skipAffiliations -}}
+{{ if not $skipAffiliations }}
 {{- $root := . -}}
 {{- range $index, $_ := .Values.projects -}}
-{{- if and (or (eq ($index|int) ($root.Values.indexCronsFrom|int)) (gt ($index|int) ($root.Values.indexCronsFrom|int))) (lt ($index|int) ($root.Values.indexCronsTo|int)) -}}
+{{- if and (or (eq ($index|int) ($root.Values.indexAffiliationsFrom|int)) (gt ($index|int) ($root.Values.indexAffiliationsFrom|int))) (lt ($index|int) ($root.Values.indexAffiliationsTo|int)) -}}
 ---
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
   namespace: '{{ $root.Values.namespace }}'
-  name: '{{ $root.Values.syncPodName }}-{{ .proj }}'
+  name: '{{ $root.Values.affiliationsPodName }}-{{ .proj }}'
   labels:
     name: devstats
-    type: 'cron'
+    type: 'affiliations-cron'
     proj: {{ .proj }}
 spec:
-  schedule: '{{ .cron }}'
-  successfulJobsHistoryLimit: {{ $root.Values.syncCronHistoryLimit }}
+  schedule: '{{ .affCron }}'
+  successfulJobsHistoryLimit: {{ $root.Values.affiliationsCronHistoryLimit }}
   concurrencyPolicy: {{ $root.Values.concurrencyPolicy }}
   jobTemplate:
     spec:
       template:
         metadata:
           namespace: '{{ $root.Values.namespace }}'
-          name: '{{ $root.Values.syncPodName }}-{{ .proj }}'
+          name: '{{ $root.Values.affiliationsPodName }}-{{ .proj }}'
           labels:
             name: devstats
-            type: 'sync'
+            type: 'affiliations'
             proj: {{ .proj }}
         spec:
           containers:
           - command:
-            - {{ $root.Values.syncCommand }}
-{{ if $root.Values.syncCommandArgs }}
+            - {{ $root.Values.affiliationsCommand }}
+{{ if $root.Values.affiliationsCommandArgs }}
             args:
-{{- with $root.Values.syncCommandArgs -}}
+{{- with $root.Values.affiliationsCommandArgs -}}
 {{ toYaml . | nindent 14 }}
 {{ end }}
 {{ end }}
-{{ if $root.Values.useCronsResourcesLimits }}
+{{ if $root.Values.useAffiliationsResourcesLimits }}
             resources:
               requests:
-                memory: '{{ $root.Values.requestsCronsMemory }}'
-                cpu: '{{ $root.Values.requestsCronsCPU }}'
+                memory: '{{ $root.Values.requestsAffiliationsMemory }}'
+                cpu: '{{ $root.Values.requestsAffiliationsCPU }}'
               limits:
-                memory: '{{ $root.Values.limitsCronsMemory }}'
-                cpu: '{{ $root.Values.limitsCronsCPU }}'
+                memory: '{{ $root.Values.limitsAffiliationsMemory }}'
+                cpu: '{{ $root.Values.limitsAffiliationsCPU }}'
 {{ end }}
             env:
+            - name: PROJ
+              value: {{ .proj }}
+            - name: PROJDB
+              value: {{ .db }}
+            - name: PROJREPO
+              value: '{{ .repo }}'
+            - name: SKIPTEMP
+              value: '{{ .affUseTemp }}'
+            - name: GET_AFFS_FILES
+              value: '{{ $root.Values.affiliationsGetAffsFiles }}'
+            - name: GHA2DB_CHECK_IMPORTED_SHA
+              value: '{{ $root.Values.checkImportedSHA }}'
+            - name: NOLOCK
+              value: "1"
+            - name: NOBACKUP
+              value: "1"
+            - name: TEST_SERVER
+              value: '{{ $root.Values.testServer }}'
+            - name: PROD_SERVER
+              value: '{{ $root.Values.prodServer }}'
             - name: ONLY
               value: {{ .proj }}
             - name: GHA2DB_PROPAGATE_ONLY_VAR
-              value: "1"
-            - name: GHA2DB_CHECK_PROVISION_FLAG
-              value: "1"
-            - name: GHA2DB_CHECK_RUNNING_FLAG
-              value: "1"
-            - name: GHA2DB_SET_RUNNING_FLAG
               value: "1"
             - name: GHA2DB_NCPUS
               value: '{{ $root.Values.nCPUs }}'
@@ -71,6 +85,10 @@ spec:
               value: '{{ $root.Values.reposDir }}'
             - name: GHA2DB_COMPANY_ACQ_YAML
               value: '{{ $root.Values.companyAcq }}'
+            - name: GHA2DB_PROJECTS_YAML
+              value: {{ $root.Values.projectsFile }}
+            - name: GHA2DB_PROJECTS_OVERRIDE
+              value: {{ $root.Values.projectsOverride }}
             - name: GHA2DB_AFFILIATIONS_JSON
               value: '{{ $root.Values.affiliations }}'
             - name: GHA2DB_COMPUTE_ALL
@@ -83,10 +101,14 @@ spec:
               value: '{{ $root.Values.onlyMetrics }}'
             - name: GHA2DB_FORCE_PERIODS
               value: '{{ $root.Values.periods }}'
-            - name: GHA2DB_PROJECTS_YAML
-              value: {{ $root.Values.projectsFile }}
-            - name: GHA2DB_PROJECTS_OVERRIDE
-              value: {{ $root.Values.projectsOverride }}
+            - name: USE_FLAGS
+              value: '{{ $root.Values.useFlags }}'
+            - name: REPOS
+              value: '{{ $root.Values.useRepos }}'
+            - name: PDROP
+              value: '{{ $root.Values.reinitDropDB }}'
+            - name: MERGE_MODE
+              value: '{{ $root.Values.mergeMode }}'
             - name: GHA2DB_GITHUB_OAUTH
               valueFrom:
                 secretKeyRef:
@@ -107,6 +129,21 @@ spec:
                 secretKeyRef:
                   name: {{ $root.Values.pgSecret }}
                   key: PG_PASS.secret
+            - name: PG_PASS_RO
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $root.Values.pgSecret }}
+                  key: PG_PASS_RO.secret
+            - name: PG_PASS_TEAM
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $root.Values.pgSecret }}
+                  key: PG_PASS_TEAM.secret
+            - name: PG_ADMIN_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $root.Values.pgSecret }}
+                  key: PG_ADMIN_USER.secret
             image: {{ $root.Values.syncImage }}
             imagePullPolicy: {{ $root.Values.imagePullPolicy }}
             name: '{{ $root.Values.syncPodName }}-{{ .proj }}'

@@ -69,6 +69,10 @@ spec:
               value: '{{ $root.Values.queryOut }}'
             - name: GHA2DB_REPOS_DIR
               value: '{{ $root.Values.reposDir }}'
+            - name: GET_AFFS_FILES
+              value: '{{ $root.Values.getAffsFiles }}'
+            - name: GHA2DB_CHECK_IMPORTED_SHA
+              value: '{{ $root.Values.checkImportedSHA }}'
             - name: GHA2DB_COMPANY_ACQ_YAML
               value: '{{ $root.Values.companyAcq }}'
             - name: GHA2DB_AFFILIATIONS_JSON

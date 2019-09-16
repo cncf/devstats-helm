@@ -70,6 +70,10 @@ spec:
       value: '{{ .Values.queryOut }}'
     - name: GHA2DB_REPOS_DIR
       value: '{{ .Values.reposDir }}'
+    - name: GET_AFFS_FILES
+      value: '{{ .Values.getAffsFiles }}'
+    - name: GHA2DB_CHECK_IMPORTED_SHA
+      value: '{{ .Values.checkImportedSHA }}'
     - name: GHA2DB_COMPANY_ACQ_YAML
       value: '{{ .Values.companyAcq }}'
     - name: GHA2DB_PROJECTS_YAML

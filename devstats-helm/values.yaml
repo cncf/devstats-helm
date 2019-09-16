@@ -50,6 +50,8 @@
 # nCPUs: 0
 #
 # Other evrironment options
+# affiliationsCommandArgs:
+#   - "affsarg"
 # backupsImage: 'lukaszgryglicki/devstats-prod'
 # backupsOnlyProjects: 'kubernetes prometheus fluentd'
 # bootstrapCommand: 'sleep'
@@ -115,6 +117,10 @@
 # backupsCommandArgs:
 #   - "36000s"
 affiliations: 'github_users.json'
+affiliationsCommand: './devstats-helm/affs.sh'
+affiliationsCronHistoryLimit: 2
+affiliationsGetAffsFiles: '1'
+affiliationsPodName: 'devstats-affiliations'
 appNodeSelector:
   node: devstats-app
 backupsNodeSelector:
@@ -141,6 +147,7 @@ bootstrapNoCreate: ''
 bootstrapPodName: devstats-provision-bootstrap
 bootstrapRestartPolicy: Never
 bootstrapUDrop: ''
+checkImportedSHA: '1'
 companyAcq: "companies.yaml"
 concurrencyPolicy: Forbid
 domains:
@@ -158,6 +165,7 @@ domains:
     shortname: graphql
 forceAddAll: '1'
 fullnameOverride: devstats
+getAffsFiles: ''
 grafanaCommand: 'grafana_start.sh'
 grafanaImage: 'lukaszgryglicki/devstats-grafana'
 grafanaMaxSurge: 1
@@ -329,6 +337,8 @@ projects:
     org: 'Kubernetes'
     repo: 'kubernetes/kubernetes'
     cron: '7 * * * *'
+    affCron: '30 1 * * 0'
+    affUseTemp: ''
     disk: 50Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-108085315-1'
