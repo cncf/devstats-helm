@@ -120,7 +120,9 @@ affiliations: 'github_users.json'
 affiliationsCommand: './devstats-helm/affs.sh'
 affiliationsCronHistoryLimit: 2
 affiliationsGetAffsFiles: '1'
+affiliationsImage: 'lukaszgryglicki/devstats-test'
 affiliationsPodName: 'devstats-affiliations'
+affiliationsRestartPolicy: Never
 appNodeSelector:
   node: devstats-app
 backupsNodeSelector:

@@ -81,8 +81,6 @@ spec:
               value: '{{ $root.Values.githubDebug }}'
             - name: GHA2DB_QOUT
               value: '{{ $root.Values.queryOut }}'
-            - name: GHA2DB_REPOS_DIR
-              value: '{{ $root.Values.reposDir }}'
             - name: GHA2DB_COMPANY_ACQ_YAML
               value: '{{ $root.Values.companyAcq }}'
             - name: GHA2DB_PROJECTS_YAML
@@ -103,12 +101,6 @@ spec:
               value: '{{ $root.Values.periods }}'
             - name: USE_FLAGS
               value: '{{ $root.Values.useFlags }}'
-            - name: REPOS
-              value: '{{ $root.Values.useRepos }}'
-            - name: PDROP
-              value: '{{ $root.Values.reinitDropDB }}'
-            - name: MERGE_MODE
-              value: '{{ $root.Values.mergeMode }}'
             - name: GHA2DB_GITHUB_OAUTH
               valueFrom:
                 secretKeyRef:
@@ -144,9 +136,9 @@ spec:
                 secretKeyRef:
                   name: {{ $root.Values.pgSecret }}
                   key: PG_ADMIN_USER.secret
-            image: {{ $root.Values.syncImage }}
+            image: {{ $root.Values.affiliationsImage }}
             imagePullPolicy: {{ $root.Values.imagePullPolicy }}
-            name: '{{ $root.Values.syncPodName }}-{{ .proj }}'
+            name: '{{ $root.Values.affiliationsPodName }}-{{ .proj }}'
             volumeMounts:
             - name: '{{ $root.Values.volumeMountName }}-{{ .proj }}'
               mountPath: '{{ $root.Values.volumeMountPath }}'
@@ -154,7 +146,7 @@ spec:
           - name: '{{ $root.Values.volumeName }}-{{ .proj }}'
             persistentVolumeClaim:
               claimName: '{{ $root.Values.pvName }}-{{ .proj }}'
-          restartPolicy: {{ $root.Values.syncRestartPolicy }}
+          restartPolicy: {{ $root.Values.affiliationsRestartPolicy }}
           nodeSelector:
 {{- with $root.Values.appNodeSelector -}}
 {{ toYaml . | nindent 12 }}
