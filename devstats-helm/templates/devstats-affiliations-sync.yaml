@@ -1,0 +1,127 @@
+{{- $skipCrons := .Values.skipCrons -}}
+{{ if not $skipCrons }}
+{{- $root := . -}}
+{{- range $index, $_ := .Values.projects -}}
+{{- if and (or (eq ($index|int) ($root.Values.indexCronsFrom|int)) (gt ($index|int) ($root.Values.indexCronsFrom|int))) (lt ($index|int) ($root.Values.indexCronsTo|int)) -}}
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  namespace: '{{ $root.Values.namespace }}'
+  name: '{{ $root.Values.syncPodName }}-{{ .proj }}'
+  labels:
+    name: devstats
+    type: 'cron'
+    proj: {{ .proj }}
+spec:
+  schedule: '{{ .cron }}'
+  successfulJobsHistoryLimit: {{ $root.Values.syncCronHistoryLimit }}
+  concurrencyPolicy: {{ $root.Values.concurrencyPolicy }}
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          namespace: '{{ $root.Values.namespace }}'
+          name: '{{ $root.Values.syncPodName }}-{{ .proj }}'
+          labels:
+            name: devstats
+            type: 'sync'
+            proj: {{ .proj }}
+        spec:
+          containers:
+          - command:
+            - {{ $root.Values.syncCommand }}
+{{ if $root.Values.syncCommandArgs }}
+            args:
+{{- with $root.Values.syncCommandArgs -}}
+{{ toYaml . | nindent 14 }}
+{{ end }}
+{{ end }}
+{{ if $root.Values.useCronsResourcesLimits }}
+            resources:
+              requests:
+                memory: '{{ $root.Values.requestsCronsMemory }}'
+                cpu: '{{ $root.Values.requestsCronsCPU }}'
+              limits:
+                memory: '{{ $root.Values.limitsCronsMemory }}'
+                cpu: '{{ $root.Values.limitsCronsCPU }}'
+{{ end }}
+            env:
+            - name: ONLY
+              value: {{ .proj }}
+            - name: GHA2DB_PROPAGATE_ONLY_VAR
+              value: "1"
+            - name: GHA2DB_CHECK_PROVISION_FLAG
+              value: "1"
+            - name: GHA2DB_CHECK_RUNNING_FLAG
+              value: "1"
+            - name: GHA2DB_SET_RUNNING_FLAG
+              value: "1"
+            - name: GHA2DB_NCPUS
+              value: '{{ $root.Values.nCPUs }}'
+            - name: GHA2DB_DEBUG
+              value: '{{ $root.Values.debug }}'
+            - name: GHA2DB_CMDDEBUG
+              value: '{{ $root.Values.cmdDebug }}'
+            - name: GHA2DB_GITHUB_DEBUG
+              value: '{{ $root.Values.githubDebug }}'
+            - name: GHA2DB_QOUT
+              value: '{{ $root.Values.queryOut }}'
+            - name: GHA2DB_REPOS_DIR
+              value: '{{ $root.Values.reposDir }}'
+            - name: GHA2DB_COMPANY_ACQ_YAML
+              value: '{{ $root.Values.companyAcq }}'
+            - name: GHA2DB_AFFILIATIONS_JSON
+              value: '{{ $root.Values.affiliations }}'
+            - name: GHA2DB_COMPUTE_ALL
+              value: '{{ $root.Values.forceComputeAll }}'
+            - name: GHA2DB_SKIP_METRICS
+              value: '{{ $root.Values.skipMetrics }}'
+            - name: GHA2DB_EXCLUDE_VARS
+              value: '{{ $root.Values.excludeVars }}'
+            - name: GHA2DB_ONLY_METRICS
+              value: '{{ $root.Values.onlyMetrics }}'
+            - name: GHA2DB_FORCE_PERIODS
+              value: '{{ $root.Values.periods }}'
+            - name: GHA2DB_PROJECTS_YAML
+              value: {{ $root.Values.projectsFile }}
+            - name: GHA2DB_PROJECTS_OVERRIDE
+              value: {{ $root.Values.projectsOverride }}
+            - name: GHA2DB_GITHUB_OAUTH
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $root.Values.oauthSecret }}
+                  key: GHA2DB_GITHUB_OAUTH.secret
+            - name: PG_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $root.Values.pgSecret }}
+                  key: PG_HOST.secret
+            - name: PG_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $root.Values.pgSecret }}
+                  key: PG_PORT.secret
+            - name: PG_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $root.Values.pgSecret }}
+                  key: PG_PASS.secret
+            image: {{ $root.Values.syncImage }}
+            imagePullPolicy: {{ $root.Values.imagePullPolicy }}
+            name: '{{ $root.Values.syncPodName }}-{{ .proj }}'
+            volumeMounts:
+            - name: '{{ $root.Values.volumeMountName }}-{{ .proj }}'
+              mountPath: '{{ $root.Values.volumeMountPath }}'
+          volumes:
+          - name: '{{ $root.Values.volumeName }}-{{ .proj }}'
+            persistentVolumeClaim:
+              claimName: '{{ $root.Values.pvName }}-{{ .proj }}'
+          restartPolicy: {{ $root.Values.syncRestartPolicy }}
+          nodeSelector:
+{{- with $root.Values.appNodeSelector -}}
+{{ toYaml . | nindent 12 }}
+{{ end }}
+{{ end }}
+{{ end }}
+{{ end }}

@@ -15,6 +15,7 @@
 # You can skip some parts of the deployment (useful when deploying partailly again)
 # skipBootstrap (will not run initial bootstrapping - creating logs and users, but you don't need to skip it - bootstrap pod detects already created resources)
 # skipCrons (will not create new cronjobs, you should set it when cron jobs are already created, if you want to recreate cron jobs, delete existing ones first and do not set this flag)
+# skipAffiliations (will not create new affiliations cronjobs, you should set it when affiliations cron jobs are already created, if you want to recreate cron jobs, delete existing ones first and do not set this flag)
 # skipGrafanas (will not create Grafana deployments)
 # skipPVs (will not attempt to create persistent volume claims, this is usually needed to avoid creating existing resource)
 # skipProvisions (will not create provisioning pods, usually not needed, provisioning pod will detect already provisioned projects and only provision new ones)
@@ -30,6 +31,7 @@
 # skipNamespaces (will skip creating devstats-test and devstats-prod namespaces)
 # skipBootstrap: 1
 # skipCrons: 1
+# skipAffiliations: 1
 # skipGrafanas: 1
 # skipPVs: 1
 # skipProvisions: 1
@@ -168,6 +170,8 @@ grafanaSecret: grafana-secret
 health: ''
 imagePullPolicy: Always
 ingressClass: 'nginx-test'
+indexAffiliationsFrom: 0
+indexAffiliationsTo: 100
 indexCronsFrom: 0
 indexCronsTo: 100
 indexDomainsFrom: 0
@@ -188,6 +192,8 @@ limitsBackupsCPU: '8000m'
 limitsBackupsMemory: '32Gi'
 limitsBootstrapCPU: '4000m'
 limitsBootstrapMemory: '8Gi'
+limitsAffiliationsCPU: '16000m'
+limitsAffiliationsMemory: '128Gi'
 limitsCronsCPU: '16000m'
 limitsCronsMemory: '128Gi'
 limitsGrafanasCPU: '16000m'
@@ -254,6 +260,8 @@ requestsBackupsCPU: '500m'
 requestsBackupsMemory: '1Gi'
 requestsBootstrapCPU: '300m'
 requestsBootstrapMemory: '512Mi'
+requestsAffiliationsCPU: '1000m'
+requestsAffiliationsMemory: '2Gi'
 requestsCronsCPU: '500m'
 requestsCronsMemory: '1Gi'
 requestsGrafanasCPU: '500m'
@@ -303,6 +311,7 @@ useFlags: '1'
 useRepos: ''
 useBackupsResourcesLimits: 1
 useBootstrapResourcesLimits: 1
+useAffiliationsResourcesLimits: 1
 useCronsResourcesLimits: 1
 useGrafanasResourcesLimits: 1
 useProvisionsResourcesLimits: 1
