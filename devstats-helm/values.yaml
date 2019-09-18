@@ -91,6 +91,7 @@
 # provisionCommand: './devstats-helm/set_provisioned_flag.sh'
 # provisionCommand: './devstats-helm/add_metric.sh'
 # provisionCommand: './devstats-helm/restore.sh'
+# provisionCommand: './devstats-helm/grants.sh'
 # provisionCommand: 'sleep'
 # provisionCommandArgs:
 #   - "36000"
