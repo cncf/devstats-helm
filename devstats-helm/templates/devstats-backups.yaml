@@ -12,6 +12,7 @@ metadata:
 spec:
   schedule: '{{ .Values.backupsCron }}'
   successfulJobsHistoryLimit: {{ .Values.backupsCronHistoryLimit }}
+  failedJobsHistoryLimit: {{ .Values.backupsCronFailedHistoryLimit }}
   concurrencyPolicy: {{ .Values.concurrencyPolicy }}
   jobTemplate:
     spec:
