@@ -4,7 +4,8 @@
 {{- range $index, $_ := .Values.projects -}}
 {{- if and (or (eq ($index|int) ($root.Values.indexGrafanasFrom|int)) (gt ($index|int) ($root.Values.indexGrafanasFrom|int))) (lt ($index|int) ($root.Values.indexGrafanasTo|int)) -}}
 ---
-apiVersion: extensions/v1beta1
+# apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   namespace: '{{ $root.Values.namespace }}'
