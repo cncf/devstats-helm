@@ -17,6 +17,7 @@ spec:
   schedule: '{{ .cron }}'
   successfulJobsHistoryLimit: {{ $root.Values.syncCronHistoryLimit }}
   failedJobsHistoryLimit: {{ $root.Values.syncCronFailedHistoryLimit }}
+  startingDeadlineSeconds: {{ $root.Values.syncCronStartingDeadlineSeconds }}
   concurrencyPolicy: {{ $root.Values.concurrencyPolicy }}
   jobTemplate:
     spec:

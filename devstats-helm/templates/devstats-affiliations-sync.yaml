@@ -17,6 +17,7 @@ spec:
   schedule: '{{ .affCron }}'
   successfulJobsHistoryLimit: {{ $root.Values.affiliationsCronHistoryLimit }}
   failedJobsHistoryLimit: {{ $root.Values.affiliationsCronFailedHistoryLimit }}
+  startingDeadlineSeconds: {{ $root.Values.affiliationsCronStartingDeadlineSeconds }}
   concurrencyPolicy: {{ $root.Values.concurrencyPolicy }}
   jobTemplate:
     spec:

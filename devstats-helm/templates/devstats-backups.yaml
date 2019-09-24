@@ -13,6 +13,7 @@ spec:
   schedule: '{{ .Values.backupsCron }}'
   successfulJobsHistoryLimit: {{ .Values.backupsCronHistoryLimit }}
   failedJobsHistoryLimit: {{ .Values.backupsCronFailedHistoryLimit }}
+  startingDeadlineSeconds: {{ .Values.backupsCronStartingDeadlineSeconds }}
   concurrencyPolicy: {{ .Values.concurrencyPolicy }}
   jobTemplate:
     spec:

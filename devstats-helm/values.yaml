@@ -123,6 +123,7 @@ affiliations: 'github_users.json'
 affiliationsCommand: './devstats-helm/affs.sh'
 affiliationsCronHistoryLimit: 2
 affiliationsCronFailedHistoryLimit: 1
+affiliationsCronStartingDeadlineSeconds: 300
 affiliationsGetAffsFiles: '1'
 affiliationsImage: 'lukaszgryglicki/devstats-test'
 affiliationsPodName: 'devstats-affiliations'
@@ -136,6 +137,7 @@ dbNodeSelector:
 backupsCron: '45 3 * * *'
 backupsCronHistoryLimit: 2
 backupsCronFailedHistoryLimit: 1
+backupsCronStartingDeadlineSeconds: 300
 backupsCommand: './devstats-helm/backups.sh'
 backupsOnlyProjects: ''
 backupsImage: 'lukaszgryglicki/devstats-test'
@@ -305,6 +307,7 @@ staticNReplicas: 1
 syncCommand: devstats
 syncCronHistoryLimit: 2
 syncCronFailedHistoryLimit: 1
+syncCronStartingDeadlineSeconds: 180
 syncImage: 'lukaszgryglicki/devstats-minimal-test'
 syncPodName: devstats
 syncRestartPolicy: Never
@@ -317,6 +320,7 @@ testsRestartPolicy: Never
 vacuumCron: '0 0 * * 6'
 vacuumCronHistoryLimit: 1
 vacuumCronFailedHistoryLimit: 1
+vacuumCronStartingDeadlineSeconds: 300
 vacuumCommand: './devel/vacuum_all.sh'
 vacuumImage: 'lukaszgryglicki/devstats-test'
 vacuumPodName: 'devstats-vacuum'
