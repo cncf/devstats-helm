@@ -78,6 +78,7 @@
 # postgresImageName: 'lukaszgryglicki/devstats-patroni'
 # postgresImageName: 'lukaszgryglicki/devstats-patroni-new'
 # periods: 'd7:t,m:f,q:t,y10:f'
+# periods: 'c_j_i:t,c_i_g:t,c_g_n:t,c_i_n:t,c_j_g:t'
 # projectsOverride: '+cncf,+opencontainers,+istio,+knative,+zephyr,+linux,+nodejs'
 # provisionImage: 'lukaszgryglicki/devstats-prod'
 # provisionCommand: './devstats-helm/reinit.sh'
@@ -92,6 +93,7 @@
 # provisionCommand: './devstats-helm/add_metric.sh'
 # provisionCommand: './devstats-helm/restore.sh'
 # provisionCommand: './devstats-helm/grants.sh'
+# provisionCommand: './devstats-helm/periods.sh'
 # provisionCommand: 'sleep'
 # provisionCommandArgs:
 #   - "36000"
