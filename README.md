@@ -27,22 +27,22 @@ This is deployed:
 - `kubectl taint nodes --all node-role.kubernetes.io/master-`.
 - `kubectl get nodes`.
 - Your should now label nodes for `db` and `app` (you can mark all of them `app` and `db` if youd want to allow all types of pods running on all nodes).
-- `kubectl label nodes <node-name> <label-key>=<label-value>`.
+- `kubectl label nodes <node-name> <label-key>=<label-value>`. For example: `kubectl label nodes master.k8s.devstats.cncf.io node=devstats-app`, `kubectl label nodes node-0.k8s.devstats.cncf.io node2=devstats-db`
 
 
 # Install Helm
 
-- `wget https://get.helm.sh/helm-v3.0.0-alpha.1-linux-amd64.tar.gz`.
-- `tar zxfv helm-v3.0.0-alpha.1-linux-amd64.tar.gz`.
+- `wget https://get.helm.sh/helm-v3.0.0-beta.3-linux-amd64.tar.gz`.
+- `tar zxfv helm-v3.0.0-beta.3-linux-amd64.tar.gz`.
 - `mv linux-amd64/helm /usr/local/bin`.
-- `rm -rf linux-amd64/ helm-v3.0.0-alpha.1-linux-amd64.tar.gz`.
+- `rm -rf linux-amd64/ helm-v3.0.0-beta.3-linux-amd64.tar.gz`.
 - `helm init`.
 - `Note that helm v3 no longer needs tiller`.
 
 
 # Setup per-node local storage
 
-- Install OpenEBS: `kubectl apply -f https://openebs.github.io/charts/openebs-operator-0.9.0.yaml`.
+- Install OpenEBS: `kubectl apply -f https://openebs.github.io/charts/openebs-operator-1.2.0.yaml`.
 - Make its local-storage driver the default storage class: `kubectl patch storageclass openebs-hostpath -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'`.
 - Make sure that `/var/openebs` directory on all nodes is placed on the physical volume you want to use for local storage. You can have a huge NVMe disk mounted on `/disk` for instance. In this case `mv /var/openebs /disk/openebs; ln -s /disk/openebs /var/openebs`.
 - You will also need a shared storage for backups (ReadWriteMany access mode - backup pods are writing, static pages are reading).
