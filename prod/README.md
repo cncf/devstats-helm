@@ -52,3 +52,6 @@
 - Reinit All CNCF: `helm install reinit-kubernetes ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipNamespaces=1,provisionImage='lukaszgryglicki/devstats-prod',indexProvisionsFrom=38,indexProvisionsTo=39,provisionCommand='./devstats-helm/reinit.sh'`.
 - Execute SQL command(s) on all projects: `helm install --generate-name ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipNamespaces=1,provisionCommand='./devstats-helm/exec_all_dbs.sh',provisionCommandArgs={'./util_sql/drop_data_1.sql'}`.
 - You can run all those commands via: `./prod/run.sh`.
+
+
+projects that shoul be skipped on prod cluster: `azf cncf fn istio knative linux opencontainers openfaas openwhisk riff rkt sam zephyr`
