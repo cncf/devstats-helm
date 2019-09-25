@@ -13,6 +13,11 @@ metadata:
     proj: default
 spec:
   replicas: {{ .Values.staticNReplicas }}
+  selector:
+    matchLabels:
+      name: devstats
+      type: static
+      proj: default
   template:
     metadata:
       namespace: '{{ .Values.namespace }}'
@@ -92,6 +97,11 @@ metadata:
     proj: '{{ .shortname }}'
 spec:
   replicas: {{ $root.Values.staticNReplicas }}
+  selector:
+    matchLabels:
+      name: devstats
+      type: static
+      proj: '{{ .shortname }}'
   template:
     metadata:
       namespace: '{{ $root.Values.namespace }}'
