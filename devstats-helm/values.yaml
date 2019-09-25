@@ -245,7 +245,7 @@ provisionRestartPolicy: Never
 postgresPort: 5432
 postgresSvcName: 'devstats-postgres'
 postgresImageName: 'lukaszgryglicki/devstats-patroni-new'
-postgresStorageSize: '2800Gi'
+postgresStorageSize: '3000Gi'
 postgresNodes: 4
 postgresSharedBuffers: '96GB'
 postgresMaxConn: 1024
