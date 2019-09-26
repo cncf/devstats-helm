@@ -197,13 +197,13 @@ Database:
 
 Cluster:
 
-- We are using bare metal cluster running `v1.14.2` Kubernetes that is set up manually as descibed in this document.
+- We are using bare metal cluster running `v1.16` Kubernetes that is set up manually as descibed in this document.
 - Currently we're using 4 packet.net servers (type `m2.xlarge.x86`) in `SJC1` zone (US West coast).
 - We are using Helm for deploying entire DevStats project.
 
 UI:
 
-- We are using Grafana 6.2.2, all dashboards, users and datasources are automatically provisioned from JSONs and template files.
+- We are using Grafana 6.3.6, all dashboards, users and datasources are automatically provisioned from JSONs and template files.
 - We're using read-only connection to HA patroni database to take advantage of read-replicas and 4x faster read connections.
 - Grafana is running on plain HTTP and port 3000, ingress controller is responsible for SSL/HTTPS layer.
 - We're using liveness and readiness probles for Grafana instances to allow detecting unhealhty instances and auto-replace by Kubernetes in such cases.

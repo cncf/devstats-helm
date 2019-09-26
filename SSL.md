@@ -13,7 +13,7 @@ curl https://raw.githubusercontent.com/jetstack/cert-manager/release-0.10/docs/t
 curl https://raw.githubusercontent.com/jetstack/cert-manager/release-0.10/docs/tutorials/acme/quick-start/example/staging-issuer.yaml --output cert/cert-issuer-test.yaml
 ```
 - Or use existing ones as an example: `cp cert/cert-issuer.yaml.example cert/cert-issuer.yaml`.
-- Tweak them - change email value: `vim cert/cert-issuer.yaml`.
+- Tweak them - change email value: `vim cert/cert-issuer.yaml`, also set correct `nginx-class`, for example: `class: nginx-prod`.
 - Apply issuers: `kubectl apply -f cert/cert-issuer.yaml`. Do not issue this before DNS is ready. Your an deploy full DevStats before this step, Ingress will be ready with self-signed certificate.
 - Check it: `kubectl get issuers`.
 - If you deployed DevStats before applying cert issuer, you need to delete devstats-ingress and recreate - it will pick up cert issuer and get its certificates.

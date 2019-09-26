@@ -54,4 +54,4 @@
 - You can run all those commands via: `./prod/run.sh`.
 
 
-projects that shoul be skipped on prod cluster: `azf cncf fn istio knative linux opencontainers openfaas openwhisk riff rkt sam zephyr`
+Projects that shoul be skipped on prod cluster: `azf cncf fn istio knative linux opencontainers openfaas openwhisk riff rkt sam zephyr`, `azf\|cncf\|fn\|istio\|knative\|linux\|opencontainers\|openfaas\|openwhisk\|riff\|rkt\|sam\|zephyr`.
