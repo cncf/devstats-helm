@@ -88,14 +88,14 @@ See `ADDING_NEW_PROJECTS.md` for informations about how to add more projects.
 # Domain, DNS and Ingress
 
 - Switch to `prod` context via: `./switch_context.sh prod`.
-- Install `nginx-ingress`: `helm install nginx-ingress-prod stable/nginx-ingress --set controller.ingressClass=nginx-prod`.
+- Install `nginx-ingress`: `helm install nginx-ingress-prod stable/nginx-ingress --set controller.ingressClass=nginx-prod,controller.scope.namespace=devstats-prod,defaultBackend.enabled=false,controller.livenessProbe.initialDelaySeconds=15,controller.livenessProbe.periodSeconds=20,controller.livenessProbe.timeoutSeconds=5,controller.livenessProbe.successThreshold=1,controller.livenessProbe.failureThreshold=5,controller.readinessProbe.initialDelaySeconds=15,controller.readinessProbe.periodSeconds=20,controller.readinessProbe.timeoutSeconds=5,controller.readinessProbe.successThreshold=1,controller.readinessProbe.failureThreshold=5`.
 - Switch to `shared` context via: `./switch_context.sh shared`.
 - Install MetalLB (load balancer): `kubectl apply -f https://raw.githubusercontent.com/danderson/metallb/master/manifests/metallb.yaml`.
 - Configure MetalLB IP addresses (use two IPs from your cluster nodes and/or master): `https://metallb.universe.tf/configuration/`. Use `metallb/config.yaml.example` as an example, replace X.Y.Z.V with one of your nodes static IP.
 - Use file with only prod IP address - so you will be sure that correct IP gets assigned to nginx-ingress-prod-controller.
 - Note External-IP field from `kubectl --namespace devstats-prod get services -o wide -w nginx-ingress-prod-controller`.
 - Switch to `test` context via: `./switch_context.sh test`.
-- Install `nginx-ingress`: `helm install nginx-ingress-test stable/nginx-ingress --set controller.ingressClass=nginx-test`.
+- Install `nginx-ingress`: `helm install nginx-ingress-test stable/nginx-ingress --set controller.ingressClass=nginx-test,controller.scope.namespace=devstats-test,defaultBackend.enabled=false,controller.livenessProbe.initialDelaySeconds=15,controller.livenessProbe.periodSeconds=20,controller.livenessProbe.timeoutSeconds=5,controller.livenessProbe.successThreshold=1,controller.livenessProbe.failureThreshold=5,controller.readinessProbe.initialDelaySeconds=15,controller.readinessProbe.periodSeconds=20,controller.readinessProbe.timeoutSeconds=5,controller.readinessProbe.successThreshold=1,controller.readinessProbe.failureThreshold=5`.
 - Now you can add test server IP to metallb config file and redeploy that config and then configure another nginx-ingress-test-controller.
 - Note External-IP field from `kubectl --namespace devstats-test get services -o wide -w nginx-ingress-test-controller`.
 - Ensure that both test and prod nginx-es are pointing to correct prod and test server IPs respectively.
