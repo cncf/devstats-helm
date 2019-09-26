@@ -87,17 +87,18 @@ See `ADDING_NEW_PROJECTS.md` for informations about how to add more projects.
 
 # Domain, DNS and Ingress
 
-- Switch to `test` context via: `./switch_context.sh test`.
-- First you need `nginx-ingress`: `helm install nginx-ingress-test stable/nginx-ingress --set controller.ingressClass=nginx-test`.
 - Switch to `prod` context via: `./switch_context.sh prod`.
 - Install `nginx-ingress`: `helm install nginx-ingress-prod stable/nginx-ingress --set controller.ingressClass=nginx-prod`.
 - Switch to `shared` context via: `./switch_context.sh shared`.
 - Install MetalLB (load balancer): `kubectl apply -f https://raw.githubusercontent.com/danderson/metallb/master/manifests/metallb.yaml`.
 - Configure MetalLB IP addresses (use two IPs from your cluster nodes and/or master): `https://metallb.universe.tf/configuration/`. Use `metallb/config.yaml.example` as an example, replace X.Y.Z.V with one of your nodes static IP.
-- Use file with only 1 IPaddress first, for prod or test - so you will be sure that correct IP gets assigned to nginx-ingress-controller.
-- Note External-IP fields from `kubectl --namespace devstats-test get services -o wide -w nginx-ingress-test-controller` and `kubectl --namespace devstats-prod get services -o wide -w nginx-ingress-prod-controller`.
-- Now you can add another IP to metallb config file and update/redeploy that config and then configure another nginx-ingress-controller.
-
+- Use file with only prod IP address - so you will be sure that correct IP gets assigned to nginx-ingress-prod-controller.
+- Note External-IP field from `kubectl --namespace devstats-prod get services -o wide -w nginx-ingress-prod-controller`.
+- Switch to `test` context via: `./switch_context.sh test`.
+- Install `nginx-ingress`: `helm install nginx-ingress-test stable/nginx-ingress --set controller.ingressClass=nginx-test`.
+- Now you can add test server IP to metallb config file and redeploy that config and then configure another nginx-ingress-test-controller.
+- Note External-IP field from `kubectl --namespace devstats-test get services -o wide -w nginx-ingress-test-controller`.
+- Ensure that both test and prod nginx-es are pointing to correct prod and test server IPs respectively.
 
 # SSL
 
