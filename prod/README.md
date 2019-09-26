@@ -54,4 +54,6 @@
 - You can run all those commands via: `./prod/run.sh`.
 
 
-Projects that shoul be skipped on prod cluster: `azf cncf fn istio knative linux opencontainers openfaas openwhisk riff rkt sam zephyr`, `azf\|cncf\|fn\|istio\|knative\|linux\|opencontainers\|openfaas\|openwhisk\|riff\|rkt\|sam\|zephyr`.
+Projects that should be skipped on prod cluster: `azf cncf fn istio knative linux opencontainers openfaas openwhisk riff rkt sam zephyr`, `azf\|cncf\|fn\|istio\|knative\|linux\|opencontainers\|openfaas\|openwhisk\|riff\|rkt\|sam\|zephyr`.
+Prod provision ranges: [0, 8), [9, 49), [55, 59), [65]
+Test-only projects: 8, 49, 50, 51, 52, 53, 54, 59, 60, 61, 62, 63, 64

@@ -79,7 +79,7 @@
 # postgresImageName: 'lukaszgryglicki/devstats-patroni-new'
 # periods: 'd7:t,m:f,q:t,y10:f'
 # periods: 'c_j_i:t,c_i_g:t,c_g_n:t,c_i_n:t,c_j_g:t'
-# projectsOverride: '+cncf,+opencontainers,+istio,+knative,+zephyr,+linux,+nodejs'
+# projectsOverride: '+azf,+cncf,+fn,+istio,+knative,+linux,+opencontainers,+openfaas,+openwhisk,+riff,+rkt,+sam,+zephyr'
 # provisionImage: 'lukaszgryglicki/devstats-prod'
 # provisionCommand: './devstats-helm/reinit.sh'
 # provisionCommand: './devstats-helm/repos.sh'
