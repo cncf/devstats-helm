@@ -92,6 +92,7 @@
 # provisionCommand: './devstats-helm/set_provisioned_flag.sh'
 # provisionCommand: './devstats-helm/add_metric.sh'
 # provisionCommand: './devstats-helm/restore.sh'
+# provisionCommand: './devstats-helm/restore_artificial_all.sh'
 # provisionCommand: './devstats-helm/grants.sh'
 # provisionCommand: './devstats-helm/periods.sh'
 # provisionCommand: 'sleep'
