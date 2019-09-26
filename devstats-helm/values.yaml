@@ -104,7 +104,7 @@
 # skipMetrics: 'users_activity,committers_cum'
 # skipMetrics: 'projects_health'
 # skipAddAll: '1' # will skip adding to 'All ...' project regardless of forceAddAllsetting
-# forceAddAll: '' # will force adding to 'All ...' project even if some cro job already created few events with a new project's main repo (so checking for main repo to skipp adding to 'All ...' is not enough).
+# forceAddAll: '' # will force adding to 'All ...' project even if some cro job already created few events with a new project's main repo (so checking for main repo to skip adding to 'All ...' is not enough).
 # https://itnext.io/efs-persistent-volumes-on-aws-kubernetes-193e0035bbfb
 # sslEnv: test
 # useRepos: '1'
@@ -172,7 +172,7 @@ domains:
   - name: 'devstats.graphql.org'
     image: 'lukaszgryglicki/devstats-static-graphql'
     shortname: graphql
-forceAddAll: '1'
+forceAddAll: ''
 fullnameOverride: devstats
 getAffsFiles: ''
 grafanaCommand: 'grafana_start.sh'
