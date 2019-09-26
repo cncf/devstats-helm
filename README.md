@@ -116,7 +116,7 @@ See either `test/README.md` or `prod/README.md`.
 
 You should tweak deployed patroni instances:
 
-- Manually login to a deployed patroni instance (on test and prod namespaces): `cncf/devstats-k8s-lf`:`util/pod_shell.sh devstats-postrges-0`.
+- Manually login to a deployed patroni instance (on test and prod namespaces): `cncf/devstats-k8s-lf`:`util/pod_shell.sh devstats-postgres-0`.
 - Apply the "final one" config from `scripts/patroni_rest_api.sh` script.
 
 
