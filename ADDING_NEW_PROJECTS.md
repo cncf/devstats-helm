@@ -43,6 +43,7 @@
 
 4. Go to `cncf/devstats-helm`:
 
+- Update `prod/README.md` specify new ranges for prod-only and test-only projects (at the bottom of the file).
 - Update `devstats-helm/values.yaml` (add project).
 - Now: N - index of the new project added to `github.com/cncf/devstats-helm/devstats-helm/values.yaml`. M=N+1. Inside `github.com/cncf/devstats-helm`:
 - Consider `forceAddAll=1|tsbd|''` and `skipAddAll=1|''` flags when adding multiple projects, or any project which is disabled or not included in 'All ...'
