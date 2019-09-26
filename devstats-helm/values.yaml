@@ -90,6 +90,7 @@
 # provisionCommand: './devstats-helm/health.sh'
 # provisionCommand: './devstats-helm/clear_devstats_running_flag.sh'
 # provisionCommand: './devstats-helm/set_provisioned_flag.sh'
+# provisionCommand: './devstats-helm/flags.sh'
 # provisionCommand: './devstats-helm/add_metric.sh'
 # provisionCommand: './devstats-helm/restore.sh'
 # provisionCommand: './devstats-helm/restore_artificial_all.sh'
