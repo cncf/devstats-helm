@@ -94,7 +94,9 @@ See `ADDING_NEW_PROJECTS.md` for informations about how to add more projects.
 - Switch to `shared` context via: `./switch_context.sh shared`.
 - Install MetalLB (load balancer): `kubectl apply -f https://raw.githubusercontent.com/danderson/metallb/master/manifests/metallb.yaml`.
 - Configure MetalLB IP addresses (use two IPs from your cluster nodes and/or master): `https://metallb.universe.tf/configuration/`. Use `metallb/config.yaml.example` as an example, replace X.Y.Z.V with one of your nodes static IP.
+- Use file with only 1 IPaddress first, for prod or test - so you will be sure that correct IP gets assigned to nginx-ingress-controller.
 - Note External-IP fields from `kubectl --namespace devstats-test get services -o wide -w nginx-ingress-test-controller` and `kubectl --namespace devstats-prod get services -o wide -w nginx-ingress-prod-controller`.
+- Now you can add another IP to metallb config file and update/redeploy that config and then configure another nginx-ingress-controller.
 
 
 # SSL
