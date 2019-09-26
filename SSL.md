@@ -23,6 +23,11 @@ curl https://raw.githubusercontent.com/jetstack/cert-manager/release-0.10/docs/t
 - In practice you must add prod-issuer on the devstats-test namespace, so special/test projects can also be accessible without SSL warning (and examples in test/README.txt assue this).
 
 
+# Removing hints
+
+- Sometimes `challenge` objects cannot be deleted, even with `--force --grace-period=0` flags, you should edit them and remove finalizers in such cases: `k edit challenge --all-namespaces`.
+
+
 # Helm approach
 
 I had issues with Helm v3 installing this, so I'm just providing this as a reference:
