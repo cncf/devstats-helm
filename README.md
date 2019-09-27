@@ -197,7 +197,7 @@ Database:
 
 Cluster:
 
-- We are using bare metal cluster running `v1.16` Kubernetes that is set up manually as descibed in this document.
+- We are using bare metal cluster running `v1.16` Kubernetes that is set up manually as descibed in this document. Kubernetes uses CoreDNS and docker as CRI, docker uses containerd.
 - Currently we're using 4 packet.net servers (type `m2.xlarge.x86`) in `SJC1` zone (US West coast).
 - We are using Helm for deploying entire DevStats project.
 
