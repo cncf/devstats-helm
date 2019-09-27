@@ -70,6 +70,7 @@
 # ingressClass: 'nginx-prod'
 # namespace: 'devstats-prod'
 # onlyMetrics: 'events,tz'
+# onlyGHA: '1'
 # overwritePostgresCommand: true
 # postgresCommand: 'sleep'
 # postgresCommandArgs:
@@ -231,6 +232,7 @@ name: devstats
 namespace: 'devstats-test'
 nameOverride: devstats
 oauthSecret: github-oauth
+onlyGHA: ''
 patroniLoopWait: 15
 patroniTtl: 60
 patroniRetryTimeout: 60

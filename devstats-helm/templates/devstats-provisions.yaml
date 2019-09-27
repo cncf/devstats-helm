@@ -105,6 +105,8 @@ spec:
       value: '{{ $root.Values.reinitDropDB }}'
     - name: MERGE_MODE
       value: '{{ $root.Values.mergeMode }}'
+    - name: ONLY_GHA
+      value: '{{ $root.Values.onlyGHA }}'
     - name: GHA2DB_GITHUB_OAUTH
       valueFrom:
         secretKeyRef:
