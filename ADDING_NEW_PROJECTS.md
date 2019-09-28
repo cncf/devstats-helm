@@ -16,7 +16,7 @@
 - Do not commit changes until all is ready, or commit with `[no deploy]` in the commit message.
 - Update `projects.yaml` file, also update `all:`.
 - Copy setup scripts and then adjust them: `cp -R oldproject/ projectname/`, `vim projectname/*`. Most them can be shared for all projects in `./shared/`, usually only `psql.sh` is project specific.
-- Update `devel/all_*.txt all/psql.sh grafana/dashboards/all/dashboards.json scripts/all/repo_groups.sql devel/get_icon_type.sh devel/get_icon_source.sh` files.
+- Update `devel/all_*.txt all/psql.sh grafana/dashboards/all/dashboards.json scripts/all/repo_groups.sql devel/get_icon_type.sh devel/get_icon_source.sh devel/add_single_metric.sh` files.
 - Add Google Analytics (GA) for the new domain and keep the `UA-...` code for deployment.
 - Update static index pages `apache/www/index_*`.
 - Update automatic deploy script: `./devel/deploy_all.sh`.

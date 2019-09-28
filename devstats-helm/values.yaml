@@ -59,6 +59,7 @@
 #   - "36000"
 #   - "bootarg"
 # cmdDebug: 1
+# columnsYAML: 'devel/test_columns.yaml'
 # debug: 1
 # excludeVars: 'projects_health_partial_html'
 # forceComputeAll: 1
@@ -68,6 +69,7 @@
 #   - arg2
 # ingressClass: 'nginx-test'
 # ingressClass: 'nginx-prod'
+# metricsYAML: 'devel/test_metrics_health.yaml'
 # namespace: 'devstats-prod'
 # onlyMetrics: 'events,tz'
 # onlyGHA: '1'
@@ -108,6 +110,7 @@
 # skipMetrics: 'projects_health'
 # skipAddAll: '1' # will skip adding to 'All ...' project regardless of forceAddAllsetting
 # forceAddAll: '' # will force adding to 'All ...' project even if some cro job already created few events with a new project's main repo (so checking for main repo to skip adding to 'All ...' is not enough).
+# tagsYAML: 'devel/test_tags.yaml'
 # https://itnext.io/efs-persistent-volumes-on-aws-kubernetes-193e0035bbfb
 # sslEnv: test
 # useRepos: '1'
@@ -162,6 +165,7 @@ bootstrapUDrop: ''
 checkImportedSHA: '1'
 companyAcq: "companies.yaml"
 concurrencyPolicy: Forbid
+columnsYAML: ''
 domains:
   - name: 'teststats.cncf.io'
     image: 'lukaszgryglicki/devstats-static-test'
@@ -228,6 +232,7 @@ limitsStaticsCPU: '4000m'
 limitsStaticsMemory: '2Gi'
 limitsVacuumCPU: '1000m'
 limitsVacuumMemory: '1Gi'
+metricsYAML: ''
 name: devstats
 namespace: 'devstats-test'
 nameOverride: devstats
@@ -316,6 +321,7 @@ syncImage: 'lukaszgryglicki/devstats-minimal-test'
 syncPodName: devstats
 syncRestartPolicy: Never
 sslEnv: prod
+tagsYAML: ''
 testServer: '1'
 testNamespace: 'devstats-test'
 testsImage: 'lukaszgryglicki/devstats-tests'
