@@ -1211,3 +1211,16 @@ projects:
     domains: [1, 1, 0, 0]
     ga: 'UA-145264316-3'
     i: 65
+  - proj: longhorn
+    url: longhorn
+    db: longhorn
+    icon: 'longhorn'
+    org: 'Longhorn'
+    repo: 'longhorn/longhorn'
+    cron: '29 * * * *'
+    affCron: '0 7 * * 1'
+    affSkipTemp: '1'
+    disk: 3Gi
+    domains: [1, 1, 0, 0]
+    ga: 'UA-145264316-4'
+    i: 66
