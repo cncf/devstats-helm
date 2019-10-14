@@ -123,3 +123,6 @@ Prod:
 - Update `reports/cncf_projects_config.csv`.
 - Update `BigQuery/velocity_lf.sql BigQuery/velocity_cncf.sql`.
 - Update `map/hints.csv map/defmaps.csv map/urls.csv map/ranges_sane.csv`.
+
+
+9. You should visit all dashboards and adjust date ranges and for some dashboards automatically selected values.
