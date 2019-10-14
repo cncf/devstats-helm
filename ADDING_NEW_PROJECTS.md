@@ -48,6 +48,7 @@
 - Update `devstats-helm/values.yaml` (add project).
 - Now: N - index of the new project added to `github.com/cncf/devstats-helm/devstats-helm/values.yaml`. M=N+1. Inside `github.com/cncf/devstats-helm`:
 - Consider `forceAddAll=1|tsdb|''` and `skipAddAll=1|''` flags when adding multiple projects, or any project which is disabled or not included in 'All ...'
+- Use `forceAddAll=tsdb` to regenerate 'All CNCF' time series data.
 
 While on the `devstats-test` namespace, `git pull` and then for example if N=55 (index of the new project):
 
