@@ -1218,9 +1218,22 @@ projects:
     org: 'Longhorn'
     repo: 'longhorn/longhorn'
     cron: '29 * * * *'
-    affCron: '0 7 * * 1'
+    affCron: '45 6 * * 2'
     affSkipTemp: '1'
     disk: 3Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-145264316-4'
     i: 66
+  - proj: cii
+    url: cii
+    db: cii
+    icon: 'cii'
+    org: 'CII'
+    repo: 'lodash/lodash'
+    cron: '29 * * * *'
+    affCron: '45 6 * * 3'
+    affSkipTemp: '1'
+    disk: 50Gi
+    domains: [1, 0, 0, 0]
+    ga: ''
+    i: 67
