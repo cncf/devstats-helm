@@ -1229,7 +1229,7 @@ projects:
     db: cii
     icon: 'cii'
     org: 'CII'
-    repo: 'lodash/lodash'
+    repo: '-'
     cron: '29 * * * *'
     affCron: '45 6 * * 3'
     affSkipTemp: '1'
