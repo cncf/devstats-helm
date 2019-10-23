@@ -70,13 +70,14 @@ spec:
           serviceName: devstats-service-{{ .proj }}
           servicePort: 80
 {{ end }}
+{{- $proj := .proj -}}
 {{ range $_, $alias := .aliases }}
   - host: {{ $alias }}
     http:
       paths:
       - path: /
         backend:
-          serviceName: devstats-service-{{ .proj }}
+          serviceName: devstats-service-{{ $proj }}
           servicePort: 80
 {{ end }}
 {{ end }}
