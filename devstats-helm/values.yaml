@@ -1236,4 +1236,5 @@ projects:
     disk: 50Gi
     domains: [1, 0, 0, 0]
     ga: ''
+    aliases: ['devstats.coreinfrastructure.org']
     i: 67
