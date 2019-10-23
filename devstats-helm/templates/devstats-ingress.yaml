@@ -31,6 +31,9 @@ spec:
 {{ if gt ((index .domains $jndex)|int) 0 }}
     - {{ .url }}.{{ $dom }}
 {{ end }}
+{{ range $_, $alias := .aliases }}
+    - {{ $alias }}
+{{ end }}
 {{ end }}
 {{ end }}
 {{ end }}
