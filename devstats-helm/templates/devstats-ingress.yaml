@@ -31,8 +31,10 @@ spec:
 {{ if gt ((index .domains $jndex)|int) 0 }}
     - {{ .url }}.{{ $dom }}
 {{ end }}
+{{ if not $root.Values.skipAliases }}
 {{ range $_, $alias := .aliases }}
     - {{ $alias }}
+{{ end }}
 {{ end }}
 {{ end }}
 {{ end }}
@@ -70,6 +72,7 @@ spec:
           serviceName: devstats-service-{{ .proj }}
           servicePort: 80
 {{ end }}
+{{ if not $root.Values.skipAliases }}
 {{- $proj := .proj -}}
 {{ range $_, $alias := .aliases }}
   - host: {{ $alias }}
@@ -79,6 +82,7 @@ spec:
         backend:
           serviceName: devstats-service-{{ $proj }}
           servicePort: 80
+{{ end }}
 {{ end }}
 {{ end }}
 {{ end }}

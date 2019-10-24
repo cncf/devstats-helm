@@ -45,6 +45,7 @@
 # skipVacuum: ''
 # skipGA: 1
 # skipNamespaces: 1
+# skipAliases: 1
 #
 # You can overwrite the number of CPU autodetected in each pod, setting this to 1 will make each pod single-threaded
 # nCPUs: 0
@@ -308,6 +309,7 @@ servicePodName: devstats-service
 storageAccessModes: ReadWriteOnce
 storageClass: openebs-hostpath
 skipAddAll: ''
+skipAliases: ''
 skipTemp: 1
 # We're using patroni's autovacuum feature.
 skipVacuum: 1
