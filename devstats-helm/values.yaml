@@ -46,6 +46,8 @@
 # skipGA: 1
 # skipNamespaces: 1
 # skipAliases: 1
+# skipImpAffs: 1
+# skipUpdAffs: 1
 #
 # You can overwrite the number of CPU autodetected in each pod, setting this to 1 will make each pod single-threaded
 # nCPUs: 0

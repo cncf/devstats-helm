@@ -79,6 +79,10 @@ spec:
       value: '{{ $root.Values.getAffsFiles }}'
     - name: GHA2DB_CHECK_IMPORTED_SHA
       value: '{{ $root.Values.checkImportedSHA }}'
+    - name: SKIP_IMP_AFFS
+      value: '{{ $root.Values.skipImpAffs }}'
+    - name: SKIP_UPD_AFFS
+      value: '{{ $root.Values.skipUpdAffs }}'
     - name: GHA2DB_COMPANY_ACQ_YAML
       value: '{{ $root.Values.companyAcq }}'
     - name: GHA2DB_PROJECTS_YAML
