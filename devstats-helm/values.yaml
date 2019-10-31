@@ -106,6 +106,7 @@
 # provisionCommandArgs:
 #   - "36000"
 # queryOut: 1
+# reinitDropDB: 1
 # reposDir: "/root/devstats_repos/"
 # restoreFrom: 'https://teststats.cncf.io/'
 # runTests: true
