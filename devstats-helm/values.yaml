@@ -1009,7 +1009,7 @@ projects:
     icon: 'cdf'
     org: 'All CDF'
     repo: '-'
-    cronTest: '53 * * * *'
+    cronTest: '43 * * * *'
     cronProd: '28 * * * *'
     affCronTest: '0 18 * * 0'
     affCronProd: '0 6 * * 0'
