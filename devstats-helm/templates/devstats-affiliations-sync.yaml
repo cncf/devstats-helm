@@ -14,7 +14,7 @@ metadata:
     type: 'affiliations-cron'
     proj: {{ .proj }}
 spec:
-{{ if $root.Values.testServer }}
+{{ if and ($root.Values.testServer) (not $root.Values.prodServer) }}
   schedule: '{{ .affCronTest }}'
 {{ else }}
   schedule: '{{ .affCronProd }}'

@@ -14,11 +14,11 @@ metadata:
     type: 'cron'
     proj: {{ .proj }}
 spec:
-+{{ if $root.Values.testServer }}
-+  schedule: '{{ .cronTest }}'
-+{{ else }}
-+  schedule: '{{ .cronProd }}'
-+{{ end }}
+{{ if and ($root.Values.testServer) (not $root.Values.prodServer) }}
+  schedule: '{{ .cronTest }}'
+{{ else }}
+  schedule: '{{ .cronProd }}'
+{{ end }}
   successfulJobsHistoryLimit: {{ $root.Values.syncCronHistoryLimit }}
   failedJobsHistoryLimit: {{ $root.Values.syncCronFailedHistoryLimit }}
   startingDeadlineSeconds: {{ $root.Values.syncCronStartingDeadlineSeconds }}
