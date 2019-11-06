@@ -14,7 +14,11 @@ metadata:
     type: 'affiliations-cron'
     proj: {{ .proj }}
 spec:
-  schedule: '{{ .affCron }}'
+{{ if $root.Values.testServer }}
+  schedule: '{{ .affCronTest }}'
+{{ else }}
+  schedule: '{{ .affCronProd }}'
+{{ end }}
   successfulJobsHistoryLimit: {{ $root.Values.affiliationsCronHistoryLimit }}
   failedJobsHistoryLimit: {{ $root.Values.affiliationsCronFailedHistoryLimit }}
   startingDeadlineSeconds: {{ $root.Values.affiliationsCronStartingDeadlineSeconds }}
