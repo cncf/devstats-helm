@@ -381,8 +381,8 @@ projects:
     repo: 'prometheus/prometheus'
     cronTest: '8 * * * *'
     cronProd: '8 * * * *'
-    affCronTest: '0 2 * * 1'
-    affCronProd: '0 14 * * 1'
+    affCronTest: '0 14 * * 1'
+    affCronProd: '0 2 * * 1'
     affSkipTemp: '1'
     disk: 5Gi
     domains: [1, 1, 0, 0]
@@ -936,8 +936,8 @@ projects:
     repo: '-'
     cronTest: '50 * * * *'
     cronProd: '27 * * * *'
-    affCronTest: '15 7 * * 6'
-    affCronProd: '15 19 * * 6'
+    affCronTest: '15 19 * * 6'
+    affCronProd: '15 7 * * 6'
     affSkipTemp: '1'
     disk: 150Gi
     domains: [1, 1, 0, 0]
