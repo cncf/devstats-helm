@@ -6,11 +6,11 @@ Please make sure that you have DNS configured and ingress controller working wit
 
 - Create cert-manager namespace: `kubectl create namespace cert-manager`.
 - Configure/label namespace: `kubectl label namespace cert-manager certmanager.k8s.io/disable-validation=true`.
-- Install cert manager (includes CRDs): `kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v0.10.0/cert-manager.yaml`.
+- Install cert manager (includes CRDs): `kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.12.0/cert-manager.yaml`.
 - Download prod/staging issuer(s):
 ```
-curl https://raw.githubusercontent.com/jetstack/cert-manager/release-0.10/docs/tutorials/acme/quick-start/example/production-issuer.yaml --output cert/cert-issuer-prod.yaml
-curl https://raw.githubusercontent.com/jetstack/cert-manager/release-0.10/docs/tutorials/acme/quick-start/example/staging-issuer.yaml --output cert/cert-issuer-test.yaml
+curl https://raw.githubusercontent.com/jetstack/cert-manager/release-0.12/docs/tutorials/acme/quick-start/example/production-issuer.yaml --output cert/cert-issuer-prod.yaml
+curl https://raw.githubusercontent.com/jetstack/cert-manager/release-0.12/docs/tutorials/acme/quick-start/example/staging-issuer.yaml --output cert/cert-issuer-test.yaml
 ```
 - Or use existing ones as an example: `cp cert/cert-issuer.yaml.example cert/cert-issuer.yaml`.
 - Tweak them - change email value: `vim cert/cert-issuer.yaml`, also set correct `nginx-class`, for example: `class: nginx-prod`.
