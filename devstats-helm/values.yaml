@@ -1393,4 +1393,5 @@ projects:
     disk: 6Gi
     domains: [1, 0, 0, 0]
     ga: ''
+    aliases: ['prestodb.devstats.prestodb.io']
     i: 68
