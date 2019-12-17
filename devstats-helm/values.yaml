@@ -1395,3 +1395,18 @@ projects:
     ga: ''
     aliases: ['prestodb.devstats.prestodb.io']
     i: 68
+  - proj: chubaofs
+    url: chubaofs
+    db: chubaofs
+    icon: 'chubaofs'
+    org: 'ChubaoFS'
+    repo: 'chubaofs/chubaofs'
+    cronTest: '29 * * * *'
+    cronProd: '29 * * * *'
+    affCronTest: '55 20 * * 3'
+    affCronProd: '55 10 * * 3'
+    affSkipTemp: '1'
+    disk: 5Gi
+    domains: [1, 1, 0, 0]
+    ga: 'UA-145264316-5'
+    i: 69
