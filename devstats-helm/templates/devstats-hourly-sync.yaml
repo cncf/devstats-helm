@@ -63,6 +63,8 @@ spec:
               value: "1"
             - name: GHA2DB_SET_RUNNING_FLAG
               value: "1"
+            - name: GIANT
+              value: '{{ $root.Values.giant }}'
             - name: GHA2DB_NCPUS
               value: '{{ $root.Values.nCPUs }}'
             - name: GHA2DB_DEBUG

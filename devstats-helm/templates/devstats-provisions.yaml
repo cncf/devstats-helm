@@ -41,6 +41,8 @@ spec:
       value: '{{ .repo }}'
     - name: SKIPTEMP
       value: '{{ $root.Values.skipTemp }}'
+    - name: GIANT
+      value: '{{ $root.Values.giant }}'
     - name: NOLOCK
       value: "1"
     - name: NOBACKUP

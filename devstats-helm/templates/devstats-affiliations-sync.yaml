@@ -61,6 +61,8 @@ spec:
               value: '{{ .repo }}'
             - name: SKIPTEMP
               value: '{{ .affSkipTemp }}'
+            - name: GIANT
+              value: '{{ $root.Values.giant }}'
             - name: GET_AFFS_FILES
               value: '{{ $root.Values.affiliationsGetAffsFiles }}'
             - name: GHA2DB_CHECK_IMPORTED_SHA
