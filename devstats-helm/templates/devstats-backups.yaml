@@ -52,6 +52,8 @@ spec:
               value: '{{ .Values.backupsOnlyProjects}}'
             - name: DBDEBUG
               value: '{{ .Values.debug }}'
+            - name: GIANT
+              value: '{{ .Values.giant }}'
             - name: PG_PORT
               valueFrom:
                 secretKeyRef:

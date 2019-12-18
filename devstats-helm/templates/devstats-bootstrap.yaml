@@ -92,6 +92,8 @@ spec:
       value: '{{ .Values.onlyMetrics }}'
     - name: GHA2DB_FORCE_PERIODS
       value: '{{ .Values.periods }}'
+    - name: GIANT
+      value: '{{ .Values.giant }}'
     - name: GHA2DB_GITHUB_OAUTH
       valueFrom:
         secretKeyRef:
