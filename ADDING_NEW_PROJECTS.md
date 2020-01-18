@@ -129,3 +129,7 @@ Prod:
 
 
 9. You should visit all dashboards and adjust date ranges and for some dashboards automatically selected values.
+
+10. Update affiliations.
+
+- Update cncf/gitdm affiliations with [official project maintainers](https://docs.google.com/spreadsheets/d/1Pr8cyp8RLrNGx9WBAgQvBzUUmqyOv69R7QAFKhacJEM/edit#gid=262035321).
