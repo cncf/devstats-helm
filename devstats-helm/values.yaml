@@ -96,6 +96,7 @@
 # provisionCommand: './devstats-helm/affs.sh'
 # provisionCommand: './devstats-helm/annotations.sh'
 # provisionCommand: './devstats-helm/vars.sh'
+# provisionCommand: './devstats-helm/licenses_langs.sh'
 # provisionCommand: './devstats-helm/health.sh'
 # provisionCommand: './devstats-helm/clear_devstats_running_flag.sh'
 # provisionCommand: './devstats-helm/set_provisioned_flag.sh'
