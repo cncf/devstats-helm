@@ -113,7 +113,9 @@
 # reinitDropDB: 1
 # tsdbDrop: 1
 # reposDir: "/root/devstats_repos/"
+# restoreFrom: 'https://devstats.cncf.io/'
 # restoreFrom: 'https://teststats.cncf.io/'
+# restoreFrom: 'https://teststats.cncf.io/backups/'
 # runTests: true
 # skipMetrics: 'users_activity,committers_cum'
 # skipMetrics: 'projects_health'
@@ -312,7 +314,7 @@ requestsStaticsCPU: '300m'
 requestsStaticsMemory: '512Mi'
 requestsVacuumCPU: '100m'
 requestsVacuumMemory: '256Mi'
-restoreFrom: 'https://devstats.cncf.io/'
+restoreFrom: 'https://devstats.cncf.io/backups/'
 secretType: Opaque
 servicePodName: devstats-service
 storageAccessModes: ReadWriteOnce
