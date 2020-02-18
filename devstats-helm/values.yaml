@@ -111,6 +111,7 @@
 #   - "36000"
 # queryOut: 1
 # reinitDropDB: 1
+# tsdbDrop: 1
 # reposDir: "/root/devstats_repos/"
 # restoreFrom: 'https://teststats.cncf.io/'
 # runTests: true
@@ -337,6 +338,7 @@ testNamespace: 'devstats-test'
 testsImage: 'lukaszgryglicki/devstats-tests'
 testsPodName: devstats-tests
 testsRestartPolicy: Never
+tsdbDrop: ''
 vacuumCron: '0 0 * * 6'
 vacuumCronHistoryLimit: 1
 vacuumCronFailedHistoryLimit: 1

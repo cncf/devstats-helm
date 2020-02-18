@@ -109,6 +109,8 @@ spec:
       value: '{{ $root.Values.useRepos }}'
     - name: PDROP
       value: '{{ $root.Values.reinitDropDB }}'
+    - name: TSDB_DROP
+      value: '{{ $root.Values.tsdbDrop }}'
     - name: MERGE_MODE
       value: '{{ $root.Values.mergeMode }}'
     - name: ONLY_GHA
