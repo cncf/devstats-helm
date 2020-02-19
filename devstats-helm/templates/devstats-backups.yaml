@@ -50,6 +50,8 @@ spec:
               value: '{{ .Values.backupsProdServer }}'
             - name: ONLY
               value: '{{ .Values.backupsOnlyProjects}}'
+            - name: NOAGE
+              value: '{{ .Values.backupsNoAge}}'
             - name: DBDEBUG
               value: '{{ .Values.debug }}'
             - name: GIANT

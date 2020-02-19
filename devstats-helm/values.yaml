@@ -78,8 +78,9 @@
 # metricsYAML: 'devel/test_metrics_health.yaml'
 # namespace: 'devstats-prod'
 # onlyMetrics: 'events,tz'
-# onlyGHA: '1'    # finish after psql.sh part (this allows running for example artificial events backup restore after GHA data is populated)
-# onlyGHA: '1'    # in DB restore mode it assumes that DB backup only had GHA data and all other stuff must be regenerated
+# in provision mode: finish after psql.sh part (this allows running for example artificial events backup restore after GHA data is populated)
+# in DB restore mode: assumes that DB backup only had GHA data and all other stuff must be regenerated
+# onlyGHA: '1'
 # overwritePostgresCommand: true
 # postgresCommand: 'sleep'
 # postgresCommandArgs:
@@ -136,6 +137,7 @@
 #   - "syncarg"
 # backupsCommand: '/bin/sleep'
 # backupsCommandArgs:
+# backupsNoAge: '1'
 #   - "36000s"
 affiliations: 'github_users.json'
 affiliationsCommand: './devstats-helm/affs.sh'
@@ -157,6 +159,7 @@ backupsCronHistoryLimit: 2
 backupsCronFailedHistoryLimit: 1
 backupsCronStartingDeadlineSeconds: 300
 backupsCommand: './devstats-helm/backups.sh'
+backupsNoAge: ''
 backupsOnlyProjects: ''
 backupsImage: 'lukaszgryglicki/devstats-test'
 backupsPodName: 'devstats-backups'
