@@ -423,7 +423,7 @@ projects:
     affCronTest: '0 14 * * 3'
     affCronProd: '0 2 * * 3'
     affSkipTemp: '1'
-    disk: 4Gi
+    disk: 10Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-108085315-5'
     i: 3
