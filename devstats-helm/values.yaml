@@ -78,7 +78,8 @@
 # metricsYAML: 'devel/test_metrics_health.yaml'
 # namespace: 'devstats-prod'
 # onlyMetrics: 'events,tz'
-# onlyGHA: '1'
+# onlyGHA: '1'    # finish after psql.sh part (this allows running for example artificial events backup restore after GHA data is populated)
+# onlyGHA: '1'    # in DB restore mode it assumes that DB backup only had GHA data and all other stuff must be regenerated
 # overwritePostgresCommand: true
 # postgresCommand: 'sleep'
 # postgresCommandArgs:
