@@ -52,7 +52,8 @@ spec:
 {{ if not $root.Values.skipAPI }}
   - http:
       paths:
-      - backend:
+      - path: '{{ $root.Values.apiPath }}'
+        backend:
           serviceName: '{{ $root.Values.apiServiceName }}'
           servicePort: '{{ $root.Values.apiPort }}'
 {{ end }}

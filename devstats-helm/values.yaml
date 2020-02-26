@@ -150,6 +150,7 @@ apiImage: 'lukaszgryglicki/devstats-api'
 apiNReplicas: 1
 apiMaxSurge: 1
 apiMaxUnavailable: 0
+apiPath: '/api/'
 apiPodName: 'devstats-api'
 apiPort: 8080
 apiRestartPolicy: Always
@@ -316,7 +317,7 @@ reportsImage: 'lukaszgryglicki/devstats-reports'
 reportsRestartPolicy: 'Never'
 reportsVolumeMountPath: '/data'
 requestsAPICPU: '200m'
-requestsAPIMemory: '512Gi'
+requestsAPIMemory: '512Mi'
 requestsBackupsCPU: '200m'
 requestsBackupsMemory: '512Mi'
 requestsBootstrapCPU: '300m'
