@@ -50,7 +50,8 @@ spec:
           serviceName: devstats-static-service-default
           servicePort: 80
 {{ if not $root.Values.skipAPI }}
-  - http:
+  - host: {{ .name }}
+    http:
       paths:
       - path: '{{ $root.Values.apiPath }}'
         backend:
