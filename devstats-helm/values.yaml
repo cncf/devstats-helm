@@ -146,7 +146,7 @@
 # backupsNoAge: '1'
 #   - "36000s"
 apiCommand: api
-apiImage: 'lukaszgryglicki/devstats-api'
+apiImage: 'lukaszgryglicki/devstats-api-test'
 apiNReplicas: 1
 apiMaxSurge: 1
 apiMaxUnavailable: 0
