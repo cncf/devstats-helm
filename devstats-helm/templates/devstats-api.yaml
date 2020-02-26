@@ -11,7 +11,7 @@ metadata:
     type: api
 spec:
   ports:
-  - port: {{ .Values.apiPort }}
+  - port: 80
     targetPort: {{ .Values.apiPort }}
     protocol: TCP
   selector:

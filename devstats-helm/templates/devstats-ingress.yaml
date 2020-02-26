@@ -56,7 +56,7 @@ spec:
       - path: '{{ $root.Values.apiPath }}'
         backend:
           serviceName: '{{ $root.Values.apiServiceName }}'
-          servicePort: '{{ $root.Values.apiPort }}'
+          servicePort: 80
 {{ end }}
 {{ range $jndex, $_ := .Values.domains }}
 {{ if and (or (eq ($jndex|int) ($root.Values.indexDomainsFrom|int)) (gt ($jndex|int) ($root.Values.indexDomainsFrom|int))) (lt ($jndex|int) ($root.Values.indexDomainsTo|int)) }}
