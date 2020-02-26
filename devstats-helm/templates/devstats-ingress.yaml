@@ -49,6 +49,13 @@ spec:
       - backend:
           serviceName: devstats-static-service-default
           servicePort: 80
+{{ if not $root.Values.skipAPI }}
+  - http:
+      paths:
+      - backend:
+          serviceName: devstats-api-service
+          servicePort: 8080
+{{ end }}
 {{ range $jndex, $_ := .Values.domains }}
 {{ if and (or (eq ($jndex|int) ($root.Values.indexDomainsFrom|int)) (gt ($jndex|int) ($root.Values.indexDomainsFrom|int))) (lt ($jndex|int) ($root.Values.indexDomainsTo|int)) }}
   - host: {{ .name }}
