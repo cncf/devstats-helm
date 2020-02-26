@@ -8,6 +8,7 @@
 # pgPassTeam: ''
 # pgPassRep: ''
 # pgPort: ''
+# pgUserRO: ''
 # githubOAuth: ''
 # grafanaUser: ''
 # grafanaPassword: ''
@@ -55,6 +56,9 @@
 # nCPUs: 0
 #
 # Other evrironment options
+# apiCommandArgs:
+#   - "36000"
+#   - arg2
 # affiliationsCommandArgs:
 #   - "affsarg"
 # backupsImage: 'lukaszgryglicki/devstats-prod'
@@ -141,6 +145,15 @@
 # backupsCommandArgs:
 # backupsNoAge: '1'
 #   - "36000s"
+apiCommand: api
+apiImage: 'lukaszgryglicki/devstats-api'
+apiNReplicas: 1
+apiMaxSurge: 1
+apiMaxUnavailable: 0
+apiPodName: 'devstats-api'
+apiPort: 8080
+apiRestartPolicy: Always
+apiServiceName: 'devstats-api-service'
 affiliations: 'github_users.json'
 affiliationsCommand: './devstats-helm/affs.sh'
 affiliationsCronHistoryLimit: 2
@@ -230,6 +243,8 @@ indexServicesFrom: 0
 indexServicesTo: 100
 indexStaticsFrom: 0
 indexStaticsTo: 4
+limitsAPICPU: '2000m'
+limitsAPIMemory: '4Gi'
 limitsBackupsCPU: '8000m'
 limitsBackupsMemory: '32Gi'
 limitsBootstrapCPU: '4000m'
@@ -300,6 +315,8 @@ reportsCommandArgs: ['36525d']
 reportsImage: 'lukaszgryglicki/devstats-reports'
 reportsRestartPolicy: 'Never'
 reportsVolumeMountPath: '/data'
+requestsAPICPU: '200m'
+requestsAPIMemory: '512Gi'
 requestsBackupsCPU: '200m'
 requestsBackupsMemory: '512Mi'
 requestsBootstrapCPU: '300m'
@@ -360,6 +377,7 @@ volumeMountPath: '/root'
 volumeName: data
 useFlags: '1'
 useRepos: ''
+useAPIResourcesLimits: 1
 useBackupsResourcesLimits: 1
 useBootstrapResourcesLimits: 1
 useAffiliationsResourcesLimits: 1

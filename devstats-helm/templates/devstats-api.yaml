@@ -1,0 +1,107 @@
+{{- $skipAPI := .Values.skipAPI -}}
+{{ if not $skipAPI }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: '{{ .Values.namespace }}'
+  name: '{{ .Values.apiServiceName }}'
+  labels:
+    name: devstats
+    type: api
+spec:
+  ports:
+  - port: {{ .Values.apiPort }}
+    targetPort: {{ .Values.apiPort }}
+    protocol: TCP
+  selector:
+    name: devstats
+    type: api
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: '{{ .Values.namespace }}'
+  name: '{{ .Values.apiPodName }}'
+  labels:
+    name: devstats
+    type: api
+spec:
+  replicas: {{ .Values.apiNReplicas }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: {{ .Values.apiMaxSurge }}
+      maxUnavailable: {{ .Values.apiMaxUnavailable }}
+  selector:
+    matchLabels:
+      name: devstats
+      type: api
+  template:
+    metadata:
+      namespace: '{{ .Values.namespace }}'
+      labels:
+        name: devstats
+        type: api
+    spec:
+      containers:
+      - command:
+        - {{ .Values.apiCommand }}
+{{ if .Values.apiCommandArgs }}
+        args:
+{{- with .Values.apiCommandArgs -}}
+{{ toYaml . | nindent 10 }}
+{{ end }}
+{{ end }}
+{{ if .Values.useAPIResourcesLimits }}
+        resources:
+          requests:
+            memory: '{{ .Values.requestsAPIMemory }}'
+            cpu: '{{ .Values.requestsAPICPU }}'
+          limits:
+            memory: '{{ .Values.limitsAPIMemory }}'
+            cpu: '{{ .Values.limitsAPICPU }}'
+{{ end }}
+        name: '{{ .Values.apiPodName }}'
+        image: {{ .Values.apiImage }}
+        imagePullPolicy: {{ .Values.imagePullPolicy }}
+        ports:
+        - containerPort: {{ .Values.apiPort }}
+        env:
+        - name: PG_PORT
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.pgSecret }}
+              key: PG_PORT.secret
+        - name: PG_HOST
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.pgSecret }}
+              key: PG_HOST.secret
+        - name: PG_HOST_RO
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.pgSecret }}
+              key: PG_HOST_RO.secret
+        - name: PG_PASS
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.pgSecret }}
+              key: PG_PASS.secret
+        - name: PG_PASS_RO
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.pgSecret }}
+              key: PG_PASS_RO.secret
+        - name: PG_USER_RO
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.pgSecret }}
+              key: PG_USER_RO.secret
+      restartPolicy: {{ .Values.apiRestartPolicy }}
+      nodeSelector:
+{{- with .Values.appNodeSelector -}}
+{{ toYaml . | nindent 8 }}
+{{ end }}
+{{ end }}
+

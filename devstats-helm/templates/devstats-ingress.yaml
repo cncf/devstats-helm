@@ -53,8 +53,8 @@ spec:
   - http:
       paths:
       - backend:
-          serviceName: devstats-api-service
-          servicePort: 8080
+          serviceName: '{{ $root.Values.apiServiceName }}'
+          servicePort: '{{ $root.Values.apiPort }}'
 {{ end }}
 {{ range $jndex, $_ := .Values.domains }}
 {{ if and (or (eq ($jndex|int) ($root.Values.indexDomainsFrom|int)) (gt ($jndex|int) ($root.Values.indexDomainsFrom|int))) (lt ($jndex|int) ($root.Values.indexDomainsTo|int)) }}
