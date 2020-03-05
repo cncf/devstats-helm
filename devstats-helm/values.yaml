@@ -637,7 +637,7 @@ projects:
     db: nats
     icon: 'nats'
     org: 'NATS'
-    repo: 'nats-io/gnatsd'
+    repo: 'nats-io/nats-server'
     cronTest: '14 * * * *'
     cronProd: '14 * * * *'
     affCronTest: '30 14 * * 2'
