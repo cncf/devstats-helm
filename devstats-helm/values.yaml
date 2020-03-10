@@ -28,6 +28,7 @@
 # skipBackupsPV (will not attempt to create backups PV)
 # skipBackups (will not attempt to create backups cronjob)
 # skipAPI (will not attempt to create API service)
+# skipAPIIngress (will not attempt to create API inside ingress)
 # skipVacuum (will not attempt to create vacuum cronjob)
 # skipGA (will skip setting Google Analytics)
 # skipNamespaces (will skip creating devstats-test and devstats-prod namespaces)
@@ -45,6 +46,7 @@
 # skipBackupsPV: 1
 # skipBackups: 1
 # skipAPI: 1
+# skipAPIIngress: 1
 # skipVacuum: ''
 # skipGA: 1
 # skipNamespaces: 1
