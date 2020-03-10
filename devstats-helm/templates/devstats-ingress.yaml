@@ -49,6 +49,8 @@ spec:
       - backend:
           serviceName: devstats-static-service-default
           servicePort: 80
+{{ range $jndex, $_ := .Values.domains }}
+{{ if and (or (eq ($jndex|int) ($root.Values.indexDomainsFrom|int)) (gt ($jndex|int) ($root.Values.indexDomainsFrom|int))) (lt ($jndex|int) ($root.Values.indexDomainsTo|int)) }}
 {{ if not $root.Values.skipAPIIngress }}
   - host: {{ .name }}
     http:
@@ -58,8 +60,6 @@ spec:
           serviceName: '{{ $root.Values.apiServiceName }}'
           servicePort: 80
 {{ end }}
-{{ range $jndex, $_ := .Values.domains }}
-{{ if and (or (eq ($jndex|int) ($root.Values.indexDomainsFrom|int)) (gt ($jndex|int) ($root.Values.indexDomainsFrom|int))) (lt ($jndex|int) ($root.Values.indexDomainsTo|int)) }}
   - host: {{ .name }}
     http:
       paths:

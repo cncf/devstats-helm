@@ -152,7 +152,7 @@ apiImage: 'lukaszgryglicki/devstats-api-test'
 apiNReplicas: 1
 apiMaxSurge: 1
 apiMaxUnavailable: 0
-apiPath: '/api'
+apiPath: '/api/'
 apiPodName: 'devstats-api'
 apiPort: 8080
 apiRestartPolicy: Always
