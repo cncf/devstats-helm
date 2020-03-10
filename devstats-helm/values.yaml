@@ -129,7 +129,7 @@
 # runTests: true
 # skipMetrics: 'users_activity,committers_cum'
 # skipMetrics: 'projects_health'
-# skipAddAll: '1' # will skip adding to 'All ...' project regardless of forceAddAllsetting
+# skipAddAll: '1' # will skip adding to 'All ...' project regardless of forceAddAll setting
 # forceAddAll: '' # will force adding to 'All ...' project even if some cron job already created few events with a new project's main repo (so checking for main repo to skip adding to 'All ...' is not enough). Use 'tsdb' to regenerate 'All CNCF' time series data.
 # tagsYAML: 'devel/test_tags.yaml'
 # https://itnext.io/efs-persistent-volumes-on-aws-kubernetes-193e0035bbfb
