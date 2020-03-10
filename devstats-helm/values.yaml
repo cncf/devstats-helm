@@ -1436,7 +1436,7 @@ projects:
     org: 'ChubaoFS'
     repo: 'chubaofs/chubaofs'
     cronTest: '29 * * * *'
-    cronProd: '29 * * * *'
+    cronProd: '49 * * * *'
     affCronTest: '55 20 * * 3'
     affCronProd: '55 10 * * 3'
     affSkipTemp: '1'
@@ -1444,3 +1444,18 @@ projects:
     domains: [1, 1, 0, 0]
     ga: 'UA-145264316-5'
     i: 69
+  - proj: keda
+    url: keda
+    db: keda
+    icon: keda
+    org: KEDA
+    repo: 'kedacore/keda'
+    cronTest: '30 * * * *'
+    cronProd: '55 * * * *'
+    affCronTest: '0 21 * * 3'
+    affCronProd: '0 11 * * 3'
+    affSkipTemp: '1'
+    disk: 3Gi
+    domains: [1, 1, 0, 0]
+    ga: 'UA-145264316-6'
+    i: 70
