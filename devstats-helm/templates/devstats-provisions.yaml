@@ -115,6 +115,8 @@ spec:
       value: '{{ $root.Values.mergeMode }}'
     - name: ONLY_GHA
       value: '{{ $root.Values.onlyGHA }}'
+    - name: SKIP_ECFRG_RESET
+      value: '{{ $root.Values.skipECFRGReset }}'
     - name: GHA2DB_METRICS_YAML
       value: '{{ $root.Values.metricsYAML }}'
     - name: GHA2DB_TAGS_YAML

@@ -89,6 +89,7 @@
 # in provision mode: finish after psql.sh part (this allows running for example artificial events backup restore after GHA data is populated)
 # in DB restore mode: assumes that DB backup only had GHA data and all other stuff must be regenerated
 # onlyGHA: '1'
+# skipECFRGReset: '1'
 # overwritePostgresCommand: true
 # postgresCommand: 'sleep'
 # postgresCommandArgs:
@@ -274,6 +275,7 @@ namespace: 'devstats-test'
 nameOverride: devstats
 oauthSecret: github-oauth
 onlyGHA: ''
+skipECFRGReset: ''
 patroniLoopWait: 15
 patroniTtl: 60
 patroniRetryTimeout: 60
