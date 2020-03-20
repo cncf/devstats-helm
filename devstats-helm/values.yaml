@@ -1441,8 +1441,8 @@ projects:
     repo: 'chubaofs/chubaofs'
     cronTest: '29 * * * *'
     cronProd: '49 * * * *'
-    affCronTest: '55 20 * * 3'
-    affCronProd: '55 10 * * 3'
+    affCronTest: '0 19 * * 4'
+    affCronProd: '0 7 * * 4'
     affSkipTemp: '1'
     disk: 5Gi
     domains: [1, 1, 0, 0]
@@ -1456,8 +1456,8 @@ projects:
     repo: 'kedacore/keda'
     cronTest: '30 * * * *'
     cronProd: '55 * * * *'
-    affCronTest: '0 21 * * 3'
-    affCronProd: '0 11 * * 3'
+    affCronTest: '0 19 * * 5'
+    affCronProd: '0 7 * * 5'
     affSkipTemp: '1'
     disk: 3Gi
     domains: [1, 1, 0, 0]
@@ -1468,13 +1468,28 @@ projects:
     db: smi
     icon: smi
     org: SMI
-    repo: 'deislabs/smi-spec'
+    repo: 'servicemeshinterface/smi-spec'
     cronTest: '30 * * * *'
     cronProd: '55 * * * *'
-    affCronTest: '10 21 * * 3'
-    affCronProd: '10 11 * * 3'
+    affCronTest: '0 19 * * 6'
+    affCronProd: '0 7 * * 6'
     affSkipTemp: '1'
     disk: 3Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-145264316-7'
     i: 71
+  - proj: argo
+    url: argo
+    db: argo
+    icon: argo
+    org: Argo
+    repo: 'argoproj/argo'
+    cronTest: '31 * * * *'
+    cronProd: '56 * * * *'
+    affCronTest: '15 19 * * 0'
+    affCronProd: '15 7 * * 0'
+    affSkipTemp: '1'
+    disk: 3Gi
+    domains: [1, 1, 0, 0]
+    ga: 'UA-145264316-8'
+    i: 72
