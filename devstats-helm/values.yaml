@@ -821,7 +821,7 @@ projects:
     db: buildpacks
     icon: 'buildpacks'
     org: 'Buildpacks'
-    repo: 'buildpack/lifecycle'
+    repo: 'buildpacks/lifecycle'
     cronTest: '18 * * * *'
     cronProd: '18 * * * *'
     affCronTest: '0 15 * * 0'
