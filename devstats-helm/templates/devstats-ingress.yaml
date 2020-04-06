@@ -1,7 +1,6 @@
 {{- $skipIngress := .Values.skipIngress -}}
 {{ if not $skipIngress }}
 ---
-# apiVersion: extensions/v1beta1
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
@@ -13,10 +12,10 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: '{{ .Values.ingressClass }}'
     acme.cert-manager.io/http01-ingress-class: '{{ .Values.ingressClass }}'
-    # certmanager.k8s.io/issuer: 'letsencrypt-{{ .Values.sslEnv }}'
     cert-manager.io/issuer: 'letsencrypt-{{ .Values.sslEnv }}'
     certmanager.k8s.io/acme-challenge-type: http01
 spec:
+  ingressClassName: '{{ .Values.ingressClass }}'
   tls:
   - hosts:
 {{- $root := . -}}

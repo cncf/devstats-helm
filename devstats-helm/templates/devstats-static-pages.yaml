@@ -1,7 +1,6 @@
 {{- $skipStatic := .Values.skipStatic -}}
 {{ if not $skipStatic }}
 ---
-# apiVersion: extensions/v1beta1
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -85,7 +84,6 @@ spec:
 {{ range $jndex, $_ := .Values.domains }}
 {{ if and (or (eq ($jndex|int) ($root.Values.indexStaticsFrom|int)) (gt ($jndex|int) ($root.Values.indexStaticsFrom|int))) (lt ($jndex|int) ($root.Values.indexStaticsTo|int)) }}
 ---
-# apiVersion: extensions/v1beta1
 apiVersion: apps/v1
 kind: Deployment
 metadata:
