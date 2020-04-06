@@ -1493,3 +1493,18 @@ projects:
     domains: [1, 1, 0, 0]
     ga: 'UA-145264316-8'
     i: 72
+  - proj: volcano
+    url: volcano
+    db: volcano
+    icon: volcano
+    org: Volcano
+    repo: 'volcano-sh/volcano'
+    cronTest: '31 * * * *'
+    cronProd: '56 * * * *'
+    affCronTest: '30 19 * * 0'
+    affCronProd: '30 7 * * 0'
+    affSkipTemp: '1'
+    disk: 3Gi
+    domains: [1, 1, 0, 0]
+    ga: 'UA-145264316-9'
+    i: 73
