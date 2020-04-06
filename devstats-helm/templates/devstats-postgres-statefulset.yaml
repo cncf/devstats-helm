@@ -29,6 +29,8 @@ spec:
         type: postgres
         cluster-name: '{{ .Values.postgresSvcName }}'
     spec:
+      securityContext:
+        fsGroup: 999
       serviceAccountName: '{{ .Values.postgresSvcName }}'
       volumes:
       - name: devshm
@@ -76,8 +78,8 @@ spec:
 {{ end }}
         image: '{{ .Values.postgresImageName }}'
         imagePullPolicy: '{{ .Values.imagePullPolicy }}'
-        securityContext:
-          fsGroup: 999
+        #securityContext:
+        #  fsGroup: 999
         ports:
         - containerPort: 8008
           protocol: TCP
