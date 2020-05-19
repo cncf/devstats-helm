@@ -1,4 +1,4 @@
-# devstats-helm
+﻿# devstats-helm
 DevStats deployment on bare metal Kubernetes using Helm.
 
 This is deployed:
@@ -171,16 +171,16 @@ To debug provisioning use:
 DevStats data sources:
 
 - GHA ([GitHub Archives](https://www.gharchive.org)) this is the main data source, it uses GitHub API in real-time and saves all events from every hour into big compressed files containing all events from that hour (JSON array).
-- GitHub API (we're only using this to track issues/PRs hourly to make sure we're not missing wvents - GHA sometimes misses some events).
+- GitHub API (we're only using this to track issues/PRs hourly to make sure we're not missing events - GHA sometimes misses some events).
 - git - we're storing closes for all GitHub repositories from all projects - that allows file-level granularity commits analysis.
 
 Storage:
 
 - All data from datasources are stored in HA Postgres database (patroni).
-- Git repository clones are stored in per-pod persistent volumes (type node local storage). Each project has its own persisntent volume claim to store its git data.
+- Git repository clones are stored in per-pod persistent volumes (type node local storage). Each project has its own persistent volume claim to store its git data.
 - All volumes used for database or git storage use `ReadWriteOnce` and are private to their corresponding pods.
 - We are using OpenEBS to dynamically provision persistent volumes using local-storage.
-- For ReadWriteMany (RWX) access we're using OpenEBS local-storgae (which provides ReadWriteOnce) and nfs-server-provisioner which allows multiple write access (this is used for backups and exposing Grafana DBs).
+- For ReadWriteMany (RWX) access we're using OpenEBS local-storage (which provides ReadWriteOnce) and nfs-server-provisioner which allows multiple write access (this is used for backups and exposing Grafana DBs).
 - You can also use OpenEBS cStor for storage (optional and not used - this gives redundance at the storage level instead of depending Kubernetes statefulset for redundancy).
 
 Database:
@@ -197,7 +197,7 @@ Database:
 
 Cluster:
 
-- We are using bare metal cluster running `v1.16` Kubernetes that is set up manually as descibed in this document. Kubernetes uses CoreDNS and docker as CRI, docker uses containerd.
+- We are using bare metal cluster running `v1.16` Kubernetes that is set up manually as described in this document. Kubernetes uses CoreDNS and docker as CRI, docker uses containerd.
 - Currently we're using 4 packet.net servers (type `m2.xlarge.x86`) in `SJC1` zone (US West coast).
 - We are using Helm for deploying entire DevStats project.
 
@@ -206,7 +206,7 @@ UI:
 - We are using Grafana 6.3.6, all dashboards, users and datasources are automatically provisioned from JSONs and template files.
 - We're using read-only connection to HA patroni database to take advantage of read-replicas and 4x faster read connections.
 - Grafana is running on plain HTTP and port 3000, ingress controller is responsible for SSL/HTTPS layer.
-- We're using liveness and readiness probles for Grafana instances to allow detecting unhealhty instances and auto-replace by Kubernetes in such cases.
+- We're using liveness and readiness probles for Grafana instances to allow detecting unhealthy instances and auto-replace by Kubernetes in such cases.
 - We're using rolling updates when adding new dashboards to ensure no downtime, we are keeping 2 replicas for Grafanas all time.
 
 DNS:
@@ -227,8 +227,8 @@ Ingress:
 
 Deployment:
 
-- Helm chart allows very specific deployments, you can specify which obejcts should be created and also for which projects.
-- For example you can create only Grafana service for Prometheus, or only provision CNCF with a non-standar command etc.
+- Helm chart allows very specific deployments, you can specify which objects should be created and also for which projects.
+- For example you can create only Grafana service for Prometheus, or only provision CNCF with a non-standard command etc.
 
 Resource configuration:
 
@@ -264,10 +264,10 @@ Kubernetes dashboard
 
 Architecture:
 
-- Bootstrap pod - it is responsible for creating logs database (shared by all devstats pods instances), users (admin, team, readonly), database permissions etc. It waits for patroni HA DB to become ready before doing its job. It doesn't mount aby volumes. Patroni credentials come from secret.
+- Bootstrap pod - it is responsible for creating logs database (shared by all devstats pods instances), users (admin, team, readonly), database permissions etc. It waits for patroni HA DB to become ready before doing its job. It doesn't mount any volumes. Patroni credentials come from secret.
 - Grafana pods - each project has its own Grafana deployment. Grafana pods are not using persistent volumes. They use read-only patroni connection to take advantage of HA (read replicas). Grafana credentials come from secret.
 - Hourly sync cronjobs - each project has its own cron job that runs every hour (on different minute). It uses postgres and github credentials from secret files. It mounts per-project persistent volume to keep git clones stored there. It ensures that no provisioning is running for that project before syncing data. Next cron job can only start when previous finished.
-- Ingress - single instance but containing variable number of configurations (one hostname per one project). It adds https and direct trafic to a proper grafana service instance. `cert-manager` updates its annotations when SSL cert is renewed.
+- Ingress - single instance but containing variable number of configurations (one hostname per one project). It adds https and direct traffic to a proper grafana service instance. `cert-manager` updates its annotations when SSL cert is renewed.
 - Postgres endpoint - endpoint for PostgreSQL master service. On deploy, this does nothing; once spun up, the master pod will direct it to itself.
 - Postgres rolebinding - Postgres RBAC role binding.
 - Postgres role - Postgres RBAC role. Required for the deployed postgres pods to have control over configmaps, endpoint and services required to control leader election and failover.
@@ -276,10 +276,10 @@ Architecture:
 - Postgres service config - placeholder service to keep the leader election endpoint from getting deleted during initial deployment. Not useful for connecting to anything: `postgres-service-config`.
 - Postgres service read-only - service for load-balanced, read-only connections to the pool of PostgreSQL instances: `postgres-service-ro`.
 - Postgres service - service for read/write connections, that is connections to the master node: `postgres-service` - this remains constant while underlying endpoint will direct to the current patroni master node.
-- Provisioning pods - each project initailly starts provisioning pod that generates all its data. They set special flag on their DB so cronjobs will not interfere their work. It waits for patroni to become ready and for bootstrap to be complete (shared logs DB, users, permissions etc.). It uses full devstats image to do provisioning, each project has its own persistent volume that holds git clones data. GitHub and Postgres credentials come from secrets. If cron job is running this won't start (this is to avoid interfering cronjob with a non-standar provision call executed later, for example updating company affiliations etc.)
+- Provisioning pods - each project initailly starts provisioning pod that generates all its data. They set special flag on their DB so cronjobs will not interfere their work. It waits for patroni to become ready and for bootstrap to be complete (shared logs DB, users, permissions etc.). It uses full devstats image to do provisioning, each project has its own persistent volume that holds git clones data. GitHub and Postgres credentials come from secrets. If cron job is running this won't start (this is to avoid interfering cronjob with a non-standard provision call executed later, for example updating company affiliations etc.)
 - Persistent Volumes - each project has its own persistent volume for git repo clones storage, this is used only by provisioning pods and cron jobs.
 - Secrets - holds GitHub OAuth token(s) (DevStats can use >1 token and switch between them when approaching API limits), Postgres credentials and connection parameters, Grafana credentials.
-- Grafana services - each project has its own grafana service. It maps from Grafana port 3000 into 80. They're endpoint for Ingress depending on project (distinguised by hostname).
+- Grafana services - each project has its own grafana service. It maps from Grafana port 3000 into 80. They're endpoint for Ingress depending on project (distinguished by hostname).
 - Backups - cron job that runs daily (at 3 AM or 4 AM test/prod) - it backups all GitHub API data into a RWX volume (OpenEBS + local-storage + NFS) - this is also mounted by Grafana services (to expose each Grafana's SQLite DB) and static content pod (to display links to GH API data backups for all projects).
 - Static content pods - one for default backend showing list of foundations (domains) handled by DevStats, and one for every domain served (to display given domain's projects and DB backups): teststats.cncf.io, devstats.cncf.io, devstats.cd.foundation, devstats.graphql.org.
 - Reports pod - this is a pod doing nothing and waiting forever, you can shell ito it and create DevStats reports from it. It has backups PV mounted RW, so you can put output files there, it is mounted into shared nginx directory, so those reports can be downloaded from the outside world.
