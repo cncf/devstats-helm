@@ -1508,3 +1508,168 @@ projects:
     domains: [1, 1, 0, 0]
     ga: 'UA-145264316-9'
     i: 73
+  - proj: cnigenie
+    url: cnigenie
+    db: cnigenie
+    icon: cnigenie
+    org: CNI-Genie
+    repo: 'cni-genie/CNI-Genie'
+    cronTest: '32 * * * *'
+    cronProd: '57 * * * *'
+    affCronTest: '40 19 * * 1'
+    affCronProd: '40 7 * * 1'
+    affSkipTemp: '1'
+    disk: 3Gi
+    domains: [1, 1, 0, 0]
+    ga: 'UA-145264316-10'
+    i: 74
+  - proj: keptn
+    url: keptn
+    db: keptn
+    icon: keptn
+    org: keptn
+    repo: 'keptn/keptn'
+    cronTest: '32 * * * *'
+    cronProd: '57 * * * *'
+    affCronTest: '50 19 * * 2'
+    affCronProd: '50 7 * * 2'
+    affSkipTemp: '1'
+    disk: 3Gi
+    domains: [1, 1, 0, 0]
+    ga: 'UA-145264316-11'
+    i: 75
+  - proj: kudo
+    url: kudo
+    db: kudo
+    icon: kudo
+    org: Kudo
+    repo: 'kudobuilder/kudo'
+    cronTest: '32 * * * *'
+    cronProd: '57 * * * *'
+    affCronTest: '0 20 * * 3'
+    affCronProd: '0 8 * * 3'
+    affSkipTemp: '1'
+    disk: 3Gi
+    domains: [1, 1, 0, 0]
+    ga: 'UA-145264316-12'
+    i: 76
+  - proj: cloudcustodian
+    url: cloudcustodian
+    db: cloudcustodian
+    icon: cloudcustodian
+    org: Cloud Custodian
+    repo: 'cloud-custodian/cloud-custodian'
+    cronTest: '33 * * * *'
+    cronProd: '58 * * * *'
+    affCronTest: '10 20 * * 4'
+    affCronProd: '10 8 * * 4'
+    affSkipTemp: '1'
+    disk: 3Gi
+    domains: [1, 1, 0, 0]
+    ga: 'UA-145264316-13'
+    i: 77
+  - proj: dex
+    url: dex
+    db: dex
+    icon: dex
+    org: Dex
+    repo: 'dexidp/dex'
+    cronTest: '33 * * * *'
+    cronProd: '58 * * * *'
+    affCronTest: '20 20 * * 5'
+    affCronProd: '20 8 * * 5'
+    affSkipTemp: '1'
+    disk: 3Gi
+    domains: [1, 1, 0, 0]
+    ga: 'UA-145264316-14'
+    i: 78
+  - proj: litmuschaos
+    url: litmuschaos
+    db: litmuschaos
+    icon: litmuschaos
+    org: LitmusChaos
+    repo: 'litmuschaos/litmus'
+    cronTest: '33 * * * *'
+    cronProd: '58 * * * *'
+    affCronTest: '30 20 * * 6'
+    affCronProd: '30 8 * * 6'
+    affSkipTemp: '1'
+    disk: 3Gi
+    domains: [1, 1, 0, 0]
+    ga: 'UA-145264316-15'
+    i: 79
+  - proj: artifacthub
+    url: artifacthub
+    db: artifacthub
+    icon: artifacthub
+    org: Artifact Hub
+    repo: 'artifacthub/hub'
+    cronTest: '34 * * * *'
+    cronProd: '59 * * * *'
+    affCronTest: '40 20 * * 0'
+    affCronProd: '40 8 * * 0'
+    affSkipTemp: '1'
+    disk: 3Gi
+    domains: [1, 1, 0, 0]
+    ga: 'UA-145264316-16'
+    i: 80
+  - proj: kuma
+    url: kuma
+    db: kuma
+    icon: kuma
+    org: Kuma
+    repo: 'Kong/kuma'
+    cronTest: '34 * * * *'
+    cronProd: '59 * * * *'
+    affCronTest: '50 20 * * 1'
+    affCronProd: '50 8 * * 1'
+    affSkipTemp: '1'
+    disk: 3Gi
+    domains: [1, 1, 0, 0]
+    ga: 'UA-145264316-17'
+    i: 81
+  - proj: parsec
+    url: parsec
+    db: parsec
+    icon: parsec
+    org: PARSEC
+    repo: 'parallaxsecond/parsec'
+    cronTest: '34 * * * *'
+    cronProd: '59 * * * *'
+    affCronTest: '0 21 * * 2'
+    affCronProd: '0 9 * * 2'
+    affSkipTemp: '1'
+    disk: 3Gi
+    domains: [1, 1, 0, 0]
+    ga: 'UA-145264316-18'
+    i: 82
+  - proj: bfe
+    url: bfe
+    db: bfe
+    icon: bfe
+    org: BFE
+    repo: 'bfenetworks/bfe'
+    cronTest: '35 * * * *'
+    cronProd: '35 * * * *'
+    affCronTest: '10 21 * * 3'
+    affCronProd: '10 9 * * 3'
+    affSkipTemp: '1'
+    disk: 3Gi
+    domains: [1, 1, 0, 0]
+    ga: 'UA-145264316-19'
+    i: 83
+  - proj: crossplane
+    url: crossplane
+    db: crossplane
+    icon: crossplane
+    org: Crossplane
+    repo: 'crossplane/crossplane'
+    cronTest: '35 * * * *'
+    cronProd: '35 * * * *'
+    affCronTest: '20 21 * * 4'
+    affCronProd: '20 9 * * 4'
+    affSkipTemp: '1'
+    disk: 3Gi
+    domains: [1, 1, 0, 0]
+    ga: 'UA-145264316-20'
+    i: 84
