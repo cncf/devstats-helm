@@ -1618,7 +1618,7 @@ projects:
     db: kuma
     icon: kuma
     org: Kuma
-    repo: 'Kong/kuma'
+    repo: 'kumahq/kuma'
     cronTest: '34 * * * *'
     cronProd: '59 * * * *'
     affCronTest: '50 20 * * 1'
