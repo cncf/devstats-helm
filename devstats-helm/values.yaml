@@ -1673,3 +1673,33 @@ projects:
     domains: [1, 1, 0, 0]
     ga: 'UA-145264316-20'
     i: 84
+  - proj: contour
+    url: contour
+    db: contour
+    icon: contour
+    org: Contour
+    repo: 'projectcontour/contour'
+    cronTest: '36 * * * *'
+    cronProd: '36 * * * *'
+    affCronTest: '20 21 * * 5'
+    affCronProd: '20 9 * * 5'
+    affSkipTemp: '1'
+    disk: 5Gi
+    domains: [1, 1, 0, 0]
+    ga: 'UA-145264316-21'
+    i: 85
+  - proj: operatorframework
+    url: operatorframework
+    db: operatorframework
+    icon: operatorframework
+    org: Operator Framework
+    repo: 'operator-framework/operator-sdk'
+    cronTest: '36 * * * *'
+    cronProd: '36 * * * *'
+    affCronTest: '20 21 * * 6'
+    affCronProd: '20 9 * * 6'
+    affSkipTemp: '1'
+    disk: 5Gi
+    domains: [1, 1, 0, 0]
+    ga: 'UA-145264316-22'
+    i: 86
