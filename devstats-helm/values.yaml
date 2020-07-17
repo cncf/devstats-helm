@@ -1703,3 +1703,33 @@ projects:
     domains: [1, 1, 0, 0]
     ga: 'UA-145264316-22'
     i: 86
+  - proj: chaosmesh
+    url: chaosmesh
+    db: chaosmesh
+    icon: chaosmesh
+    org: Chaos Mesh
+    repo: 'chaos-mesh/chaos-mesh'
+    cronTest: '37 * * * *'
+    cronProd: '37 * * * *'
+    affCronTest: '30 21 * * 0'
+    affCronProd: '30 9 * * 0'
+    affSkipTemp: '1'
+    disk: 3Gi
+    domains: [1, 1, 0, 0]
+    ga: 'UA-145264316-23'
+    i: 87
+  - proj: serverlessworkflow
+    url: serverlessworkflow
+    db: serverlessworkflow
+    icon: serverlessworkflow
+    org: Serverless Workflow
+    repo: 'serverlessworkflow/specification'
+    cronTest: '37 * * * *'
+    cronProd: '37 * * * *'
+    affCronTest: '30 21 * * 1'
+    affCronProd: '30 9 * * 1'
+    affSkipTemp: '1'
+    disk: 3Gi
+    domains: [1, 1, 0, 0]
+    ga: 'UA-145264316-24'
+    i: 88
