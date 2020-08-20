@@ -1733,3 +1733,18 @@ projects:
     domains: [1, 1, 0, 0]
     ga: 'UA-145264316-24'
     i: 88
+  - proj: k3s
+    url: k3s
+    db: k3s
+    icon: k3s
+    org: K3s
+    repo: 'rancher/k3s'
+    cronTest: '37 * * * *'
+    cronProd: '37 * * * *'
+    affCronTest: '40 21 * * 1'
+    affCronProd: '40 9 * * 1'
+    affSkipTemp: '1'
+    disk: 3Gi
+    domains: [1, 1, 0, 0]
+    ga: 'UA-145264316-25'
+    i: 89
