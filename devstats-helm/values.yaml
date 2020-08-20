@@ -1739,8 +1739,8 @@ projects:
     icon: k3s
     org: K3s
     repo: 'rancher/k3s'
-    cronTest: '37 * * * *'
-    cronProd: '37 * * * *'
+    cronTest: '38 * * * *'
+    cronProd: '38 * * * *'
     affCronTest: '40 21 * * 1'
     affCronProd: '40 9 * * 1'
     affSkipTemp: '1'
