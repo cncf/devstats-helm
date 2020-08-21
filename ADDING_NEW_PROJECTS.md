@@ -78,7 +78,7 @@ While on the `devstats-prod` namespace, `git pull` and then for example if N=55 
 
 Both test & prod namespaces:
 
-- To have all dashboards recreated you can also kill all Grafana pods via `../devstats-k8s-lf/util/delete_objects.sh po devstats-grafana`, deployments will recreate them with the newest projects lists.
+- To have all dashboards recreated you can also kill all Grafana pods via `../devstats-k8s-lf/util/delete_objects.sh po devstats-grafana-`, deployments will recreate them with the newest projects lists.
 - Delete intermediate helm installs - those with auto generated name like `devstats-helm-1565240123`: `helm delete devstats-helm-1565240123`.
 
 Regenerate projects health on "summary" projects (follow `cncf/devstats-docker-images`:`devstats-helm/health.sh` instructions):
@@ -97,7 +97,7 @@ Prod:
 - Run health dashboards regenerate on GraphQL project: `helm install --generate-name ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,testServer='',prodServer='1',provisionImage='lukaszgryglicki/devstats-prod',provisionCommand='devstats-helm/health.sh',indexProvisionsFrom=48,indexProvisionsTo=49`.
 - Run health dashboards regenerate on All CDF project: `helm install --generate-name ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,testServer='',prodServer='1',provisionImage='lukaszgryglicki/devstats-prod',provisionCommand='devstats-helm/health.sh',indexProvisionsFrom=43,indexProvisionsTo=44`.
 
-If you used `nCPUs-n` flag during adding a new project, update deployed components not to use that flag anymore (especially cronjobs).
+If you used `nCPUs-n` flag during adding a new project, update deployed components not to use that flag anymore (especially cronjobs). `k edit cj`, then search for: `GHA2DB_NCPUS\n                value:`.
 
 
 5. Go to `cncf/devstats-helm-lf`:
