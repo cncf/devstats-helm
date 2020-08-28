@@ -18,6 +18,7 @@
 - Update `projects.yaml` file, also update `all:`.
 - Copy setup scripts and then adjust them: `cp -R oldproject/ projectname/`, `vim projectname/*`. Most them can be shared for all projects in `./shared/`, usually only `psql.sh` is project specific.
 - Update `devel/all_*.txt all/psql.sh grafana/dashboards/all/dashboards.json scripts/all/repo_groups.sql devel/get_icon_type.sh devel/get_icon_source.sh devel/add_single_metric.sh` files.
+- Add new project repo REGEXP in `util_data/project_re.txt`. Also update `all` and `everything` REGEXPs.
 - Add Google Analytics (GA) for the new domain and keep the `UA-...` code for deployment.
 - Update automatic deploy script: `./devel/deploy_all.sh`.
 - Update static index pages `apache/www/index_*`.
