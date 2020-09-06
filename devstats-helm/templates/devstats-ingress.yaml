@@ -1,7 +1,7 @@
 {{- $skipIngress := .Values.skipIngress -}}
 {{ if not $skipIngress }}
 ---
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   namespace: '{{ .Values.namespace }}'
@@ -45,9 +45,13 @@ spec:
   rules:
   - http:
       paths:
-      - backend:
-          serviceName: devstats-static-service-default
-          servicePort: 80
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: devstats-static-service-default
+            port:
+              number: 80
 {{ range $jndex, $_ := .Values.domains }}
 {{ if and (or (eq ($jndex|int) ($root.Values.indexDomainsFrom|int)) (gt ($jndex|int) ($root.Values.indexDomainsFrom|int))) (lt ($jndex|int) ($root.Values.indexDomainsTo|int)) }}
 {{ if not $root.Values.skipAPIIngress }}
@@ -55,17 +59,23 @@ spec:
     http:
       paths:
       - path: '{{ $root.Values.apiPath }}'
+        pathType: Prefix
         backend:
-          serviceName: '{{ $root.Values.apiServiceName }}'
-          servicePort: 80
+          service:
+            name: '{{ $root.Values.apiServiceName }}'
+            port:
+              number: 80
 {{ end }}
   - host: {{ .name }}
     http:
       paths:
       - path: /
+        pathType: Prefix
         backend:
-          serviceName: devstats-static-service-{{ .shortname }}
-          servicePort: 80
+          service:
+            name: devstats-static-service-{{ .shortname }}
+            port:
+              number: 80
 {{ end }}
 {{ end }}
 {{ range $jndex, $_ := .Values.domains }}
@@ -78,9 +88,12 @@ spec:
     http:
       paths:
       - path: /
+        pathType: Prefix
         backend:
-          serviceName: devstats-service-{{ .proj }}
-          servicePort: 80
+          service:
+            name: devstats-service-{{ .proj }}
+            port:
+              number: 80
 {{ end }}
 {{ if not $root.Values.skipAliases }}
 {{- $proj := .proj -}}
@@ -89,9 +102,12 @@ spec:
     http:
       paths:
       - path: /
+        pathType: Prefix
         backend:
-          serviceName: devstats-service-{{ $proj }}
-          servicePort: 80
+          service:
+            name: devstats-service-{{ $proj }}
+            port:
+              number: 80
 {{ end }}
 {{ end }}
 {{ end }}
