@@ -1741,10 +1741,100 @@ projects:
     repo: 'rancher/k3s'
     cronTest: '38 * * * *'
     cronProd: '38 * * * *'
-    affCronTest: '40 21 * * 1'
-    affCronProd: '40 9 * * 1'
+    affCronTest: '40 21 * * 2'
+    affCronProd: '40 9 * * 2'
     affSkipTemp: '1'
     disk: 3Gi
     domains: [1, 1, 0, 0]
     ga: 'UA-145264316-25'
     i: 89
+  - proj: backstage
+    url: backstage
+    db: backstage
+    icon: backstage
+    org: Backstage
+    repo: 'spotify/backstage'
+    cronTest: '38 * * * *'
+    cronProd: '38 * * * *'
+    affCronTest: '50 21 * * 3'
+    affCronProd: '50 9 * * 3'
+    affSkipTemp: '1'
+    disk: 3Gi
+    domains: [1, 1, 0, 0]
+    ga: 'UA-145264316-26'
+    i: 90
+  - proj: tremor
+    url: tremor
+    db: tremor
+    icon: tremor
+    org: Tremor
+    repo: 'wayfair-tremor/tremor-runtime'
+    cronTest: '39 * * * *'
+    cronProd: '39 * * * *'
+    affCronTest: '0 22 * * 4'
+    affCronProd: '0 10 * * 4'
+    affSkipTemp: '1'
+    disk: 3Gi
+    domains: [1, 1, 0, 0]
+    ga: 'UA-145264316-27'
+    i: 91
+  - proj: metal3
+    url: metal3
+    db: metal3
+    icon: metal3
+    org: Metal³
+    repo: 'metal3/cluster-api-provider-metal3'
+    cronTest: '39 * * * *'
+    cronProd: '39 * * * *'
+    affCronTest: '10 22 * * 5'
+    affCronProd: '10 10 * * 5'
+    affSkipTemp: '1'
+    disk: 3Gi
+    domains: [1, 1, 0, 0]
+    ga: 'UA-145264316-28'
+    i: 92
+  - proj: porter
+    url: porter
+    db: porter
+    icon: porter
+    org: Porter
+    repo: 'desilabs/porter'
+    cronTest: '40 * * * *'
+    cronProd: '40 * * * *'
+    affCronTest: '20 22 * * 6'
+    affCronProd: '20 10 * * 6'
+    affSkipTemp: '1'
+    disk: 3Gi
+    domains: [1, 1, 0, 0]
+    ga: 'UA-145264316-29'
+    i: 93
+  - proj: openyurt
+    url: openyurt
+    db: openyurt
+    icon: openyurt
+    org: OpenYurt
+    repo: 'alibaba/openyurt'
+    cronTest: '40 * * * *'
+    cronProd: '40 * * * *'
+    affCronTest: '30 22 * * 0'
+    affCronProd: '30 10 * * 0'
+    affSkipTemp: '1'
+    disk: 3Gi
+    domains: [1, 1, 0, 0]
+    ga: 'UA-145264316-30'
+    i: 94
+  - proj: openservicemesh
+    url: openservicemesh
+    db: openservicemesh
+    icon: openservicemesh
+    org: 'Open Service Mesh'
+    repo: 'openservicemesh/osm'
+    cronTest: '41 * * * *'
+    cronProd: '41 * * * *'
+    affCronTest: '40 22 * * 1'
+    affCronProd: '40 10 * * 1'
+    affSkipTemp: '1'
+    disk: 3Gi
+    domains: [1, 1, 0, 0]
+    ga: 'UA-145264316-31'
+    i: 95
