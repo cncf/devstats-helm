@@ -10,12 +10,12 @@ metadata:
     name: devstats
     type: 'ingress'
   annotations:
-    #kubernetes.io/ingress.class: '{{ .Values.ingressClass }}'
+    kubernetes.io/ingress.class: '{{ .Values.ingressClass }}'
     acme.cert-manager.io/http01-ingress-class: '{{ .Values.ingressClass }}'
     cert-manager.io/issuer: 'letsencrypt-{{ .Values.sslEnv }}'
     certmanager.k8s.io/acme-challenge-type: http01
 spec:
-  ingressClassName: '{{ .Values.ingressClass }}'
+  # ingressClassName: '{{ .Values.ingressClass }}'
   tls:
   - hosts:
 {{- $root := . -}}
