@@ -1768,7 +1768,7 @@ projects:
     db: tremor
     icon: tremor
     org: Tremor
-    repo: 'wayfair-tremor/tremor-runtime'
+    repo: 'tremor-rs/tremor-runtime'
     cronTest: '39 * * * *'
     cronProd: '39 * * * *'
     affCronTest: '0 22 * * 4'
