@@ -108,7 +108,7 @@ Prod:
 - Run health dashboards regenerate on GraphQL project: `helm install --generate-name ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,testServer='',prodServer='1',provisionImage='lukaszgryglicki/devstats-prod',provisionCommand='devstats-helm/health.sh',indexProvisionsFrom=48,indexProvisionsTo=49`.
 - Run health dashboards regenerate on All CDF project: `helm install --generate-name ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,testServer='',prodServer='1',provisionImage='lukaszgryglicki/devstats-prod',provisionCommand='devstats-helm/health.sh',indexProvisionsFrom=43,indexProvisionsTo=44`.
 
-If you used `nCPUs-n` flag during adding a new project, update deployed components not to use that flag anymore (especially cronjobs). `k edit cj`, then search for: `GHA2DB_NCPUS\n                value:`.
+If you used `nCPUs=n` flag during adding a new project, update deployed components not to use that flag anymore (especially cronjobs). `k edit cj`, then search for: `GHA2DB_NCPUS\n                value:`.
 
 
 5. Go to `cncf/devstats-helm-lf`:
