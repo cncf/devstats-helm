@@ -132,6 +132,15 @@ spec:
     image: {{ .Values.provisionImage }}
     imagePullPolicy: {{ .Values.imagePullPolicy }}
     name: {{ .Values.bootstrapPodName }}
+{{ if .Values.bootstrapMountBackups }}
+    volumeMounts:
+    - name: '{{ .Values.volumeMountName }}-backups'
+      mountPath: '{{ .Values.volumeMountPath }}'
+  volumes:
+  - name: '{{ .Values.volumeName }}-backups'
+    persistentVolumeClaim:
+      claimName: '{{ .Values.backupsPVName }}'
+{{ end }}
   restartPolicy: {{ .Values.bootstrapRestartPolicy }}
   nodeSelector:
 {{- with .Values.appNodeSelector -}}

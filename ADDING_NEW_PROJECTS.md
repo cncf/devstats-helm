@@ -67,6 +67,8 @@ While on the `devstats-test` namespace, `git pull` and then for example if N=55 
 - Eventually update All CNCF tags definitions (will break dashboards for a while): `helm install --generate-name ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,indexProvisionsFrom=38,indexProvisionsTo=39,provisionCommand='./devstats-helm/tags.sh'`.
 - Eventually reinit All CNCF: `helm install --generate-name ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,indexProvisionsFrom=38,indexProvisionsTo=39,provisionCommand='./devstats-helm/reinit.sh'`.
 
+Create backups on test to restore on prod:
+
 While on the `devstats-prod` namespace, `git pull` and then for example if N=55 (index of the new project):
 
 - `git pull`.
