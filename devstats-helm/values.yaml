@@ -1840,3 +1840,18 @@ projects:
     domains: [1, 1, 0, 0]
     ga: 'UA-145264316-31'
     i: 95
+  - proj: keylime
+    url: keylime
+    db: keylime
+    icon: keylime
+    org: 'Keylime'
+    repo: 'keylime/keylime'
+    cronTest: '42 * * * *'
+    cronProd: '42 * * * *'
+    affCronTest: '50 22 * * 2'
+    affCronProd: '50 10 * * 2'
+    affSkipTemp: '1'
+    disk: 5Gi
+    domains: [1, 1, 0, 0]
+    ga: 'UA-145264316-32'
+    i: 96
