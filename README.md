@@ -222,7 +222,7 @@ Ingress:
 
 - We're using `nginx-ingress` to provide HTTPS and to disable plain HTTP access.
 - Ingress holds SSL certificate data in annotations (this is managed by `cert-manager`).
-- Based on the request hostname `prometheus.teststats.cncf.io` or `envoy.devstats.cncf.io` we're redirecting trafic to a specific Grafana service (running on port 80 inside the cluster).
+- Based on the request hostname `prometheus.teststats.cncf.io` or `envoy.devstats.cncf.io` we're redirecting traffic to a specific Grafana service (running on port 80 inside the cluster).
 - Each Grafana has internal (only inside the cluster) service from port 3000 to port 80.
 
 Deployment:
@@ -276,10 +276,10 @@ Architecture:
 - Postgres service config - placeholder service to keep the leader election endpoint from getting deleted during initial deployment. Not useful for connecting to anything: `postgres-service-config`.
 - Postgres service read-only - service for load-balanced, read-only connections to the pool of PostgreSQL instances: `postgres-service-ro`.
 - Postgres service - service for read/write connections, that is connections to the master node: `postgres-service` - this remains constant while underlying endpoint will direct to the current patroni master node.
-- Provisioning pods - each project initailly starts provisioning pod that generates all its data. They set special flag on their DB so cronjobs will not interfere their work. It waits for patroni to become ready and for bootstrap to be complete (shared logs DB, users, permissions etc.). It uses full devstats image to do provisioning, each project has its own persistent volume that holds git clones data. GitHub and Postgres credentials come from secrets. If cron job is running this won't start (this is to avoid interfering cronjob with a non-standard provision call executed later, for example updating company affiliations etc.)
+- Provisioning pods - each project initially starts provisioning pod that generates all its data. They set special flag on their DB so cronjobs will not interfere their work. It waits for patroni to become ready and for bootstrap to be complete (shared logs DB, users, permissions etc.). It uses full devstats image to do provisioning, each project has its own persistent volume that holds git clones data. GitHub and Postgres credentials come from secrets. If cron job is running this won't start (this is to avoid interfering cronjob with a non-standard provision call executed later, for example updating company affiliations etc.)
 - Persistent Volumes - each project has its own persistent volume for git repo clones storage, this is used only by provisioning pods and cron jobs.
 - Secrets - holds GitHub OAuth token(s) (DevStats can use >1 token and switch between them when approaching API limits), Postgres credentials and connection parameters, Grafana credentials.
 - Grafana services - each project has its own grafana service. It maps from Grafana port 3000 into 80. They're endpoint for Ingress depending on project (distinguished by hostname).
 - Backups - cron job that runs daily (at 3 AM or 4 AM test/prod) - it backups all GitHub API data into a RWX volume (OpenEBS + local-storage + NFS) - this is also mounted by Grafana services (to expose each Grafana's SQLite DB) and static content pod (to display links to GH API data backups for all projects).
 - Static content pods - one for default backend showing list of foundations (domains) handled by DevStats, and one for every domain served (to display given domain's projects and DB backups): teststats.cncf.io, devstats.cncf.io, devstats.cd.foundation, devstats.graphql.org.
-- Reports pod - this is a pod doing nothing and waiting forever, you can shell ito it and create DevStats reports from it. It has backups PV mounted RW, so you can put output files there, it is mounted into shared nginx directory, so those reports can be downloaded from the outside world.
+- Reports pod - this is a pod doing nothing and waiting forever, you can shell to it and create DevStats reports from it. It has backups PV mounted RW, so you can put output files there, it is mounted into shared nginx directory, so those reports can be downloaded from the outside world.
