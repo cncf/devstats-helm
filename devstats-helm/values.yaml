@@ -1846,8 +1846,8 @@ projects:
     icon: keylime
     org: 'Keylime'
     repo: 'keylime/keylime'
-    cronTest: '42 * * * *'
-    cronProd: '42 * * * *'
+    cronTest: '41 * * * *'
+    cronProd: '41 * * * *'
     affCronTest: '50 22 * * 2'
     affCronProd: '50 10 * * 2'
     affSkipTemp: '1'
@@ -1855,3 +1855,18 @@ projects:
     domains: [1, 1, 0, 0]
     ga: 'UA-145264316-32'
     i: 96
+  - proj: godotengine
+    url: godotengine
+    db: godotengine
+    icon: 'godotengine'
+    org: 'Godot Engine'
+    repo: '-'
+    cronTest: '42 * * * *'
+    cronProd: '42 * * * *'
+    affCronTest: '0 23 * * 4'
+    affCronProd: '0 11 * * 4'
+    affSkipTemp: '1'
+    disk: 6Gi
+    domains: [1, 0, 0, 0]
+    ga: ''
+    i: 97
