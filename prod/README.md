@@ -70,10 +70,10 @@
 - To generate all committers/contributors/issuers knowns/unknown/all data use: `./affs/all_tasks.sh`.
 - Finally delete reporting pod: `helm delete devstats-prod-reports` (but you can leave it running, it is just sleeping forever waiting for shell connection).
 - You can run all those commands via: `./prod/run.sh`.
-- Delete non-prod affiliations cron jobs: `k delete cj -n devstats-prod devstats-affiliations-cncf devstats-affiliations-opencontainers devstats-affiliations-istio devstats-affiliations-knative devstats-affiliations-zephyr devstats-affiliations-linux devstats-affiliations-rkt devstats-affiliations-sam devstats-affiliations-azf devstats-affiliations-riff devstats-affiliations-fn devstats-affiliations-openwhisk devstats-affiliations-openfaas devstats-affiliations-cii devstats-affiliations-prestodb`.
+- Delete non-prod affiliations cron jobs: `k delete cj -n devstats-prod devstats-affiliations-cncf devstats-affiliations-opencontainers devstats-affiliations-istio devstats-affiliations-knative devstats-affiliations-zephyr devstats-affiliations-linux devstats-affiliations-rkt devstats-affiliations-sam devstats-affiliations-azf devstats-affiliations-riff devstats-affiliations-fn devstats-affiliations-openwhisk devstats-affiliations-openfaas devstats-affiliations-cii devstats-affiliations-prestodb devstats-affiliations-godotengine`.
 - Delete non-prod sync cron jobs: `k delete cj -n devstats-prod devstats-cncf devstats-opencontainers devstats-istio devstats-knative devstats-zephyr devstats-linux devstats-rkt devstats-sam devstats-azf devstats-riff devstats-fn devstats-openwhisk devstats-openfaas devstats-cii devstats-prestodb`.
 
 
-Projects that should be skipped on prod cluster: `azf cncf fn istio knative linux opencontainers openfaas openwhisk riff rkt sam zephyr`, `azf\|cncf\|fn\|istio\|knative\|linux\|opencontainers\|openfaas\|openwhisk\|riff\|rkt\|sam\|zephyr\|cii\|prestodb`.
+Projects that should be skipped on prod cluster: `azf cncf fn istio knative linux opencontainers openfaas openwhisk riff rkt sam zephyr`, `azf\|cncf\|fn\|istio\|knative\|linux\|opencontainers\|openfaas\|openwhisk\|riff\|rkt\|sam\|zephyr\|cii\|prestodb\|godotengine`.
 Prod provision ranges: [0, 8), [9, 49), [55, 59), [65, 97)
 Test-only projects: 8, 49, 50, 51, 52, 53, 54, 59, 60, 61, 62, 63, 64, 67, 68, 97
