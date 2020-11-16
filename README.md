@@ -10,7 +10,7 @@ This is deployed:
 
 # Installing Kubernetes on bare metal
 
-- Setup 4 packet.net servers, give them hostnames: master, node-0, node-1, node-2.
+- Setup 4 metal.equinix.com servers, give them hostnames: master, node-0, node-1, node-2.
 - Install Ubuntu 18.04 LTS on all of them, then update apt `apt update`, `apt upgrade`.
 - Turn swap off on all of them `swapoff -a`.
 - Reference: [installing kubeadm](https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/).
@@ -198,7 +198,7 @@ Database:
 Cluster:
 
 - We are using bare metal cluster running `v1.16` Kubernetes that is set up manually as described in this document. Kubernetes uses CoreDNS and docker as CRI, docker uses containerd.
-- Currently we're using 4 packet.net servers (type `m2.xlarge.x86`) in `SJC1` zone (US West coast).
+- Currently we're using 4 metal.equinix.com servers (type `m2.xlarge.x86`) in `SJC1` zone (US West coast).
 - We are using Helm for deploying entire DevStats project.
 
 UI:
