@@ -1845,7 +1845,7 @@ projects:
   db: backstage
   icon: backstage
   org: Backstage
-  repo: 'spotify/backstage'
+  repo: 'backstage/backstage'
   cronTest: '38 * * * *'
   cronProd: '38 * * * *'
   affCronTest: '50 21 * * 3'
