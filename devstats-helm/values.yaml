@@ -1960,11 +1960,123 @@ projects:
   repo: '-'
   cronTest: '42 * * * *'
   cronProd: '42 * * * *'
-  affCronTest: '0 23 * * 4'
-  affCronProd: '0 11 * * 4'
+  affCronTest: '0 23 * * 3'
+  affCronProd: '0 11 * * 3'
   affSkipTemp: '1'
   disk: 6Gi
   domains: [1, 0, 0, 0]
   ga: ''
   i: 97
+  certNum: 2
+- proj: schemahero
+  url: schemahero
+  db: schemahero
+  icon: schemahero
+  org: 'SchemaHero'
+  repo: 'schemahero/schemahero'
+  cronTest: '42 * * * *'
+  cronProd: '42 * * * *'
+  affCronTest: '10 23 * * 4'
+  affCronProd: '10 11 * * 4'
+  affSkipTemp: '1'
+  disk: 5Gi
+  domains: [1, 1, 0, 0]
+  ga: 'UA-145264316-33'
+  i: 98
+  certNum: 2
+- proj: cdk8s
+  url: cdk8s
+  db: cdk8s
+  icon: cdk8s
+  org: 'Cloud Deployment Kit for Kubernetes'
+  repo: 'awslabs/cdk8s'
+  cronTest: '42 * * * *'
+  cronProd: '42 * * * *'
+  affCronTest: '20 23 * * 5'
+  affCronProd: '20 11 * * 5'
+  affSkipTemp: '1'
+  disk: 5Gi
+  domains: [1, 1, 0, 0]
+  ga: 'UA-145264316-34'
+  i: 99
+  certNum: 2
+- proj: certmanager
+  url: certmanager
+  db: certmanager
+  icon: certmanager
+  org: 'cert-manager'
+  repo: 'jetstack/cert-manager'
+  cronTest: '43 * * * *'
+  cronProd: '43 * * * *'
+  affCronTest: '30 23 * * 6'
+  affCronProd: '30 11 * * 6'
+  affSkipTemp: '1'
+  disk: 5Gi
+  domains: [1, 1, 0, 0]
+  ga: 'UA-145264316-35'
+  i: 100
+  certNum: 2
+- proj: openkruise
+  url: openkruise
+  db: openkruise
+  icon: openkruise
+  org: 'OpenKruise'
+  repo: 'openkruise/kruise'
+  cronTest: '43 * * * *'
+  cronProd: '43 * * * *'
+  affCronTest: '40 23 * * 0'
+  affCronProd: '40 11 * * 0'
+  affSkipTemp: '1'
+  disk: 5Gi
+  domains: [1, 1, 0, 0]
+  ga: 'UA-145264316-36'
+  i: 101
+  certNum: 2
+- proj: tinkerbell
+  url: tinkerbell
+  db: tinkerbell
+  icon: tinkerbell
+  org: 'Tinkerbell'
+  repo: 'tinkerbell/tink'
+  cronTest: '43 * * * *'
+  cronProd: '43 * * * *'
+  affCronTest: '50 23 * * 1'
+  affCronProd: '50 11 * * 1'
+  affSkipTemp: '1'
+  disk: 5Gi
+  domains: [1, 1, 0, 0]
+  ga: 'UA-145264316-37'
+  i: 102
+  certNum: 2
+- proj: pravega
+  url: pravega
+  db: pravega
+  icon: pravega
+  org: 'Pravega'
+  repo: 'pravega/pravega'
+  cronTest: '44 * * * *'
+  cronProd: '44 * * * *'
+  affCronTest: '0 0 * * 2'
+  affCronProd: '0 12 * * 2'
+  affSkipTemp: '1'
+  disk: 5Gi
+  domains: [1, 1, 0, 0]
+  ga: 'UA-145264316-38'
+  i: 103
+  certNum: 2
+- proj: kyverno
+  url: kyverno
+  db: kyverno
+  icon: kyverno
+  org: 'Kyverno'
+  repo: 'kyverno/kyverno'
+  cronTest: '44 * * * *'
+  cronProd: '44 * * * *'
+  affCronTest: '10 0 * * 3'
+  affCronProd: '10 12 * * 3'
+  affSkipTemp: '1'
+  disk: 5Gi
+  domains: [1, 1, 0, 0]
+  ga: 'UA-145264316-39'
+  i: 104
   certNum: 2
