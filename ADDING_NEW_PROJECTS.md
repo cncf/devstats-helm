@@ -115,7 +115,7 @@ Prod:
 
 If you used `nCPUs=n` flag during adding a new project, update deployed components not to use that flag anymore (especially cronjobs). `k edit cj`, then search for: `GHA2DB_NCPUS\n                value:`.
 
-To generate affiliations task for the nex project(s):
+To generate affiliations task for the next project(s):
 
 - On the `prod` node run: `helm install devstats-prod-reports ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,reportsPod=1,namespace='devstats-prod'`.
 - Shell into reporting pod: `../devstats-k8s-lf/util/pod_shell.sh devstats-reports`.
