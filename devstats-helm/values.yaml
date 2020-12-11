@@ -1829,7 +1829,7 @@ projects:
   db: k3s
   icon: k3s
   org: K3s
-  repo: 'rancher/k3s'
+  repo: 'k3s-io/k3s'
   cronTest: '38 * * * *'
   cronProd: '38 * * * *'
   affCronTest: '40 21 * * 2'
