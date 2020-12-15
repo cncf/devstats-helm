@@ -180,6 +180,24 @@ spec:
           value: '{{ .Values.patroniMasterStartTimeout }}'
         - name: PATRONI_MAXIMUM_LAG_ON_FAILOVER
           value: '{{ .Values.patroniMaximumLagOnFailover }}'
+        - name: PATRONI_POSTGRES_MAINTENANCE_WORK_MEM
+          value: '{{ .Values.postgresMaintenanceWorkMem }}'
+        - name: PATRONI_POSTGRES_IDLE_TRANSACTION_TIMEOUT
+          value: '{{ .Values.postgresIdleTransactionTimeout }}'
+        - name: PATRONI_POSTGRES_MAX_WAL_SIZE
+          value: '{{ .Values.postgresMaxWalSize }}'
+        - name: PATRONI_POSTGRES_MIN_WAL_SIZE
+          value: '{{ .Values.postgresMinWalSize }}'
+        - name: PATRONI_POSTGRES_CHECKPOINT_COMPLETION_TARGET
+          value: '{{ .Values.postgresCheckpointCompletionTarget }}'
+        - name: PATRONI_POSTGRES_DEFAULT_STATISTICS_TARGET
+          value: '{{ .Values.postgresDefaultStatisticsTarget }}'
+        - name: PATRONI_POSTGRES_CACHE_SIZE
+          value: '{{ .Values.postgresCacheSize }}'
+        - name: PATRONI_POSTGRES_IO_CONCURRENCY
+          value: '{{ .Values.postgresIOConcurrency }}'
+        - name: PATRONI_POSTGRES_RANDOM_PAGE_COST
+          value: '{{ .Values.postgresRandomPageCost }}'
       terminationGracePeriodSeconds: 0
       nodeSelector:
 {{- with .Values.dbNodeSelector -}}

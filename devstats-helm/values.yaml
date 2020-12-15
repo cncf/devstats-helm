@@ -299,7 +299,8 @@ postgresStorageSize: '3000Gi'
 postgresNodes: 4
 postgresSharedBuffers: '96GB'
 postgresMaxConn: 1024
-postgresMaxParallelWorkersPerGather: 12
+#postgresMaxParallelWorkersPerGather: 12
+postgresMaxParallelWorkersPerGather: 28 # josh
 postgresMaxWorkerProcesses: 56
 postgresMaxParallelWorkers: 56
 postgresWorkMem: '2GB'
@@ -312,6 +313,15 @@ postgresWalKeepSegments: 10
 postgresWalLevel: 'hot_standby'
 postgresMaxWalSenders: 5
 postgresMaxReplicationSlots: 5
+postgresMaintenanceWorkMem: '1GB'
+postgresIdleTransactionTimeout: '30min'
+postgresMaxWalSize: '16GB'
+postgresMinWalSize: '1GB'
+postgresCheckpointCompletionTarget: '0.9'
+postgresDefaultStatisticsTarget: 1000
+postgresCacheSize: '192GB'
+postgresIOConcurrency: 8
+postgresRandomPageCost: 1.1
 prodServer: ''
 pvName: devstats-pvc
 reinitDropDB: ''
