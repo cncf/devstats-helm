@@ -1,5 +1,6 @@
 ﻿# devstats-helm
-DevStats deployment on bare metal Kubernetes using Helm.
+
+DevStats deployment on Equinix Ubuntu 20.04 LTS bare metal Kubernetes using Helm.
 
 This is deployed:
 - [CNCF test](https://teststats.cncf.io) (this also includes CDF, GraphQL test instance, for example [GraphQL All](https://graphql.teststats.cncf.io) and [CDF All](https://allcdf.teststats.cncf.io)).
@@ -15,56 +16,151 @@ This is deployed:
 # Installing Kubernetes on bare metal
 
 - Setup 4 metal.equinix.com servers, give them hostnames: master, node-0, node-1, node-2.
-- Install Ubuntu 18.04 LTS on all of them, then update apt `apt update`, `apt upgrade`.
+- Install Ubuntu 20.04 LTS on all of them, then update apt `apt update`, `apt upgrade`.
+- Enable root login `vim /etc/ssh/sshd_config` add line `PermitRootLogin yes`, change `PasswordAuthentication no` to `PasswordAuthentication yes` then `sudo service sshd restart`.
 - Turn swap off on all of them `swapoff -a`.
-- Reference: [installing kubeadm](https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/).
-- `sudo apt install docker.io`, then `kubeadm config images pull` on all nodes.
-- `systemctl enable docker.service` to enable docker.
-- Follow: [this](https://kubernetes.io/docs/setup/production-environment/container-runtimes/#docker) to set `systemd` as `cgroup` driver.
-- `kubeadm init --pod-network-cidr=10.244.0.0/16` on master.
-- Choose networking from [here](https://kubernetes.io/docs/concepts/cluster-administration/addons/).
-- `kubeadm join ...` as returned by `kubeadm init` on all nodes (excluding master).
-- `sysctl net.bridge.bridge-nf-call-iptables=1`.
-- Flannel example: `kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/62e44c867a2846fefb68bd5f178daf4da3095ccb/Documentation/kube-flannel.yml`.
-- Calico example `wget https://docs.projectcalico.org/v3.9/manifests/calico.yaml`, then `vim calico.yaml` (replace `192.168.0.0/16` CIDR with `10.244.0.0/16`) then `k apply -f calico.yaml`.
-- `kubectl get pods --all-namespaces`.
-- `kubectl taint nodes --all node-role.kubernetes.io/master-`.
-- `kubectl get nodes`.
-- Your should now label nodes for `db` and `app` (you can mark all of them `app` and `db` if youd want to allow all types of pods running on all nodes).
-- `kubectl label nodes <node-name> <label-key>=<label-value>`. For example: `kubectl label nodes master.k8s.devstats.cncf.io node=devstats-app`, `kubectl label nodes node-0.k8s.devstats.cncf.io node2=devstats-db`
+- Load required kernel modeles: `modprobe br_netfilter`
+  - Run:
+```
+cat <<EOF | tee /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+EOF
+```
+- `sysctl --system`.
+  - Install containerd (this is now a recommended Kubernetes CRI instead of docker).
+  - Run:
+```
+cat <<EOF | sudo tee /etc/modules-load.d/containerd.conf
+overlay
+br_netfilter
+EOF
+```
+  - `sudo modprobe overlay; sudo modprobe br_netfilter`.
+  - Run:
+```
+cat <<EOF | sudo tee /etc/sysctl.d/99-kubernetes-cri.conf
+net.bridge.bridge-nf-call-iptables  = 1
+net.ipv4.ip_forward                 = 1
+net.bridge.bridge-nf-call-ip6tables = 1
+EOF
+```
+  - `sudo sysctl --system`.
+  - `sudo apt-get update && sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common`.
+  - `curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key --keyring /etc/apt/trusted.gpg.d/docker.gpg add -`.
+  - `sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"`.
+  - `sudo apt-get update && sudo apt-get install -y containerd.io`.
+  - `sudo mkdir -p /etc/containerd`.
+  - `sudo containerd config default | sudo tee /etc/containerd/config.toml`.
+  - `sudo systemctl restart containerd`.
+  - `sudo systemctl enable containerd`.
+  - Set cgroup driver to systemd.
+  - `vim /etc/containerd/config.toml`, search: `/plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options`.
+  - Add: `SystemdCgroup = true`, so it looks like:
+```
+          base_runtime_spec = ""
+          [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
+            SystemdCgroup = true
+    [plugins."io.containerd.grpc.v1.cri".cni]
+```
+  - `service containerd restart`.
+  - Install kubectl [reference](https://kubernetes.io/docs/tasks/tools/install-kubectl/).
+  - `curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"`.
+  - `chmod +x ./kubectl; mv ./kubectl /usr/local/bin/kubectl; kubectl version --client; kubectl completion bash`.
+  - `vim ~/.bashrc`, uncomment `. /etc/bash_completion` part, relogin, `echo 'source <(kubectl completion bash)' >>~/.bashrc`, `kubectl completion bash >/etc/bash_completion.d/kubectl`.
+  - `echo 'alias k=kubectl' >>~/.bashrc; echo 'complete -F __start_kubectl k' >>~/.bashrc`.
+  - Install kubeadm [reference](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#installing-kubeadm-kubelet-and-kubectl) (we will use calico network plugin, no additional setup is needed).
+  - `curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -`.
+  - Run:
+```
+cat <<EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
+deb https://apt.kubernetes.io/ kubernetes-xenial main
+EOF
+```
+  - `apt-get update && apt-get install -y kubelet kubeadm kubectl`.
+  - `apt-mark hold kubelet kubeadm kubectl`
+  - `systemctl daemon-reload; systemctl restart kubelet`.
+  - Configure the cgroup driver for kubeadm using containerd:
+```
+cat <<EOF | sudo tee /etc/kubeadm_cgroup_driver.yml
+apiVersion: kubeadm.k8s.io/v1beta2
+kind: InitConfiguration
+localAPIEndpoint:
+  advertiseAddress: X.Y.Z.A1
+---
+apiVersion: kubeadm.k8s.io/v1beta2
+kind: ClusterConfiguration
+networking:
+  podSubnet: '192.168.0.0/16'
+---
+apiVersion: kubelet.config.k8s.io/v1beta1
+kind: KubeletConfiguration
+cgroupDriver: systemd
+EOF
+```
+  - `apt install -y nfs-common net-tools`.
+  - Edit `/etc/hosts` add:
+```
+X.Y.Z.A1 devstats-master
+X.Y.Z.A2 devstats-node-0
+X.Y.Z.A3 devstats-node-1
+X.Y.Z.A4 devstats-node-2
+```
+  - Initialize the cluster: `kubeadm init --config /etc/kubeadm_cgroup_driver.yml`.
+  - Run on master:
+```
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+```
+  - Save kubeadm join command output to `join.sh` on master and all nodes, something like then `chmod +x join.sh`:
+```
+  #!/bin/bash
+  kubeadm join 10.13.13.0:1234 --token xxxxxx.yyyyyyyyyyyy --discovery-token-ca-cert-hash sha256:0123456789abcdef0
+```
+  - Install networking plugin (calico):
+  - On master: `wget https://docs.projectcalico.org/manifests/calico.yaml; kubectl apply -f calico.yaml`.
+  - Allow scheduling on the master node [reference](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#control-plane-node-isolation):
+  - On master: `kubectl taint nodes --all node-role.kubernetes.io/master-`.
+  - On master: `kubectl get po -A; kubectl get nodes`. Wait for all pods to be in `Running` state.
+  - On all nodes: `./join.sh`.
+  - Copy config from master to all nodes:
+  - `sftp root@devstats-node-N`:
+```
+mkdir .kube
+lcd .kube
+cd .kube
+mput config
+```
+  - `k get node; service kubelet status`.
+
+
+# DevStats labels
+
+- `for node in devstats-master devstats-node-0 devstats-node-1 devstats-node-2; do k label node $node node=devstats-app; k label node $node node2=devstats-db; done`
 
 
 # Install Helm
 
-- `wget https://get.helm.sh/helm-v3.0.0-beta.3-linux-amd64.tar.gz`.
-- `tar zxfv helm-v3.0.0-beta.3-linux-amd64.tar.gz`.
-- `mv linux-amd64/helm /usr/local/bin`.
-- `rm -rf linux-amd64/ helm-v3.0.0-beta.3-linux-amd64.tar.gz`.
-- `helm init`.
-- `Note that helm v3 no longer needs tiller`.
+- Install Helm (master & nodes): `wget https://get.helm.sh/helm-v3.4.2-linux-amd64.tar.gz; tar zxvf helm-v3.4.2-linux-amd64.tar.gz; mv linux-amd64/helm /usr/local/bin; rm -rf linux-amd64/ helm-v3.4.2-linux-amd64.tar.gz`.
+- Add Helm charts repository (master & nodes): `helm repo add stable https://charts.helm.sh/stable`.
+- Add OpenEBS charts repository (master & nodes): `helm repo add openebs https://openebs.github.io/charts`
+- Add Ingress NGINX charts repository (master & nodes): `helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx`.
+- Apply Helm repos config (master & nodes): `helm repo update`.
 
 
 # Setup per-node local storage
 
-- Install OpenEBS: `kubectl apply -f https://openebs.github.io/charts/openebs-operator-1.2.0.yaml`.
-- Make its local-storage driver the default storage class: `kubectl patch storageclass openebs-hostpath -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'`.
 - Make sure that `/var/openebs` directory on all nodes is placed on the physical volume you want to use for local storage. You can have a huge NVMe disk mounted on `/disk` for instance. In this case `mv /var/openebs /disk/openebs; ln -s /disk/openebs /var/openebs`.
+- Install OpenEBS: `k create ns openebs; helm install --namespace openebs openebs openebs/openebs; helm ls -n openebs; kubectl get pods -n openebs`.
+- Configure default storage class (need to wait for all OpenEBS pods to be running `k get po -n openebs -w`): `k patch storageclass openebs-hostpath -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'`.
 - You will also need a shared storage for backups (ReadWriteMany access mode - backup pods are writing, static pages are reading).
-- Install nfs-utils on all your nodes: `apt install -y nfs-common`.
-- Install NFS provisioner that will use OpenEBS local storage while on `default` namespace: `helm install local-storage-nfs stable/nfs-server-provisioner --set=persistence.enabled=true,persistence.storageClass=openebs-hostpath,persistence.size=2Ti,storageClass.name=nfs-openebs-localstorage`
+- Install NFS provisioner that will use OpenEBS local storage while on `default` namespace: `helm install local-storage-nfs stable/nfs-server-provisioner --set=persistence.enabled=true,persistence.storageClass=openebs-hostpath,persistence.size=8Ti,storageClass.name=nfs-openebs-localstorage`
 
 
-# Optional cStor OpenEBS storage
+# DevStats namespaces
 
-This is optional. You can setup a cStor OpenEBS storage (handles disk stripping/mirroring, replicas etc.)
-
-- List your disks by calling `k get disks`. Then copy `cp openebs/cstor-pool-config.yaml.example openebs/cstor-pool-config.yaml` and add your disks there. Them `kubectl apply -f openebs/cstor-pool-config.yaml`. You will have a new StoragePoolClaim: `cstor-pool1`.
-- Create storage class for newly createid cStor pool: `k apply -f openebs/cstor-storageclass.yaml`. You will have a new storage class: `openebs-disk-cstor`.
-
-
-# Adding new projects
-
-See `ADDING_NEW_PROJECTS.md` for informations about how to add more projects.
+- Create DevStats test and prod namespaces: `k create ns devstats-test; k create ns devstats-prod`.
 
 
 # Contexts
@@ -91,18 +187,38 @@ See `ADDING_NEW_PROJECTS.md` for informations about how to add more projects.
 
 # Domain, DNS and Ingress
 
-- Switch to `prod` context via: `./switch_context.sh prod`.
-- Install `nginx-ingress`: `helm install nginx-ingress-prod stable/nginx-ingress --set controller.ingressClass=nginx-prod,controller.scope.namespace=devstats-prod,defaultBackend.enabled=false,controller.livenessProbe.initialDelaySeconds=15,controller.livenessProbe.periodSeconds=20,controller.livenessProbe.timeoutSeconds=5,controller.livenessProbe.successThreshold=1,controller.livenessProbe.failureThreshold=5,controller.readinessProbe.initialDelaySeconds=15,controller.readinessProbe.periodSeconds=20,controller.readinessProbe.timeoutSeconds=5,controller.readinessProbe.successThreshold=1,controller.readinessProbe.failureThreshold=5`.
-- Switch to `shared` context via: `./switch_context.sh shared`.
-- Install MetalLB (load balancer): `kubectl apply -f https://raw.githubusercontent.com/danderson/metallb/master/manifests/metallb.yaml`.
-- Configure MetalLB IP addresses (use two IPs from your cluster nodes and/or master): `https://metallb.universe.tf/configuration/`. Use `metallb/config.yaml.example` as an example, replace X.Y.Z.V with one of your nodes static IP.
-- Use file with only prod IP address - so you will be sure that correct IP gets assigned to nginx-ingress-prod-controller.
-- Note External-IP field from `kubectl --namespace devstats-prod get services -o wide -w nginx-ingress-prod-controller`.
-- Switch to `test` context via: `./switch_context.sh test`.
-- Install `nginx-ingress`: `helm install nginx-ingress-test stable/nginx-ingress --set controller.ingressClass=nginx-test,controller.scope.namespace=devstats-test,defaultBackend.enabled=false,controller.livenessProbe.initialDelaySeconds=15,controller.livenessProbe.periodSeconds=20,controller.livenessProbe.timeoutSeconds=5,controller.livenessProbe.successThreshold=1,controller.livenessProbe.failureThreshold=5,controller.readinessProbe.initialDelaySeconds=15,controller.readinessProbe.periodSeconds=20,controller.readinessProbe.timeoutSeconds=5,controller.readinessProbe.successThreshold=1,controller.readinessProbe.failureThreshold=5`.
-- Now you can add test server IP to metallb config file and redeploy that config and then configure another nginx-ingress-test-controller.
-- Note External-IP field from `kubectl --namespace devstats-test get services -o wide -w nginx-ingress-test-controller`.
-- Ensure that both test and prod nginx-es are pointing to correct prod and test server IPs respectively.
+- Switch to `test` context: `k config use-context test`.
+- Install `nginx-ingress`: `helm install --namespace devstats-test nginx-ingress-test ingress-nginx/ingress-nginx --set controller.ingressClass=nginx-test,controller.scope.namespace=devstats-test,defaultBackend.enabled=false,controller.livenessProbe.initialDelaySeconds=15,controller.livenessProbe.periodSeconds=20,controller.livenessProbe.timeoutSeconds=5,controller.livenessProbe.successThreshold=1,controller.livenessProbe.failureThreshold=5,controller.readinessProbe.initialDelaySeconds=15,controller.readinessProbe.periodSeconds=20,controller.readinessProbe.timeoutSeconds=5,controller.readinessProbe.successThreshold=1,controller.readinessProbe.failureThreshold=5`.
+- Optional: edit nginx service: `k edit svc -n devstats-test nginx-ingress-test-ingress-nginx-controller` add annotation: `metallb.universe.tf/address-pool: test` and (very optional) spec: `loadBalancerIP: 10.13.13.101`.
+- Switch to `prod` context: `k config use-context prod`.
+- Install `nginx-ingress`: `helm install --namespace devstats-prod nginx-ingress-prod ingress-nginx/ingress-nginx --set controller.ingressClass=nginx-prod,controller.scope.namespace=devstats-prod,defaultBackend.enabled=false,controller.livenessProbe.initialDelaySeconds=15,controller.livenessProbe.periodSeconds=20,controller.livenessProbe.timeoutSeconds=5,controller.livenessProbe.successThreshold=1,controller.livenessProbe.failureThreshold=5,controller.readinessProbe.initialDelaySeconds=15,controller.readinessProbe.periodSeconds=20,controller.readinessProbe.timeoutSeconds=5,controller.readinessProbe.successThreshold=1,controller.readinessProbe.failureThreshold=5`.
+- Optional: edit nginx service: `k edit svc -n devstats-prod nginx-ingress-prod-ingress-nginx-controller` add annotation: `metallb.universe.tf/address-pool: prod` and (very optional) spec `loadBalancerIP: 10.13.13.102`.
+- Switch to `shared` context: `k config use-context shared`.
+- Install MetalLB [reference](https://metallb.universe.tf/installation/#installation-by-manifest):
+- `kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/namespace.yaml`.
+- `kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/metallb.yaml`.
+- `kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)"`.
+- Create MetalLB configuration - specify `master` IP for `test` and `node-0` IP for `prod`, create file `metallb-config.yaml` and apply if `k apply -f metallb-config.yaml`:
+```
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: metallb-system
+  name: config
+data:
+  config: |
+    address-pools:
+    - name: prod
+      protocol: layer2
+      addresses:
+      - X.Y.Z.A1/32
+    - name: test
+      protocol: layer2
+      addresses:
+      - X.Y.Z.A2/32
+```
+- More details [here](https://raw.githubusercontent.com/google/metallb/v0.9.5/manifests/example-config.yaml).
+- Check if both test and prod load balancers are OK (they should have External-IP values equal to requested in config map: `k -n devstats-test get svc -o wide -w nginx-ingress-test-ingress-nginx-controller; k -n devstats-prod get svc -o wide -w nginx-ingress-prod-ingress-nginx-controller`).
 
 # SSL
 
@@ -287,3 +403,8 @@ Architecture:
 - Backups - cron job that runs daily (at 3 AM or 4 AM test/prod) - it backups all GitHub API data into a RWX volume (OpenEBS + local-storage + NFS) - this is also mounted by Grafana services (to expose each Grafana's SQLite DB) and static content pod (to display links to GH API data backups for all projects).
 - Static content pods - one for default backend showing list of foundations (domains) handled by DevStats, and one for every domain served (to display given domain's projects and DB backups): teststats.cncf.io, devstats.cncf.io, devstats.cd.foundation, devstats.graphql.org.
 - Reports pod - this is a pod doing nothing and waiting forever, you can shell to it and create DevStats reports from it. It has backups PV mounted RW, so you can put output files there, it is mounted into shared nginx directory, so those reports can be downloaded from the outside world.
+
+
+# Adding new projects
+
+See `ADDING_NEW_PROJECTS.md` for informations about how to add more projects.
