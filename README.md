@@ -261,7 +261,8 @@ Install SSL certificates using Let's encrypt and auto renewal using `cert-manage
 - Shell into that pod: `../devstats-k8s-lf/util/pod_shell.sh debug`.
 - Backup new project(s): `NOBACKUP='' NOAGE=1 GIANT=wait ONLY='dbname' ./devstats-helm/backups.sh`.
 - Exit the pod and delete Helm deployment: `helm delete devstats-test-debug`.
-- Restore from the backup: `helm install devstats-test-proj ./devstats-helm --set skipSecrets=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,indexPVsFrom=0,indexPVsTo=1,indexProvisionsFrom=0,indexProvisionsTo=1,indexCronsFrom=0,indexCronsTo=1,indexGrafanasFrom=0,indexGrafanasTo=1,indexServicesFrom=0,indexServicesTo=1,indexAffiliationsFrom=0,indexAffiliationsTo=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,skikAddAll=1,provisionCommand='devstats-helm/restore.sh',restoreFrom='https://teststats.cncf.io/backups/'`.
+- Restore from the backup (example): `helm install devstats-test-proj ./devstats-helm --set skipSecrets=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,indexPVsFrom=0,indexPVsTo=1,indexProvisionsFrom=0,indexProvisionsTo=1,indexCronsFrom=0,indexCronsTo=1,indexGrafanasFrom=0,indexGrafanasTo=1,indexServicesFrom=0,indexServicesTo=1,indexAffiliationsFrom=0,indexAffiliationsTo=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,skikAddAll=1,provisionCommand='devstats-helm/restore.sh',restoreFrom='https://teststats.cncf.io/backups/'`.
+- Then follow: `./scripts/deploy_test.sh`.
 
 
 # DevStats deployment examples
