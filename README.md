@@ -244,7 +244,7 @@ Install SSL certificates using Let's encrypt and auto renewal using `cert-manage
 - For each file in `devstats-helm/secrets/*.secret.example` create corresponding `secrets/*.secret` file. Vim saves with end line added, truncate such files via `truncate -s -1 filename`.
 - Deploy DevStats secrets: `helm install devstats-test-secrets ./devstats-helm --set skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1`.
 - Deploy backups PV (ReadWriteMany): `helm install devstats-test-backups-pv ./devstats-helm --set skipSecrets=1,skipPVs=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1`
-- Deploy 4-node patroni HA database: `helm install devstats-test-patroni ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1`.
+- Deploy 4-node patroni HA database (Postgres 13.X): `helm install devstats-test-patroni ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1`.
 - Shell into the patroni master pod (after all 4 patroni nodes are in `Running` state: `k get po -n devstats-test | grep devstats-postgres-`): `k exec -n devstats-test -it devstats-postgres-0 -- /bin/bash`: 
   - Run: `patronictl list` to see patroni cluster state.
   - Tweak patroni: `curl -s -XPATCH -d '{"loop_wait": "15", "postgresql": {"parameters": {"shared_buffers": "80GB", "max_parallel_workers_per_gather": "28", "max_connections": "1024", "min_wal_size": "1GB", "max_wal_size": "16GB", "effective_cache_size": "128GB", "maintenance_work_mem": "2GB", "checkpoint_completion_target": "0.9", "default_statistics_target": 1000, "effective_io_concurrency": 8, "random_page_cost": 1.1, "wal_buffers": "128MB", "max_worker_processes": "32", "max_parallel_workers": "32", "temp_file_limit": "50GB", "idle_in_transaction_session_timeout": "30min", "hot_standby": "on", "wal_log_hints": "on", "wal_keep_segments": "10", "wal_level": "hot_standby", "max_wal_senders": "5", "max_replication_slots": "5"}, "use_pg_rewind": true}}' http://localhost:8008/config | jq .`
@@ -325,7 +325,7 @@ DevStats data sources:
 
 Storage:
 
-- All data from datasources are stored in HA Postgres database (patroni).
+- All data from datasources are stored in HA Postgres database (patroni -Postgres 13.X).
 - Git repository clones are stored in per-pod persistent volumes (type node local storage). Each project has its own persistent volume claim to store its git data.
 - All volumes used for database or git storage use `ReadWriteOnce` and are private to their corresponding pods.
 - We are using OpenEBS to dynamically provision persistent volumes using local-storage.
@@ -334,7 +334,7 @@ Storage:
 
 Database:
 
-- We are using HA patroni postgres 11 database consisting of 4 nodes. Each node has its own persistent volume claim (local node storage) that stores database data. This gives 4x redundancy.
+- We are using HA patroni Postgres 13 database consisting of 4 nodes. Each node has its own persistent volume claim (local node storage) that stores database data. This gives 4x redundancy.
 - Docker limits each pod's shared memory to 64MB, so all patroni pods are mounting special volume (type: memory) under /dev/shm, that way each pod has unlimited SHM memory (actually limited by RAM accessible to pod).
 - Patroni image runs as postgres user so we're using security context filesystem group 999 (postgres) when mounting PVC for patroni pod to make that volume writable for patroni pod.
 - Patroni supports automatic master election (it uses RBAC's and manipulates service endpoints to make that transparent for app pods).
@@ -346,13 +346,13 @@ Database:
 
 Cluster:
 
-- We are using bare metal cluster running `v1.16` Kubernetes that is set up manually as described in this document. Kubernetes uses CoreDNS and docker as CRI, docker uses containerd.
-- Currently we're using 4 metal.equinix.com servers (type `m2.xlarge.x86`) in `SJC1` zone (US West coast).
-- We are using Helm for deploying entire DevStats project.
+- We are using bare metal cluster running `v1.20` Kubernetes that is set up manually as described in this document. Kubernetes uses CoreDNS and docker as CRI, docker uses containerd.
+- Currently we're using 4 metal.equinix.com servers (type `m2.xlarge.x86`) in `SV15` zone (Silicon Valley).
+- We are using Helm 3 for deploying entire DevStats project.
 
 UI:
 
-- We are using Grafana 6.3.6, all dashboards, users and datasources are automatically provisioned from JSONs and template files.
+- We are using Grafana 7.X, all dashboards, users and datasources are automatically provisioned from JSONs and template files.
 - We're using read-only connection to HA patroni database to take advantage of read-replicas and 4x faster read connections.
 - Grafana is running on plain HTTP and port 3000, ingress controller is responsible for SSL/HTTPS layer.
 - We're using liveness and readiness probles for Grafana instances to allow detecting unhealthy instances and auto-replace by Kubernetes in such cases.
