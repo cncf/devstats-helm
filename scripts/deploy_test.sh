@@ -89,7 +89,6 @@
 ./scripts/deploy_backup_to_test.sh parsec 82 83
 ./scripts/deploy_backup_to_test.sh bfe 83 84
 ./scripts/deploy_backup_to_test.sh crossplane 84 85
-
 ./scripts/deploy_backup_to_test.sh contour 85 86
 ./scripts/deploy_backup_to_test.sh operatorframework 86 87
 ./scripts/deploy_backup_to_test.sh chaosmesh 87 88
@@ -102,7 +101,7 @@
 ./scripts/deploy_backup_to_test.sh openyurt 94 95
 ./scripts/deploy_backup_to_test.sh openservicemesh 95 96
 ./scripts/deploy_backup_to_test.sh keylime 96 97
-
+# special
 ./scripts/deploy_backup_to_test.sh godotengine 97 98
 
 ./scripts/deploy_backup_to_test.sh schemahero 98 99
