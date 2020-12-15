@@ -15,7 +15,6 @@ metadata:
     cluster-name: '{{ .Values.postgresSvcName }}'
 spec:
   clusterIP: None
-  spec:
   ports:
   - port: {{ .Values.postgresPort }}
     name: psql
