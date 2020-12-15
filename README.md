@@ -8,6 +8,10 @@ This is deployed:
 - [GraphQL prod](https://devstats.graphql.org).
 
 
+# Equinix NVMe disks
+- See `NVME.md`.
+
+
 # Installing Kubernetes on bare metal
 
 - Setup 4 metal.equinix.com servers, give them hostnames: master, node-0, node-1, node-2.
