@@ -227,6 +227,45 @@ You need to have domain name pointing to your MetalLB IP before proceeding.
 Install SSL certificates using Let's encrypt and auto renewal using `cert-manager`: `SSL.md`.
 
 
+# Golang (optional)
+
+- `wget https://golang.org/dl/go1.15.6.linux-amd64.tar.gz`.
+- `echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.profile`
+- Logout, login, run: `go version`.
+- `apt install -y git`.
+- `go get -u github.com/cncf/devstatscode`.
+- `cd go/src/github.com/cncf/`
+
+
+# DevStats
+
+- Switch to `test` context: `k config use-context test`.
+- Clone `devstats-helm` repo: `git clone https://github.com/cncf/devstats-helm`, `cd devstats-helm`.
+- For each file in `devstats-helm/secrets/*.secret.example` create corresponding `secrets/*.secret` file. Vim saves with end line added, truncate such files via `truncate -s -1 filename`.
+- Deploy DevStats secrets: `helm install devstats-test-secrets ./devstats-helm --set skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1`.
+- Deploy backups PV (ReadWriteMany): `helm install devstats-test-backups-pc ./devstats-helm --set skipSecrets=1,skipPVs=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1`
+xxx
+- Deploy "minimalistic" patroni tweaked for that tiny env: `helm install devstats-test-patroni ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,patroniRetryTimeout=120,patroniTtl=120,postgresMaxConn=16,postgresMaxParallelWorkers=2,postgresMaxReplicationSlots=2,postgresMaxTempFile=1GB,postgresMaxWalSenders=2,postgresMaxWorkerProcesses=2,postgresSharedBuffers=1280MB,postgresStorageSize=30Gi,postgresWalBuffers=64MB,postgresWalKeepSegments=5,postgresWorkMem=256MB,requestsPostgresCPU=400m,requestsPostgresMemory=512Mi`.
+- Shell into the patroni master pod (after all 4 patroni nodes are in `Running` state: `k get po -n devstats-test | grep devstats-postgres-`): `k exec -n devstats-test -it devstats-postgres-0 -- /bin/bash`: 
+  - Run: `patronictl list` to see patroni cluster state.
+  - Tweak patroni: `curl -s -XPATCH -d '{"loop_wait": "60", "postgresql": {"parameters": {"shared_buffers": "1280MB", "max_parallel_workers_per_gather": "2", "max_connections": "16", "max_wal_size": "1GB", "effective_cache_size": "1GB", "maintenance_work_mem": "256MB", "checkpoint_completion_target": "0.9", "wal_buffers": "64MB", "max_worker_processes": "2", "max_parallel_workers": "2", "temp_file_limit": "1GB", "hot_standby": "on", "wal_log_hints": "on", "wal_keep_segments": "5", "wal_level": "hot_standby", "max_wal_senders": "2", "max_replication_slots": "2"}, "use_pg_rewind": true}}' http://localhost:8008/config | jq .`.
+  - `patronictl restart --force devstats-postgres`.
+  - `patronictl show-config` to confirm config.
+- Check patroni logs: `k logs -n devstats-test -f devstats-postgres-N`, N=0,1,2,3.
+- Install static pages handlers: `helm install devstats-test-statics ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipAPI=1,skipNamespaces=1,indexStaticsFrom=0,indexStaticsTo=1,requestsStaticsCPU=50m,requestsStaticsMemory=64Mi`.
+- Install ingress: `helm install devstats-test-ingress ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipStatic=1,skipAPI=1,skipNamespaces=1,indexDomainsFrom=0,indexDomainsTo=1,ingressClass=nginx-test,sslEnv=test`.
+- Provision initial logs database and infra: `helm install devstats-test-bootstrap ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,requestsBootstrapCPU=100m,requestsBootstrapMemory=128Mi`.
+- Delete finished bootstrap pod (when in `Completed` state): `k delete po devstats-provision-bootstrap`.
+- Create backups cron job: `helm install devstats-test-backups ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,backupsPVSize=2Gi,requestsBackupsCPU=100m,requestsBackupsMemory=128Mi`.
+- Install KEDA and SMI projects: `helm install devstats-test-keda-smi ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,indexProvisionsFrom=70,indexProvisionsTo=72,indexCronsFrom=70,indexCronsTo=72,indexGrafanasFrom=70,indexGrafanasTo=72,indexServicesFrom=70,indexServicesTo=72,indexAffiliationsFrom=70,indexAffiliationsTo=72,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,skipAddAll=1,requestsAffiliationsCPU=100m,requestsAffiliationsMemory=128Mi,requestsCronsCPU=100m,requestsCronsMemory=128Mi,requestsGrafanasCPU=100m,requestsGrafanasMemory=128Mi,requestsProvisionsCPU=500m,requestsProvisionsMemory=256Mi`.
+- Or restore SMI from the backup: `helm install devstats-test-restore-smi ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,indexProvisionsFrom=71,indexProvisionsTo=72,indexCronsFrom=71,indexCronsTo=72,indexGrafanasFrom=71,indexGrafanasTo=72,indexServicesFrom=71,indexServicesTo=72,indexAffiliationsFrom=71,indexAffiliationsTo=72,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,skipAddAll=1,requestsAffiliationsCPU=100m,requestsAffiliationsMemory=128Mi,requestsCronsCPU=100m,requestsCronsMemory=128Mi,requestsGrafanasCPU=100m,requestsGrafanasMemory=128Mi,requestsProvisionsCPU=800m,requestsProvisionsMemory=512Mi,provisionCommand='devstats-helm/restore.sh',restoreFrom='https://teststats.cncf.io/backups/'`.
+- Install reporting pod: `helm install devstats-test-reports ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,reportsPod=1,requestsReportsCPU=100m,requestsReportsMemory=128Mi`.
+- Shell into reporting pod: `k exec -it devstats-reports -- /bin/bash`, do some operations on the SMI db: `db.sh psql smi`, run some report: `PG_DB=smi ./affs/committers.sh`. Exit `exit`.
+- Delete no more needed reporting pod: `helm delete devstats-test-reports`.
+- This is a smallest VM DevStats demo, it will be too slow to be usable, it's just a POC.
+
+xxx
+
 # DevStats deployment
 
 See either `test/README.md` or `prod/README.md`.

@@ -187,7 +187,7 @@ backupsImage: 'lukaszgryglicki/devstats-test'
 backupsPodName: 'devstats-backups'
 backupsProdServer: ''
 backupsPVName: devstats-backups
-backupsPVSize: '160Gi'
+backupsPVSize: '2Ti'
 backupsRestartPolicy: Never
 backupsStorageAccessModes: ReadWriteMany
 backupsStorageClass: 'nfs-openebs-localstorage'
