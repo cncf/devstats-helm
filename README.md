@@ -230,6 +230,8 @@ Install SSL certificates using Let's encrypt and auto renewal using `cert-manage
 # Golang (optional)
 
 - `wget https://golang.org/dl/go1.15.6.linux-amd64.tar.gz`.
+- `tar -C /usr/local -xzf go1.15.6.linux-amd64.tar.gz`.
+- `rm go1.15.6.linux-amd64.tar.gz`.
 - `echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.profile`
 - Logout, login, run: `go version`.
 - `apt install -y git`.
@@ -238,6 +240,8 @@ Install SSL certificates using Let's encrypt and auto renewal using `cert-manage
 
 
 # DevStats
+
+Test instance:
 
 - Switch to `test` context: `k config use-context test`.
 - Clone `devstats-helm` repo: `git clone https://github.com/cncf/devstats-helm`, `cd devstats-helm`.
@@ -263,6 +267,33 @@ Install SSL certificates using Let's encrypt and auto renewal using `cert-manage
 - Exit the pod and delete Helm deployment: `helm delete devstats-test-debug`.
 - Restore from the backup (example): `helm install devstats-test-proj ./devstats-helm --set skipSecrets=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,indexPVsFrom=0,indexPVsTo=1,indexProvisionsFrom=0,indexProvisionsTo=1,indexCronsFrom=0,indexCronsTo=1,indexGrafanasFrom=0,indexGrafanasTo=1,indexServicesFrom=0,indexServicesTo=1,indexAffiliationsFrom=0,indexAffiliationsTo=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,skikAddAll=1,provisionCommand='devstats-helm/restore.sh',restoreFrom='https://teststats.cncf.io/backups/'`.
 - Then follow: `./scripts/deploy_test.sh`.
+
+Prod instance:
+
+- Switch to `prod` context: `k config use-context prod`.
+- Clone `devstats-helm` repo: `git clone https://github.com/cncf/devstats-helm`, `cd devstats-helm`.
+- For each file in `devstats-helm/secrets/*.secret.example` create corresponding `secrets/*.secret` file. Vim saves with end line added, truncate such files via `truncate -s -1 filename`.
+- Deploy DevStats secrets: `helm install devstats-prod-secrets ./devstats-helm --set namespace='devstats-prod',skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1`.
+- Deploy backups PV (ReadWriteMany): `helm install devstats-prod-backups-pv ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1`.
+- Deploy 4-node patroni HA database (Postgres 13.X): `helm install devstats-prod-patroni ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1`.
+- Shell into the patroni master pod (after all 4 patroni nodes are in `Running` state: `k get po -n devstats-prod | grep devstats-postgres-`): `k exec -n devstats-prod -it devstats-postgres-0 -- /bin/bash`: 
+  - Run: `patronictl list` to see patroni cluster state.
+  - Tweak patroni: `curl -s -XPATCH -d '{"loop_wait": "15", "postgresql": {"parameters": {"shared_buffers": "80GB", "max_parallel_workers_per_gather": "28", "max_connections": "1024", "min_wal_size": "1GB", "max_wal_size": "16GB", "effective_cache_size": "128GB", "maintenance_work_mem": "2GB", "checkpoint_completion_target": "0.9", "default_statistics_target": 1000, "effective_io_concurrency": 8, "random_page_cost": 1.1, "wal_buffers": "128MB", "max_worker_processes": "32", "max_parallel_workers": "32", "temp_file_limit": "50GB", "idle_in_transaction_session_timeout": "30min", "hot_standby": "on", "wal_log_hints": "on", "wal_keep_segments": "10", "wal_level": "hot_standby", "max_wal_senders": "5", "max_replication_slots": "5"}, "use_pg_rewind": true}}' http://localhost:8008/config | jq .`
+  - `patronictl restart --force devstats-postgres`.
+  - `patronictl show-config` to confirm config.
+- Check patroni logs: `k logs -n devstats-prod -f devstats-postgres-N`, N=0,1,2,3.
+- Install static page handlers (default and for prod, cdf and graphql domains): `helm install devstats-prod-statics ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipAPI=1,skipNamespaces=1,indexStaticsFrom=1`.
+- Deploy prod domain ingress: `helm install devstats-prod-ingress ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipStatic=1,skipAPI=1,skipNamespaces=1,skipAliases=1,indexDomainsFrom=1,ingressClass=nginx-prod,sslEnv=prod`.
+- Deploy/bootstrap logs database: `helm install devstats-prod-bootstrap ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1`.
+- Delete finished bootstrap pod (when in `Completed` state): `k delete po devstats-provision-bootstrap`.
+- Deploy backups cron job: `helm install devstats-prod-backups ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,backupsCron='45 2 * * 0,2,4,6',backupsTestServer='',backupsProdServer='1'`.
+- If you want to use a backup from different server (like during the switchover):
+- Create debugging bootstrap pod with backups storage mounted: `helm install devstats-prod-debug ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,bootstrapPodName=debug,bootstrapCommand=sleep,bootstrapCommandArgs={360000s},bootstrapMountBackups=1`.
+- Shell into that pod: `../devstats-k8s-lf/util/pod_shell.sh debug`.
+- Backup new project(s): `NOBACKUP='' NOAGE=1 GIANT=wait ONLY='dbname' ./devstats-helm/backups.sh`.
+- Exit the pod and delete Helm deployment: `helm delete devstats-prod-debug`.
+- Restore from the backup (example): `helm install devstats-prod-proj ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,indexPVsFrom=0,indexPVsTo=1,indexProvisionsFrom=0,indexProvisionsTo=1,indexCronsFrom=0,indexCronsTo=1,indexGrafanasFrom=0,indexGrafanasTo=1,indexServicesFrom=0,indexServicesTo=1,indexAffiliationsFrom=0,indexAffiliationsTo=1,provisionImage='lukaszgryglicki/devstats-prod',provisionCommand='devstats-helm/restore.sh',restoreFrom='https://devstats.cncf.io/backups/'`.
+- Then follow: `./scripts/deploy_prod.sh`.
 
 
 # DevStats deployment examples
