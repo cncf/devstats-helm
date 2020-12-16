@@ -6,7 +6,7 @@
 ./scripts/deploy_backup_to_prod.sh grpc 5 6
 ./scripts/deploy_backup_to_prod.sh coredns 6 7
 ./scripts/deploy_backup_to_prod.sh containerd 7 8
-./scripts/deploy_backup_to_prod.sh rkt 8 9
+# ./scripts/deploy_backup_to_prod.sh rkt 8 9
 ./scripts/deploy_backup_to_prod.sh cni 9 10
 ./scripts/deploy_backup_to_prod.sh envoy 10 11
 ./scripts/deploy_backup_to_prod.sh jaeger 11 12
@@ -48,30 +48,30 @@
 ./scripts/deploy_backup_to_prod.sh graphqlspec 46 47
 ./scripts/deploy_backup_to_prod.sh expressgraphql 47 48
 ./scripts/deploy_backup_to_prod.sh graphql 48 49
-./scripts/deploy_backup_to_prod.sh cncf 49 50
-./scripts/deploy_backup_to_prod.sh opencontainers 50 51
-./scripts/deploy_backup_to_prod.sh istio 51 52
-./scripts/deploy_backup_to_prod.sh knative 52 53
-./scripts/deploy_backup_to_prod.sh zephyr 53 54
-./scripts/deploy_backup_to_prod.sh linux 54 55
+#./scripts/deploy_backup_to_prod.sh cncf 49 50
+#./scripts/deploy_backup_to_prod.sh opencontainers 50 51
+#./scripts/deploy_backup_to_prod.sh istio 51 52
+#./scripts/deploy_backup_to_prod.sh knative 52 53
+#./scripts/deploy_backup_to_prod.sh zephyr 53 54
+#./scripts/deploy_backup_to_prod.sh linux 54 55
 
 ./scripts/deploy_backup_to_prod.sh thanos 55 56
 ./scripts/deploy_backup_to_prod.sh flux 56 57
 ./scripts/deploy_backup_to_prod.sh intoto 57 58
 ./scripts/deploy_backup_to_prod.sh strimzi 58 59
 # special
-./scripts/deploy_backup_to_prod.sh sam 59 60
-./scripts/deploy_backup_to_prod.sh azf 60 61
-./scripts/deploy_backup_to_prod.sh riff 61 62
-./scripts/deploy_backup_to_prod.sh fn 62 63
-./scripts/deploy_backup_to_prod.sh openwhisk 63 64
-./scripts/deploy_backup_to_prod.sh openfaas 64 65
+#./scripts/deploy_backup_to_prod.sh sam 59 60
+#./scripts/deploy_backup_to_prod.sh azf 60 61
+#./scripts/deploy_backup_to_prod.sh riff 61 62
+#./scripts/deploy_backup_to_prod.sh fn 62 63
+#./scripts/deploy_backup_to_prod.sh openwhisk 63 64
+#./scripts/deploy_backup_to_prod.sh openfaas 64 65
 
 ./scripts/deploy_backup_to_prod.sh kubevirt 65 66
 ./scripts/deploy_backup_to_prod.sh longhorn 66 67
 # special
-./scripts/deploy_backup_to_prod.sh cii 67 68
-./scripts/deploy_backup_to_prod.sh prestodb 68 69
+#./scripts/deploy_backup_to_prod.sh cii 67 68
+#./scripts/deploy_backup_to_prod.sh prestodb 68 69
 
 ./scripts/deploy_backup_to_prod.sh chubaofs 69 70
 ./scripts/deploy_backup_to_prod.sh keda 70 71
@@ -101,8 +101,9 @@
 ./scripts/deploy_backup_to_prod.sh openyurt 94 95
 ./scripts/deploy_backup_to_prod.sh openservicemesh 95 96
 ./scripts/deploy_backup_to_prod.sh keylime 96 97
+
 # special
-./scripts/deploy_backup_to_prod.sh godotengine 97 98
+#./scripts/deploy_backup_to_prod.sh godotengine 97 98
 
 ./scripts/deploy_backup_to_prod.sh schemahero 98 99
 ./scripts/deploy_backup_to_prod.sh cdk8s 99 100
