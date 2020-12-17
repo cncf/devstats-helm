@@ -94,12 +94,13 @@ networking:
   podSubnet: '192.168.0.0/16'
 featureGates:
   GracefulNodeShutdown: true
+  DynamicKubeletConfig: true
 ---
 apiVersion: kubelet.config.k8s.io/v1beta1
 kind: KubeletConfiguration
 cgroupDriver: systemd
-shutdownGracePeriod=60s
-shutdownGracePeriodCriticalPods=20s
+shutdownGracePeriod: 60s
+shutdownGracePeriodCriticalPods: 20s
 EOF
 ```
   - `apt install -y nfs-common net-tools`.
@@ -137,6 +138,53 @@ cd .kube
 mput config
 ```
   - `k get node; service kubelet status`.
+
+
+# Feature gates
+
+- You can enable feature gates on a live system via: `k get cm -n kube-system | grep kubeadm`, then `k -n kube-system edit cm kubeadm-config`:
+- Add your `kubeadm` options below the `networking` in `ClusterConfiguration` section, like this:
+```
+    networking:
+      dnsDomain: cluster.local
+      podSubnet: 192.168.0.0/16
+      serviceSubnet: 10.96.0.0/12
+    featureGates:
+      GracefulNodeShutdown: true
+      DynamicKubeletConfig: true
+```
+- You can enable specific kubelet features on a live system via: `k get cm -n kube-system | grep kubelet`, then `k -n kube-system edit cm kubelet-config-1.20`:
+- Add your `kubelet` options below the `cgroup` driver in `KubeletConfiguration`, like this:
+```
+    cgroupDriver: systemd
+    shutdownGracePeriod: 60s
+    shutdownGracePeriodCriticalPods: 20s
+```
+- Enable feature gates for `kube-apiserver`: `vim /etc/kubernetes/manifests/kube-apiserver.yaml`, add `- --feature-gates=GracefulNodeShutdown=True,DynamicKubeletConfig=True` so it looks like:
+```
+    - --tls-private-key-file=/etc/kubernetes/pki/apiserver.key
+    - --feature-gates=GracefulNodeShutdown=True,DynamicKubeletConfig=True
+    image: k8s.gcr.io/kube-apiserver:v1.20.0
+```
+- Enable feature gates for `kubelet`, run `service kubelet status` - you will see something like `--config=/var/lib/kubelet/config.yaml`:
+- `vim /var/lib/kubelet/config.yaml`, put your options there (master and all nodes):
+```
+shutdownGracePeriod: 60s
+shutdownGracePeriodCriticalPods: 20s
+```
+- `vim /var/lib/kubelet/kubeadm-flags.env` update to something like (master and all nodes) `KUBELET_KUBEADM_ARGS="... --feature-gates=GracefulNodeShutdown=True,DynamicKubeletConfig=True"`.
+- Edit node `k get no; k edit node node-name`, add under `spec` section, so it looks like:
+```
+spec:
+  configSource:
+    configMap:
+      name: kubelet-config-1.20
+      namespace: kube-system
+      kubeletConfigKey: kubelet
+  podCIDR: 192.168.0.0/24
+```
+- `service kubelet restart`.
+- Check if `kubelet` and `kube-apiserver` are using feature gates: `ps aux | grep kube-apiserver | grep feature-gates`, `service kubelet status`.
 
 
 # DevStats labels
