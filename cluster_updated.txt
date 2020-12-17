@@ -1,0 +1,17 @@
+Hi, just wanted to share this info with you, details on the ticket: cncf/cluster #153 - DevStats hardware request.
+Some details if you are interested:- Hardware: Equinix 4x m3.large.x86 in SV15 (Silicon Valley).- Ubuntu 20.04 LTS (previously used 18.04 LTS).
+- On each node LVM volume (7.5T) is created from 2 3.8T NVMe disks.- Bare metal cluster installed without any vendor-provided k8s distro - used kubeadm.- Updated Kubernetes from v1.16 to v.1.20.
+- Using feature gates to enable dynamic kubelet configuration and graceful node shutdown support.- No longer using docker (as recommended by K8s) - switched to containerd.- containerd configured to use systemd cgroup driver.
+- Calico network plugin.
+- Uses CoreDNS and gRPC internally.
+- Uses Helm 3.4.
+- Uses OpenEBS 2.3 configured as local storage provided managing LVM disk (default storage class).
+- Uses NFS server provisioner for ReadWriteMany volumes to store automatic backups (they run from kubernetes cron jobs and store files on local disks, so even if the cluster fails backups are stil on LVM volume).
+- Uses NGINX Ingress.
+- Uses new patroni database (PostgreSQL HA database) based on the newest Postgres 13.1.
+- Uses MetalLB v0.9.5 as a load balancer implementation for bare metal servers.
+- Uses cert-manager v1.1 with ACME certificates (auto-renewal enabled).
+- DevStats compiled using the newest golang v1.15.6
+- DevStats underlying Grafana updated to 7.3.5
+- DevStats API servers enabled.
+- Travis CI is configured as a continuous integration tool.
