@@ -80,7 +80,7 @@ EOF
   - `apt-get update && apt-get install -y kubelet kubeadm kubectl`.
   - `apt-mark hold kubelet kubeadm kubectl`
   - `systemctl daemon-reload; systemctl restart kubelet`.
-  - Configure the cgroup driver for kubeadm using containerd:
+  - Configure the cgroup driver for kubeadm using containerd (change advertiseAddress, `featureGates` and `shutdownGracePeriod*` - not tested yet):
 ```
 cat <<EOF | sudo tee /etc/kubeadm_cgroup_driver.yml
 apiVersion: kubeadm.k8s.io/v1beta2
@@ -92,10 +92,14 @@ apiVersion: kubeadm.k8s.io/v1beta2
 kind: ClusterConfiguration
 networking:
   podSubnet: '192.168.0.0/16'
+featureGates:
+  GracefulNodeShutdown: true
 ---
 apiVersion: kubelet.config.k8s.io/v1beta1
 kind: KubeletConfiguration
 cgroupDriver: systemd
+shutdownGracePeriod=60s
+shutdownGracePeriodCriticalPods=20s
 EOF
 ```
   - `apt install -y nfs-common net-tools`.
