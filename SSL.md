@@ -1,7 +1,5 @@
 # Installing cert-manager
 
-Remember to set `KUBECONFIG`.
-
 Please make sure that you have DNS configured and ingress controller working with self-signed certs visible to the outside world on your domain.
 
 - Create cert-manager namespace: `kubectl create namespace cert-manager`.
@@ -10,7 +8,7 @@ Please make sure that you have DNS configured and ingress controller working wit
 - Download prod/staging issuer(s) from `https://cert-manager.io/docs/configuration/acme/`.
 - Compare ACME config from docs to example file then copy: `cp cert/cert-issuer.yaml.example cert/cert-issuer.yaml`.
 - Tweak them - change email value: `vim cert/cert-issuer.yaml`, also set correct `nginx-class`, for example: `class: nginx-prod`.
-- Apply issuers: `kubectl apply -f cert/cert-issuer.yaml`. Do not issue this before DNS is ready. Your an deploy full DevStats before this step, Ingress will be ready with self-signed certificate.
+- Apply issuers: `kubectl apply -f cert/cert-issuer.yaml`. Do not issue this before DNS is ready. If you've deployed DevStats ingress before this step, it will be ready with self-signed certificate.
 - Check it: `kubectl get issuers`.
 - Observer `k get challenge -w` wait until ready.
 

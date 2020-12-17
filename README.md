@@ -220,11 +220,24 @@ data:
 - More details [here](https://raw.githubusercontent.com/google/metallb/v0.9.5/manifests/example-config.yaml).
 - Check if both test and prod load balancers are OK (they should have External-IP values equal to requested in config map: `k -n devstats-test get svc -o wide -w nginx-ingress-test-ingress-nginx-controller; k -n devstats-prod get svc -o wide -w nginx-ingress-prod-ingress-nginx-controller`).
 
+
 # SSL
 
 You need to have domain name pointing to your MetalLB IP before proceeding.
 
 Install SSL certificates using Let's encrypt and auto renewal using `cert-manager`: `SSL.md`.
+
+In short:
+
+- Please make sure that you have DNS configured and ingress controller working with self-signed certs visible to the outside world on your domain.
+- Create cert-manager namespace: `kubectl create namespace cert-manager`.
+- Configure/label namespace: `kubectl label namespace cert-manager certmanager.k8s.io/disable-validation=true`.
+- Install cert manager (includes CRDs): `kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.1.0/cert-manager.yaml`.
+- Copy example file to a manifest file to be applied: `cp cert/cert-issuer.yaml.example cert/cert-issuer.yaml`.
+- Tweak them - change email value: `vim cert/cert-issuer.yaml`.
+- Apply issuers: `kubectl apply -f cert/cert-issuer.yaml`.
+- Check it: `kubectl get issuers`.
+- Observe `k get challenge -w` wait until ready.
 
 
 # Golang (optional)
