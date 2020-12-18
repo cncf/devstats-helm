@@ -164,6 +164,8 @@ spec:
           value: '{{ .Values.postgresWalLogHints }}'
         - name: PATRONI_POSTGRES_WAL_KEEP_SEGMENTS
           value: '{{ .Values.postgresWalKeepSegments }}'
+        - name: PATRONI_POSTGRES_WAL_KEEP_SIZE
+          value: '{{ .Values.postgresWalKeepSize }}'
         - name: PATRONI_POSTGRES_WAL_LEVEL
           value: '{{ .Values.postgresWalLevel }}'
         - name: PATRONI_POSTGRES_MAX_WAL_SENDERS

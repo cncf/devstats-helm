@@ -312,6 +312,7 @@ postgresUseSlots: true
 postgresHotStandby: 'on'
 postgresWalLogHints: 'on'
 postgresWalKeepSegments: 10
+postgresWalKeepSize: '4GB'
 postgresWalLevel: 'hot_standby'
 postgresMaxWalSenders: 5
 postgresMaxReplicationSlots: 5
