@@ -160,6 +160,8 @@ spec:
           value: '{{ .Values.postgresUseSlots }}'
         - name: PATRONI_POSTGRES_HOT_STANDBY
           value: '{{ .Values.postgresHotStandby }}'
+        - name: PATRONI_POSTGRES_HOT_STANDBY_FEEDBACK
+          value: '{{ .Values.postgresHotStandbyFeedback }}'
         - name: PATRONI_POSTGRES_WAL_LOG_HINTS
           value: '{{ .Values.postgresWalLogHints }}'
         - name: PATRONI_POSTGRES_WAL_KEEP_SEGMENTS

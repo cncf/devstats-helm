@@ -310,9 +310,10 @@ postgresWalBuffers: '128MB'
 postgresMaxTempFile: '50GB'
 postgresUseSlots: true
 postgresHotStandby: 'on'
+postgresHotStandbyFeedback: 'on'
 postgresWalLogHints: 'on'
 postgresWalKeepSegments: 10
-postgresWalLevel: 'hot_standby'
+postgresWalLevel: 'replica'
 postgresMaxWalSenders: 5
 postgresMaxReplicationSlots: 5
 postgresMaintenanceWorkMem: '1GB'
