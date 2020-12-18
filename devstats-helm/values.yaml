@@ -314,6 +314,7 @@ postgresHotStandbyFeedback: 'on'
 postgresWalLogHints: 'on'
 postgresWalKeepSegments: 10
 postgresWalLevel: 'replica'
+postgresWalKeepSize: '4GB'
 postgresMaxWalSenders: 5
 postgresMaxReplicationSlots: 5
 postgresMaintenanceWorkMem: '1GB'
