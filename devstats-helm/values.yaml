@@ -2095,3 +2095,19 @@ projects:
   ga: 'UA-145264316-39'
   i: 104
   certNum: 2
+- proj: gitopswg
+  url: gitopswg
+  db: gitopswg
+  icon: gitopswg
+  org: 'GitOps WG'
+  repo: 'fluxcd/gitops-working-group'
+  cronTest: '44 * * * *'
+  cronProd: '44 * * * *'
+  affCronTest: '20 0 * * 4'
+  affCronProd: '20 12 * * 4'
+  affSkipTemp: '1'
+  disk: 2Gi
+  domains: [1, 1, 0, 0]
+  ga: 'UA-145264316-40'
+  i: 105
+  certNum: 2
