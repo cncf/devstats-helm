@@ -122,8 +122,9 @@ To generate affiliations task for the next project(s):
 - Generate data: `TASKS='unknown_contributors' ONLY='keylime' ./affs/all_tasks.sh`.
 - Delete reporting pod: `helm delete devstats-prod-reports`.
 - Go to `cncf/gitdm:src`: `wget https://devstats.cncf.io/backups/keylime_unknown_contributors.csv`
+- Check for forbidden SHAs: `./check_shas keylime_unknown_contributors.csv`.
 - Generate a task file: `PG_PASS=... ./unknown_committers.rb keylime_unknown_contributors.csv`.
-- Upload `task.csv` to Google Sheet.
+- Upload `task.csv` to a Google Sheet.
 
 
 5. Go to `cncf/devstats-helm-lf`:
