@@ -118,7 +118,7 @@ If you used `nCPUs=n` flag during adding a new project, update deployed componen
 To generate affiliations task for the next project(s):
 
 - On the `prod` node run: `helm install devstats-prod-reports ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,reportsPod=1,namespace='devstats-prod'`.
-- Shell into reporting pod: `../devstats-k8s-lf/util/pod_shell.sh devstats-reports` or `k exec -itn devstats-prod devstats-reports -- bash` from adifferent namespace (like `devstats-test`).
+- Shell into reporting pod: `../devstats-k8s-lf/util/pod_shell.sh devstats-reports` or `k exec -itn devstats-prod devstats-reports -- bash` from a different namespace (like `devstats-test`).
 - Generate data: `TASKS='unknown_contributors' ONLY='keylime' ./affs/all_tasks.sh`.
 - Delete reporting pod: `helm delete devstats-prod-reports`.
 - Go to `cncf/gitdm:src`: `wget https://devstats.cncf.io/backups/keylime_unknown_contributors.csv`
