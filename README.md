@@ -338,7 +338,6 @@ Prod instance:
 
 - Switch to `prod` context: `k config use-context prod`.
 - Clone `devstats-helm` repo: `git clone https://github.com/cncf/devstats-helm`, `cd devstats-helm`.
-- For each file in `devstats-helm/secrets/*.secret.example` create corresponding `secrets/*.secret` file. Vim saves with end line added, truncate such files via `truncate -s -1 filename`.
 - Deploy DevStats secrets: `helm install devstats-prod-secrets ./devstats-helm --set namespace='devstats-prod',skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1`.
 - Deploy backups PV (ReadWriteMany): `helm install devstats-prod-backups-pv ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1`.
 - Deploy 4-node patroni HA database (Postgres 13.X): `helm install devstats-prod-patroni ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1`.
@@ -359,7 +358,7 @@ Prod instance:
 - Shell into that pod: `../devstats-k8s-lf/util/pod_shell.sh debug`.
 - Backup new project(s): `NOBACKUP='' NOAGE=1 GIANT=wait ONLY='dbname' ./devstats-helm/backups.sh`.
 - Exit the pod and delete Helm deployment: `helm delete devstats-prod-debug`.
-- Restore from the backup (example): `helm install devstats-prod-proj ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,indexPVsFrom=0,indexPVsTo=1,indexProvisionsFrom=0,indexProvisionsTo=1,indexCronsFrom=0,indexCronsTo=1,indexGrafanasFrom=0,indexGrafanasTo=1,indexServicesFrom=0,indexServicesTo=1,indexAffiliationsFrom=0,indexAffiliationsTo=1,provisionImage='lukaszgryglicki/devstats-prod',provisionCommand='devstats-helm/restore.sh',restoreFrom='https://devstats.cncf.io/backups/'`.
+- Restore from the backup (example): `helm install devstats-prod-proj ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,indexPVsFrom=0,indexPVsTo=1,indexProvisionsFrom=0,indexProvisionsTo=1,indexCronsFrom=0,indexCronsTo=1,indexGrafanasFrom=0,indexGrafanasTo=1,indexServicesFrom=0,indexServicesTo=1,indexAffiliationsFrom=0,indexAffiliationsTo=1,provisionImage='lukaszgryglicki/devstats-prod',provisionCommand='devstats-helm/restore.sh',restoreFrom='https://devstats.cncf.io/backups/',testServer='',prodServer='1'`.
 - Then follow: `./scripts/deploy_prod.sh`.
 
 
