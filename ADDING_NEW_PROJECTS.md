@@ -127,7 +127,7 @@ To generate affiliations task for the next project(s):
 - Upload `task.csv` to a Google Sheet.
 
 
-5. Go to `cncf/devstats-helm-lf`:
+5. Go to `cncf/devstats-helm-lf` (optional):
 
 - Update `devstats-helm/values.yaml` (add project).
 - Now: N - index of the new project added to `github.com/cncf/devstats-helm-lf/devstats-helm/values.yaml`. M=N+1. Inside `github.com/cncf/devstats-helm`:

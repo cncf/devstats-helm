@@ -2111,3 +2111,99 @@ projects:
   ga: 'UA-145264316-40'
   i: 105
   certNum: 2
+- proj: piraeus
+  url: piraeus
+  db: piraeus
+  icon: piraeus
+  org: 'Piraeus-Datastore'
+  repo: 'piraeusdatastore/piraeus-operator'
+  cronTest: '45 * * * *'
+  cronProd: '45 * * * *'
+  affCronTest: '30 0 * * 5'
+  affCronProd: '30 12 * * 5'
+  affSkipTemp: '1'
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: 'UA-145264316-41'
+  i: 106
+  certNum: 2
+- proj: k8dash
+  url: k8dash
+  db: k8dash
+  icon: k8dash
+  org: 'k8dash'
+  repo: 'indeedeng/k8dash'
+  cronTest: '45 * * * *'
+  cronProd: '45 * * * *'
+  affCronTest: '40 0 * * 6'
+  affCronProd: '40 12 * * 6'
+  affSkipTemp: '1'
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: 'UA-145264316-42'
+  i: 107
+  certNum: 2
+- proj: athenz
+  url: athenz
+  db: athenz
+  icon: athenz
+  org: 'Athenz'
+  repo: 'yahoo/athenz'
+  cronTest: '45 * * * *'
+  cronProd: '45 * * * *'
+  affCronTest: '50 0 * * 0'
+  affCronProd: '50 12 * * 0'
+  affSkipTemp: '1'
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: 'UA-145264316-43'
+  i: 108
+  certNum: 2
+- proj: kubeovn
+  url: kubeovn
+  db: kubeovn
+  icon: kubeovn
+  org: 'Kube-OVN'
+  repo: 'alauda/kube-ovn'
+  cronTest: '46 * * * *'
+  cronProd: '46 * * * *'
+  affCronTest: '0 1 * * 1'
+  affCronProd: '0 13 * * 1'
+  affSkipTemp: '1'
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: 'UA-145264316-44'
+  i: 109
+  certNum: 2
+- proj: curiefense
+  url: curiefense
+  db: curiefense
+  icon: curiefense
+  org: 'Curiefense'
+  repo: 'curiefense/curiefense'
+  cronTest: '46 * * * *'
+  cronProd: '46 * * * *'
+  affCronTest: '10 1 * * 2'
+  affCronProd: '10 13 * * 2'
+  affSkipTemp: '1'
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: 'UA-145264316-45'
+  i: 110
+  certNum: 2
+- proj: distribution
+  url: distribution
+  db: distribution
+  icon: distribution
+  org: 'Distribution'
+  repo: 'distribution/distribution'
+  cronTest: '46 * * * *'
+  cronProd: '46 * * * *'
+  affCronTest: '20 1 * * 3'
+  affCronProd: '20 13 * * 3'
+  affSkipTemp: '1'
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: 'UA-145264316-46'
+  i: 111
+  certNum: 2
