@@ -76,6 +76,7 @@ Create backups on test to restore on prod:
 - Shell into that pod: `../devstats-k8s-lf/util/pod_shell.sh debug`.
 - Backup new project(s): `NOBACKUP='' NOAGE=1 GIANT=wait ONLY='backstage tremor porter openyurt openservicemesh' ./devstats-helm/backups.sh`.
 - Exit the pod and delete Helm deployment: `helm delete devstats-test-debug`.
+- For prod it would be: `helm install devstats-prod-debug ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,bootstrapPodName=debug,bootstrapCommand=sleep,bootstrapCommandArgs={360000s},bootstrapMountBackups=1`.
 
 While on the `devstats-prod` namespace, `git pull` and then for example if N=55 (index of the new project):
 
