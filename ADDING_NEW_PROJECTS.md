@@ -72,7 +72,7 @@ While on the `devstats-test` namespace, `git pull` and then for example if N=55 
 
 Create backups on test to restore on prod:
 
-- Create debugging bootstrap pod with backups storage mounted: `helm install devstats-test-debug ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,skipPostgres=1,bootstrapPodName=debug,bootstrapCommand=sleep,bootstrapCommandArgs={36000s},bootstrapMountBackups=1`.
+- Create debugging bootstrap pod with backups storage mounted: `helm install devstats-test-debug ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,skipPostgres=1,bootstrapPodName=debug,bootstrapCommand=sleep,bootstrapCommandArgs={360000s},bootstrapMountBackups=1`.
 - Shell into that pod: `../devstats-k8s-lf/util/pod_shell.sh debug`.
 - Backup new project(s): `NOBACKUP='' NOAGE=1 GIANT=wait ONLY='backstage tremor porter openyurt openservicemesh' ./devstats-helm/backups.sh`.
 - Exit the pod and delete Helm deployment: `helm delete devstats-test-debug`.
@@ -119,12 +119,14 @@ If you used `nCPUs=n` flag during adding a new project, update deployed componen
 To generate affiliations task for the next project(s):
 
 - On the `prod` node run: `helm install devstats-prod-reports ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,reportsPod=1,namespace='devstats-prod'`.
+- On the `test` node run: `helm install devstats-test-reports ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,reportsPod=1,projectsOverride='+cncf\,+opencontainers\,+istio\,+knative\,+zephyr\,+linux\,+rkt\,+sam\,+azf\,+riff\,+fn\,+openwhisk\,+openfaas\,+cii\,+prestodb\,+godotengine'`.
 - Shell into reporting pod: `../devstats-k8s-lf/util/pod_shell.sh devstats-reports` or `k exec -itn devstats-prod devstats-reports -- bash` from a different namespace (like `devstats-test`).
 - Generate data: `TASKS='unknown_contributors' ONLY='keylime' ./affs/all_tasks.sh`.
 - Delete reporting pod: `helm delete devstats-prod-reports`.
 - Go to `cncf/gitdm:src`: `wget https://devstats.cncf.io/backups/keylime_unknown_contributors.csv`
 - Check for forbidden SHAs: `./check_shas keylime_unknown_contributors.csv`.
-- Generate a task file: `PG_PASS=... ./unknown_committers.rb keylime_unknown_contributors.csv`.
+- Generate a task file: `PG_PASS=... ./unknown_committers.rb keylime_unknown_contributors.csv; mv task.csv keylime_task.csv`.
+- Merge multiple tasks: `./csv_merge.rb commits task.csv *_task.csv`
 - Upload `task.csv` to a Google Sheet.
 
 
