@@ -26,7 +26,7 @@
 - Update automatic deploy script: `./devel/deploy_all.sh`.
 - Update static index pages `apache/www/index_*`.
 - Update `partials/projects.html partials/projects_health.html metrics/all/sync_vars.yaml` (number of projects and partials).
-- If normalized project name is not equal to lower project name, you need to update projects health metric to do the mapping, for example `series_name_map: { clouddeploymentkitforkubernetes: cdk8s }`, see `metrics/all/metrics.yaml`.
+- If normalized project name is not equal to lower project name, you need to update projects health metric to do the mapping, for example `series_name_map: { clouddeploymentkitforkubernetes: cdk8s }`, see `metrics/*/*.yaml`.
 - Copy `metrics/oldproject` to `metrics/projectname`. Update `./metrics/projectname/vars.yaml` file.
 - `cp -Rv scripts/oldproject/ scripts/projectname`, `vim scripts/projectname/*`. Usually it is only `repo_groups.sql` and in simple cases it can fallback to `scripts/shared/repo_groups.sql`, you can skip copy then.
 - `cp -Rv grafana/oldproject/ grafana/projectname/` and then update files. Usually `%s/oldproject/newproject/g|w|next` and `%s/Old Project/New Project/g|w|next`.
@@ -101,7 +101,7 @@ Both test & prod namespaces:
 
 Regenerate projects health on "summary" projects (follow `cncf/devstats-docker-images`:`devstats-helm/health.sh` instructions):
 
-- If normalized project name is not equal to lower project name, you need to update projects health metric to do the mapping, for example `series_name_map: { clouddeploymentkitforkubernetes: cdk8s }`, see `metrics/all/metrics.yaml`.
+- If normalized project name is not equal to lower project name, you need to update projects health metric to do the mapping, for example `series_name_map: { clouddeploymentkitforkubernetes: cdk8s }`, see `metrics/*/*.yaml`.
 - You can check this via: `k exec -it devstats-postgres-1 -- psql allprj`, then `select distinct series from sprojects_health where series like '%proj%'`.
 
 Test:
