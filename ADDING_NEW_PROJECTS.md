@@ -102,6 +102,7 @@ Both test & prod namespaces:
 Regenerate projects health on "summary" projects (follow `cncf/devstats-docker-images`:`devstats-helm/health.sh` instructions):
 
 - If normalized project name is not equal to lower project name, you need to update projects health metric to do the mapping, for example `series_name_map: { clouddeploymentkitforkubernetes: cdk8s }`, see `metrics/all/metrics.yaml`.
+- You can check this via: `k exec -it devstats-postgres-1 -- psql allprj`, then `select distinct series from sprojects_health where series like '%proj%'`.
 
 Test:
 
