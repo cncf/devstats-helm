@@ -2148,7 +2148,7 @@ projects:
   db: athenz
   icon: athenz
   org: 'Athenz'
-  repo: 'yahoo/athenz'
+  repo: 'AthenZ/athenz'
   cronTest: '45 * * * *'
   cronProd: '45 * * * *'
   affCronTest: '50 0 * * 0'
