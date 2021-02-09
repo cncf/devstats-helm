@@ -1924,7 +1924,7 @@ projects:
   db: openyurt
   icon: openyurt
   org: OpenYurt
-  repo: 'alibaba/openyurt'
+  repo: 'openyurtio/openyurt'
   cronTest: '40 * * * *'
   cronProd: '40 * * * *'
   affCronTest: '30 22 * * 0'
