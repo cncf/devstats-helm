@@ -159,6 +159,7 @@ mput config
     cgroupDriver: systemd
     shutdownGracePeriod: 60s
     shutdownGracePeriodCriticalPods: 20s
+    maxPods: 255
 ```
 - Enable feature gates for `kube-apiserver`: `vim /etc/kubernetes/manifests/kube-apiserver.yaml`, add `- --feature-gates=GracefulNodeShutdown=True,DynamicKubeletConfig=True` so it looks like:
 ```
