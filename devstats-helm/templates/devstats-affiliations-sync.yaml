@@ -80,7 +80,7 @@ spec:
             - name: GHA2DB_PROPAGATE_ONLY_VAR
               value: "1"
             - name: GHA2DB_NCPUS
-              value: '{{ $root.Values.nCPUs }}'
+              value: '{{ $root.Values.nAffsCPUs }}'
             - name: GHA2DB_DEBUG
               value: '{{ $root.Values.debug }}'
             - name: GHA2DB_CMDDEBUG

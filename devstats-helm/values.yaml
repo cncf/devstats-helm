@@ -57,6 +57,8 @@
 #
 # You can overwrite the number of CPU autodetected in each pod, setting this to 1 will make each pod single-threaded
 # nCPUs: 0
+# nAffsCPUs: 0
+# nSyncCPUs: 0
 #
 # Other evrironment options
 # apiCommandArgs:
@@ -276,6 +278,8 @@ metricsYAML: ''
 name: devstats
 namespace: 'devstats-test'
 nameOverride: devstats
+nAffsCPUs: 8
+nSyncCPUs: 8
 oauthSecret: github-oauth
 onlyGHA: ''
 skipECFRGReset: ''
