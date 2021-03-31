@@ -2211,3 +2211,67 @@ projects:
   ga: 'UA-145264316-46'
   i: 111
   certNum: 2
+- proj: ingraind
+  url: ingraind
+  db: ingraind
+  icon: ingraind
+  org: 'ingraind'
+  repo: 'ingraind/ingraind'
+  cronTest: '47 * * * *'
+  cronProd: '47 * * * *'
+  affCronTest: '30 1 * * 4'
+  affCronProd: '30 13 * * 4'
+  affSkipTemp: '1'
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: 'UA-145264316-47'
+  i: 112
+  certNum: 2
+- proj: kuberhealthy
+  url: kuberhealthy
+  db: kuberhealthy
+  icon: kuberhealthy
+  org: 'Kuberhealthy'
+  repo: 'Comcast/kuberhealthy'
+  cronTest: '47 * * * *'
+  cronProd: '47 * * * *'
+  affCronTest: '40 1 * * 5'
+  affCronProd: '40 13 * * 5'
+  affSkipTemp: '1'
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: 'UA-145264316-48'
+  i: 113
+  certNum: 2
+- proj: k8gb
+  url: k8gb
+  db: k8gb
+  icon: k8gb
+  org: 'K8GB'
+  repo: 'AbsaOSS/k8gb'
+  cronTest: '47 * * * *'
+  cronProd: '47 * * * *'
+  affCronTest: '50 1 * * 6'
+  affCronProd: '50 13 * * 6'
+  affSkipTemp: '1'
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: 'UA-145264316-49'
+  i: 114
+  certNum: 2
+- proj: trickster
+  url: trickster
+  db: trickster
+  icon: trickster
+  org: 'Trickster'
+  repo: 'tricksterproxy/trickster'
+  cronTest: '47 * * * *'
+  cronProd: '47 * * * *'
+  affCronTest: '0 2 * * 0'
+  affCronProd: '0 14 * * 0'
+  affSkipTemp: '1'
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: 'UA-145264316-50'
+  i: 115
+  certNum: 2
