@@ -2216,7 +2216,7 @@ projects:
   db: ingraind
   icon: ingraind
   org: 'ingraind'
-  repo: 'ingraind/ingraind'
+  repo: 'foniod/ingraind'
   cronTest: '47 * * * *'
   cronProd: '47 * * * *'
   affCronTest: '30 1 * * 4'
