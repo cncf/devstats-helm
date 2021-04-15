@@ -2275,3 +2275,19 @@ projects:
   ga: 'UA-145264316-50'
   i: 115
   certNum: 2
+- proj: emissaryingress
+  url: emissaryingress
+  db: emissaryingress
+  icon: emissaryingress
+  org: 'Emissary-ingress'
+  repo: 'datawire/ambassador'
+  cronTest: '48 * * * *'
+  cronProd: '48 * * * *'
+  affCronTest: '10 2 * * 1'
+  affCronProd: '10 14 * * 1'
+  affSkipTemp: '1'
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: 'UA-145264316-51'
+  i: 116
+  certNum: 2
