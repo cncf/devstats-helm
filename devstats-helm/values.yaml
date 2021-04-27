@@ -2135,7 +2135,7 @@ projects:
   url: k8dash
   db: k8dash
   icon: k8dash
-  org: 'k8dash'
+  org: 'Skooner'
   repo: 'indeedeng/k8dash'
   cronTest: '45 * * * *'
   cronProd: '45 * * * *'
@@ -2215,8 +2215,8 @@ projects:
   url: ingraind
   db: ingraind
   icon: ingraind
-  org: 'ingraind'
-  repo: 'foniod/ingraind'
+  org: 'Foniod'
+  repo: 'foniod/foniod'
   cronTest: '47 * * * *'
   cronProd: '47 * * * *'
   affCronTest: '30 1 * * 4'
