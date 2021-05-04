@@ -2291,3 +2291,99 @@ projects:
   ga: 'UA-145264316-51'
   i: 116
   certNum: 2
+- proj: wasmedge
+  url: wasmedge
+  db: wasmedge
+  icon: wasmedge
+  org: 'WasmEdge Runtime'
+  repo: 'WasmEdge/WasmEdge'
+  cronTest: '48 * * * *'
+  cronProd: '48 * * * *'
+  affCronTest: '20 2 * * 2'
+  affCronProd: '20 14 * * 2'
+  affSkipTemp: '1'
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: 'UA-145264316-52'
+  i: 117
+  certNum: 2
+- proj: chaosblade
+  url: chaosblade
+  db: chaosblade
+  icon: chaosblade
+  org: 'ChaosBlade'
+  repo: 'chaosblade-io/chaosblade'
+  cronTest: '48 * * * *'
+  cronProd: '48 * * * *'
+  affCronTest: '30 2 * * 3'
+  affCronProd: '30 14 * * 3'
+  affSkipTemp: '1'
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: 'UA-145264316-53'
+  i: 118
+  certNum: 2
+- proj: vineyard
+  url: vineyard
+  db: vineyard
+  icon: vineyard
+  org: 'Vineyard'
+  repo: 'alibaba/v6d'
+  cronTest: '49 * * * *'
+  cronProd: '49 * * * *'
+  affCronTest: '40 2 * * 4'
+  affCronProd: '40 14 * * 4'
+  affSkipTemp: '1'
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: 'UA-145264316-54'
+  i: 119
+  certNum: 2
+- proj: antrea
+  url: antrea
+  db: antrea
+  icon: antrea
+  org: 'Antrea'
+  repo: 'vmware-tenzu/antrea'
+  cronTest: '49 * * * *'
+  cronProd: '49 * * * *'
+  affCronTest: '50 2 * * 5'
+  affCronProd: '50 14 * * 5'
+  affSkipTemp: '1'
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: 'UA-145264316-55'
+  i: 120
+  certNum: 2
+- proj: fluid
+  url: fluid
+  db: fluid
+  icon: fluid
+  org: 'Fluid'
+  repo: 'fluid-cloudnative/fluid'
+  cronTest: '49 * * * *'
+  cronProd: '49 * * * *'
+  affCronTest: '0 3 * * 6'
+  affCronProd: '0 15 * * 6'
+  affSkipTemp: '1'
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: 'UA-145264316-56'
+  i: 121
+  certNum: 2
+- proj: submariner
+  url: submariner
+  db: submariner
+  icon: submariner
+  org: 'Submariner'
+  repo: 'submariner-io/submariner'
+  cronTest: '50 * * * *'
+  cronProd: '50 * * * *'
+  affCronTest: '10 3 * * 0'
+  affCronProd: '10 15 * * 0'
+  affSkipTemp: '1'
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: 'UA-145264316-57'
+  i: 122
+  certNum: 2
