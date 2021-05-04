@@ -2344,7 +2344,7 @@ projects:
   db: antrea
   icon: antrea
   org: 'Antrea'
-  repo: 'vmware-tenzu/antrea'
+  repo: 'vmware-tanzu/antrea'
   cronTest: '49 * * * *'
   cronProd: '49 * * * *'
   affCronTest: '50 2 * * 5'
