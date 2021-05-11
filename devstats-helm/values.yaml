@@ -2248,7 +2248,7 @@ projects:
   db: k8gb
   icon: k8gb
   org: 'K8GB'
-  repo: 'AbsaOSS/k8gb'
+  repo: 'k8gb-io/k8gb'
   cronTest: '47 * * * *'
   cronProd: '47 * * * *'
   affCronTest: '50 1 * * 6'
