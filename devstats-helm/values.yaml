@@ -2328,7 +2328,7 @@ projects:
   db: vineyard
   icon: vineyard
   org: 'Vineyard'
-  repo: 'alibaba/v6d'
+  repo: 'v6d-io/v6d'
   cronTest: '49 * * * *'
   cronProd: '49 * * * *'
   affCronTest: '40 2 * * 4'
