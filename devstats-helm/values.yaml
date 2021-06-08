@@ -2280,7 +2280,7 @@ projects:
   db: emissaryingress
   icon: emissaryingress
   org: 'Emissary-ingress'
-  repo: 'datawire/ambassador'
+  repo: 'emissary-ingress/emissary'
   cronTest: '48 * * * *'
   cronProd: '48 * * * *'
   affCronTest: '10 2 * * 1'
