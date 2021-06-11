@@ -61,7 +61,7 @@ spec:
     - name: GHA2DB_NCPUS
       value: '{{ .Values.nCPUs }}'
     - name: GHA2DB_RECALC_RECIPROCAL
-      value: '{{ $root.Values.recalcReciprocal }}'
+      value: '{{ .Values.recalcReciprocal }}'
     - name: GHA2DB_DEBUG
       value: '{{ .Values.debug }}'
     - name: GHA2DB_CMDDEBUG
