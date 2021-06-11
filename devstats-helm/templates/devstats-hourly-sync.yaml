@@ -67,6 +67,8 @@ spec:
               value: '{{ $root.Values.giant }}'
             - name: GHA2DB_NCPUS
               value: '{{ $root.Values.nSyncCPUs }}'
+            - name: GHA2DB_RECALC_RECIPROCAL
+              value: '{{ $root.Values.recalcReciprocal }}'
             - name: GHA2DB_DEBUG
               value: '{{ $root.Values.debug }}'
             - name: GHA2DB_CMDDEBUG

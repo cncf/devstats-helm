@@ -39,6 +39,8 @@ spec:
       value: '{{ .Values.prodServer }}'
     - name: GHA2DB_DEBUG
       value: '{{ .Values.debug }}'
+    - name: GHA2DB_RECALC_RECIPROCAL
+      value: '{{ $root.Values.recalcReciprocal }}'
     - name: GHA2DB_CMDDEBUG
       value: '{{ .Values.cmdDebug }}'
     - name: GHA2DB_QOUT

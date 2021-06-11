@@ -73,6 +73,7 @@
 # - "36000"
 # - "bootarg"
 # cmdDebug: 1
+# recalcReciprocal: 24 # (default is 50)
 # columnsYAML: 'devel/test_columns.yaml'
 # debug: 1
 # excludeVars: 'projects_health_partial_html'
