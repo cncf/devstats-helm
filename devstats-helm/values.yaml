@@ -2265,7 +2265,7 @@ projects:
   db: trickster
   icon: trickster
   org: 'Trickster'
-  repo: 'tricksterproxy/trickster'
+  repo: 'trickstercache/trickster'
   cronTest: '47 * * * *'
   cronProd: '47 * * * *'
   affCronTest: '0 2 * * 0'
