@@ -2137,7 +2137,7 @@ projects:
   db: k8dash
   icon: k8dash
   org: 'Skooner'
-  repo: 'indeedeng/k8dash'
+  repo: 'skooner-k8s/skooner'
   cronTest: '45 * * * *'
   cronProd: '45 * * * *'
   affCronTest: '40 0 * * 6'
@@ -2169,7 +2169,7 @@ projects:
   db: kubeovn
   icon: kubeovn
   org: 'Kube-OVN'
-  repo: 'alauda/kube-ovn'
+  repo: 'kubeovn/kube-ovn'
   cronTest: '46 * * * *'
   cronProd: '46 * * * *'
   affCronTest: '0 1 * * 1'
@@ -2233,7 +2233,7 @@ projects:
   db: kuberhealthy
   icon: kuberhealthy
   org: 'Kuberhealthy'
-  repo: 'Comcast/kuberhealthy'
+  repo: 'kuberhealthy/kuberhealthy'
   cronTest: '47 * * * *'
   cronProd: '47 * * * *'
   affCronTest: '40 1 * * 5'
@@ -2345,7 +2345,7 @@ projects:
   db: antrea
   icon: antrea
   org: 'Antrea'
-  repo: 'vmware-tanzu/antrea'
+  repo: 'antrea-io/antrea'
   cronTest: '49 * * * *'
   cronProd: '49 * * * *'
   affCronTest: '50 2 * * 5'
