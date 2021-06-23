@@ -2388,3 +2388,99 @@ projects:
   ga: 'UA-145264316-57'
   i: 122
   certNum: 2
+- proj: pixie
+  url: pixie
+  db: pixie
+  icon: pixie
+  org: 'Pixie'
+  repo: 'pixie-labs/pixie'
+  cronTest: '50 * * * *'
+  cronProd: '50 * * * *'
+  affCronTest: '20 3 * * 1'
+  affCronProd: '20 15 * * 1'
+  affSkipTemp: '1'
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: 'UA-145264316-58'
+  i: 123
+  certNum: 2
+- proj: meshery
+  url: meshery
+  db: meshery
+  icon: meshery
+  org: 'Meshery'
+  repo: 'layer5io/meshery'
+  cronTest: '50 * * * *'
+  cronProd: '50 * * * *'
+  affCronTest: '30 3 * * 2'
+  affCronProd: '30 15 * * 2'
+  affSkipTemp: '1'
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: 'UA-145264316-59'
+  i: 124
+  certNum: 2
+- proj: servicemeshperformance
+  url: servicemeshperformance
+  db: servicemeshperformance
+  icon: servicemeshperformance
+  org: 'Service Mesh Performance'
+  repo: 'layer5io/service-mesh-performance'
+  cronTest: '51 * * * *'
+  cronProd: '51 * * * *'
+  affCronTest: '40 3 * * 3'
+  affCronProd: '40 15 * * 3'
+  affSkipTemp: '1'
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: 'UA-145264316-60'
+  i: 125
+  certNum: 2
+- proj: kubevela
+  url: kubevela
+  db: kubevela
+  icon: kubevela
+  org: 'KubeVela'
+  repo: 'oam-dev/kubevela'
+  cronTest: '51 * * * *'
+  cronProd: '51 * * * *'
+  affCronTest: '50 3 * * 4'
+  affCronProd: '50 15 * * 4'
+  affSkipTemp: '1'
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: 'UA-145264316-61'
+  i: 126
+  certNum: 2
+- proj: kubevip
+  url: kubevip
+  db: kubevip
+  icon: kubevip
+  org: 'kube-vip'
+  repo: 'kube-vip/kube-vip'
+  cronTest: '51 * * * *'
+  cronProd: '51 * * * *'
+  affCronTest: '0 4 * * 5'
+  affCronProd: '0 16 * * 5'
+  affSkipTemp: '1'
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: 'UA-145264316-62'
+  i: 127
+  certNum: 2
+- proj: kubedl
+  url: kubedl
+  db: kubedl
+  icon: kubedl
+  org: 'KubeDL'
+  repo: 'alibaba/kubedl'
+  cronTest: '52 * * * *'
+  cronProd: '52 * * * *'
+  affCronTest: '10 4 * * 6'
+  affCronProd: '10 16 * * 6'
+  affSkipTemp: '1'
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: 'UA-145264316-63'
+  i: 128
+  certNum: 2
