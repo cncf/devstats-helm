@@ -2425,7 +2425,7 @@ projects:
   db: servicemeshperformance
   icon: servicemeshperformance
   org: 'Service Mesh Performance'
-  repo: 'layer5io/service-mesh-performance'
+  repo: 'service-mesh-performance/service-mesh-performance'
   cronTest: '51 * * * *'
   cronProd: '51 * * * *'
   affCronTest: '40 3 * * 3'
