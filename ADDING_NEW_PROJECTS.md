@@ -8,7 +8,7 @@
 - You may need to update `cncf/devstats`:`util_sql/(org_repo)_name_changes_bigquery.sql` to include newest months.
 - For other Helm deployments (like LF or GraphQL) update `k8s/projects.yaml` or `gql/projects.yaml` or `devstats-helm/projects.yaml` file instead of `example/projects.yaml`.
 - Update `./images/build_images.sh` (add project's directory).
-- Update `./k8s/all_*.txt` or `./example/all_*.txt` or `./gql/all_*.txt` or `devstats-helm/all_*` or `./devstats-helm/projects.yaml` (lists of projects to process).
+- Update `./k8s/all_*.txt` or `./example/all_*.txt` or `./gql/all_*.txt` or `devstats-helm/all_*.txt` or `./devstats-helm/projects.yaml` (lists of projects to process).
 - Update `images/Dockerfile.full.prod` and `images/Dockerfile.full.test` files.
 - Update `images/Dockerfile.minimal.prod` and `images/Dockerfile.minimal.test` files.
 
