@@ -11,6 +11,7 @@
 - Update `./k8s/all_*.txt` or `./example/all_*.txt` or `./gql/all_*.txt` or `devstats-helm/all_*.txt` or `./devstats-helm/projects.yaml` (lists of projects to process).
 - Update `images/Dockerfile.full.prod` and `images/Dockerfile.full.test` files.
 - Update `images/Dockerfile.minimal.prod` and `images/Dockerfile.minimal.test` files.
+- Eventually via `vim images/Dockerfile.full.???? images/Dockerfile.minimal.????`.
 
 
 2. Go to `cncf/devstats`:
