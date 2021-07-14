@@ -2484,3 +2484,67 @@ projects:
   ga: 'UA-145264316-63'
   i: 128
   certNum: 2
+- proj: krustlet
+  url: krustlet
+  db: krustlet
+  icon: krustlet
+  org: 'Krustlet'
+  repo: 'deislabs/krustlet'
+  cronTest: '52 * * * *'
+  cronProd: '52 * * * *'
+  affCronTest: '20 4 * * 0'
+  affCronProd: '20 16 * * 0'
+  affSkipTemp: '1'
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: 'UA-145264316-64'
+  i: 129
+  certNum: 2
+- proj: krator
+  url: krator
+  db: krator
+  icon: krator
+  org: 'Krator'
+  repo: 'krator-rs/krator'
+  cronTest: '52 * * * *'
+  cronProd: '52 * * * *'
+  affCronTest: '30 4 * * 1'
+  affCronProd: '30 16 * * 1'
+  affSkipTemp: '1'
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: 'UA-145264316-65'
+  i: 130
+  certNum: 2
+- proj: oras
+  url: oras
+  db: oras
+  icon: oras
+  org: 'ORAS'
+  repo: 'oras-project/oras'
+  cronTest: '53 * * * *'
+  cronProd: '53 * * * *'
+  affCronTest: '40 4 * * 2'
+  affCronProd: '40 16 * * 2'
+  affSkipTemp: '1'
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: 'UA-145264316-66'
+  i: 131
+  certNum: 2
+- proj: wasmcloud
+  url: wasmcloud
+  db: wasmcloud
+  icon: wasmcloud
+  org: 'wasmCloud'
+  repo: 'wasmCloud/wasmCloud'
+  cronTest: '53 * * * *'
+  cronProd: '53 * * * *'
+  affCronTest: '50 4 * * 3'
+  affCronProd: '50 16 * * 3'
+  affSkipTemp: '1'
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: 'UA-145264316-67'
+  i: 132
+  certNum: 2
