@@ -1519,9 +1519,10 @@ projects:
   affCronProd: '0 7 * * 3'
   affSkipTemp: '1'
   disk: 6Gi
-  domains: [1, 0, 0, 0]
+  #domains: [1, 0, 0, 0]
+  domains: [0, 0, 0, 0]
   ga: ''
-  aliases: ['prestodb.devstats.prestodb.io']
+  # aliases: ['prestodb.devstats.prestodb.io']
   i: 68
   certNum: 1
 - proj: chubaofs
