@@ -426,8 +426,8 @@ projects:
   repo: 'kubernetes/kubernetes'
   cronTest: '37 * * * *'
   cronProd: '7 * * * *'
-  affCronTest: '0 14 * * 0'
-  affCronProd: '0 2 * * 0'
+  affCronTest: '0 23 * * 0'
+  affCronProd: '0 11 * * 0'
   affSkipTemp: '1'
   disk: 50Gi
   domains: [1, 1, 0, 0]
@@ -1034,8 +1034,8 @@ projects:
   repo: '-'
   cronTest: '50 * * * *'
   cronProd: '27 * * * *'
-  affCronTest: '15 19 * * 6'
-  affCronProd: '15 7 * * 6'
+  affCronTest: '15 14 * * 6'
+  affCronProd: '15 5 * * 6'
   affSkipTemp: '1'
   disk: 150Gi
   domains: [1, 1, 0, 0]
