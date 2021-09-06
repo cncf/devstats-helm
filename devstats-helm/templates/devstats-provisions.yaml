@@ -42,7 +42,7 @@ spec:
     - name: SKIPTEMP
       value: '{{ $root.Values.skipTemp }}'
     - name: GIANT
-      value: '{{ $root.Values.giant }}'
+      value: '{{ $root.Values.giantProv }}'
     - name: NOLOCK
       value: "1"
     - name: NOBACKUP
@@ -106,7 +106,7 @@ spec:
     - name: GHA2DB_FORCE_PERIODS
       value: '{{ $root.Values.periods }}'
     - name: USE_FLAGS
-      value: '{{ $root.Values.useFlags }}'
+      value: '{{ $root.Values.useFlagsProv }}'
     - name: SKIP_AFFS_LOCK
       value: '{{ $root.Values.skipAffsLock }}'
     - name: REPOS

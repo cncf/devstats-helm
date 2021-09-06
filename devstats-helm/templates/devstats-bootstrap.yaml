@@ -95,7 +95,7 @@ spec:
     - name: GHA2DB_FORCE_PERIODS
       value: '{{ .Values.periods }}'
     - name: GIANT
-      value: '{{ .Values.giant }}'
+      value: '{{ .Values.giantBoot }}'
     - name: GHA2DB_GITHUB_OAUTH
       valueFrom:
         secretKeyRef:

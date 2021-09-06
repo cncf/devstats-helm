@@ -221,7 +221,11 @@ domains:
   shortname: graphql
 forceAddAll: ''
 fullnameOverride: devstats
-giant: 'wait'
+giantAffs: 'wait'
+giantBackups: 'wait'
+giantBoot: 'lock'
+giantSync: 'wait'
+giantProv: 'lock'
 getAffsFiles: ''
 grafanaCommand: 'grafana_start.sh'
 grafanaImage: 'lukaszgryglicki/devstats-grafana'
@@ -402,7 +406,8 @@ vacuumRestartPolicy: Never
 volumeMountName: data
 volumeMountPath: '/root'
 volumeName: data
-useFlags: '1'
+useFlagsAffs: '1'
+useFlagsProv: '1'
 skipAffsLock: ''
 useRepos: ''
 useAPIResourcesLimits: 1
