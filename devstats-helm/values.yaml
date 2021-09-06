@@ -403,6 +403,7 @@ volumeMountName: data
 volumeMountPath: '/root'
 volumeName: data
 useFlags: '1'
+skipAffsLock: ''
 useRepos: ''
 useAPIResourcesLimits: 1
 useBackupsResourcesLimits: 1

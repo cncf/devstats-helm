@@ -111,6 +111,8 @@ spec:
               value: '{{ $root.Values.periods }}'
             - name: USE_FLAGS
               value: '{{ $root.Values.useFlags }}'
+            - name: SKIP_AFFS_LOCK
+              value: '{{ $root.Values.skipAffsLock }}'
             - name: GHA2DB_GITHUB_OAUTH
               valueFrom:
                 secretKeyRef:
