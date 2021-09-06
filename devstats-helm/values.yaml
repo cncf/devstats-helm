@@ -317,9 +317,9 @@ postgresUseSlots: true
 postgresHotStandby: 'on'
 postgresHotStandbyFeedback: 'on'
 postgresWalLogHints: 'on'
-postgresWalKeepSegments: 10
+postgresWalKeepSegments: 500
 postgresWalLevel: 'replica'
-postgresWalKeepSize: '4GB'
+postgresWalKeepSize: '12GB'
 postgresMaxWalSenders: 5
 postgresMaxReplicationSlots: 5
 postgresMaintenanceWorkMem: '1GB'
