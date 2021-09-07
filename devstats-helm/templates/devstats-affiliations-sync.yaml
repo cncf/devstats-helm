@@ -16,8 +16,14 @@ metadata:
 spec:
 {{ if and ($root.Values.testServer) (not $root.Values.prodServer) }}
   schedule: '{{ .affCronTest }}'
+{{ if .suspendCronTest }}
+  suspend: '{{ .suspendCronTest }}'
+{{ end }}
 {{ else }}
   schedule: '{{ .affCronProd }}'
+{{ if .suspendCronProd }}
+  suspend: '{{ .suspendCronProd }}'
+{{ end }}
 {{ end }}
   successfulJobsHistoryLimit: {{ $root.Values.affiliationsCronHistoryLimit }}
   failedJobsHistoryLimit: {{ $root.Values.affiliationsCronFailedHistoryLimit }}
