@@ -427,1124 +427,1147 @@ projects:
 - proj: kubernetes
   url: k8s
   db: gha
-  icon: 'k8s'
-  org: 'Kubernetes'
-  repo: 'kubernetes/kubernetes'
-  cronTest: '37 * * * *'
-  cronProd: '7 * * * *'
-  affCronTest: '0 23 * * 0'
-  affCronProd: '0 11 * * 0'
-  affSkipTemp: '1'
+  icon: k8s
+  org: Kubernetes
+  repo: kubernetes/kubernetes
+  cronTest: 5 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 5 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 0 12 * * 3
+  affCronProd: 0 0 * * 0
+  affSkipTemp: "1"
   disk: 50Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-108085315-1'
+  ga: UA-108085315-1
   i: 0
   certNum: 1
 - proj: prometheus
   url: prometheus
   db: prometheus
-  icon: 'prometheus'
-  org: 'Prometheus'
-  repo: 'prometheus/prometheus'
-  cronTest: '8 * * * *'
-  cronProd: '8 * * * *'
-  affCronTest: '0 14 * * 1'
-  affCronProd: '0 2 * * 1'
-  affSkipTemp: '1'
+  icon: prometheus
+  org: Prometheus
+  repo: prometheus/prometheus
+  cronTest: 5 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 5 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 0 6 * * 4
+  affCronProd: 0 18 * * 0
+  affSkipTemp: "1"
   disk: 5Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-108085315-3'
+  ga: UA-108085315-3
   i: 1
   certNum: 1
 - proj: opentracing
   url: opentracing
   db: opentracing
-  icon: 'opentracing'
-  org: 'OpenTracing'
-  repo: 'opentracing/opentracing-go'
-  cronTest: '8 * * * *'
-  cronProd: '8 * * * *'
-  affCronTest: '0 14 * * 2'
-  affCronProd: '0 2 * * 2'
-  affSkipTemp: '1'
+  icon: opentracing
+  org: OpenTracing
+  repo: opentracing/opentracing-go
+  cronTest: 5 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 6 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 0 7 * * 4
+  affCronProd: 15 19 * * 0
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-108085315-4'
+  ga: UA-108085315-4
   i: 2
   certNum: 1
 - proj: fluentd
   url: fluentd
   db: fluentd
-  icon: 'fluentd'
-  org: 'Fluentd'
-  repo: 'fluent/fluentd'
-  cronTest: '9 * * * *'
-  cronProd: '9 * * * *'
-  affCronTest: '0 14 * * 3'
-  affCronProd: '0 2 * * 3'
-  affSkipTemp: '1'
+  icon: fluentd
+  org: Fluentd
+  repo: fluent/fluentd
+  cronTest: 6 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 7 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 1 8 * * 4
+  affCronProd: 30 20 * * 0
+  affSkipTemp: "1"
   disk: 10Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-108085315-5'
+  ga: UA-108085315-5
   i: 3
   certNum: 1
 - proj: linkerd
   url: linkerd
   db: linkerd
-  icon: 'linkerd'
-  org: 'Linkerd'
-  repo: 'linkerd/linkerd'
-  cronTest: '9 * * * *'
-  cronProd: '9 * * * *'
-  affCronTest: '0 14 * * 4'
-  affCronProd: '0 2 * * 4'
-  affSkipTemp: '1'
+  icon: linkerd
+  org: Linkerd
+  repo: linkerd/linkerd
+  cronTest: 7 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 8 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 2 9 * * 4
+  affCronProd: 46 21 * * 0
+  affSkipTemp: "1"
   disk: 4Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-108085315-6'
+  ga: UA-108085315-6
   i: 4
   certNum: 1
 - proj: grpc
   url: grpc
   db: grpc
-  icon: 'grpc'
-  org: 'gRPC'
-  repo: 'grpc/grpc'
-  cronTest: '10 * * * *'
-  cronProd: '20 * * * *'
-  affCronTest: '0 14 * * 5'
-  affCronProd: '0 2 * * 5'
-  affSkipTemp: '1'
+  icon: grpc
+  org: gRPC
+  repo: grpc/grpc
+  cronTest: 8 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 9 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 3 10 * * 4
+  affCronProd: 1 23 * * 0
+  affSkipTemp: "1"
   disk: 4Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-108085315-7'
+  ga: UA-108085315-7
   i: 5
   certNum: 1
 - proj: coredns
   url: coredns
   db: coredns
-  icon: 'coredns'
-  org: 'CoreDNS'
-  repo: 'coredns/coredns'
-  cronTest: '10 * * * *'
-  cronProd: '10 * * * *'
-  affCronTest: '0 14 * * 6'
-  affCronProd: '0 2 * * 6'
-  affSkipTemp: '1'
+  icon: coredns
+  org: CoreDNS
+  repo: coredns/coredns
+  cronTest: 9 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 10 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 4 11 * * 4
+  affCronProd: 17 0 * * 1
+  affSkipTemp: "1"
   disk: 4Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-108085315-9'
+  ga: UA-108085315-9
   i: 6
   certNum: 1
 - proj: containerd
   url: containerd
   db: containerd
-  icon: 'containerd'
-  org: 'containerd'
-  repo: 'containerd/containerd'
-  cronTest: '11 * * * *'
-  cronProd: '11 * * * *'
-  affCronTest: '15 14 * * 0'
-  affCronProd: '15 2 * * 0'
-  affSkipTemp: '1'
+  icon: containerd
+  org: containerd
+  repo: containerd/containerd
+  cronTest: 10 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 11 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 5 12 * * 4
+  affCronProd: 32 1 * * 1
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-108085315-10'
+  ga: UA-108085315-10
   i: 7
   certNum: 1
 - proj: rkt
   url: rkt
   db: rkt
-  icon: 'rkt'
-  org: 'rkt'
-  repo: 'rkt/rkt'
-  cronTest: '11 * * * *'
-  cronProd: '11 * * * *'
-  affCronTest: '15 14 * * 1'
-  affCronProd: '15 2 * * 1'
-  affSkipTemp: '1'
+  icon: rkt
+  org: rkt
+  repo: rkt/rkt
+  cronTest: 10 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 11 * * * *
+  affCronTest: 6 13 * * 4
+  affCronProd: 15 2 * * 1
+  suspendCronProd: true
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 0, 0, 0]
-  ga: 'UA-108085315-11'
+  ga: UA-108085315-11
   i: 8
   certNum: 1
 - proj: cni
   url: cni
   db: cni
-  icon: 'cni'
-  org: 'CNI'
-  repo: 'containernetworking/cni'
-  cronTest: '11 * * * *'
-  cronProd: '11 * * * *'
-  affCronTest: '15 14 * * 2'
-  affCronProd: '15 2 * * 2'
-  affSkipTemp: '1'
+  icon: cni
+  org: CNI
+  repo: containernetworking/cni
+  cronTest: 11 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 12 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 7 14 * * 4
+  affCronProd: 48 2 * * 1
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-108085315-12'
+  ga: UA-108085315-12
   i: 9
   certNum: 1
 - proj: envoy
   url: envoy
   db: envoy
-  icon: 'envoy'
-  org: 'Envoy'
-  repo: 'envoyproxy/envoy'
-  cronTest: '12 * * * *'
-  cronProd: '12 * * * *'
-  affCronTest: '15 14 * * 3'
-  affCronProd: '15 2 * * 3'
-  affSkipTemp: '1'
+  icon: envoy
+  org: Envoy
+  repo: envoyproxy/envoy
+  cronTest: 12 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 13 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 8 15 * * 4
+  affCronProd: 3 4 * * 1
+  affSkipTemp: "1"
   disk: 4Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-108085315-13'
+  ga: UA-108085315-13
   i: 10
   certNum: 1
 - proj: jaeger
   url: jaeger
   db: jaeger
-  icon: 'jaeger'
-  org: 'Jaeger'
-  repo: 'jaegertracing/jaeger'
-  cronTest: '12 * * * *'
-  cronProd: '12 * * * *'
-  affCronTest: '15 14 * * 4'
-  affCronProd: '15 2 * * 4'
-  affSkipTemp: '1'
+  icon: jaeger
+  org: Jaeger
+  repo: jaegertracing/jaeger
+  cronTest: 13 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 14 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 9 16 * * 4
+  affCronProd: 18 5 * * 1
+  affSkipTemp: "1"
   disk: 4Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-108085315-14'
+  ga: UA-108085315-14
   i: 11
   certNum: 1
 - proj: notary
   url: notary
   db: notary
-  icon: 'notary'
-  org: 'Notary'
-  repo: 'theupdateframework/notary'
-  cronTest: '13 * * * *'
-  cronProd: '13 * * * *'
-  affCronTest: '15 14 * * 5'
-  affCronProd: '15 2 * * 5'
-  affSkipTemp: '1'
+  icon: notary
+  org: Notary
+  repo: theupdateframework/notary
+  cronTest: 14 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 15 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 10 17 * * 4
+  affCronProd: 34 6 * * 1
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-108085315-15'
+  ga: UA-108085315-15
   i: 12
   certNum: 1
 - proj: tuf
   url: tuf
   db: tuf
-  icon: 'tuf'
-  org: 'TUF'
-  repo: 'theupdateframework/tuf'
-  cronTest: '13 * * * *'
-  cronProd: '13 * * * *'
-  affCronTest: '15 14 * * 6'
-  affCronProd: '15 2 * * 6'
-  affSkipTemp: '1'
+  icon: tuf
+  org: TUF
+  repo: theupdateframework/tuf
+  cronTest: 15 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 16 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 11 18 * * 4
+  affCronProd: 49 7 * * 1
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-108085315-16'
+  ga: UA-108085315-16
   i: 13
   certNum: 1
 - proj: rook
   url: rook
   db: rook
-  icon: 'rook'
-  org: 'Rook'
-  repo: 'rook/rook'
-  cronTest: '13 * * * *'
-  cronProd: '13 * * * *'
-  affCronTest: '30 14 * * 0'
-  affCronProd: '30 2 * * 0'
-  affSkipTemp: '1'
+  icon: rook
+  org: Rook
+  repo: rook/rook
+  cronTest: 16 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 17 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 12 19 * * 4
+  affCronProd: 5 9 * * 1
+  affSkipTemp: "1"
   disk: 4Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-108085315-17'
+  ga: UA-108085315-17
   i: 14
   certNum: 1
 - proj: vitess
   url: vitess
   db: vitess
-  icon: 'vitess'
-  org: 'Vitess'
-  repo: 'vitessio/vitess'
-  cronTest: '14 * * * *'
-  cronProd: '14 * * * *'
-  affCronTest: '30 14 * * 1'
-  affCronProd: '30 2 * * 1'
-  affSkipTemp: '1'
+  icon: vitess
+  org: Vitess
+  repo: vitessio/vitess
+  cronTest: 16 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 18 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 12 20 * * 4
+  affCronProd: 20 10 * * 1
+  affSkipTemp: "1"
   disk: 5Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-108085315-18'
+  ga: UA-108085315-18
   i: 15
   certNum: 1
 - proj: nats
   url: nats
   db: nats
-  icon: 'nats'
-  org: 'NATS'
-  repo: 'nats-io/nats-server'
-  cronTest: '14 * * * *'
-  cronProd: '14 * * * *'
-  affCronTest: '30 14 * * 2'
-  affCronProd: '30 2 * * 2'
-  affSkipTemp: '1'
+  icon: nats
+  org: NATS
+  repo: nats-io/nats-server
+  cronTest: 17 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 19 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 13 21 * * 4
+  affCronProd: 36 11 * * 1
+  affSkipTemp: "1"
   disk: 5Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-108085315-21'
+  ga: UA-108085315-21
   i: 16
   certNum: 1
 - proj: opa
   url: opa
   db: opa
-  icon: 'opa'
-  org: 'OPA'
-  repo: 'open-policy-agent/opa'
-  cronTest: '14 * * * *'
-  cronProd: '14 * * * *'
-  affCronTest: '30 14 * * 3'
-  affCronProd: '30 2 * * 3'
-  affSkipTemp: '1'
+  icon: opa
+  org: OPA
+  repo: open-policy-agent/opa
+  cronTest: 18 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 20 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 14 22 * * 4
+  affCronProd: 51 12 * * 1
+  affSkipTemp: "1"
   disk: 5Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-108085315-22'
+  ga: UA-108085315-22
   i: 17
   certNum: 1
 - proj: spiffe
   url: spiffe
   db: spiffe
-  icon: 'spiffe'
-  org: 'SPIFFE'
-  repo: 'spiffe/spiffe'
-  cronTest: '15 * * * *'
-  cronProd: '15 * * * *'
-  affCronTest: '30 14 * * 4'
-  affCronProd: '30 2 * * 4'
-  affSkipTemp: '1'
+  icon: spiffe
+  org: SPIFFE
+  repo: spiffe/spiffe
+  cronTest: 19 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 21 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 15 23 * * 4
+  affCronProd: 6 14 * * 1
+  affSkipTemp: "1"
   disk: 4Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-108085315-23'
+  ga: UA-108085315-23
   i: 18
   certNum: 1
 - proj: spire
   url: spire
   db: spire
-  icon: 'spire'
-  org: 'SPIRE'
-  repo: 'spiffe/spire'
-  cronTest: '15 * * * *'
-  cronProd: '15 * * * *'
-  affCronTest: '30 14 * * 5'
-  affCronProd: '30 2 * * 5'
-  affSkipTemp: '1'
+  icon: spire
+  org: SPIRE
+  repo: spiffe/spire
+  cronTest: 20 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 22 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 16 0 * * 5
+  affCronProd: 22 15 * * 1
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-108085315-24'
+  ga: UA-108085315-24
   i: 19
   certNum: 1
 - proj: cloudevents
   url: cloudevents
   db: cloudevents
-  icon: 'cloudevents'
-  org: 'CloudEvents'
-  repo: 'cloudevents/spec'
-  cronTest: '15 * * * *'
-  cronProd: '15 * * * *'
-  affCronTest: '30 14 * * 6'
-  affCronProd: '30 2 * * 6'
-  affSkipTemp: '1'
+  icon: cloudevents
+  org: CloudEvents
+  repo: cloudevents/spec
+  cronTest: 21 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 23 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 17 1 * * 5
+  affCronProd: 37 16 * * 1
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-108085315-25'
+  ga: UA-108085315-25
   i: 20
   certNum: 1
 - proj: telepresence
   url: telepresence
   db: telepresence
-  icon: 'telepresence'
-  org: 'Telepresence'
-  repo: 'telepresenceio/telepresence'
-  cronTest: '15 * * * *'
-  cronProd: '15 * * * *'
-  affCronTest: '45 14 * * 0'
-  affCronProd: '45 2 * * 0'
-  affSkipTemp: '1'
+  icon: telepresence
+  org: Telepresence
+  repo: telepresenceio/telepresence
+  cronTest: 21 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 24 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 18 2 * * 5
+  affCronProd: 53 17 * * 1
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-108085315-26'
+  ga: UA-108085315-26
   i: 21
   certNum: 1
 - proj: helm
   url: helm
   db: helm
-  icon: 'helm'
-  org: 'Helm'
-  repo: 'helm/helm'
-  cronTest: '31 * * * *'
-  cronProd: '16 * * * *'
-  affCronTest: '45 14 * * 1'
-  affCronProd: '45 2 * * 1'
-  affSkipTemp: '1'
+  icon: helm
+  org: Helm
+  repo: helm/helm
+  cronTest: 22 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 25 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 19 3 * * 5
+  affCronProd: 8 19 * * 1
+  affSkipTemp: "1"
   disk: 8Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-108085315-27'
+  ga: UA-108085315-27
   i: 22
   certNum: 1
 - proj: openmetrics
   url: openmetrics
   db: openmetrics
-  icon: 'openmetrics'
-  org: 'OpenMetrics'
-  repo: 'OpenObservability/OpenMetrics'
-  cronTest: '16 * * * *'
-  cronProd: '16 * * * *'
-  affCronTest: '45 14 * * 2'
-  affCronProd: '45 2 * * 2'
-  affSkipTemp: '1'
+  icon: openmetrics
+  org: OpenMetrics
+  repo: OpenObservability/OpenMetrics
+  cronTest: 23 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 27 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 20 4 * * 5
+  affCronProd: 24 20 * * 1
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-108085315-28'
+  ga: UA-108085315-28
   i: 23
   certNum: 1
 - proj: harbor
   url: harbor
   db: harbor
-  icon: 'harbor'
-  org: 'Harbor'
-  repo: 'goharbor/harbor'
-  cronTest: '17 * * * *'
-  cronProd: '17 * * * *'
-  affCronTest: '45 14 * * 3'
-  affCronProd: '45 2 * * 3'
-  affSkipTemp: '1'
+  icon: harbor
+  org: Harbor
+  repo: goharbor/harbor
+  cronTest: 24 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 28 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 21 5 * * 5
+  affCronProd: 39 21 * * 1
+  affSkipTemp: "1"
   disk: 4Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-108085315-29'
+  ga: UA-108085315-29
   i: 24
   certNum: 1
 - proj: etcd
   url: etcd
   db: etcd
-  icon: 'etcd'
-  org: 'etcd'
-  repo: 'etcd-io/etcd'
-  cronTest: '17 * * * *'
-  cronProd: '17 * * * *'
-  affCronTest: '45 14 * * 4'
-  affCronProd: '45 2 * * 4'
-  affSkipTemp: '1'
+  icon: etcd
+  org: etcd
+  repo: etcd-io/etcd
+  cronTest: 25 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 29 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 22 6 * * 5
+  affCronProd: 54 22 * * 1
+  affSkipTemp: "1"
   disk: 4Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-108085315-30'
+  ga: UA-108085315-30
   i: 25
   certNum: 1
 - proj: tikv
   url: tikv
   db: tikv
-  icon: 'tikv'
-  org: 'TiKV'
-  repo: 'tikv/tikv'
-  cronTest: '17 * * * *'
-  cronProd: '17 * * * *'
-  affCronTest: '45 14 * * 5'
-  affCronProd: '45 2 * * 5'
-  affSkipTemp: '1'
+  icon: tikv
+  org: TiKV
+  repo: tikv/tikv
+  cronTest: 26 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 30 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 23 7 * * 5
+  affCronProd: 10 0 * * 2
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-108085315-31'
+  ga: UA-108085315-31
   i: 26
   certNum: 1
 - proj: cortex
   url: cortex
   db: cortex
-  icon: 'cortex'
-  org: 'Cortex'
-  repo: 'cortexproject/cortex'
-  cronTest: '18 * * * *'
-  cronProd: '18 * * * *'
-  affCronTest: '45 14 * * 6'
-  affCronProd: '45 2 * * 6'
-  affSkipTemp: '1'
+  icon: cortex
+  org: Cortex
+  repo: cortexproject/cortex
+  cronTest: 27 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 31 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 24 8 * * 5
+  affCronProd: 25 1 * * 2
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-108085315-32'
+  ga: UA-108085315-32
   i: 27
   certNum: 1
 - proj: buildpacks
   url: buildpacks
   db: buildpacks
-  icon: 'buildpacks'
-  org: 'Buildpacks'
-  repo: 'buildpacks/lifecycle'
-  cronTest: '18 * * * *'
-  cronProd: '18 * * * *'
-  affCronTest: '0 15 * * 0'
-  affCronProd: '0 3 * * 0'
-  affSkipTemp: '1'
+  icon: buildpacks
+  org: Buildpacks
+  repo: buildpacks/lifecycle
+  cronTest: 27 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 32 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 24 9 * * 5
+  affCronProd: 41 2 * * 2
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-108085315-33'
+  ga: UA-108085315-33
   i: 28
   certNum: 1
 - proj: falco
   url: falco
   db: falco
-  icon: 'falco'
-  org: 'Falco'
-  repo: 'falcosecurity/falco'
-  cronTest: '18 * * * *'
-  cronProd: '18 * * * *'
-  affCronTest: '0 15 * * 1'
-  affCronProd: '0 3 * * 1'
-  affSkipTemp: '1'
+  icon: falco
+  org: Falco
+  repo: falcosecurity/falco
+  cronTest: 28 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 33 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 25 10 * * 5
+  affCronProd: 56 3 * * 2
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-108085315-34'
+  ga: UA-108085315-34
   i: 29
   certNum: 1
 - proj: dragonfly
   url: dragonfly
   db: dragonfly
-  icon: 'dragonfly'
-  org: 'Dragonfly'
-  repo: 'dragonflyoss/Dragonfly'
-  cronTest: '19 * * * *'
-  cronProd: '19 * * * *'
-  affCronTest: '0 15 * * 2'
-  affCronProd: '0 3 * * 2'
-  affSkipTemp: '1'
+  icon: dragonfly
+  org: Dragonfly
+  repo: dragonflyoss/Dragonfly
+  cronTest: 29 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 34 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 26 11 * * 5
+  affCronProd: 12 5 * * 2
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-108085315-35'
+  ga: UA-108085315-35
   i: 30
   certNum: 1
 - proj: virtualkubelet
   url: virtualkubelet
   db: virtualkubelet
-  icon: 'virtualkubelet'
-  org: 'Virtual Kubelet'
-  repo: 'virtual-kubelet/virtual-kubelet'
-  cronTest: '19 * * * *'
-  cronProd: '19 * * * *'
-  affCronTest: '0 15 * * 3'
-  affCronProd: '0 3 * * 3'
-  affSkipTemp: '1'
+  icon: virtualkubelet
+  org: Virtual Kubelet
+  repo: virtual-kubelet/virtual-kubelet
+  cronTest: 30 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 35 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 27 12 * * 5
+  affCronProd: 27 6 * * 2
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-108085315-36'
+  ga: UA-108085315-36
   i: 31
   certNum: 1
 - proj: kubeedge
   url: kubeedge
   db: kubeedge
-  icon: 'kubeedge'
-  org: 'KubeEdge'
-  repo: 'kubeedge/kubeedge'
-  cronTest: '21 * * * *'
-  cronProd: '21 * * * *'
-  affCronTest: '0 15 * * 4'
-  affCronProd: '0 3 * * 4'
-  affSkipTemp: '1'
+  icon: kubeedge
+  org: KubeEdge
+  repo: kubeedge/kubeedge
+  cronTest: 31 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 36 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 28 13 * * 5
+  affCronProd: 42 7 * * 2
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-108085315-43'
+  ga: UA-108085315-43
   i: 32
   certNum: 1
 - proj: brigade
   url: brigade
   db: brigade
-  icon: 'brigade'
-  org: 'Brigade'
-  repo: 'Azure/brigade'
-  cronTest: '21 * * * *'
-  cronProd: '21 * * * *'
-  affCronTest: '0 15 * * 5'
-  affCronProd: '0 3 * * 5'
-  affSkipTemp: '1'
+  icon: brigade
+  org: Brigade
+  repo: Azure/brigade
+  cronTest: 32 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 37 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 29 14 * * 5
+  affCronProd: 58 8 * * 2
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-108085315-44'
+  ga: UA-108085315-44
   i: 33
   certNum: 1
 - proj: crio
   url: crio
   db: crio
-  icon: 'crio'
-  org: 'CRI-O'
-  repo: 'cri-o/cri-o'
-  cronTest: '22 * * * *'
-  cronProd: '22 * * * *'
-  affCronTest: '0 15 * * 6'
-  affCronProd: '0 3 * * 6'
-  affSkipTemp: '1'
+  icon: crio
+  org: CRI-O
+  repo: cri-o/cri-o
+  cronTest: 32 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 38 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 30 15 * * 5
+  affCronProd: 13 10 * * 2
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-108085315-45'
+  ga: UA-108085315-45
   i: 34
   certNum: 1
 - proj: networkservicemesh
   url: networkservicemesh
   db: networkservicemesh
-  icon: 'networkservicemesh'
-  org: 'Network Service Mesh'
-  repo: 'networkservicemesh/networkservicemesh'
-  cronTest: '23 * * * *'
-  cronProd: '23 * * * *'
-  affCronTest: '15 15 * * 0'
-  affCronProd: '15 3 * * 0'
-  affSkipTemp: '1'
+  icon: networkservicemesh
+  org: Network Service Mesh
+  repo: networkservicemesh/networkservicemesh
+  cronTest: 33 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 39 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 31 16 * * 5
+  affCronProd: 29 11 * * 2
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-108085315-46'
+  ga: UA-108085315-46
   i: 35
   certNum: 1
 - proj: openebs
   url: openebs
   db: openebs
-  icon: 'openebs'
-  org: 'OpenEBS'
-  repo: 'openebs/openebs'
-  cronTest: '24 * * * *'
-  cronProd: '24 * * * *'
-  affCronTest: '15 15 * * 1'
-  affCronProd: '15 3 * * 1'
-  affSkipTemp: '1'
+  icon: openebs
+  org: OpenEBS
+  repo: openebs/openebs
+  cronTest: 34 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 40 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 32 17 * * 5
+  affCronProd: 44 12 * * 2
+  affSkipTemp: "1"
   disk: 10Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-108085315-47'
+  ga: UA-108085315-47
   i: 36
   certNum: 1
 - proj: opentelemetry
   url: opentelemetry
   db: opentelemetry
-  icon: 'opentelemetry'
-  org: 'OpenTelemetry'
-  repo: 'open-telemetry/opentelemetry-java'
-  cronTest: '24 * * * *'
-  cronProd: '24 * * * *'
-  affCronTest: '15 15 * * 2'
-  affCronProd: '15 3 * * 2'
-  affSkipTemp: '1'
+  icon: opentelemetry
+  org: OpenTelemetry
+  repo: open-telemetry/opentelemetry-java
+  cronTest: 35 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 41 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 33 18 * * 5
+  affCronProd: 0 14 * * 2
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-108085315-48'
+  ga: UA-108085315-48
   i: 37
   certNum: 1
 - proj: all
   url: all
   db: allprj
-  icon: 'cncf'
-  org: 'All CNCF'
+  icon: cncf
+  org: All CNCF
   repo: '-'
-  cronTest: '50 * * * *'
-  cronProd: '27 * * * *'
-  affCronTest: '15 14 * * 6'
-  affCronProd: '15 5 * * 6'
-  affSkipTemp: '1'
+  cronTest: 5 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 5 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 0 18 * * 2
+  affCronProd: 0 6 * * 6
+  affSkipTemp: "1"
   disk: 150Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-108085315-20'
+  ga: UA-108085315-20
   i: 38
   certNum: 1
 - proj: tekton
   url: tekton
   db: tekton
-  icon: 'tekton'
-  org: 'Tekton'
-  repo: 'knative/build'
-  cronTest: '22 * * * *'
-  cronProd: '22 * * * *'
-  affCronTest: '15 15 * * 3'
-  affCronProd: '15 3 * * 3'
-  affSkipTemp: '1'
+  icon: tekton
+  org: Tekton
+  repo: knative/build
+  cronTest: 36 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 22 * * * *
+  affCronTest: 34 19 * * 5
+  affCronProd: 15 3 * * 3
+  suspendCronProd: true
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 0, 1, 0]
-  ga: 'UA-108085315-39'
+  ga: UA-108085315-39
   i: 39
   certNum: 1
 - proj: spinnaker
   url: spinnaker
   db: spinnaker
-  icon: 'spinnaker'
-  org: 'Spinnaker'
-  repo: 'spinnaker/spinnaker'
-  cronTest: '20 * * * *'
-  cronProd: '20 * * * *'
-  affCronTest: '15 15 * * 4'
-  affCronProd: '15 3 * * 4'
-  affSkipTemp: '1'
+  icon: spinnaker
+  org: Spinnaker
+  repo: spinnaker/spinnaker
+  cronTest: 37 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 20 * * * *
+  affCronTest: 35 20 * * 5
+  affCronProd: 15 3 * * 4
+  suspendCronProd: true
+  affSkipTemp: "1"
   disk: 4Gi
   domains: [1, 0, 1, 0]
-  ga: 'UA-108085315-38'
+  ga: UA-108085315-38
   i: 40
   certNum: 1
 - proj: jenkinsx
   url: jenkinsx
   db: jenkinsx
-  icon: 'jenkinsx'
-  org: 'Jenkins X'
-  repo: 'jenkins-x/jx'
-  cronTest: '22 * * * *'
-  cronProd: '22 * * * *'
-  affCronTest: '15 15 * * 5'
-  affCronProd: '15 3 * * 5'
-  affSkipTemp: '1'
+  icon: jenkinsx
+  org: Jenkins X
+  repo: jenkins-x/jx
+  cronTest: 38 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 22 * * * *
+  affCronTest: 35 21 * * 5
+  affCronProd: 15 3 * * 5
+  suspendCronProd: true
+  affSkipTemp: "1"
   disk: 6Gi
   domains: [1, 0, 1, 0]
-  ga: 'UA-108085315-41'
+  ga: UA-108085315-41
   i: 41
   certNum: 1
 - proj: jenkins
   url: jenkins
   db: jenkins
-  icon: 'jenkins'
-  org: 'Jenkins'
-  repo: 'jenkinsci/jenkins'
-  cronTest: '53 * * * *'
-  cronProd: '23 * * * *'
-  affCronTest: '15 15 * * 6'
-  affCronProd: '15 3 * * 6'
-  affSkipTemp: '1'
+  icon: jenkins
+  org: Jenkins
+  repo: jenkinsci/jenkins
+  cronTest: 38 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 23 * * * *
+  affCronTest: 36 22 * * 5
+  affCronProd: 15 3 * * 6
+  suspendCronProd: true
+  affSkipTemp: "1"
   disk: 40Gi
   domains: [1, 0, 1, 0]
-  ga: 'UA-108085315-40'
+  ga: UA-108085315-40
   i: 42
   certNum: 1
 - proj: allcdf
   url: allcdf
   db: allcdf
-  icon: 'cdf'
-  org: 'All CDF'
+  icon: cdf
+  org: All CDF
   repo: '-'
-  cronTest: '43 * * * *'
-  cronProd: '28 * * * *'
-  affCronTest: '0 18 * * 0'
-  affCronProd: '0 6 * * 0'
-  affSkipTemp: '1'
+  cronTest: 39 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 28 * * * *
+  affCronTest: 37 23 * * 5
+  affCronProd: 0 6 * * 0
+  suspendCronProd: true
+  affSkipTemp: "1"
   disk: 50Gi
   domains: [1, 0, 1, 0]
-  ga: 'UA-108085315-42'
+  ga: UA-108085315-42
   i: 43
   certNum: 1
 - proj: graphqljs
   url: graphqljs
   db: graphqljs
-  icon: 'graphqljs'
-  org: 'GraphQL JavaScript'
-  repo: 'graphql/graphql-js'
-  cronTest: '25 * * * *'
-  cronProd: '25 * * * *'
-  affCronTest: '0 18 * * 1'
-  affCronProd: '0 6 * * 1'
-  affSkipTemp: '1'
+  icon: graphqljs
+  org: GraphQL JavaScript
+  repo: graphql/graphql-js
+  cronTest: 40 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 25 * * * *
+  affCronTest: 38 0 * * 6
+  affCronProd: 0 6 * * 1
+  suspendCronProd: true
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 0, 0, 1]
-  ga: ''
+  ga: ""
   i: 44
   certNum: 1
 - proj: graphiql
   url: graphiql
   db: graphiql
-  icon: 'graphiql'
-  org: 'GraphQL IDE'
-  repo: 'graphql/graphiql'
-  cronTest: '25 * * * *'
-  cronProd: '25 * * * *'
-  affCronTest: '0 18 * * 2'
-  affCronProd: '0 6 * * 2'
-  affSkipTemp: '1'
+  icon: graphiql
+  org: GraphQL IDE
+  repo: graphql/graphiql
+  cronTest: 41 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 25 * * * *
+  affCronTest: 39 1 * * 6
+  affCronProd: 0 6 * * 2
+  suspendCronProd: true
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 0, 0, 1]
-  ga: ''
+  ga: ""
   i: 45
   certNum: 1
 - proj: graphqlspec
   url: graphqlspec
   db: graphqlspec
-  icon: 'graphqlspec'
-  org: 'GraphQL Spec'
-  repo: 'graphql/graphql-spec'
-  cronTest: '26 * * * *'
-  cronProd: '26 * * * *'
-  affCronTest: '0 18 * * 3'
-  affCronProd: '0 6 * * 3'
-  affSkipTemp: '1'
+  icon: graphqlspec
+  org: GraphQL Spec
+  repo: graphql/graphql-spec
+  cronTest: 42 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 26 * * * *
+  affCronTest: 40 2 * * 6
+  affCronProd: 0 6 * * 3
+  suspendCronProd: true
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 0, 0, 1]
-  ga: ''
+  ga: ""
   i: 46
   certNum: 1
 - proj: expressgraphql
   url: expressgraphql
   db: expressgraphql
-  icon: 'expressgraphql'
-  org: 'Express GraphQL'
-  repo: 'graphql/express-graphql'
-  cronTest: '26 * * * *'
-  cronProd: '26 * * * *'
-  affCronTest: '0 18 * * 4'
-  affCronProd: '0 6 * * 4'
-  affSkipTemp: '1'
+  icon: expressgraphql
+  org: Express GraphQL
+  repo: graphql/express-graphql
+  cronTest: 43 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 26 * * * *
+  affCronTest: 41 3 * * 6
+  affCronProd: 0 6 * * 4
+  suspendCronProd: true
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 0, 0, 1]
-  ga: ''
+  ga: ""
   i: 47
   certNum: 1
 - proj: graphql
   url: graphql
   db: graphql
-  icon: 'graphql'
-  org: 'GraphQL'
-  repo: 'graphql/graphql-js'
-  cronTest: '24 * * * *'
-  cronProd: '24 * * * *'
-  affCronTest: '0 18 * * 5'
-  affCronProd: '0 6 * * 5'
-  affSkipTemp: '1'
+  icon: graphql
+  org: GraphQL
+  repo: graphql/graphql-js
+  cronTest: 43 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 24 * * * *
+  affCronTest: 42 4 * * 6
+  affCronProd: 0 6 * * 5
+  suspendCronProd: true
+  affSkipTemp: "1"
   disk: 30Gi
   domains: [1, 0, 0, 1]
-  ga: ''
+  ga: ""
   i: 48
   certNum: 1
 - proj: cncf
   url: cncf
   db: cncf
-  icon: 'cncf'
-  org: 'CNCF'
-  repo: 'cncf/landscapeapp'
-  cronTest: '19 * * * *'
-  cronProd: '19 * * * *'
-  affCronTest: '0 18 * * 6'
-  affCronProd: '0 6 * * 6'
-  affSkipTemp: '1'
+  icon: cncf
+  org: CNCF
+  repo: cncf/landscapeapp
+  cronTest: 44 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 19 * * * *
+  affCronTest: 43 5 * * 6
+  affCronProd: 0 6 * * 6
+  suspendCronProd: true
+  affSkipTemp: "1"
   disk: 30Gi
   domains: [1, 0, 0, 0]
-  ga: 'UA-108085315-8'
+  ga: UA-108085315-8
   i: 49
   certNum: 1
 - proj: opencontainers
   url: opencontainers
   db: opencontainers
-  icon: 'opencontainers'
-  org: 'OCI'
-  repo: 'opencontainers/runc'
-  cronTest: '20 * * * *'
-  cronProd: '20 * * * *'
-  affCronTest: '15 18 * * 0'
-  affCronProd: '15 6 * * 0'
-  affSkipTemp: '1'
+  icon: opencontainers
+  org: OCI
+  repo: opencontainers/runc
+  cronTest: 45 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 20 * * * *
+  affCronTest: 44 6 * * 6
+  affCronProd: 15 6 * * 0
+  suspendCronProd: true
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 0, 0, 0]
-  ga: 'UA-108085315-19'
+  ga: UA-108085315-19
   i: 50
   certNum: 1
 - proj: istio
   url: istio
   db: istio
-  icon: 'cncf'
-  org: 'Istio'
-  repo: 'istio/istio'
-  cronTest: '20 * * * *'
-  cronProd: '20 * * * *'
-  affCronTest: '15 18 * * 1'
-  affCronProd: '15 6 * * 1'
-  affSkipTemp: '1'
+  icon: cncf
+  org: Istio
+  repo: istio/istio
+  cronTest: 46 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 20 * * * *
+  affCronTest: 45 7 * * 6
+  affCronProd: 15 6 * * 1
+  suspendCronProd: true
+  affSkipTemp: "1"
   disk: 8Gi
   domains: [1, 0, 0, 0]
-  ga: ''
+  ga: ""
   i: 51
   certNum: 1
 - proj: knative
   url: knative
   db: knative
-  icon: 'cncf'
-  org: 'Knative'
-  repo: 'knative/serving'
-  cronTest: '21 * * * *'
-  cronProd: '21 * * * *'
-  affCronTest: '15 18 * * 2'
-  affCronProd: '15 6 * * 2'
-  affSkipTemp: '1'
+  icon: cncf
+  org: Knative
+  repo: knative/serving
+  cronTest: 47 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 21 * * * *
+  affCronTest: 46 8 * * 6
+  affCronProd: 15 6 * * 2
+  suspendCronProd: true
+  affSkipTemp: "1"
   disk: 4Gi
   domains: [1, 0, 0, 0]
-  ga: ''
+  ga: ""
   i: 52
   certNum: 1
 - proj: zephyr
   url: zephyr
   db: zephyr
-  icon: 'cncf'
-  org: 'Zephyr'
-  repo: 'zephyrproject-rtos/zephyr'
-  cronTest: '29 * * * *'
-  cronProd: '29 * * * *'
-  affCronTest: '15 18 * * 3'
-  affCronProd: '15 6 * * 3'
-  affSkipTemp: '1'
+  icon: cncf
+  org: Zephyr
+  repo: zephyrproject-rtos/zephyr
+  cronTest: 48 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 29 * * * *
+  affCronTest: 47 9 * * 6
+  affCronProd: 15 6 * * 3
+  suspendCronProd: true
+  affSkipTemp: "1"
   disk: 8Gi
   domains: [1, 0, 0, 0]
-  ga: ''
+  ga: ""
   i: 53
   certNum: 1
 - proj: linux
   url: linux
   db: linux
-  icon: 'cncf'
-  org: 'Linux'
-  repo: 'torvalds/linux'
-  cronTest: '19 * * * *'
-  cronProd: '29 * * * *'
-  affCronTest: '15 18 * * 4'
-  affCronProd: '15 6 * * 4'
-  affSkipTemp: '1'
+  icon: cncf
+  org: Linux
+  repo: torvalds/linux
+  cronTest: 49 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 29 * * * *
+  affCronTest: 48 10 * * 6
+  affCronProd: 15 6 * * 4
+  suspendCronProd: true
+  affSkipTemp: "1"
   disk: 10Gi
   domains: [1, 0, 0, 0]
-  ga: ''
+  ga: ""
   i: 54
   certNum: 1
 - proj: thanos
   url: thanos
   db: thanos
-  icon: 'thanos'
-  org: 'Thanos'
-  repo: 'thanos-io/thanos'
-  cronTest: '24 * * * *'
-  cronProd: '24 * * * *'
-  affCronTest: '15 18 * * 5'
-  affCronProd: '15 6 * * 5'
-  affSkipTemp: '1'
+  icon: thanos
+  org: Thanos
+  repo: thanos-io/thanos
+  cronTest: 49 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 42 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 48 11 * * 6
+  affCronProd: 15 15 * * 2
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-108085315-49'
+  ga: UA-108085315-49
   i: 55
   certNum: 1
 - proj: flux
   url: flux
   db: flux
-  icon: 'flux'
-  org: 'Flux'
-  repo: 'fluxcd/flux'
-  cronTest: '25 * * * *'
-  cronProd: '25 * * * *'
-  affCronTest: '15 18 * * 6'
-  affCronProd: '15 6 * * 6'
-  affSkipTemp: '1'
+  icon: flux
+  org: Flux
+  repo: fluxcd/flux
+  cronTest: 50 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 43 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 49 12 * * 6
+  affCronProd: 30 16 * * 2
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-108085315-50'
+  ga: UA-108085315-50
   i: 56
   certNum: 1
 - proj: intoto
   url: intoto
   db: intoto
-  icon: 'intoto'
-  org: 'in-toto'
-  repo: 'in-toto/in-toto'
-  cronTest: '25 * * * *'
-  cronProd: '25 * * * *'
-  affCronTest: '30 18 * * 0'
-  affCronProd: '30 6 * * 0'
-  affSkipTemp: '1'
+  icon: intoto
+  org: in-toto
+  repo: in-toto/in-toto
+  cronTest: 51 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 44 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 50 13 * * 6
+  affCronProd: 46 17 * * 2
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-1'
+  ga: UA-145264316-1
   i: 57
   certNum: 1
 - proj: strimzi
   url: strimzi
   db: strimzi
-  icon: 'strimzi'
-  org: 'Strimzi'
-  repo: 'strimzi/strimzi-kafka-operator'
-  cronTest: '26 * * * *'
-  cronProd: '26 * * * *'
-  affCronTest: '30 18 * * 1'
-  affCronProd: '30 6 * * 1'
-  affSkipTemp: '1'
+  icon: strimzi
+  org: Strimzi
+  repo: strimzi/strimzi-kafka-operator
+  cronTest: 52 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 45 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 51 14 * * 6
+  affCronProd: 1 19 * * 2
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-2'
+  ga: UA-145264316-2
   i: 58
   certNum: 1
 - proj: sam
   url: sam
   db: sam
-  icon: 'cncf'
-  org: 'AWS SAM'
-  repo: 'awslabs/serverless-application-model'
-  cronTest: '26 * * * *'
-  cronProd: '26 * * * *'
-  affCronTest: '30 18 * * 2'
-  affCronProd: '30 6 * * 2'
-  affSkipTemp: '1'
+  icon: cncf
+  org: AWS SAM
+  repo: awslabs/serverless-application-model
+  cronTest: 53 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 26 * * * *
+  affCronTest: 52 15 * * 6
+  affCronProd: 30 6 * * 2
+  suspendCronProd: true
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 0, 0, 0]
-  ga: ''
+  ga: ""
   i: 59
   certNum: 1
 - proj: azf
   url: azf
   db: azf
-  icon: 'cncf'
-  org: 'AZF'
-  repo: 'Azure/azure-webjobs-sdk'
-  cronTest: '26 * * * *'
-  cronProd: '26 * * * *'
-  affCronTest: '30 18 * * 3'
-  affCronProd: '30 6 * * 3'
-  affSkipTemp: '1'
+  icon: cncf
+  org: AZF
+  repo: Azure/azure-webjobs-sdk
+  cronTest: 54 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 26 * * * *
+  affCronTest: 53 16 * * 6
+  affCronProd: 30 6 * * 3
+  suspendCronProd: true
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 0, 0, 0]
-  ga: ''
+  ga: ""
   i: 60
   certNum: 1
 - proj: riff
   url: riff
   db: riff
-  icon: 'cncf'
-  org: 'Pivotal Riff'
-  repo: 'projectriff/riff'
-  cronTest: '27 * * * *'
-  cronProd: '27 * * * *'
-  affCronTest: '30 18 * * 4'
-  affCronProd: '30 6 * * 4'
-  affSkipTemp: '1'
+  icon: cncf
+  org: Pivotal Riff
+  repo: projectriff/riff
+  cronTest: 54 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 27 * * * *
+  affCronTest: 54 17 * * 6
+  affCronProd: 30 6 * * 4
+  suspendCronProd: true
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 0, 0, 0]
-  ga: ''
+  ga: ""
   i: 61
   certNum: 1
 - proj: fn
   url: fn
   db: fn
-  icon: 'cncf'
-  org: 'Oracle Fn'
-  repo: 'fnproject/fn'
-  cronTest: '27 * * * *'
-  cronProd: '27 * * * *'
-  affCronTest: '30 18 * * 5'
-  affCronProd: '30 6 * * 5'
-  affSkipTemp: '1'
+  icon: cncf
+  org: Oracle Fn
+  repo: fnproject/fn
+  cronTest: 55 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 27 * * * *
+  affCronTest: 55 18 * * 6
+  affCronProd: 30 6 * * 5
+  suspendCronProd: true
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 0, 0, 0]
-  ga: ''
+  ga: ""
   i: 62
   certNum: 1
 - proj: openwhisk
   url: openwhisk
   db: openwhisk
-  icon: 'cncf'
-  org: 'Apache OpenWhisk'
-  repo: 'apache/openwhisk'
-  cronTest: '27 * * * *'
-  cronProd: '27 * * * *'
-  affCronTest: '30 18 * * 6'
-  affCronProd: '30 6 * * 6'
-  affSkipTemp: '1'
+  icon: cncf
+  org: Apache OpenWhisk
+  repo: apache/openwhisk
+  cronTest: 56 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 27 * * * *
+  affCronTest: 56 19 * * 6
+  affCronProd: 30 6 * * 6
+  suspendCronProd: true
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 0, 0, 0]
-  ga: ''
+  ga: ""
   i: 63
   certNum: 1
 - proj: openfaas
   url: openfaas
   db: openfaas
-  icon: 'cncf'
-  org: 'OpenFaaS'
-  repo: 'openfaas/faas'
-  cronTest: '28 * * * *'
-  cronProd: '28 * * * *'
-  affCronTest: '45 18 * * 0'
-  affCronProd: '45 6 * * 0'
-  affSkipTemp: '1'
+  icon: cncf
+  org: OpenFaaS
+  repo: openfaas/faas
+  cronTest: 57 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 28 * * * *
+  affCronTest: 57 20 * * 6
+  affCronProd: 45 6 * * 0
+  suspendCronProd: true
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 0, 0, 0]
-  ga: ''
+  ga: ""
   i: 64
   certNum: 1
 - proj: kubevirt
   url: kubevirt
   db: kubevirt
-  icon: 'kubevirt'
-  org: 'KubeVirt'
-  repo: 'kubevirt/kubevirt'
-  cronTest: '28 * * * *'
-  cronProd: '28 * * * *'
-  affCronTest: '45 18 * * 1'
-  affCronProd: '45 6 * * 1'
-  affSkipTemp: '1'
+  icon: kubevirt
+  org: KubeVirt
+  repo: kubevirt/kubevirt
+  cronTest: 58 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 46 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 58 21 * * 6
+  affCronProd: 17 20 * * 2
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-3'
+  ga: UA-145264316-3
   i: 65
   certNum: 1
 - proj: longhorn
   url: longhorn
   db: longhorn
-  icon: 'longhorn'
-  org: 'Longhorn'
-  repo: 'longhorn/longhorn'
-  cronTest: '29 * * * *'
-  cronProd: '29 * * * *'
-  affCronTest: '45 20 * * 2'
-  affCronProd: '45 10 * * 2'
-  affSkipTemp: '1'
+  icon: longhorn
+  org: Longhorn
+  repo: longhorn/longhorn
+  cronTest: 59 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 47 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 59 22 * * 6
+  affCronProd: 32 21 * * 2
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-4'
+  ga: UA-145264316-4
   i: 66
   certNum: 1
 - proj: cii
   url: cii
   db: cii
-  icon: 'cii'
-  org: 'CII'
+  icon: cii
+  org: CII
   repo: '-'
-  cronTest: '49 * * * *'
-  cronProd: '29 * * * *'
-  affCronTest: '45 18 * * 3'
-  affCronProd: '45 6 * * 3'
-  affSkipTemp: '1'
+  cronTest: 5 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 29 * * * *
+  affCronTest: 0 0 * * 0
+  affCronProd: 45 6 * * 3
+  suspendCronProd: true
+  affSkipTemp: "1"
   disk: 50Gi
   domains: [1, 0, 0, 0]
-  ga: ''
-  aliases: ['devstats.coreinfrastructure.org']
+  ga: ""
   i: 67
   certNum: 1
 - proj: prestodb
   url: prestodb
   db: prestodb
-  icon: 'prestodb'
-  org: 'Presto'
+  icon: prestodb
+  org: Presto
   repo: '-'
-  cronTest: '50 * * * *'
-  cronProd: '30 * * * *'
-  affCronTest: '0 19 * * 3'
-  affCronProd: '0 7 * * 3'
-  affSkipTemp: '1'
+  cronTest: 50 * * * *
+  cronProd: 30 * * * *
+  affCronTest: 0 19 * * 3
+  affCronProd: 0 7 * * 3
+  suspendCronTest: true
+  suspendCronProd: true
+  affSkipTemp: "1"
   disk: 6Gi
-  #domains: [1, 0, 0, 0]
   domains: [0, 0, 0, 0]
-  ga: ''
-  # aliases: ['prestodb.devstats.prestodb.io']
+  ga: ""
   i: 68
   certNum: 1
 - proj: chubaofs
   url: chubaofs
   db: chubaofs
-  icon: 'chubaofs'
-  org: 'ChubaoFS'
-  repo: 'chubaofs/chubaofs'
-  cronTest: '29 * * * *'
-  cronProd: '49 * * * *'
-  affCronTest: '0 19 * * 4'
-  affCronProd: '0 7 * * 4'
-  affSkipTemp: '1'
+  icon: chubaofs
+  org: ChubaoFS
+  repo: chubaofs/chubaofs
+  cronTest: 5 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 49 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 0 1 * * 0
+  affCronProd: 48 22 * * 2
+  affSkipTemp: "1"
   disk: 5Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-5'
+  ga: UA-145264316-5
   i: 69
   certNum: 1
 - proj: keda
@@ -1552,15 +1575,15 @@ projects:
   db: keda
   icon: keda
   org: KEDA
-  repo: 'kedacore/keda'
-  cronTest: '30 * * * *'
-  cronProd: '55 * * * *'
-  affCronTest: '0 19 * * 5'
-  affCronProd: '0 7 * * 5'
-  affSkipTemp: '1'
+  repo: kedacore/keda
+  cronTest: 6 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 50 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 1 2 * * 0
+  affCronProd: 3 0 * * 3
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-6'
+  ga: UA-145264316-6
   i: 70
   certNum: 1
 - proj: smi
@@ -1568,15 +1591,15 @@ projects:
   db: smi
   icon: smi
   org: SMI
-  repo: 'servicemeshinterface/smi-spec'
-  cronTest: '30 * * * *'
-  cronProd: '55 * * * *'
-  affCronTest: '0 19 * * 6'
-  affCronProd: '0 7 * * 6'
-  affSkipTemp: '1'
+  repo: servicemeshinterface/smi-spec
+  cronTest: 7 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 51 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 2 3 * * 0
+  affCronProd: 18 1 * * 3
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-7'
+  ga: UA-145264316-7
   i: 71
   certNum: 1
 - proj: argo
@@ -1584,15 +1607,15 @@ projects:
   db: argo
   icon: argo
   org: Argo
-  repo: 'argoproj/argo'
-  cronTest: '31 * * * *'
-  cronProd: '56 * * * *'
-  affCronTest: '15 19 * * 0'
-  affCronProd: '15 7 * * 0'
-  affSkipTemp: '1'
+  repo: argoproj/argo
+  cronTest: 8 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 52 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 3 4 * * 0
+  affCronProd: 34 2 * * 3
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-8'
+  ga: UA-145264316-8
   i: 72
   certNum: 1
 - proj: volcano
@@ -1600,15 +1623,15 @@ projects:
   db: volcano
   icon: volcano
   org: Volcano
-  repo: 'volcano-sh/volcano'
-  cronTest: '31 * * * *'
-  cronProd: '56 * * * *'
-  affCronTest: '30 19 * * 0'
-  affCronProd: '30 7 * * 0'
-  affSkipTemp: '1'
+  repo: volcano-sh/volcano
+  cronTest: 9 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 53 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 4 5 * * 0
+  affCronProd: 49 3 * * 3
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-9'
+  ga: UA-145264316-9
   i: 73
   certNum: 1
 - proj: cnigenie
@@ -1616,15 +1639,15 @@ projects:
   db: cnigenie
   icon: cnigenie
   org: CNI-Genie
-  repo: 'cni-genie/CNI-Genie'
-  cronTest: '32 * * * *'
-  cronProd: '57 * * * *'
-  affCronTest: '40 19 * * 1'
-  affCronProd: '40 7 * * 1'
-  affSkipTemp: '1'
+  repo: cni-genie/CNI-Genie
+  cronTest: 10 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 54 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 5 6 * * 0
+  affCronProd: 5 5 * * 3
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-10'
+  ga: UA-145264316-10
   i: 74
   certNum: 1
 - proj: keptn
@@ -1632,15 +1655,15 @@ projects:
   db: keptn
   icon: keptn
   org: keptn
-  repo: 'keptn/keptn'
-  cronTest: '32 * * * *'
-  cronProd: '57 * * * *'
-  affCronTest: '50 19 * * 2'
-  affCronProd: '50 7 * * 2'
-  affSkipTemp: '1'
+  repo: keptn/keptn
+  cronTest: 10 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 55 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 6 7 * * 0
+  affCronProd: 20 6 * * 3
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-11'
+  ga: UA-145264316-11
   i: 75
   certNum: 1
 - proj: kudo
@@ -1648,15 +1671,15 @@ projects:
   db: kudo
   icon: kudo
   org: Kudo
-  repo: 'kudobuilder/kudo'
-  cronTest: '32 * * * *'
-  cronProd: '57 * * * *'
-  affCronTest: '0 20 * * 3'
-  affCronProd: '0 8 * * 3'
-  affSkipTemp: '1'
+  repo: kudobuilder/kudo
+  cronTest: 11 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 56 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 7 8 * * 0
+  affCronProd: 36 7 * * 3
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-12'
+  ga: UA-145264316-12
   i: 76
   certNum: 1
 - proj: cloudcustodian
@@ -1664,15 +1687,15 @@ projects:
   db: cloudcustodian
   icon: cloudcustodian
   org: Cloud Custodian
-  repo: 'cloud-custodian/cloud-custodian'
-  cronTest: '33 * * * *'
-  cronProd: '58 * * * *'
-  affCronTest: '10 20 * * 4'
-  affCronProd: '10 8 * * 4'
-  affSkipTemp: '1'
+  repo: cloud-custodian/cloud-custodian
+  cronTest: 12 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 57 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 8 9 * * 0
+  affCronProd: 51 8 * * 3
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-13'
+  ga: UA-145264316-13
   i: 77
   certNum: 1
 - proj: dex
@@ -1680,15 +1703,15 @@ projects:
   db: dex
   icon: dex
   org: Dex
-  repo: 'dexidp/dex'
-  cronTest: '33 * * * *'
-  cronProd: '58 * * * *'
-  affCronTest: '20 20 * * 5'
-  affCronProd: '20 8 * * 5'
-  affSkipTemp: '1'
+  repo: dexidp/dex
+  cronTest: 13 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 58 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 9 10 * * 0
+  affCronProd: 6 10 * * 3
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-14'
+  ga: UA-145264316-14
   i: 78
   certNum: 1
 - proj: litmuschaos
@@ -1696,15 +1719,15 @@ projects:
   db: litmuschaos
   icon: litmuschaos
   org: LitmusChaos
-  repo: 'litmuschaos/litmus'
-  cronTest: '33 * * * *'
-  cronProd: '58 * * * *'
-  affCronTest: '30 20 * * 6'
-  affCronProd: '30 8 * * 6'
-  affSkipTemp: '1'
+  repo: litmuschaos/litmus
+  cronTest: 14 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 59 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 10 11 * * 0
+  affCronProd: 22 11 * * 3
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-15'
+  ga: UA-145264316-15
   i: 79
   certNum: 1
 - proj: artifacthub
@@ -1712,15 +1735,15 @@ projects:
   db: artifacthub
   icon: artifacthub
   org: Artifact Hub
-  repo: 'artifacthub/hub'
-  cronTest: '34 * * * *'
-  cronProd: '59 * * * *'
-  affCronTest: '40 20 * * 0'
-  affCronProd: '40 8 * * 0'
-  affSkipTemp: '1'
+  repo: artifacthub/hub
+  cronTest: 15 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 5 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 11 12 * * 0
+  affCronProd: 37 12 * * 3
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-16'
+  ga: UA-145264316-16
   i: 80
   certNum: 1
 - proj: kuma
@@ -1728,15 +1751,15 @@ projects:
   db: kuma
   icon: kuma
   org: Kuma
-  repo: 'kumahq/kuma'
-  cronTest: '34 * * * *'
-  cronProd: '59 * * * *'
-  affCronTest: '50 20 * * 1'
-  affCronProd: '50 8 * * 1'
-  affSkipTemp: '1'
+  repo: kumahq/kuma
+  cronTest: 16 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 6 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 11 13 * * 0
+  affCronProd: 53 13 * * 3
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-17'
+  ga: UA-145264316-17
   i: 81
   certNum: 1
 - proj: parsec
@@ -1744,15 +1767,15 @@ projects:
   db: parsec
   icon: parsec
   org: PARSEC
-  repo: 'parallaxsecond/parsec'
-  cronTest: '34 * * * *'
-  cronProd: '59 * * * *'
-  affCronTest: '0 21 * * 2'
-  affCronProd: '0 9 * * 2'
-  affSkipTemp: '1'
+  repo: parallaxsecond/parsec
+  cronTest: 16 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 7 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 12 14 * * 0
+  affCronProd: 8 15 * * 3
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-18'
+  ga: UA-145264316-18
   i: 82
   certNum: 1
 - proj: bfe
@@ -1760,15 +1783,15 @@ projects:
   db: bfe
   icon: bfe
   org: BFE
-  repo: 'bfenetworks/bfe'
-  cronTest: '35 * * * *'
-  cronProd: '35 * * * *'
-  affCronTest: '10 21 * * 3'
-  affCronProd: '10 9 * * 3'
-  affSkipTemp: '1'
+  repo: bfenetworks/bfe
+  cronTest: 17 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 8 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 13 15 * * 0
+  affCronProd: 24 16 * * 3
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-19'
+  ga: UA-145264316-19
   i: 83
   certNum: 1
 - proj: crossplane
@@ -1776,15 +1799,15 @@ projects:
   db: crossplane
   icon: crossplane
   org: Crossplane
-  repo: 'crossplane/crossplane'
-  cronTest: '35 * * * *'
-  cronProd: '35 * * * *'
-  affCronTest: '20 21 * * 4'
-  affCronProd: '20 9 * * 4'
-  affSkipTemp: '1'
+  repo: crossplane/crossplane
+  cronTest: 18 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 9 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 14 16 * * 0
+  affCronProd: 39 17 * * 3
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-20'
+  ga: UA-145264316-20
   i: 84
   certNum: 1
 - proj: contour
@@ -1792,15 +1815,15 @@ projects:
   db: contour
   icon: contour
   org: Contour
-  repo: 'projectcontour/contour'
-  cronTest: '36 * * * *'
-  cronProd: '36 * * * *'
-  affCronTest: '20 21 * * 5'
-  affCronProd: '20 9 * * 5'
-  affSkipTemp: '1'
+  repo: projectcontour/contour
+  cronTest: 19 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 10 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 15 17 * * 0
+  affCronProd: 54 18 * * 3
+  affSkipTemp: "1"
   disk: 5Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-21'
+  ga: UA-145264316-21
   i: 85
   certNum: 1
 - proj: operatorframework
@@ -1808,15 +1831,15 @@ projects:
   db: operatorframework
   icon: operatorframework
   org: Operator Framework
-  repo: 'operator-framework/operator-sdk'
-  cronTest: '36 * * * *'
-  cronProd: '36 * * * *'
-  affCronTest: '20 21 * * 6'
-  affCronProd: '20 9 * * 6'
-  affSkipTemp: '1'
+  repo: operator-framework/operator-sdk
+  cronTest: 20 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 11 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 16 18 * * 0
+  affCronProd: 10 20 * * 3
+  affSkipTemp: "1"
   disk: 5Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-22'
+  ga: UA-145264316-22
   i: 86
   certNum: 1
 - proj: chaosmesh
@@ -1824,15 +1847,15 @@ projects:
   db: chaosmesh
   icon: chaosmesh
   org: Chaos Mesh
-  repo: 'chaos-mesh/chaos-mesh'
-  cronTest: '37 * * * *'
-  cronProd: '37 * * * *'
-  affCronTest: '30 21 * * 0'
-  affCronProd: '30 9 * * 0'
-  affSkipTemp: '1'
+  repo: chaos-mesh/chaos-mesh
+  cronTest: 21 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 12 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 17 19 * * 0
+  affCronProd: 25 21 * * 3
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-23'
+  ga: UA-145264316-23
   i: 87
   certNum: 1
 - proj: serverlessworkflow
@@ -1840,15 +1863,15 @@ projects:
   db: serverlessworkflow
   icon: serverlessworkflow
   org: Serverless Workflow
-  repo: 'serverlessworkflow/specification'
-  cronTest: '37 * * * *'
-  cronProd: '37 * * * *'
-  affCronTest: '30 21 * * 1'
-  affCronProd: '30 9 * * 1'
-  affSkipTemp: '1'
+  repo: serverlessworkflow/specification
+  cronTest: 21 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 13 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 18 20 * * 0
+  affCronProd: 41 22 * * 3
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-24'
+  ga: UA-145264316-24
   i: 88
   certNum: 1
 - proj: k3s
@@ -1856,15 +1879,15 @@ projects:
   db: k3s
   icon: k3s
   org: K3s
-  repo: 'k3s-io/k3s'
-  cronTest: '38 * * * *'
-  cronProd: '38 * * * *'
-  affCronTest: '40 21 * * 2'
-  affCronProd: '40 9 * * 2'
-  affSkipTemp: '1'
+  repo: k3s-io/k3s
+  cronTest: 22 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 14 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 19 21 * * 0
+  affCronProd: 56 23 * * 3
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-25'
+  ga: UA-145264316-25
   i: 89
   certNum: 1
 - proj: backstage
@@ -1872,15 +1895,15 @@ projects:
   db: backstage
   icon: backstage
   org: Backstage
-  repo: 'backstage/backstage'
-  cronTest: '38 * * * *'
-  cronProd: '38 * * * *'
-  affCronTest: '50 21 * * 3'
-  affCronProd: '50 9 * * 3'
-  affSkipTemp: '1'
+  repo: backstage/backstage
+  cronTest: 23 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 16 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 20 22 * * 0
+  affCronProd: 12 1 * * 4
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-26'
+  ga: UA-145264316-26
   i: 90
   certNum: 1
 - proj: tremor
@@ -1888,15 +1911,15 @@ projects:
   db: tremor
   icon: tremor
   org: Tremor
-  repo: 'tremor-rs/tremor-runtime'
-  cronTest: '39 * * * *'
-  cronProd: '39 * * * *'
-  affCronTest: '0 22 * * 4'
-  affCronProd: '0 10 * * 4'
-  affSkipTemp: '1'
+  repo: tremor-rs/tremor-runtime
+  cronTest: 24 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 17 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 21 23 * * 0
+  affCronProd: 27 2 * * 4
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-27'
+  ga: UA-145264316-27
   i: 91
   certNum: 1
 - proj: metal3
@@ -1904,15 +1927,15 @@ projects:
   db: metal3
   icon: metal3
   org: Metal³
-  repo: 'metal3/cluster-api-provider-metal3'
-  cronTest: '39 * * * *'
-  cronProd: '39 * * * *'
-  affCronTest: '10 22 * * 5'
-  affCronProd: '10 10 * * 5'
-  affSkipTemp: '1'
+  repo: metal3/cluster-api-provider-metal3
+  cronTest: 25 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 18 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 22 0 * * 1
+  affCronProd: 42 3 * * 4
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-28'
+  ga: UA-145264316-28
   i: 92
   certNum: 1
 - proj: porter
@@ -1920,15 +1943,15 @@ projects:
   db: porter
   icon: porter
   org: Porter
-  repo: 'desilabs/porter'
-  cronTest: '40 * * * *'
-  cronProd: '40 * * * *'
-  affCronTest: '20 22 * * 6'
-  affCronProd: '20 10 * * 6'
-  affSkipTemp: '1'
+  repo: desilabs/porter
+  cronTest: 26 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 19 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 23 1 * * 1
+  affCronProd: 58 4 * * 4
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-29'
+  ga: UA-145264316-29
   i: 93
   certNum: 1
 - proj: openyurt
@@ -1936,622 +1959,623 @@ projects:
   db: openyurt
   icon: openyurt
   org: OpenYurt
-  repo: 'openyurtio/openyurt'
-  cronTest: '40 * * * *'
-  cronProd: '40 * * * *'
-  affCronTest: '30 22 * * 0'
-  affCronProd: '30 10 * * 0'
-  affSkipTemp: '1'
+  repo: openyurtio/openyurt
+  cronTest: 27 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 20 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 23 2 * * 1
+  affCronProd: 13 6 * * 4
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-30'
+  ga: UA-145264316-30
   i: 94
   certNum: 1
 - proj: openservicemesh
   url: openservicemesh
   db: openservicemesh
   icon: openservicemesh
-  org: 'Open Service Mesh'
-  repo: 'openservicemesh/osm'
-  cronTest: '41 * * * *'
-  cronProd: '41 * * * *'
-  affCronTest: '40 22 * * 1'
-  affCronProd: '40 10 * * 1'
-  affSkipTemp: '1'
+  org: Open Service Mesh
+  repo: openservicemesh/osm
+  cronTest: 27 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 21 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 24 3 * * 1
+  affCronProd: 29 7 * * 4
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-31'
+  ga: UA-145264316-31
   i: 95
   certNum: 1
 - proj: keylime
   url: keylime
   db: keylime
   icon: keylime
-  org: 'Keylime'
-  repo: 'keylime/keylime'
-  cronTest: '41 * * * *'
-  cronProd: '41 * * * *'
-  affCronTest: '50 22 * * 2'
-  affCronProd: '50 10 * * 2'
-  affSkipTemp: '1'
+  org: Keylime
+  repo: keylime/keylime
+  cronTest: 28 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 22 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 25 4 * * 1
+  affCronProd: 44 8 * * 4
+  affSkipTemp: "1"
   disk: 5Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-32'
+  ga: UA-145264316-32
   i: 96
   certNum: 1
 - proj: godotengine
   url: godotengine
   db: godotengine
-  icon: 'godotengine'
-  org: 'Godot Engine'
+  icon: godotengine
+  org: Godot Engine
   repo: '-'
-  cronTest: '42 * * * *'
-  cronProd: '42 * * * *'
-  affCronTest: '0 23 * * 3'
-  affCronProd: '0 11 * * 3'
-  affSkipTemp: '1'
+  cronTest: 29 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 42 * * * *
+  affCronTest: 26 5 * * 1
+  affCronProd: 0 11 * * 3
+  suspendCronProd: true
+  affSkipTemp: "1"
   disk: 6Gi
   domains: [1, 0, 0, 0]
-  ga: ''
+  ga: ""
   i: 97
   certNum: 2
 - proj: schemahero
   url: schemahero
   db: schemahero
   icon: schemahero
-  org: 'SchemaHero'
-  repo: 'schemahero/schemahero'
-  cronTest: '42 * * * *'
-  cronProd: '42 * * * *'
-  affCronTest: '10 23 * * 4'
-  affCronProd: '10 11 * * 4'
-  affSkipTemp: '1'
+  org: SchemaHero
+  repo: schemahero/schemahero
+  cronTest: 30 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 23 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 27 6 * * 1
+  affCronProd: 0 10 * * 4
+  affSkipTemp: "1"
   disk: 5Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-33'
+  ga: UA-145264316-33
   i: 98
   certNum: 2
 - proj: cdk8s
   url: cdk8s
   db: cdk8s
   icon: cdk8s
-  org: 'Cloud Deployment Kit for Kubernetes'
-  repo: 'awslabs/cdk8s'
-  cronTest: '42 * * * *'
-  cronProd: '42 * * * *'
-  affCronTest: '20 23 * * 5'
-  affCronProd: '20 11 * * 5'
-  affSkipTemp: '1'
+  org: Cloud Deployment Kit for Kubernetes
+  repo: awslabs/cdk8s
+  cronTest: 31 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 24 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 28 7 * * 1
+  affCronProd: 15 11 * * 4
+  affSkipTemp: "1"
   disk: 5Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-34'
+  ga: UA-145264316-34
   i: 99
   certNum: 2
 - proj: certmanager
   url: certmanager
   db: certmanager
   icon: certmanager
-  org: 'cert-manager'
-  repo: 'jetstack/cert-manager'
-  cronTest: '43 * * * *'
-  cronProd: '43 * * * *'
-  affCronTest: '30 23 * * 6'
-  affCronProd: '30 11 * * 6'
-  affSkipTemp: '1'
+  org: cert-manager
+  repo: jetstack/cert-manager
+  cronTest: 32 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 25 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 29 8 * * 1
+  affCronProd: 30 12 * * 4
+  affSkipTemp: "1"
   disk: 5Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-35'
+  ga: UA-145264316-35
   i: 100
   certNum: 2
 - proj: openkruise
   url: openkruise
   db: openkruise
   icon: openkruise
-  org: 'OpenKruise'
-  repo: 'openkruise/kruise'
-  cronTest: '43 * * * *'
-  cronProd: '43 * * * *'
-  affCronTest: '40 23 * * 0'
-  affCronProd: '40 11 * * 0'
-  affSkipTemp: '1'
+  org: OpenKruise
+  repo: openkruise/kruise
+  cronTest: 32 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 26 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 30 9 * * 1
+  affCronProd: 46 13 * * 4
+  affSkipTemp: "1"
   disk: 5Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-36'
+  ga: UA-145264316-36
   i: 101
   certNum: 2
 - proj: tinkerbell
   url: tinkerbell
   db: tinkerbell
   icon: tinkerbell
-  org: 'Tinkerbell'
-  repo: 'tinkerbell/tink'
-  cronTest: '43 * * * *'
-  cronProd: '43 * * * *'
-  affCronTest: '50 23 * * 1'
-  affCronProd: '50 11 * * 1'
-  affSkipTemp: '1'
+  org: Tinkerbell
+  repo: tinkerbell/tink
+  cronTest: 33 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 27 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 31 10 * * 1
+  affCronProd: 1 15 * * 4
+  affSkipTemp: "1"
   disk: 5Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-37'
+  ga: UA-145264316-37
   i: 102
   certNum: 2
 - proj: pravega
   url: pravega
   db: pravega
   icon: pravega
-  org: 'Pravega'
-  repo: 'pravega/pravega'
-  cronTest: '44 * * * *'
-  cronProd: '44 * * * *'
-  affCronTest: '0 0 * * 2'
-  affCronProd: '0 12 * * 2'
-  affSkipTemp: '1'
+  org: Pravega
+  repo: pravega/pravega
+  cronTest: 34 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 28 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 32 11 * * 1
+  affCronProd: 17 16 * * 4
+  affSkipTemp: "1"
   disk: 5Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-38'
+  ga: UA-145264316-38
   i: 103
   certNum: 2
 - proj: kyverno
   url: kyverno
   db: kyverno
   icon: kyverno
-  org: 'Kyverno'
-  repo: 'kyverno/kyverno'
-  cronTest: '44 * * * *'
-  cronProd: '44 * * * *'
-  affCronTest: '10 0 * * 3'
-  affCronProd: '10 12 * * 3'
-  affSkipTemp: '1'
+  org: Kyverno
+  repo: kyverno/kyverno
+  cronTest: 35 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 29 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 33 12 * * 1
+  affCronProd: 32 17 * * 4
+  affSkipTemp: "1"
   disk: 5Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-39'
+  ga: UA-145264316-39
   i: 104
   certNum: 2
 - proj: gitopswg
   url: gitopswg
   db: gitopswg
   icon: gitopswg
-  org: 'GitOps WG'
-  repo: 'fluxcd/gitops-working-group'
-  cronTest: '44 * * * *'
-  cronProd: '44 * * * *'
-  affCronTest: '20 0 * * 4'
-  affCronProd: '20 12 * * 4'
-  affSkipTemp: '1'
+  org: GitOps WG
+  repo: fluxcd/gitops-working-group
+  cronTest: 36 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 30 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 34 13 * * 1
+  affCronProd: 48 18 * * 4
+  affSkipTemp: "1"
   disk: 2Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-40'
+  ga: UA-145264316-40
   i: 105
   certNum: 2
 - proj: piraeus
   url: piraeus
   db: piraeus
   icon: piraeus
-  org: 'Piraeus-Datastore'
-  repo: 'piraeusdatastore/piraeus-operator'
-  cronTest: '45 * * * *'
-  cronProd: '45 * * * *'
-  affCronTest: '30 0 * * 5'
-  affCronProd: '30 12 * * 5'
-  affSkipTemp: '1'
+  org: Piraeus-Datastore
+  repo: piraeusdatastore/piraeus-operator
+  cronTest: 37 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 31 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 35 14 * * 1
+  affCronProd: 3 20 * * 4
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-41'
+  ga: UA-145264316-41
   i: 106
   certNum: 2
 - proj: k8dash
   url: k8dash
   db: k8dash
   icon: k8dash
-  org: 'Skooner'
-  repo: 'skooner-k8s/skooner'
-  cronTest: '45 * * * *'
-  cronProd: '45 * * * *'
-  affCronTest: '40 0 * * 6'
-  affCronProd: '40 12 * * 6'
-  affSkipTemp: '1'
+  org: Skooner
+  repo: skooner-k8s/skooner
+  cronTest: 38 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 32 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 36 15 * * 1
+  affCronProd: 18 21 * * 4
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-42'
+  ga: UA-145264316-42
   i: 107
   certNum: 2
 - proj: athenz
   url: athenz
   db: athenz
   icon: athenz
-  org: 'Athenz'
-  repo: 'AthenZ/athenz'
-  cronTest: '45 * * * *'
-  cronProd: '45 * * * *'
-  affCronTest: '50 0 * * 0'
-  affCronProd: '50 12 * * 0'
-  affSkipTemp: '1'
+  org: Athenz
+  repo: AthenZ/athenz
+  cronTest: 38 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 33 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 36 16 * * 1
+  affCronProd: 34 22 * * 4
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-43'
+  ga: UA-145264316-43
   i: 108
   certNum: 2
 - proj: kubeovn
   url: kubeovn
   db: kubeovn
   icon: kubeovn
-  org: 'Kube-OVN'
-  repo: 'kubeovn/kube-ovn'
-  cronTest: '46 * * * *'
-  cronProd: '46 * * * *'
-  affCronTest: '0 1 * * 1'
-  affCronProd: '0 13 * * 1'
-  affSkipTemp: '1'
+  org: Kube-OVN
+  repo: kubeovn/kube-ovn
+  cronTest: 39 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 34 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 37 17 * * 1
+  affCronProd: 49 23 * * 4
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-44'
+  ga: UA-145264316-44
   i: 109
   certNum: 2
 - proj: curiefense
   url: curiefense
   db: curiefense
   icon: curiefense
-  org: 'Curiefense'
-  repo: 'curiefense/curiefense'
-  cronTest: '46 * * * *'
-  cronProd: '46 * * * *'
-  affCronTest: '10 1 * * 2'
-  affCronProd: '10 13 * * 2'
-  affSkipTemp: '1'
+  org: Curiefense
+  repo: curiefense/curiefense
+  cronTest: 40 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 35 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 38 18 * * 1
+  affCronProd: 5 1 * * 5
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-45'
+  ga: UA-145264316-45
   i: 110
   certNum: 2
 - proj: distribution
   url: distribution
   db: distribution
   icon: distribution
-  org: 'Distribution'
-  repo: 'distribution/distribution'
-  cronTest: '46 * * * *'
-  cronProd: '46 * * * *'
-  affCronTest: '20 1 * * 3'
-  affCronProd: '20 13 * * 3'
-  affSkipTemp: '1'
+  org: Distribution
+  repo: distribution/distribution
+  cronTest: 41 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 36 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 39 19 * * 1
+  affCronProd: 20 2 * * 5
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-46'
+  ga: UA-145264316-46
   i: 111
   certNum: 2
 - proj: ingraind
   url: ingraind
   db: ingraind
   icon: ingraind
-  org: 'Foniod'
-  repo: 'foniod/foniod'
-  cronTest: '47 * * * *'
-  cronProd: '47 * * * *'
-  affCronTest: '30 1 * * 4'
-  affCronProd: '30 13 * * 4'
-  affSkipTemp: '1'
+  org: Foniod
+  repo: foniod/foniod
+  cronTest: 42 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 38 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 40 20 * * 1
+  affCronProd: 36 3 * * 5
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-47'
+  ga: UA-145264316-47
   i: 112
   certNum: 2
 - proj: kuberhealthy
   url: kuberhealthy
   db: kuberhealthy
   icon: kuberhealthy
-  org: 'Kuberhealthy'
-  repo: 'kuberhealthy/kuberhealthy'
-  cronTest: '47 * * * *'
-  cronProd: '47 * * * *'
-  affCronTest: '40 1 * * 5'
-  affCronProd: '40 13 * * 5'
-  affSkipTemp: '1'
+  org: Kuberhealthy
+  repo: kuberhealthy/kuberhealthy
+  cronTest: 43 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 39 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 41 21 * * 1
+  affCronProd: 51 4 * * 5
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-48'
+  ga: UA-145264316-48
   i: 113
   certNum: 2
 - proj: k8gb
   url: k8gb
   db: k8gb
   icon: k8gb
-  org: 'K8GB'
-  repo: 'k8gb-io/k8gb'
-  cronTest: '47 * * * *'
-  cronProd: '47 * * * *'
-  affCronTest: '50 1 * * 6'
-  affCronProd: '50 13 * * 6'
-  affSkipTemp: '1'
+  org: K8GB
+  repo: k8gb-io/k8gb
+  cronTest: 43 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 40 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 42 22 * * 1
+  affCronProd: 6 6 * * 5
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-49'
+  ga: UA-145264316-49
   i: 114
   certNum: 2
 - proj: trickster
   url: trickster
   db: trickster
   icon: trickster
-  org: 'Trickster'
-  repo: 'trickstercache/trickster'
-  cronTest: '47 * * * *'
-  cronProd: '47 * * * *'
-  affCronTest: '0 2 * * 0'
-  affCronProd: '0 14 * * 0'
-  affSkipTemp: '1'
+  org: Trickster
+  repo: trickstercache/trickster
+  cronTest: 44 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 41 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 43 23 * * 1
+  affCronProd: 22 7 * * 5
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-50'
+  ga: UA-145264316-50
   i: 115
   certNum: 2
 - proj: emissaryingress
   url: emissaryingress
   db: emissaryingress
   icon: emissaryingress
-  org: 'Emissary-ingress'
-  repo: 'emissary-ingress/emissary'
-  cronTest: '48 * * * *'
-  cronProd: '48 * * * *'
-  affCronTest: '10 2 * * 1'
-  affCronProd: '10 14 * * 1'
-  affSkipTemp: '1'
+  org: Emissary-ingress
+  repo: emissary-ingress/emissary
+  cronTest: 45 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 42 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 44 0 * * 2
+  affCronProd: 37 8 * * 5
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-51'
+  ga: UA-145264316-51
   i: 116
   certNum: 2
 - proj: wasmedge
   url: wasmedge
   db: wasmedge
   icon: wasmedge
-  org: 'WasmEdge Runtime'
-  repo: 'WasmEdge/WasmEdge'
-  cronTest: '48 * * * *'
-  cronProd: '48 * * * *'
-  affCronTest: '20 2 * * 2'
-  affCronProd: '20 14 * * 2'
-  affSkipTemp: '1'
+  org: WasmEdge Runtime
+  repo: WasmEdge/WasmEdge
+  cronTest: 46 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 43 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 45 1 * * 2
+  affCronProd: 53 9 * * 5
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-52'
+  ga: UA-145264316-52
   i: 117
   certNum: 2
 - proj: chaosblade
   url: chaosblade
   db: chaosblade
   icon: chaosblade
-  org: 'ChaosBlade'
-  repo: 'chaosblade-io/chaosblade'
-  cronTest: '48 * * * *'
-  cronProd: '48 * * * *'
-  affCronTest: '30 2 * * 3'
-  affCronProd: '30 14 * * 3'
-  affSkipTemp: '1'
+  org: ChaosBlade
+  repo: chaosblade-io/chaosblade
+  cronTest: 47 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 44 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 46 2 * * 2
+  affCronProd: 8 11 * * 5
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-53'
+  ga: UA-145264316-53
   i: 118
   certNum: 2
 - proj: vineyard
   url: vineyard
   db: vineyard
   icon: vineyard
-  org: 'Vineyard'
-  repo: 'v6d-io/v6d'
-  cronTest: '49 * * * *'
-  cronProd: '49 * * * *'
-  affCronTest: '40 2 * * 4'
-  affCronProd: '40 14 * * 4'
-  affSkipTemp: '1'
+  org: Vineyard
+  repo: v6d-io/v6d
+  cronTest: 48 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 45 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 47 3 * * 2
+  affCronProd: 23 12 * * 5
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-54'
+  ga: UA-145264316-54
   i: 119
   certNum: 2
 - proj: antrea
   url: antrea
   db: antrea
   icon: antrea
-  org: 'Antrea'
-  repo: 'antrea-io/antrea'
-  cronTest: '49 * * * *'
-  cronProd: '49 * * * *'
-  affCronTest: '50 2 * * 5'
-  affCronProd: '50 14 * * 5'
-  affSkipTemp: '1'
+  org: Antrea
+  repo: antrea-io/antrea
+  cronTest: 49 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 46 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 48 4 * * 2
+  affCronProd: 39 13 * * 5
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-55'
+  ga: UA-145264316-55
   i: 120
   certNum: 2
 - proj: fluid
   url: fluid
   db: fluid
   icon: fluid
-  org: 'Fluid'
-  repo: 'fluid-cloudnative/fluid'
-  cronTest: '49 * * * *'
-  cronProd: '49 * * * *'
-  affCronTest: '0 3 * * 6'
-  affCronProd: '0 15 * * 6'
-  affSkipTemp: '1'
+  org: Fluid
+  repo: fluid-cloudnative/fluid
+  cronTest: 49 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 47 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 48 5 * * 2
+  affCronProd: 54 14 * * 5
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-56'
+  ga: UA-145264316-56
   i: 121
   certNum: 2
 - proj: submariner
   url: submariner
   db: submariner
   icon: submariner
-  org: 'Submariner'
-  repo: 'submariner-io/submariner'
-  cronTest: '50 * * * *'
-  cronProd: '50 * * * *'
-  affCronTest: '10 3 * * 0'
-  affCronProd: '10 15 * * 0'
-  affSkipTemp: '1'
+  org: Submariner
+  repo: submariner-io/submariner
+  cronTest: 50 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 48 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 49 6 * * 2
+  affCronProd: 10 16 * * 5
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-57'
+  ga: UA-145264316-57
   i: 122
   certNum: 2
 - proj: pixie
   url: pixie
   db: pixie
   icon: pixie
-  org: 'Pixie'
-  repo: 'pixie-labs/pixie'
-  cronTest: '50 * * * *'
-  cronProd: '50 * * * *'
-  affCronTest: '20 3 * * 1'
-  affCronProd: '20 15 * * 1'
-  affSkipTemp: '1'
+  org: Pixie
+  repo: pixie-labs/pixie
+  cronTest: 51 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 49 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 50 7 * * 2
+  affCronProd: 25 17 * * 5
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-58'
+  ga: UA-145264316-58
   i: 123
   certNum: 2
 - proj: meshery
   url: meshery
   db: meshery
   icon: meshery
-  org: 'Meshery'
-  repo: 'layer5io/meshery'
-  cronTest: '50 * * * *'
-  cronProd: '50 * * * *'
-  affCronTest: '30 3 * * 2'
-  affCronProd: '30 15 * * 2'
-  affSkipTemp: '1'
+  org: Meshery
+  repo: layer5io/meshery
+  cronTest: 52 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 50 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 51 8 * * 2
+  affCronProd: 41 18 * * 5
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-59'
+  ga: UA-145264316-59
   i: 124
   certNum: 2
 - proj: servicemeshperformance
   url: servicemeshperformance
   db: servicemeshperformance
   icon: servicemeshperformance
-  org: 'Service Mesh Performance'
-  repo: 'service-mesh-performance/service-mesh-performance'
-  cronTest: '51 * * * *'
-  cronProd: '51 * * * *'
-  affCronTest: '40 3 * * 3'
-  affCronProd: '40 15 * * 3'
-  affSkipTemp: '1'
+  org: Service Mesh Performance
+  repo: service-mesh-performance/service-mesh-performance
+  cronTest: 53 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 51 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 52 9 * * 2
+  affCronProd: 56 19 * * 5
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-60'
+  ga: UA-145264316-60
   i: 125
   certNum: 2
 - proj: kubevela
   url: kubevela
   db: kubevela
   icon: kubevela
-  org: 'KubeVela'
-  repo: 'oam-dev/kubevela'
-  cronTest: '51 * * * *'
-  cronProd: '51 * * * *'
-  affCronTest: '50 3 * * 4'
-  affCronProd: '50 15 * * 4'
-  affSkipTemp: '1'
+  org: KubeVela
+  repo: oam-dev/kubevela
+  cronTest: 54 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 52 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 53 10 * * 2
+  affCronProd: 12 21 * * 5
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-61'
+  ga: UA-145264316-61
   i: 126
   certNum: 2
 - proj: kubevip
   url: kubevip
   db: kubevip
   icon: kubevip
-  org: 'kube-vip'
-  repo: 'kube-vip/kube-vip'
-  cronTest: '51 * * * *'
-  cronProd: '51 * * * *'
-  affCronTest: '0 4 * * 5'
-  affCronProd: '0 16 * * 5'
-  affSkipTemp: '1'
+  org: kube-vip
+  repo: kube-vip/kube-vip
+  cronTest: 54 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 53 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 54 11 * * 2
+  affCronProd: 27 22 * * 5
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-62'
+  ga: UA-145264316-62
   i: 127
   certNum: 2
 - proj: kubedl
   url: kubedl
   db: kubedl
   icon: kubedl
-  org: 'KubeDL'
-  repo: 'alibaba/kubedl'
-  cronTest: '52 * * * *'
-  cronProd: '52 * * * *'
-  affCronTest: '10 4 * * 6'
-  affCronProd: '10 16 * * 6'
-  affSkipTemp: '1'
+  org: KubeDL
+  repo: alibaba/kubedl
+  cronTest: 55 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 54 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 55 12 * * 2
+  affCronProd: 42 23 * * 5
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-63'
+  ga: UA-145264316-63
   i: 128
   certNum: 2
 - proj: krustlet
   url: krustlet
   db: krustlet
   icon: krustlet
-  org: 'Krustlet'
-  repo: 'deislabs/krustlet'
-  cronTest: '52 * * * *'
-  cronProd: '52 * * * *'
-  affCronTest: '20 4 * * 0'
-  affCronProd: '20 16 * * 0'
-  affSkipTemp: '1'
+  org: Krustlet
+  repo: deislabs/krustlet
+  cronTest: 56 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 55 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 56 13 * * 2
+  affCronProd: 58 0 * * 6
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-64'
+  ga: UA-145264316-64
   i: 129
   certNum: 2
 - proj: krator
   url: krator
   db: krator
   icon: krator
-  org: 'Krator'
-  repo: 'krator-rs/krator'
-  cronTest: '52 * * * *'
-  cronProd: '52 * * * *'
-  affCronTest: '30 4 * * 1'
-  affCronProd: '30 16 * * 1'
-  affSkipTemp: '1'
+  org: Krator
+  repo: krator-rs/krator
+  cronTest: 57 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 56 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 57 14 * * 2
+  affCronProd: 13 2 * * 6
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-65'
+  ga: UA-145264316-65
   i: 130
   certNum: 2
 - proj: oras
   url: oras
   db: oras
   icon: oras
-  org: 'ORAS'
-  repo: 'oras-project/oras'
-  cronTest: '53 * * * *'
-  cronProd: '53 * * * *'
-  affCronTest: '40 4 * * 2'
-  affCronProd: '40 16 * * 2'
-  affSkipTemp: '1'
+  org: ORAS
+  repo: oras-project/oras
+  cronTest: 58 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 57 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 58 15 * * 2
+  affCronProd: 29 3 * * 6
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-66'
+  ga: UA-145264316-66
   i: 131
   certNum: 2
 - proj: wasmcloud
   url: wasmcloud
   db: wasmcloud
   icon: wasmcloud
-  org: 'wasmCloud'
-  repo: 'wasmCloud/wasmCloud'
-  cronTest: '53 * * * *'
-  cronProd: '53 * * * *'
-  affCronTest: '50 4 * * 3'
-  affCronProd: '50 16 * * 3'
-  affSkipTemp: '1'
+  org: wasmCloud
+  repo: wasmCloud/wasmCloud
+  cronTest: 59 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 58 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 59 16 * * 2
+  affCronProd: 44 4 * * 6
+  affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
-  ga: 'UA-145264316-67'
+  ga: UA-145264316-67
   i: 132
   certNum: 2
