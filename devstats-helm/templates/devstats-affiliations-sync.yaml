@@ -85,6 +85,8 @@ spec:
               value: {{ .proj }}
             - name: GHA2DB_PROPAGATE_ONLY_VAR
               value: "1"
+            - name: GHA2DB_MAX_HIST
+              value: '{{ .maxHist }}'
             - name: GHA2DB_NCPUS
               value: '{{ $root.Values.nAffsCPUs }}'
             - name: GHA2DB_RECALC_RECIPROCAL

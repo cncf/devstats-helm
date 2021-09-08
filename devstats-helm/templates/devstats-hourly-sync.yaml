@@ -71,6 +71,8 @@ spec:
               value: "1"
             - name: GIANT
               value: '{{ $root.Values.giantSync }}'
+            - name: GHA2DB_MAX_HIST
+              value: '{{ .maxHist }}'
             - name: GHA2DB_NCPUS
               value: '{{ $root.Values.nSyncCPUs }}'
             - name: GHA2DB_RECALC_RECIPROCAL
