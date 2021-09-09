@@ -58,3 +58,5 @@ sqlite/*.sql
 /cert/cert-issuer.yaml
 /metallb/config.yaml
 /openebs/cstor-pool-config.yaml
+splitcrons
+new-values.yaml
