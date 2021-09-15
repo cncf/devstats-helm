@@ -39,7 +39,7 @@
 - `` for f in `cat ../devstats-docker-images/k8s/all_test_projects.txt`; do cp grafana/dashboards/oldproject/new-contributors-table.json grafana/dashboards/$f/; done ``, then: `FROM_PROJ=oldproject ./util_sh/replace_proj_name_tag.sh new-contributors-table.json`.
 - When adding new dashboard to projects that use dashboards folders (like Kubernetes) update `cncf/devstats:grafana/proj/custom_sqlite.sql` file.
 - To actually deploy on bare metal follow `cncf/devstats:ADDING_NEW_PROJECT.md`.
-- If not deploying, then generate grafana artwork: `./devel/update_artwork.sh`, then `./grafana/create_images.sh` or `./devel/icons_all.sh`.
+- If not deploying, then generate grafana artwork `[TEST_SERVER=1]`: `./devel/update_artwork.sh`, then `./grafana/create_images.sh` or `./devel/icons_all.sh`.
 
 
 3. Go to `cncf/devstats-docker-images`:
