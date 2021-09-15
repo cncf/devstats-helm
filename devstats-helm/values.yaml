@@ -2581,3 +2581,83 @@ projects:
   ga: UA-145264316-67
   i: 132
   certNum: 2
+- proj: akri
+  url: akri
+  db: akri
+  icon: akri
+  org: Akri
+  repo: deislabs/akri
+  cronTest: 59 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 58 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 2 11 * * 2
+  affCronProd: 49 22 * * 5
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-145264316-68
+  i: 133
+  certNum: 2
+- proj: metallb
+  url: metallb
+  db: metallb
+  icon: metallb
+  org: MetalLB
+  repo: metallb/metallb
+  cronTest: 59 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 58 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 2 11 * * 2
+  affCronProd: 49 22 * * 5
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-145264316-69
+  i: 134
+  certNum: 2
+- proj: karmada
+  url: karmada
+  db: karmada
+  icon: karmada
+  org: Karmada
+  repo: karmada-io/karmada
+  cronTest: 59 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 58 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 2 11 * * 2
+  affCronProd: 49 22 * * 5
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-145264316-70
+  i: 135
+  certNum: 2
+- proj: inclavarecontainers
+  url: inclavarecontainers
+  db: inclavarecontainers
+  icon: inclavarecontainers
+  org: Inclavare Containers
+  repo: alibaba/inclavare-containers
+  cronTest: 59 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 58 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 2 11 * * 2
+  affCronProd: 49 22 * * 5
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-145264316-71
+  i: 136
+  certNum: 2
+- proj: superedge
+  url: superedge
+  db: superedge
+  icon: superedge
+  org: SuperEdge
+  repo: superedge/superedge
+  cronTest: 59 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 58 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 2 11 * * 2
+  affCronProd: 49 22 * * 5
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-145264316-72
+  i: 137
+  certNum: 2
