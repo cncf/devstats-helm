@@ -440,7 +440,7 @@ projects:
   ga: UA-108085315-1
   i: 0
   certNum: 1
-  maxHist: 8
+  maxHist: 4
 - proj: prometheus
   url: prometheus
   db: prometheus
@@ -1050,7 +1050,7 @@ projects:
   ga: UA-108085315-20
   i: 38
   certNum: 1
-  maxHist: 8
+  maxHist: 4
 - proj: tekton
   url: tekton
   db: tekton
