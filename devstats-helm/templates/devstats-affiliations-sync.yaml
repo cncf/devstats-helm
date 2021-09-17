@@ -127,6 +127,8 @@ spec:
               value: '{{ .skipAffsLock }}'
             - name: AFFS_LOCK_DB
               value: '{{ .affsLockDB }}'
+            - name: NO_DURABLE
+              value: '{{ .noDurable }}'
             - name: GHA2DB_GITHUB_OAUTH
               valueFrom:
                 secretKeyRef:

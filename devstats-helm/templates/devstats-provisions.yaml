@@ -113,6 +113,8 @@ spec:
       value: '{{ .skipAffsLock }}'
     - name: AFFS_LOCK_DB
       value: '{{ .affsLockDB }}'
+    - name: NO_DURABLE
+      value: '{{ .noDurable }}'
     - name: REPOS
       value: '{{ $root.Values.useRepos }}'
     - name: PDROP
