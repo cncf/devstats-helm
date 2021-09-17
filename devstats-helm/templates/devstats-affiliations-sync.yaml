@@ -17,12 +17,12 @@ spec:
 {{ if and ($root.Values.testServer) (not $root.Values.prodServer) }}
   schedule: '{{ .affCronTest }}'
 {{ if .suspendCronTest }}
-  suspend: '{{ .suspendCronTest }}'
+  suspend: {{ .suspendCronTest }}
 {{ end }}
 {{ else }}
   schedule: '{{ .affCronProd }}'
 {{ if .suspendCronProd }}
-  suspend: '{{ .suspendCronProd }}'
+  suspend: {{ .suspendCronProd }}
 {{ end }}
 {{ end }}
   successfulJobsHistoryLimit: {{ $root.Values.affiliationsCronHistoryLimit }}
