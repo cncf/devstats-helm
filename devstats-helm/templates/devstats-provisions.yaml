@@ -110,7 +110,9 @@ spec:
     - name: USE_FLAGS
       value: '{{ $root.Values.useFlagsProv }}'
     - name: SKIP_AFFS_LOCK
-      value: '{{ $root.Values.skipAffsLock }}'
+      value: '{{ .skipAffsLock }}'
+    - name: AFFS_LOCK_DB
+      value: '{{ .affsLockDB }}'
     - name: REPOS
       value: '{{ $root.Values.useRepos }}'
     - name: PDROP

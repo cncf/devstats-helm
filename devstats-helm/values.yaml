@@ -408,7 +408,6 @@ volumeMountPath: '/root'
 volumeName: data
 useFlagsAffs: '1'
 useFlagsProv: '1'
-skipAffsLock: ''
 useRepos: ''
 useAPIResourcesLimits: 1
 useBackupsResourcesLimits: 1
@@ -440,7 +439,8 @@ projects:
   ga: UA-108085315-1
   i: 0
   certNum: 1
-  maxHist: 4
+  maxHist: 2
+  affsLockDB: gha
 - proj: prometheus
   url: prometheus
   db: prometheus
@@ -1050,7 +1050,8 @@ projects:
   ga: UA-108085315-20
   i: 38
   certNum: 1
-  maxHist: 4
+  maxHist: 2
+  affsLockDB: allprj
 - proj: tekton
   url: tekton
   db: tekton
@@ -1119,6 +1120,7 @@ projects:
   ga: UA-108085315-40
   i: 42
   certNum: 1
+  maxHist: 4
 - proj: allcdf
   url: allcdf
   db: allcdf
@@ -1136,6 +1138,7 @@ projects:
   ga: UA-108085315-42
   i: 43
   certNum: 1
+  maxHist: 4
 - proj: graphqljs
   url: graphqljs
   db: graphqljs
@@ -1908,6 +1911,7 @@ projects:
   ga: UA-145264316-26
   i: 90
   certNum: 1
+  maxHist: 4
 - proj: tremor
   url: tremor
   db: tremor

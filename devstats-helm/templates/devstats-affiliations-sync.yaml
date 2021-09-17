@@ -124,7 +124,9 @@ spec:
             - name: USE_FLAGS
               value: '{{ $root.Values.useFlagsAffs }}'
             - name: SKIP_AFFS_LOCK
-              value: '{{ $root.Values.skipAffsLock }}'
+              value: '{{ .skipAffsLock }}'
+            - name: AFFS_LOCK_DB
+              value: '{{ .affsLockDB }}'
             - name: GHA2DB_GITHUB_OAUTH
               valueFrom:
                 secretKeyRef:
