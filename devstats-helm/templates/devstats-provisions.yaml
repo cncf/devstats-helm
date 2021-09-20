@@ -117,6 +117,8 @@ spec:
       value: '{{ .affsLockDB }}'
     - name: NO_DURABLE
       value: '{{ .noDurable }}'
+    - name: DURABLE_PQ
+      value: '{{ .durablePQ }}'
     - name: REPOS
       value: '{{ $root.Values.useRepos }}'
     - name: PDROP

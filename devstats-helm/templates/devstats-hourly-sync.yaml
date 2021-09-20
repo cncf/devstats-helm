@@ -75,6 +75,10 @@ spec:
               value: '{{ .maxHist }}'
             - name: GHA2DB_MAX_RUN_DURATION
               value: '{{ .maxRunDuration }}'
+            - name: NO_DURABLE
+              value: '{{ .noDurable }}'
+            - name: DURABLE_PQ
+              value: '{{ .durablePQ }}'
             - name: GHA2DB_NCPUS
               value: '{{ $root.Values.nSyncCPUs }}'
             - name: GHA2DB_RECALC_RECIPROCAL

@@ -131,6 +131,8 @@ spec:
               value: '{{ .affsLockDB }}'
             - name: NO_DURABLE
               value: '{{ .noDurable }}'
+            - name: DURABLE_PQ
+              value: '{{ .durablePQ }}'
             - name: GHA2DB_GITHUB_OAUTH
               valueFrom:
                 secretKeyRef:
