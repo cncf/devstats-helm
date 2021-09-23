@@ -442,7 +442,7 @@ projects:
   maxHist: 2
   affsLockDB: gha
   durablePQ: 1
-  maxRunDuration: 'annotations:1h:102,calc_metric:12h:102,columns:1h:102,get_repos:12h:102,gha2db:8h:102,ghapi2db:12h:102,structure:1h:102,tags:1h:102'
+  maxRunDuration: annotations:1h:102,calc_metric:12h:102,columns:1h:102,get_repos:12h:102,gha2db:8h:102,ghapi2db:12h:102,structure:1h:102,tags:1h:102
   skipGHAPI: 1
   skipGetRepos: 1
 - proj: prometheus
@@ -1069,7 +1069,7 @@ projects:
   maxHist: 2
   affsLockDB: allprj
   durablePQ: 1
-  maxRunDuration: 'annotations:1h:102,calc_metric:12h:102,columns:1h:102,get_repos:12h:102,gha2db:8h:102,ghapi2db:12h:102,structure:1h:102,tags:1h:102'
+  maxRunDuration: annotations:1h:102,calc_metric:12h:102,columns:1h:102,get_repos:12h:102,gha2db:8h:102,ghapi2db:12h:102,structure:1h:102,tags:1h:102
   skipGHAPI: 1
   skipGetRepos: 1
 - proj: tekton
@@ -1142,7 +1142,7 @@ projects:
   certNum: 1
   maxHist: 4
   durablePQ: 1
-  maxRunDuration: 'annotations:1h:102,calc_metric:12h:102,columns:1h:102,get_repos:12h:102,gha2db:8h:102,ghapi2db:12h:102,structure:1h:102,tags:1h:102'
+  maxRunDuration: annotations:1h:102,calc_metric:12h:102,columns:1h:102,get_repos:12h:102,gha2db:8h:102,ghapi2db:12h:102,structure:1h:102,tags:1h:102
   skipGHAPI: 1
   skipGetRepos: 1
 - proj: allcdf
@@ -1164,7 +1164,7 @@ projects:
   certNum: 1
   maxHist: 4
   durablePQ: 1
-  maxRunDuration: 'annotations:1h:102,calc_metric:12h:102,columns:1h:102,get_repos:12h:102,gha2db:8h:102,ghapi2db:12h:102,structure:1h:102,tags:1h:102'
+  maxRunDuration: annotations:1h:102,calc_metric:12h:102,columns:1h:102,get_repos:12h:102,gha2db:8h:102,ghapi2db:12h:102,structure:1h:102,tags:1h:102
   skipGHAPI: 1
   skipGetRepos: 1
 - proj: graphqljs
@@ -1945,7 +1945,7 @@ projects:
   certNum: 1
   maxHist: 4
   durablePQ: 1
-  maxRunDuration: 'annotations:1h:102,calc_metric:12h:102,columns:1h:102,get_repos:12h:102,gha2db:8h:102,ghapi2db:12h:102,structure:1h:102,tags:1h:102'
+  maxRunDuration: annotations:1h:102,calc_metric:12h:102,columns:1h:102,get_repos:12h:102,gha2db:8h:102,ghapi2db:12h:102,structure:1h:102,tags:1h:102
 - proj: tremor
   url: tremor
   db: tremor
