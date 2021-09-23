@@ -86,9 +86,9 @@ spec:
             - name: GHA2DB_PROPAGATE_ONLY_VAR
               value: "1"
             - name: GHA2DB_GHAPISKIP
-              value: "1"
+              value: '{{ .skipGHAPI }}'
             - name: GHA2DB_GETREPOSSKIP
-              value: "1"
+              value: '{{ .skipGetRepos }}'
             - name: GHA2DB_MAX_HIST
               value: '{{ .maxHist }}'
             - name: GHA2DB_MAX_RUN_DURATION

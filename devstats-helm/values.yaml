@@ -443,6 +443,8 @@ projects:
   affsLockDB: gha
   durablePQ: true
   maxRunDuration: 'annotations:1h:102,calc_metric:12h:102,columns:1h:102,get_repos:12h:102,gha2db:8h:102,ghapi2db:12h:102,structure:1h:102,tags:1h:102'
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: prometheus
   url: prometheus
   db: prometheus
@@ -523,6 +525,8 @@ projects:
   ga: UA-108085315-7
   i: 5
   certNum: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: coredns
   url: coredns
   db: coredns
@@ -604,6 +608,8 @@ projects:
   ga: UA-108085315-13
   i: 10
   certNum: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: jaeger
   url: jaeger
   db: jaeger
@@ -780,6 +786,8 @@ projects:
   ga: UA-108085315-26
   i: 21
   certNum: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: helm
   url: helm
   db: helm
@@ -796,6 +804,8 @@ projects:
   ga: UA-108085315-27
   i: 22
   certNum: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: openmetrics
   url: openmetrics
   db: openmetrics
@@ -812,6 +822,8 @@ projects:
   ga: UA-108085315-28
   i: 23
   certNum: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: harbor
   url: harbor
   db: harbor
@@ -1036,6 +1048,8 @@ projects:
   ga: UA-108085315-48
   i: 37
   certNum: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: all
   url: all
   db: allprj
@@ -1056,6 +1070,8 @@ projects:
   affsLockDB: allprj
   durablePQ: true
   maxRunDuration: 'annotations:1h:102,calc_metric:12h:102,columns:1h:102,get_repos:12h:102,gha2db:8h:102,ghapi2db:12h:102,structure:1h:102,tags:1h:102'
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: tekton
   url: tekton
   db: tekton
@@ -1127,6 +1143,8 @@ projects:
   maxHist: 4
   durablePQ: true
   maxRunDuration: 'annotations:1h:102,calc_metric:12h:102,columns:1h:102,get_repos:12h:102,gha2db:8h:102,ghapi2db:12h:102,structure:1h:102,tags:1h:102'
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: allcdf
   url: allcdf
   db: allcdf
@@ -1147,6 +1165,8 @@ projects:
   maxHist: 4
   durablePQ: true
   maxRunDuration: 'annotations:1h:102,calc_metric:12h:102,columns:1h:102,get_repos:12h:102,gha2db:8h:102,ghapi2db:12h:102,structure:1h:102,tags:1h:102'
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: graphqljs
   url: graphqljs
   db: graphqljs
@@ -1283,6 +1303,8 @@ projects:
   ga: ""
   i: 51
   certNum: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: knative
   url: knative
   db: knative
@@ -1549,6 +1571,8 @@ projects:
   ga: ""
   i: 67
   certNum: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: prestodb
   url: prestodb
   db: prestodb
