@@ -441,7 +441,7 @@ projects:
   certNum: 1
   maxHist: 2
   affsLockDB: gha
-  durablePQ: true
+  durablePQ: 1
   maxRunDuration: 'annotations:1h:102,calc_metric:12h:102,columns:1h:102,get_repos:12h:102,gha2db:8h:102,ghapi2db:12h:102,structure:1h:102,tags:1h:102'
   skipGHAPI: 1
   skipGetRepos: 1
@@ -1068,7 +1068,7 @@ projects:
   certNum: 1
   maxHist: 2
   affsLockDB: allprj
-  durablePQ: true
+  durablePQ: 1
   maxRunDuration: 'annotations:1h:102,calc_metric:12h:102,columns:1h:102,get_repos:12h:102,gha2db:8h:102,ghapi2db:12h:102,structure:1h:102,tags:1h:102'
   skipGHAPI: 1
   skipGetRepos: 1
@@ -1141,7 +1141,7 @@ projects:
   i: 42
   certNum: 1
   maxHist: 4
-  durablePQ: true
+  durablePQ: 1
   maxRunDuration: 'annotations:1h:102,calc_metric:12h:102,columns:1h:102,get_repos:12h:102,gha2db:8h:102,ghapi2db:12h:102,structure:1h:102,tags:1h:102'
   skipGHAPI: 1
   skipGetRepos: 1
@@ -1163,7 +1163,7 @@ projects:
   i: 43
   certNum: 1
   maxHist: 4
-  durablePQ: true
+  durablePQ: 1
   maxRunDuration: 'annotations:1h:102,calc_metric:12h:102,columns:1h:102,get_repos:12h:102,gha2db:8h:102,ghapi2db:12h:102,structure:1h:102,tags:1h:102'
   skipGHAPI: 1
   skipGetRepos: 1
@@ -1944,7 +1944,7 @@ projects:
   i: 90
   certNum: 1
   maxHist: 4
-  durablePQ: true
+  durablePQ: 1
   maxRunDuration: 'annotations:1h:102,calc_metric:12h:102,columns:1h:102,get_repos:12h:102,gha2db:8h:102,ghapi2db:12h:102,structure:1h:102,tags:1h:102'
 - proj: tremor
   url: tremor
