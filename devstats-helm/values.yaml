@@ -179,6 +179,7 @@ backupsNodeSelector:
   node: devstats-app
 dbNodeSelector:
   node2: devstats-db
+backupsBackoffLimit: 10
 backupsCronTest: '45 3 4,17 * *'
 backupsCronProd: '45 3 10,24 * *'
 backupsCronHistoryLimit: 2
