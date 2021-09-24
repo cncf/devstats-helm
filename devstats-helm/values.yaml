@@ -179,7 +179,8 @@ backupsNodeSelector:
   node: devstats-app
 dbNodeSelector:
   node2: devstats-db
-backupsCron: '45 3 * * 1,3,5'
+backupsCronTest: '45 3 4,17 * *'
+backupsCronProd: '45 3 10,24 * *'
 backupsCronHistoryLimit: 2
 backupsCronFailedHistoryLimit: 1
 backupsCronStartingDeadlineSeconds: 300
@@ -194,6 +195,8 @@ backupsPVSize: '2Ti'
 backupsRestartPolicy: Never
 backupsStorageAccessModes: ReadWriteMany
 backupsStorageClass: 'nfs-openebs-localstorage'
+backupsSuspendCronProd: ''
+backupsSuspendCronTest: ''
 backupsTestServer: '1'
 backupsVolumeMountPath: '/usr/share/nginx/html/backups'
 bootstrapCommand: './devstats-helm/deploy_all.sh'

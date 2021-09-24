@@ -10,7 +10,17 @@ metadata:
     name: devstats
     type: 'backups-cron'
 spec:
-  schedule: '{{ .Values.backupsCron }}'
+{{ if and (.Values.backupsProdServer) (not .Values.backupsTestServer) }}
+  schedule: '{{ .Values.backupsCronProd }}'
+{{ if .Values.backupsSuspendCronProd }}
+  suspend: {{ .Values.backupsSuspendCronProd }}
+{{ end }}
+{{ else }}
+  schedule: '{{ .Values.backupsCronTest }}'
+{{ if .Values.backupsSuspendCronTest }}
+  suspend: {{ .Values.backupsSuspendCronTest }}
+{{ end }}
+{{ end }}
   successfulJobsHistoryLimit: {{ .Values.backupsCronHistoryLimit }}
   failedJobsHistoryLimit: {{ .Values.backupsCronFailedHistoryLimit }}
   startingDeadlineSeconds: {{ .Values.backupsCronStartingDeadlineSeconds }}
