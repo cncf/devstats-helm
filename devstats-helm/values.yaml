@@ -465,6 +465,10 @@ projects:
   ga: UA-108085315-3
   i: 1
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: opentracing
   url: opentracing
   db: opentracing
@@ -481,6 +485,10 @@ projects:
   ga: UA-108085315-4
   i: 2
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: fluentd
   url: fluentd
   db: fluentd
@@ -497,6 +505,10 @@ projects:
   ga: UA-108085315-5
   i: 3
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: linkerd
   url: linkerd
   db: linkerd
@@ -513,6 +525,10 @@ projects:
   ga: UA-108085315-6
   i: 4
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: grpc
   url: grpc
   db: grpc
@@ -529,6 +545,8 @@ projects:
   ga: UA-108085315-7
   i: 5
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
 - proj: coredns
@@ -547,6 +565,10 @@ projects:
   ga: UA-108085315-9
   i: 6
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: containerd
   url: containerd
   db: containerd
@@ -563,6 +585,10 @@ projects:
   ga: UA-108085315-10
   i: 7
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: rkt
   url: rkt
   db: rkt
@@ -580,6 +606,10 @@ projects:
   ga: UA-108085315-11
   i: 8
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: cni
   url: cni
   db: cni
@@ -596,6 +626,10 @@ projects:
   ga: UA-108085315-12
   i: 9
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: envoy
   url: envoy
   db: envoy
@@ -612,6 +646,8 @@ projects:
   ga: UA-108085315-13
   i: 10
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
 - proj: jaeger
@@ -630,6 +666,10 @@ projects:
   ga: UA-108085315-14
   i: 11
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: notary
   url: notary
   db: notary
@@ -646,6 +686,10 @@ projects:
   ga: UA-108085315-15
   i: 12
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: tuf
   url: tuf
   db: tuf
@@ -662,6 +706,10 @@ projects:
   ga: UA-108085315-16
   i: 13
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: rook
   url: rook
   db: rook
@@ -678,6 +726,10 @@ projects:
   ga: UA-108085315-17
   i: 14
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: vitess
   url: vitess
   db: vitess
@@ -694,6 +746,10 @@ projects:
   ga: UA-108085315-18
   i: 15
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: nats
   url: nats
   db: nats
@@ -710,6 +766,10 @@ projects:
   ga: UA-108085315-21
   i: 16
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: opa
   url: opa
   db: opa
@@ -726,6 +786,10 @@ projects:
   ga: UA-108085315-22
   i: 17
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: spiffe
   url: spiffe
   db: spiffe
@@ -742,6 +806,10 @@ projects:
   ga: UA-108085315-23
   i: 18
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: spire
   url: spire
   db: spire
@@ -758,6 +826,10 @@ projects:
   ga: UA-108085315-24
   i: 19
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: cloudevents
   url: cloudevents
   db: cloudevents
@@ -774,6 +846,10 @@ projects:
   ga: UA-108085315-25
   i: 20
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: telepresence
   url: telepresence
   db: telepresence
@@ -790,6 +866,8 @@ projects:
   ga: UA-108085315-26
   i: 21
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
 - proj: helm
@@ -808,6 +886,8 @@ projects:
   ga: UA-108085315-27
   i: 22
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
 - proj: openmetrics
@@ -826,6 +906,8 @@ projects:
   ga: UA-108085315-28
   i: 23
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
 - proj: harbor
@@ -844,6 +926,10 @@ projects:
   ga: UA-108085315-29
   i: 24
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: etcd
   url: etcd
   db: etcd
@@ -860,6 +946,10 @@ projects:
   ga: UA-108085315-30
   i: 25
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: tikv
   url: tikv
   db: tikv
@@ -876,6 +966,10 @@ projects:
   ga: UA-108085315-31
   i: 26
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: cortex
   url: cortex
   db: cortex
@@ -892,6 +986,10 @@ projects:
   ga: UA-108085315-32
   i: 27
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: buildpacks
   url: buildpacks
   db: buildpacks
@@ -908,6 +1006,10 @@ projects:
   ga: UA-108085315-33
   i: 28
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: falco
   url: falco
   db: falco
@@ -924,6 +1026,10 @@ projects:
   ga: UA-108085315-34
   i: 29
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: dragonfly
   url: dragonfly
   db: dragonfly
@@ -940,6 +1046,10 @@ projects:
   ga: UA-108085315-35
   i: 30
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: virtualkubelet
   url: virtualkubelet
   db: virtualkubelet
@@ -956,6 +1066,10 @@ projects:
   ga: UA-108085315-36
   i: 31
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: kubeedge
   url: kubeedge
   db: kubeedge
@@ -972,6 +1086,10 @@ projects:
   ga: UA-108085315-43
   i: 32
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: brigade
   url: brigade
   db: brigade
@@ -988,6 +1106,10 @@ projects:
   ga: UA-108085315-44
   i: 33
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: crio
   url: crio
   db: crio
@@ -1004,6 +1126,10 @@ projects:
   ga: UA-108085315-45
   i: 34
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: networkservicemesh
   url: networkservicemesh
   db: networkservicemesh
@@ -1020,6 +1146,10 @@ projects:
   ga: UA-108085315-46
   i: 35
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: openebs
   url: openebs
   db: openebs
@@ -1036,6 +1166,10 @@ projects:
   ga: UA-108085315-47
   i: 36
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: opentelemetry
   url: opentelemetry
   db: opentelemetry
@@ -1052,6 +1186,8 @@ projects:
   ga: UA-108085315-48
   i: 37
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
 - proj: all
@@ -1093,6 +1229,10 @@ projects:
   ga: UA-108085315-39
   i: 39
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: spinnaker
   url: spinnaker
   db: spinnaker
@@ -1110,6 +1250,10 @@ projects:
   ga: UA-108085315-38
   i: 40
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: jenkinsx
   url: jenkinsx
   db: jenkinsx
@@ -1127,6 +1271,10 @@ projects:
   ga: UA-108085315-41
   i: 41
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: jenkins
   url: jenkins
   db: jenkins
@@ -1188,6 +1336,10 @@ projects:
   ga: ""
   i: 44
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: graphiql
   url: graphiql
   db: graphiql
@@ -1205,6 +1357,10 @@ projects:
   ga: ""
   i: 45
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: graphqlspec
   url: graphqlspec
   db: graphqlspec
@@ -1222,6 +1378,10 @@ projects:
   ga: ""
   i: 46
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: expressgraphql
   url: expressgraphql
   db: expressgraphql
@@ -1239,6 +1399,10 @@ projects:
   ga: ""
   i: 47
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: graphql
   url: graphql
   db: graphql
@@ -1256,6 +1420,10 @@ projects:
   ga: ""
   i: 48
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: cncf
   url: cncf
   db: cncf
@@ -1273,6 +1441,10 @@ projects:
   ga: UA-108085315-8
   i: 49
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: opencontainers
   url: opencontainers
   db: opencontainers
@@ -1290,6 +1462,10 @@ projects:
   ga: UA-108085315-19
   i: 50
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: istio
   url: istio
   db: istio
@@ -1307,6 +1483,8 @@ projects:
   ga: ""
   i: 51
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
 - proj: knative
@@ -1326,6 +1504,10 @@ projects:
   ga: ""
   i: 52
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: zephyr
   url: zephyr
   db: zephyr
@@ -1343,6 +1525,10 @@ projects:
   ga: ""
   i: 53
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: linux
   url: linux
   db: linux
@@ -1360,6 +1546,10 @@ projects:
   ga: ""
   i: 54
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: thanos
   url: thanos
   db: thanos
@@ -1376,6 +1566,10 @@ projects:
   ga: UA-108085315-49
   i: 55
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: flux
   url: flux
   db: flux
@@ -1392,6 +1586,10 @@ projects:
   ga: UA-108085315-50
   i: 56
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: intoto
   url: intoto
   db: intoto
@@ -1408,6 +1606,10 @@ projects:
   ga: UA-145264316-1
   i: 57
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: strimzi
   url: strimzi
   db: strimzi
@@ -1424,6 +1626,10 @@ projects:
   ga: UA-145264316-2
   i: 58
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: sam
   url: sam
   db: sam
@@ -1441,6 +1647,10 @@ projects:
   ga: ""
   i: 59
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: azf
   url: azf
   db: azf
@@ -1458,6 +1668,10 @@ projects:
   ga: ""
   i: 60
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: riff
   url: riff
   db: riff
@@ -1475,6 +1689,10 @@ projects:
   ga: ""
   i: 61
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: fn
   url: fn
   db: fn
@@ -1492,6 +1710,10 @@ projects:
   ga: ""
   i: 62
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: openwhisk
   url: openwhisk
   db: openwhisk
@@ -1509,6 +1731,10 @@ projects:
   ga: ""
   i: 63
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: openfaas
   url: openfaas
   db: openfaas
@@ -1526,6 +1752,10 @@ projects:
   ga: ""
   i: 64
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: kubevirt
   url: kubevirt
   db: kubevirt
@@ -1542,6 +1772,10 @@ projects:
   ga: UA-145264316-3
   i: 65
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: longhorn
   url: longhorn
   db: longhorn
@@ -1558,6 +1792,10 @@ projects:
   ga: UA-145264316-4
   i: 66
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: cii
   url: cii
   db: cii
@@ -1575,6 +1813,8 @@ projects:
   ga: ""
   i: 67
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
 - proj: prestodb
@@ -1595,6 +1835,10 @@ projects:
   ga: ""
   i: 68
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: chubaofs
   url: chubaofs
   db: chubaofs
@@ -1611,6 +1855,10 @@ projects:
   ga: UA-145264316-5
   i: 69
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: keda
   url: keda
   db: keda
@@ -1627,6 +1875,10 @@ projects:
   ga: UA-145264316-6
   i: 70
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: smi
   url: smi
   db: smi
@@ -1643,6 +1895,10 @@ projects:
   ga: UA-145264316-7
   i: 71
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: argo
   url: argo
   db: argo
@@ -1659,6 +1915,10 @@ projects:
   ga: UA-145264316-8
   i: 72
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: volcano
   url: volcano
   db: volcano
@@ -1675,6 +1935,10 @@ projects:
   ga: UA-145264316-9
   i: 73
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: cnigenie
   url: cnigenie
   db: cnigenie
@@ -1691,6 +1955,10 @@ projects:
   ga: UA-145264316-10
   i: 74
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: keptn
   url: keptn
   db: keptn
@@ -1707,6 +1975,10 @@ projects:
   ga: UA-145264316-11
   i: 75
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: kudo
   url: kudo
   db: kudo
@@ -1723,6 +1995,10 @@ projects:
   ga: UA-145264316-12
   i: 76
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: cloudcustodian
   url: cloudcustodian
   db: cloudcustodian
@@ -1739,6 +2015,10 @@ projects:
   ga: UA-145264316-13
   i: 77
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: dex
   url: dex
   db: dex
@@ -1755,6 +2035,10 @@ projects:
   ga: UA-145264316-14
   i: 78
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: litmuschaos
   url: litmuschaos
   db: litmuschaos
@@ -1771,6 +2055,10 @@ projects:
   ga: UA-145264316-15
   i: 79
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: artifacthub
   url: artifacthub
   db: artifacthub
@@ -1787,6 +2075,10 @@ projects:
   ga: UA-145264316-16
   i: 80
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: kuma
   url: kuma
   db: kuma
@@ -1803,6 +2095,10 @@ projects:
   ga: UA-145264316-17
   i: 81
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: parsec
   url: parsec
   db: parsec
@@ -1819,6 +2115,10 @@ projects:
   ga: UA-145264316-18
   i: 82
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: bfe
   url: bfe
   db: bfe
@@ -1835,6 +2135,10 @@ projects:
   ga: UA-145264316-19
   i: 83
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: crossplane
   url: crossplane
   db: crossplane
@@ -1851,6 +2155,10 @@ projects:
   ga: UA-145264316-20
   i: 84
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: contour
   url: contour
   db: contour
@@ -1867,6 +2175,10 @@ projects:
   ga: UA-145264316-21
   i: 85
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: operatorframework
   url: operatorframework
   db: operatorframework
@@ -1883,6 +2195,10 @@ projects:
   ga: UA-145264316-22
   i: 86
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: chaosmesh
   url: chaosmesh
   db: chaosmesh
@@ -1899,6 +2215,10 @@ projects:
   ga: UA-145264316-23
   i: 87
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: serverlessworkflow
   url: serverlessworkflow
   db: serverlessworkflow
@@ -1915,6 +2235,10 @@ projects:
   ga: UA-145264316-24
   i: 88
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: k3s
   url: k3s
   db: k3s
@@ -1931,6 +2255,10 @@ projects:
   ga: UA-145264316-25
   i: 89
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: backstage
   url: backstage
   db: backstage
@@ -1966,6 +2294,10 @@ projects:
   ga: UA-145264316-27
   i: 91
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: metal3
   url: metal3
   db: metal3
@@ -1982,6 +2314,10 @@ projects:
   ga: UA-145264316-28
   i: 92
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: porter
   url: porter
   db: porter
@@ -1998,6 +2334,10 @@ projects:
   ga: UA-145264316-29
   i: 93
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: openyurt
   url: openyurt
   db: openyurt
@@ -2014,6 +2354,10 @@ projects:
   ga: UA-145264316-30
   i: 94
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: openservicemesh
   url: openservicemesh
   db: openservicemesh
@@ -2030,6 +2374,10 @@ projects:
   ga: UA-145264316-31
   i: 95
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: keylime
   url: keylime
   db: keylime
@@ -2046,6 +2394,10 @@ projects:
   ga: UA-145264316-32
   i: 96
   certNum: 1
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: godotengine
   url: godotengine
   db: godotengine
@@ -2063,6 +2415,10 @@ projects:
   ga: ""
   i: 97
   certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: schemahero
   url: schemahero
   db: schemahero
@@ -2079,6 +2435,10 @@ projects:
   ga: UA-145264316-33
   i: 98
   certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: cdk8s
   url: cdk8s
   db: cdk8s
@@ -2095,6 +2455,10 @@ projects:
   ga: UA-145264316-34
   i: 99
   certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: certmanager
   url: certmanager
   db: certmanager
@@ -2111,6 +2475,10 @@ projects:
   ga: UA-145264316-35
   i: 100
   certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: openkruise
   url: openkruise
   db: openkruise
@@ -2127,6 +2495,10 @@ projects:
   ga: UA-145264316-36
   i: 101
   certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: tinkerbell
   url: tinkerbell
   db: tinkerbell
@@ -2143,6 +2515,10 @@ projects:
   ga: UA-145264316-37
   i: 102
   certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: pravega
   url: pravega
   db: pravega
@@ -2159,6 +2535,10 @@ projects:
   ga: UA-145264316-38
   i: 103
   certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: kyverno
   url: kyverno
   db: kyverno
@@ -2175,6 +2555,10 @@ projects:
   ga: UA-145264316-39
   i: 104
   certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: gitopswg
   url: gitopswg
   db: gitopswg
@@ -2191,6 +2575,10 @@ projects:
   ga: UA-145264316-40
   i: 105
   certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: piraeus
   url: piraeus
   db: piraeus
@@ -2207,6 +2595,10 @@ projects:
   ga: UA-145264316-41
   i: 106
   certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: k8dash
   url: k8dash
   db: k8dash
@@ -2223,6 +2615,10 @@ projects:
   ga: UA-145264316-42
   i: 107
   certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: athenz
   url: athenz
   db: athenz
@@ -2239,6 +2635,10 @@ projects:
   ga: UA-145264316-43
   i: 108
   certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: kubeovn
   url: kubeovn
   db: kubeovn
@@ -2255,6 +2655,10 @@ projects:
   ga: UA-145264316-44
   i: 109
   certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: curiefense
   url: curiefense
   db: curiefense
@@ -2271,6 +2675,10 @@ projects:
   ga: UA-145264316-45
   i: 110
   certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: distribution
   url: distribution
   db: distribution
@@ -2287,6 +2695,10 @@ projects:
   ga: UA-145264316-46
   i: 111
   certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: ingraind
   url: ingraind
   db: ingraind
@@ -2303,6 +2715,10 @@ projects:
   ga: UA-145264316-47
   i: 112
   certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: kuberhealthy
   url: kuberhealthy
   db: kuberhealthy
@@ -2319,6 +2735,10 @@ projects:
   ga: UA-145264316-48
   i: 113
   certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: k8gb
   url: k8gb
   db: k8gb
@@ -2335,6 +2755,10 @@ projects:
   ga: UA-145264316-49
   i: 114
   certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: trickster
   url: trickster
   db: trickster
@@ -2351,6 +2775,10 @@ projects:
   ga: UA-145264316-50
   i: 115
   certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: emissaryingress
   url: emissaryingress
   db: emissaryingress
@@ -2367,6 +2795,10 @@ projects:
   ga: UA-145264316-51
   i: 116
   certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: wasmedge
   url: wasmedge
   db: wasmedge
@@ -2383,6 +2815,10 @@ projects:
   ga: UA-145264316-52
   i: 117
   certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: chaosblade
   url: chaosblade
   db: chaosblade
@@ -2399,6 +2835,10 @@ projects:
   ga: UA-145264316-53
   i: 118
   certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: vineyard
   url: vineyard
   db: vineyard
@@ -2415,6 +2855,10 @@ projects:
   ga: UA-145264316-54
   i: 119
   certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: antrea
   url: antrea
   db: antrea
@@ -2431,6 +2875,10 @@ projects:
   ga: UA-145264316-55
   i: 120
   certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: fluid
   url: fluid
   db: fluid
@@ -2447,6 +2895,10 @@ projects:
   ga: UA-145264316-56
   i: 121
   certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: submariner
   url: submariner
   db: submariner
@@ -2463,6 +2915,10 @@ projects:
   ga: UA-145264316-57
   i: 122
   certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: pixie
   url: pixie
   db: pixie
@@ -2479,6 +2935,10 @@ projects:
   ga: UA-145264316-58
   i: 123
   certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: meshery
   url: meshery
   db: meshery
@@ -2495,6 +2955,10 @@ projects:
   ga: UA-145264316-59
   i: 124
   certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: servicemeshperformance
   url: servicemeshperformance
   db: servicemeshperformance
@@ -2511,6 +2975,10 @@ projects:
   ga: UA-145264316-60
   i: 125
   certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: kubevela
   url: kubevela
   db: kubevela
@@ -2527,6 +2995,10 @@ projects:
   ga: UA-145264316-61
   i: 126
   certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: kubevip
   url: kubevip
   db: kubevip
@@ -2543,6 +3015,10 @@ projects:
   ga: UA-145264316-62
   i: 127
   certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: kubedl
   url: kubedl
   db: kubedl
@@ -2559,6 +3035,10 @@ projects:
   ga: UA-145264316-63
   i: 128
   certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: krustlet
   url: krustlet
   db: krustlet
@@ -2575,6 +3055,10 @@ projects:
   ga: UA-145264316-64
   i: 129
   certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: krator
   url: krator
   db: krator
@@ -2591,6 +3075,10 @@ projects:
   ga: UA-145264316-65
   i: 130
   certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: oras
   url: oras
   db: oras
@@ -2607,6 +3095,10 @@ projects:
   ga: UA-145264316-66
   i: 131
   certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: wasmcloud
   url: wasmcloud
   db: wasmcloud
@@ -2623,6 +3115,10 @@ projects:
   ga: UA-145264316-67
   i: 132
   certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: akri
   url: akri
   db: akri
@@ -2639,6 +3135,10 @@ projects:
   ga: UA-145264316-68
   i: 133
   certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: metallb
   url: metallb
   db: metallb
@@ -2655,6 +3155,10 @@ projects:
   ga: UA-145264316-69
   i: 134
   certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: karmada
   url: karmada
   db: karmada
@@ -2671,6 +3175,10 @@ projects:
   ga: UA-145264316-70
   i: 135
   certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: inclavarecontainers
   url: inclavarecontainers
   db: inclavarecontainers
@@ -2687,6 +3195,10 @@ projects:
   ga: UA-145264316-71
   i: 136
   certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
 - proj: superedge
   url: superedge
   db: superedge
@@ -2703,3 +3215,7 @@ projects:
   ga: UA-145264316-72
   i: 137
   certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
