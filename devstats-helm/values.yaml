@@ -3219,3 +3219,23 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+- proj: cilium
+  url: cilium
+  db: cilium
+  icon: cilium
+  org: Cilium
+  repo: cilium/cilium
+  cronTest: 59 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 58 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 4 11 * * 2
+  affCronProd: 52 22 * * 5
+  affSkipTemp: "1"
+  disk: 5Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-145264316-73
+  i: 138
+  certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
