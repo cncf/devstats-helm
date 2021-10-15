@@ -180,8 +180,8 @@ backupsNodeSelector:
 dbNodeSelector:
   node2: devstats-db
 backupsBackoffLimit: 10
-backupsCronTest: '45 3 4,17 * *'
-backupsCronProd: '45 3 10,24 * *'
+backupsCronTest: '45 3 29 * *'
+backupsCronProd: '45 3 30 * *'
 backupsCronHistoryLimit: 2
 backupsCronFailedHistoryLimit: 1
 backupsCronStartingDeadlineSeconds: 300
