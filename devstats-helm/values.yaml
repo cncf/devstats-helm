@@ -79,9 +79,10 @@
 # excludeVars: 'projects_health_partial_html'
 # forceComputeAll: 1
 # githubDebug: 1
-# giant: 'lock'   # use giant lock even when doing affiliations import from cron jobs
-# giant: ''       # do not use giant lock
-# giant: 'wait'   # use giant lock when doing any manual reinit, so affiliations cron jobs will not start when any manual reinit is running
+# giantXYZ: 'lock'   # use giant lock even when doing affiliations import from cron jobs
+# giantXYZ: ''       # do not use giant lock
+# giantXYZ: 'wait'   # use giant lock when doing any manual reinit, so affiliations cron jobs will not start when any manual reinit is running
+# XYZ can be: Affs, Backups, Boot, Sync, Prov
 # grafanaCommandArgs:
 # - "36000"
 # - arg2
