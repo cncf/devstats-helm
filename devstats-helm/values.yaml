@@ -3230,3 +3230,83 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+- proj: dapr
+  url: dapr
+  db: dapr
+  icon: dapr
+  org: Dapr
+  repo: dapr/dapr
+  cronTest: 59 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 59 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 35 3 13 * *
+  affCronProd: 2 3 27 * *
+  affSkipTemp: "1"
+  disk: 5Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-145264316-74
+  i: 139
+  certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: openelb
+  url: openelb
+  db: openelb
+  icon: openelb
+  org: OpenELB
+  repo: kubesphere/openelb
+  cronTest: 59 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 59 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 35 3 13 * *
+  affCronProd: 2 3 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-145264316-75
+  i: 140
+  certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: openclustermanagement
+  url: openclustermanagement
+  db: openclustermanagement
+  icon: openclustermanagement
+  org: Open Cluster Management
+  repo: open-cluster-management-io/api
+  cronTest: 59 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 59 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 35 3 13 * *
+  affCronProd: 2 3 27 * *
+  affSkipTemp: "1"
+  disk: 5Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-145264316-76
+  i: 141
+  certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: vscodek8stools
+  url: vscodek8stools
+  db: vscodek8stools
+  icon: vscodek8stools
+  org: VS Code Kubernetes Tools
+  repo: Azure/vscode-kubernetes-tools
+  cronTest: 59 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 59 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 35 3 13 * *
+  affCronProd: 2 3 27 * *
+  affSkipTemp: "1"
+  disk: 5Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-145264316-77
+  i: 142
+  certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
