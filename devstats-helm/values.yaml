@@ -3310,3 +3310,83 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+- proj: nocalhost
+  url: nocalhost
+  db: nocalhost
+  icon: nocalhost
+  org: Nocalhost
+  repo: nocalhost/nocalhost
+  cronTest: 57 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 57 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 8 19 12 * *
+  affCronProd: 36 17 26 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-145264316-78
+  i: 143
+  certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: kubearmor
+  url: kubearmor
+  db: kubearmor
+  icon: kubearmor
+  org: KubeArmor
+  repo: kubearmor/KubeArmor
+  cronTest: 57 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 57 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 8 19 12 * *
+  affCronProd: 36 17 26 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-145264316-79
+  i: 144
+  certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: k8up
+  url: k8up
+  db: k8up
+  icon: k8up
+  org: K8up
+  repo: k8up-io/k8up
+  cronTest: 57 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 57 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 8 19 12 * *
+  affCronProd: 36 17 26 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-145264316-80
+  i: 145
+  certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: kubers
+  url: kubers
+  db: kubers
+  icon: kubers
+  org: kube-rs
+  repo: kube-rs/kube-rs
+  cronTest: 57 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 57 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 8 19 12 * *
+  affCronProd: 36 17 26 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-145264316-81
+  i: 146
+  certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
