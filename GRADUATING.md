@@ -4,6 +4,7 @@
 
 - Update status in `*/projects.yaml`.
 - Add `graduated_date` or similar (`incubating_date`, `archived_date`).
+- Graduation/Incubation dates are [here](https://docs.google.com/spreadsheets/d/10-rSBsSMQZD6nCLBkyKfeU4kdffB4bOSV0NnZqF5bBk/edit#gid=1632287387).
 
 
 2. Go to `cncf/devstats`:
