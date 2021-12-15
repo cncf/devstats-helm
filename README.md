@@ -536,3 +536,16 @@ Architecture:
 # Adding new projects
 
 See `ADDING_NEW_PROJECTS.md` for informations about how to add more projects.
+
+
+# Expired kubectl certificates
+
+If you get `` Unable to connect to the server: x509: certificate has expired or is not yet valid `` error, that means your kubectl certificates have expired.
+
+You can check their expiration date via: `kubeadm certs check-expiration`.
+
+You can renew them via: `kubeadm certs renew all`.
+
+Then you need: `cp ~/.kube/config ~/.kube/config.2021-12-15; cp /etc/kubernetes/kubelet.conf ~/.kube/config; cd ~/.kube/`.
+
+For all nodes: `sftp user@node-name`, then `cd .kube`, `rm config`, `mput config`, `mput config.2021-12-15`.
