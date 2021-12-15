@@ -549,3 +549,6 @@ You can renew them via: `kubeadm certs renew all`.
 Then you need: `cp ~/.kube/config ~/.kube/config.2021-12-15; cp /etc/kubernetes/kubelet.conf ~/.kube/config; cd ~/.kube/`.
 
 For all nodes: `sftp user@node-name`, then `cd .kube`, `rm config`, `mput config`, `mput config.2021-12-15`.
+
+Restart all nodes one after another.
+
