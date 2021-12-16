@@ -546,7 +546,7 @@ You can check their expiration date via: `kubeadm certs check-expiration`.
 
 You can renew them via: `kubeadm certs renew all`.
 
-Then you need: `cp ~/.kube/config ~/.kube/config.2021-12-15; cp /etc/kubernetes/kubelet.conf ~/.kube/config; cd ~/.kube/`.
+Then you need: `cp ~/.kube/config ~/.kube/config.2021-12-15; cp /etc/kubernetes/admin.conf ~/.kube/config; cd ~/.kube/`, then you need to merge them, especially your config had special contxts - only update cert related data.
 
 For all nodes: `sftp user@node-name`, then `cd .kube`, `rm config`, `mput config`, `mput config.2021-12-15`.
 
