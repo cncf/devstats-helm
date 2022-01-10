@@ -3295,7 +3295,7 @@ projects:
   db: vscodek8stools
   icon: vscodek8stools
   org: VS Code Kubernetes Tools
-  repo: Azure/vscode-kubernetes-tools
+  repo: vscode-kubernetes-tools/vscode-kubernetes-tools
   cronTest: 56 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 55 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 10 11 12 * *
