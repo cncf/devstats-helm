@@ -163,7 +163,7 @@ To generate affiliations task for the next project(s):
 - Eventually do something very similar for `cncf/devstats-helm-graphql` or `cncf/devstats-helm-lf`.
 
 
-7. Go to `cncf/contributors` (optional):
+7. Go to `lukaszgryglicki/contributors` (optional):
 
 - Update `contrib_projects.yaml`.
 - Eventually update `scripts/contrib/repo_groups.sql`.
