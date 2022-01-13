@@ -69,6 +69,8 @@ spec:
       value: '{{ .maxHist }}'
     - name: GHA2DB_MAX_RUN_DURATION
       value: '{{ .maxRunDuration }}'
+    - name: GHA2DB_GHAPISKIP
+      value: '{{ $root.Values.ghaAPISkip }}'
     - name: GHA2DB_NCPUS
       value: '{{ $root.Values.nCPUs }}'
     - name: GHA2DB_RECALC_RECIPROCAL

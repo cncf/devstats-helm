@@ -81,6 +81,8 @@ spec:
               value: '{{ .durablePQ }}'
             - name: GHA2DB_NCPUS
               value: '{{ $root.Values.nSyncCPUs }}'
+            - name: GHA2DB_GHAPISKIP
+              value: '{{ $root.Values.ghaAPISkip }}'
             - name: GHA2DB_RECALC_RECIPROCAL
               value: '{{ $root.Values.recalcReciprocal }}'
             - name: GHA2DB_DEBUG

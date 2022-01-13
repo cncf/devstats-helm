@@ -9,6 +9,7 @@
 # pgPassRep: ''
 # pgPort: ''
 # pgUserRO: ''
+# ghaAPISkip: '1'
 # githubOAuth: ''
 # grafanaUser: ''
 # grafanaPassword: ''
@@ -226,6 +227,7 @@ domains:
   shortname: graphql
 forceAddAll: ''
 fullnameOverride: devstats
+ghaAPISkip: ''
 giantAffs: 'wait'
 giantBackups: 'wait'
 giantBoot: 'lock'
