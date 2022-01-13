@@ -60,10 +60,10 @@
 While on the `devstats-test` namespace, `git pull` and then for example if N=55 (index of the new project):
 
 - `git pull`.
-- Suspend all cronjobs (optional): `[MONTHLY=1] ONLY_SUSPEND=1 SUSPEND_ALL=1 ./splitcrons devstats-helm/values.yaml new-values.yaml`
-- Unsuspend all cronjobs (optional): `[MONTHLY=1] ONLY_SUSPEND=1 ./splitcrons devstats-helm/values.yaml new-values.yaml`
 - Install new project (excluding static pages and ingress): `helm install devstats-test-projname ./devstats-helm --set skipSecrets=1,indexPVsFrom=55,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,indexProvisionsFrom=55,indexCronsFrom=55,indexGrafanasFrom=55,indexServicesFrom=55,indexAffiliationsFrom=55,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,projectsOverride='+cncf\,+opencontainers\,+istio\,+knative\,+zephyr\,+linux\,+rkt\,+sam\,+azf\,+riff\,+fn\,+openwhisk\,+openfaas\,+cii\,+prestodb\,+godotengine',skipECFRGReset=1,nCPUs=32,forceAddAll=tsdb`.
-- Update (optional) `devstats-helm/values.yaml` cronjob schedules using `devstatscode:splitcrons.sh` script: `[MONTHLY=1] [ONLY_ENV=1] [PATCH_ENV='AffSkipTemp,MaxHist,SkipAffsLock,AffsLockDB,NoDurable,DurablePQ,MaxRunDuration,SkipGHAPI,SkipGetRepos'] ./splitcrons devstats-helm/values.yaml new-values.yaml`
+- Update (optional) `devstats-helm/values.yaml` cronjob schedules using `devstatscode:splitcrons.sh` script: `[MONTHLY=1] [ONLY_ENV=1] [PATCH_ENV='AffSkipTemp,MaxHist,SkipAffsLock,AffsLockDB,NoDurable,DurablePQ,MaxRunDuration,SkipGHAPI,SkipGetRepos'] ./splitcrons devstats-helm/values.yaml new-values.yaml`, typical: `MONTHLY=1 ./splitcrons devstats-helm/values.yaml new-values.yaml; vim devstats-helm/values.yaml new-values.yaml; git add .; git commit -asm "New cron schedules"; git push`.
+- Suspend all cronjobs (optional): `[MONTHLY=1] ONLY_SUSPEND=1 SUSPEND_ALL=1 ./splitcrons devstats-helm/values.yaml new-values.yaml`
+- Unsuspend all cronjobs (optional - use when all finished): `[MONTHLY=1] ONLY_SUSPEND=1 ./splitcrons devstats-helm/values.yaml new-values.yaml`
 - Install only crons (optional): `helm install devstats-test-projname-crons ./devstats-helm --set skipSecrets=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,projectsOverride='+cncf\,+opencontainers\,+istio\,+knative\,+zephyr\,+linux\,+rkt\,+sam\,+azf\,+riff\,+fn\,+openwhisk\,+openfaas\,+cii\,+prestodb\,+godotengine',indexAffiliationsFrom=133,indexCronsFrom=133,indexPVsFrom=133`.
 - Or use manual debugging pod to do installation: `helm install --generate-name ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,indexProvisionsFrom=97,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,projectsOverride='+cncf\,+opencontainers\,+istio\,+knative\,+zephyr\,+linux\,+rkt\,+sam\,+azf\,+riff\,+fn\,+openwhisk\,+openfaas\,+cii\,+prestodb\,+godotendine',provisionCommand=sleep,provisionCommandArgs={360000s},skipAddAll=1,useFlagsProv='',skipECFRGReset=1`, call `WAITBOOT=1 ./devstats-helm/deploy_all.sh` inside.
 - Recreate static pages handler: `helm delete devstats-test-statics`, `helm install devstats-test-statics ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipAPI=1,skipNamespaces=1,indexStaticsFrom=0,indexStaticsTo=1`.
@@ -183,3 +183,17 @@ To generate affiliations task for the next project(s):
 - Update cncf/gitdm affiliations with [official project maintainers](https://docs.google.com/spreadsheets/d/1Pr8cyp8RLrNGx9WBAgQvBzUUmqyOv69R7QAFKhacJEM/edit#gid=262035321).
 
 11. Add a new project fixture with `cncf/proj-name` slug in DA API repo.
+
+
+## Troubleshooting
+
+If you get:
+```
+Error: Internal error occurred: failed calling webhook "admission-webhook.openebs.io": Post "https://admission-server-svc.openebs.svc:443/validate?timeout=5s": x509: certificate has expired or is not yet valid: current time 2022-01-13T07:57:42Z is after 2021-12-15T12:55:03Z
+```
+while attempting to create a PVC, then:
+
+- `kubectl delete validatingwebhookconfigurations openebs-validation-webhook-cfg`.
+- Eventually (but I found it not needed): `kubectl -n openebs get pods -o name | grep admission-server | xargs kubectl -n`.
+- Eventually also secrets (not needed): `k get secret -n openebs admission-server-secret`.
+
