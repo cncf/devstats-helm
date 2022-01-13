@@ -183,3 +183,16 @@ To generate affiliations task for the next project(s):
 - Update cncf/gitdm affiliations with [official project maintainers](https://docs.google.com/spreadsheets/d/1Pr8cyp8RLrNGx9WBAgQvBzUUmqyOv69R7QAFKhacJEM/edit#gid=262035321).
 
 11. Add a new project fixture with `cncf/proj-name` slug in DA API repo.
+
+
+## Troubleshooting
+
+If you get:
+```
+Error: Internal error occurred: failed calling webhook "admission-webhook.openebs.io": Post "https://admission-server-svc.openebs.svc:443/validate?timeout=5s": x509: certificate has expired or is not yet valid: current time 2022-01-13T07:57:42Z is after 2021-12-15T12:55:03Z
+```
+while attempting to create a PVC, then:
+
+- `kubectl delete validatingwebhookconfigurations openebs-validation-webhook-cfg`.
+- Eventually (but I found it not needed): `kubectl -n openebs get pods -o name | grep admission-server | xargs kubectl -n`.
+- Eventually also secrets (not needed): `k get secret -n openebs admission-server-secret`.
