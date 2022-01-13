@@ -3390,3 +3390,23 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+- proj: devfile
+  url: devfile
+  db: devfile
+  icon: devfile
+  org: Devfile
+  repo: devfile/api
+  cronTest: 59 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 59 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  affCronTest: 50 3 13 * *
+  affCronProd: 20 3 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-145264316-82
+  i: 147
+  certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
