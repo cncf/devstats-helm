@@ -2457,7 +2457,7 @@ projects:
   db: certmanager
   icon: certmanager
   org: cert-manager
-  repo: jetstack/cert-manager
+  repo: cert-manager/cert-manager
   cronTest: 22 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 18 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 22 1 5 * *
