@@ -1492,9 +1492,9 @@ projects:
   affCronProd: 15 6 * * 2
   suspendCronProd: true
   affSkipTemp: "1"
-  disk: 4Gi
-  domains: [1, 0, 0, 0]
-  ga: ""
+  disk: 5Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-145264316-83
   i: 52
   certNum: 1
   maxHist: 8
