@@ -481,7 +481,7 @@ projects:
   cronTest: 4 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   cronProd: 4 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 8 12 16 * *
-  affCronProd: 36 12 2 * *
+  affCronProd: 34 12 2 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -501,7 +501,7 @@ projects:
   cronTest: 5 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   cronProd: 5 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 16 16 16 * *
-  affCronProd: 13 17 2 * *
+  affCronProd: 9 17 2 * *
   affSkipTemp: "1"
   disk: 10Gi
   domains: [1, 1, 0, 0]
@@ -521,7 +521,7 @@ projects:
   cronTest: 6 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   cronProd: 6 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 24 20 16 * *
-  affCronProd: 50 21 2 * *
+  affCronProd: 44 21 2 * *
   affSkipTemp: "1"
   disk: 4Gi
   domains: [1, 1, 0, 0]
@@ -541,7 +541,7 @@ projects:
   cronTest: 7 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   cronProd: 7 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 33 0 17 * *
-  affCronProd: 27 2 3 * *
+  affCronProd: 19 2 3 * *
   affSkipTemp: "1"
   disk: 4Gi
   domains: [1, 1, 0, 0]
@@ -561,7 +561,7 @@ projects:
   cronTest: 7 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   cronProd: 8 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 41 4 17 * *
-  affCronProd: 4 7 3 * *
+  affCronProd: 54 6 3 * *
   affSkipTemp: "1"
   disk: 4Gi
   domains: [1, 1, 0, 0]
@@ -581,7 +581,7 @@ projects:
   cronTest: 8 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   cronProd: 9 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 49 8 17 * *
-  affCronProd: 41 11 3 * *
+  affCronProd: 28 11 3 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -620,9 +620,9 @@ projects:
   org: CNI
   repo: containernetworking/cni
   cronTest: 10 1,3,5,7,9,11,13,15,17,19,21,23 * * *
-  cronProd: 10 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 9 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 6 17 17 * *
-  affCronProd: 18 16 3 * *
+  affCronProd: 3 16 3 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -642,7 +642,7 @@ projects:
   cronTest: 10 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   cronProd: 10 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 14 21 17 * *
-  affCronProd: 55 20 3 * *
+  affCronProd: 38 20 3 * *
   affSkipTemp: "1"
   disk: 4Gi
   domains: [1, 1, 0, 0]
@@ -662,7 +662,7 @@ projects:
   cronTest: 11 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   cronProd: 11 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 22 1 18 * *
-  affCronProd: 32 1 4 * *
+  affCronProd: 13 1 4 * *
   affSkipTemp: "1"
   disk: 4Gi
   domains: [1, 1, 0, 0]
@@ -682,7 +682,7 @@ projects:
   cronTest: 12 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   cronProd: 12 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 31 5 18 * *
-  affCronProd: 9 6 4 * *
+  affCronProd: 48 5 4 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -702,7 +702,7 @@ projects:
   cronTest: 13 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   cronProd: 13 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 39 9 18 * *
-  affCronProd: 46 10 4 * *
+  affCronProd: 22 10 4 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -722,7 +722,7 @@ projects:
   cronTest: 14 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   cronProd: 14 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 47 13 18 * *
-  affCronProd: 23 15 4 * *
+  affCronProd: 57 14 4 * *
   affSkipTemp: "1"
   disk: 4Gi
   domains: [1, 1, 0, 0]
@@ -742,7 +742,7 @@ projects:
   cronTest: 14 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   cronProd: 15 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 55 17 18 * *
-  affCronProd: 0 20 4 * *
+  affCronProd: 32 19 4 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [1, 1, 0, 0]
@@ -760,9 +760,9 @@ projects:
   org: NATS
   repo: nats-io/nats-server
   cronTest: 15 1,3,5,7,9,11,13,15,17,19,21,23 * * *
-  cronProd: 16 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 15 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 4 22 18 * *
-  affCronProd: 36 0 5 * *
+  affCronProd: 7 0 5 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [1, 1, 0, 0]
@@ -782,7 +782,7 @@ projects:
   cronTest: 16 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   cronProd: 16 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 12 2 19 * *
-  affCronProd: 13 5 5 * *
+  affCronProd: 42 4 5 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [1, 1, 0, 0]
@@ -802,7 +802,7 @@ projects:
   cronTest: 17 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   cronProd: 17 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 20 6 19 * *
-  affCronProd: 50 9 5 * *
+  affCronProd: 16 9 5 * *
   affSkipTemp: "1"
   disk: 4Gi
   domains: [1, 1, 0, 0]
@@ -822,7 +822,7 @@ projects:
   cronTest: 17 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   cronProd: 18 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 28 10 19 * *
-  affCronProd: 27 14 5 * *
+  affCronProd: 51 13 5 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -842,7 +842,7 @@ projects:
   cronTest: 18 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   cronProd: 19 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 37 14 19 * *
-  affCronProd: 4 19 5 * *
+  affCronProd: 26 18 5 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -862,7 +862,7 @@ projects:
   cronTest: 19 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   cronProd: 20 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 45 18 19 * *
-  affCronProd: 41 23 5 * *
+  affCronProd: 1 23 5 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -882,7 +882,7 @@ projects:
   cronTest: 20 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   cronProd: 21 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 53 22 19 * *
-  affCronProd: 18 4 6 * *
+  affCronProd: 36 3 6 * *
   affSkipTemp: "1"
   disk: 8Gi
   domains: [1, 1, 0, 0]
@@ -900,9 +900,9 @@ projects:
   org: OpenMetrics
   repo: OpenObservability/OpenMetrics
   cronTest: 20 1,3,5,7,9,11,13,15,17,19,21,23 * * *
-  cronProd: 22 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 21 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 2 3 20 * *
-  affCronProd: 55 8 6 * *
+  affCronProd: 10 8 6 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -922,7 +922,7 @@ projects:
   cronTest: 21 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   cronProd: 22 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 10 7 20 * *
-  affCronProd: 32 13 6 * *
+  affCronProd: 45 12 6 * *
   affSkipTemp: "1"
   disk: 4Gi
   domains: [1, 1, 0, 0]
@@ -942,7 +942,7 @@ projects:
   cronTest: 22 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   cronProd: 23 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 18 11 20 * *
-  affCronProd: 9 18 6 * *
+  affCronProd: 20 17 6 * *
   affSkipTemp: "1"
   disk: 4Gi
   domains: [1, 1, 0, 0]
@@ -962,7 +962,7 @@ projects:
   cronTest: 23 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   cronProd: 24 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 26 15 20 * *
-  affCronProd: 46 22 6 * *
+  affCronProd: 55 21 6 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -982,7 +982,7 @@ projects:
   cronTest: 24 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   cronProd: 25 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 35 19 20 * *
-  affCronProd: 23 3 7 * *
+  affCronProd: 30 2 7 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -1002,7 +1002,7 @@ projects:
   cronTest: 24 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   cronProd: 26 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 43 23 20 * *
-  affCronProd: 0 8 7 * *
+  affCronProd: 5 7 7 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -1022,7 +1022,7 @@ projects:
   cronTest: 25 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   cronProd: 27 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 51 3 21 * *
-  affCronProd: 36 12 7 * *
+  affCronProd: 39 11 7 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -1040,9 +1040,9 @@ projects:
   org: Dragonfly
   repo: dragonflyoss/Dragonfly
   cronTest: 26 1,3,5,7,9,11,13,15,17,19,21,23 * * *
-  cronProd: 28 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 27 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 0 8 21 * *
-  affCronProd: 13 17 7 * *
+  affCronProd: 14 16 7 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -1062,7 +1062,7 @@ projects:
   cronTest: 27 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   cronProd: 28 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 8 12 21 * *
-  affCronProd: 50 21 7 * *
+  affCronProd: 49 20 7 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -1082,7 +1082,7 @@ projects:
   cronTest: 27 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   cronProd: 29 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 16 16 21 * *
-  affCronProd: 27 2 8 * *
+  affCronProd: 24 1 8 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -1102,7 +1102,7 @@ projects:
   cronTest: 28 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   cronProd: 30 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 24 20 21 * *
-  affCronProd: 4 7 8 * *
+  affCronProd: 59 5 8 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -1122,7 +1122,7 @@ projects:
   cronTest: 29 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   cronProd: 31 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 33 0 22 * *
-  affCronProd: 41 11 8 * *
+  affCronProd: 33 10 8 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -1142,7 +1142,7 @@ projects:
   cronTest: 30 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   cronProd: 32 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 41 4 22 * *
-  affCronProd: 18 16 8 * *
+  affCronProd: 8 15 8 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -1162,7 +1162,7 @@ projects:
   cronTest: 31 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   cronProd: 33 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 49 8 22 * *
-  affCronProd: 55 20 8 * *
+  affCronProd: 43 19 8 * *
   affSkipTemp: "1"
   disk: 10Gi
   domains: [1, 1, 0, 0]
@@ -1180,9 +1180,9 @@ projects:
   org: OpenTelemetry
   repo: open-telemetry/opentelemetry-java
   cronTest: 31 1,3,5,7,9,11,13,15,17,19,21,23 * * *
-  cronProd: 34 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 33 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 57 12 22 * *
-  affCronProd: 32 1 9 * *
+  affCronProd: 18 0 9 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -1222,9 +1222,9 @@ projects:
   org: Tekton
   repo: knative/build
   cronTest: 32 1,3,5,7,9,11,13,15,17,19,21,23 * * *
-  cronProd: 35 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 34 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 6 17 22 * *
-  affCronProd: 9 6 9 * *
+  affCronProd: 53 4 9 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 0, 1, 0]
@@ -1244,7 +1244,7 @@ projects:
   cronTest: 33 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   cronProd: 35 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 14 21 22 * *
-  affCronProd: 46 10 9 * *
+  affCronProd: 27 9 9 * *
   affSkipTemp: "1"
   disk: 4Gi
   domains: [1, 0, 1, 0]
@@ -1264,7 +1264,7 @@ projects:
   cronTest: 34 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   cronProd: 36 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 22 1 23 * *
-  affCronProd: 23 15 9 * *
+  affCronProd: 2 14 9 * *
   affSkipTemp: "1"
   disk: 6Gi
   domains: [1, 0, 1, 0]
@@ -1284,7 +1284,7 @@ projects:
   cronTest: 34 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   cronProd: 37 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 31 5 23 * *
-  affCronProd: 59 19 9 * *
+  affCronProd: 37 18 9 * *
   affSkipTemp: "1"
   disk: 40Gi
   domains: [1, 0, 1, 0]
@@ -1305,7 +1305,7 @@ projects:
   cronTest: 35 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   cronProd: 38 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 39 9 23 * *
-  affCronProd: 36 0 10 * *
+  affCronProd: 12 23 9 * *
   affSkipTemp: "1"
   disk: 50Gi
   domains: [1, 0, 1, 0]
@@ -1326,7 +1326,7 @@ projects:
   cronTest: 36 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   cronProd: 39 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 47 13 23 * *
-  affCronProd: 13 5 10 * *
+  affCronProd: 47 3 10 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 0, 0, 1]
@@ -1344,9 +1344,9 @@ projects:
   org: GraphQL IDE
   repo: graphql/graphiql
   cronTest: 37 1,3,5,7,9,11,13,15,17,19,21,23 * * *
-  cronProd: 40 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 39 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 55 17 23 * *
-  affCronProd: 50 9 10 * *
+  affCronProd: 21 8 10 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 0, 0, 1]
@@ -1364,9 +1364,9 @@ projects:
   org: GraphQL Spec
   repo: graphql/graphql-spec
   cronTest: 37 1,3,5,7,9,11,13,15,17,19,21,23 * * *
-  cronProd: 41 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 40 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 4 22 23 * *
-  affCronProd: 27 14 10 * *
+  affCronProd: 56 12 10 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 0, 0, 1]
@@ -1386,7 +1386,7 @@ projects:
   cronTest: 38 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   cronProd: 41 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 12 2 24 * *
-  affCronProd: 4 19 10 * *
+  affCronProd: 31 17 10 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 0, 0, 1]
@@ -1406,7 +1406,7 @@ projects:
   cronTest: 39 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   cronProd: 42 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 20 6 24 * *
-  affCronProd: 41 23 10 * *
+  affCronProd: 6 22 10 * *
   affSkipTemp: "1"
   disk: 30Gi
   domains: [1, 0, 0, 1]
@@ -1487,9 +1487,9 @@ projects:
   org: Knative
   repo: knative/serving
   cronTest: 42 1,3,5,7,9,11,13,15,17,19,21,23 * * *
-  cronProd: 21 * * * *
+  cronProd: 43 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 53 22 24 * *
-  affCronProd: 15 6 * * 2
+  affCronProd: 41 2 11 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [1, 1, 0, 0]
@@ -1549,9 +1549,9 @@ projects:
   org: Thanos
   repo: thanos-io/thanos
   cronTest: 44 1,3,5,7,9,11,13,15,17,19,21,23 * * *
-  cronProd: 43 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 44 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 18 11 25 * *
-  affCronProd: 18 4 11 * *
+  affCronProd: 16 7 11 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -1569,9 +1569,9 @@ projects:
   org: Flux
   repo: fluxcd/flux
   cronTest: 45 1,3,5,7,9,11,13,15,17,19,21,23 * * *
-  cronProd: 44 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 45 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 26 15 25 * *
-  affCronProd: 55 8 11 * *
+  affCronProd: 50 11 11 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -1591,7 +1591,7 @@ projects:
   cronTest: 46 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   cronProd: 45 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 35 19 25 * *
-  affCronProd: 32 13 11 * *
+  affCronProd: 25 16 11 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -1611,7 +1611,7 @@ projects:
   cronTest: 47 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   cronProd: 46 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 43 23 25 * *
-  affCronProd: 9 18 11 * *
+  affCronProd: 0 21 11 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -1757,7 +1757,7 @@ projects:
   cronTest: 52 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   cronProd: 47 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 41 4 27 * *
-  affCronProd: 46 22 11 * *
+  affCronProd: 35 1 12 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -1775,9 +1775,9 @@ projects:
   org: Longhorn
   repo: longhorn/longhorn
   cronTest: 53 1,3,5,7,9,11,13,15,17,19,21,23 * * *
-  cronProd: 47 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 48 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 49 8 27 * *
-  affCronProd: 23 3 12 * *
+  affCronProd: 10 6 12 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -1838,9 +1838,9 @@ projects:
   org: ChubaoFS
   repo: chubaofs/chubaofs
   cronTest: 54 1,3,5,7,9,11,13,15,17,19,21,23 * * *
-  cronProd: 48 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 49 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 6 17 27 * *
-  affCronProd: 0 8 12 * *
+  affCronProd: 44 10 12 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [1, 1, 0, 0]
@@ -1858,9 +1858,9 @@ projects:
   org: KEDA
   repo: kedacore/keda
   cronTest: 55 1,3,5,7,9,11,13,15,17,19,21,23 * * *
-  cronProd: 49 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 50 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 14 21 27 * *
-  affCronProd: 36 12 12 * *
+  affCronProd: 19 15 12 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -1878,9 +1878,9 @@ projects:
   org: SMI
   repo: servicemeshinterface/smi-spec
   cronTest: 56 1,3,5,7,9,11,13,15,17,19,21,23 * * *
-  cronProd: 50 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 51 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 22 1 28 * *
-  affCronProd: 13 17 12 * *
+  affCronProd: 54 19 12 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -1900,7 +1900,7 @@ projects:
   cronTest: 57 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   cronProd: 51 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 31 5 28 * *
-  affCronProd: 50 21 12 * *
+  affCronProd: 29 0 13 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -1920,7 +1920,7 @@ projects:
   cronTest: 58 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   cronProd: 52 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 39 9 28 * *
-  affCronProd: 27 2 13 * *
+  affCronProd: 4 5 13 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -1940,7 +1940,7 @@ projects:
   cronTest: 58 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   cronProd: 53 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 47 13 28 * *
-  affCronProd: 4 7 13 * *
+  affCronProd: 38 9 13 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -1958,9 +1958,9 @@ projects:
   org: keptn
   repo: keptn/keptn
   cronTest: 59 1,3,5,7,9,11,13,15,17,19,21,23 * * *
-  cronProd: 53 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 54 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 55 17 28 * *
-  affCronProd: 41 11 13 * *
+  affCronProd: 13 14 13 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -1978,9 +1978,9 @@ projects:
   org: Kudo
   repo: kudobuilder/kudo
   cronTest: 4 0,2,4,6,8,10,12,14,16,18,20,22 * * *
-  cronProd: 54 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 55 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 4 22 28 * *
-  affCronProd: 18 16 13 * *
+  affCronProd: 48 18 13 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -1998,9 +1998,9 @@ projects:
   org: Cloud Custodian
   repo: cloud-custodian/cloud-custodian
   cronTest: 5 0,2,4,6,8,10,12,14,16,18,20,22 * * *
-  cronProd: 55 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 56 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 12 2 1 * *
-  affCronProd: 55 20 13 * *
+  affCronProd: 23 23 13 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -2018,9 +2018,9 @@ projects:
   org: Dex
   repo: dexidp/dex
   cronTest: 5 0,2,4,6,8,10,12,14,16,18,20,22 * * *
-  cronProd: 56 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  cronProd: 57 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 20 6 1 * *
-  affCronProd: 32 1 14 * *
+  affCronProd: 58 3 14 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -2040,7 +2040,7 @@ projects:
   cronTest: 6 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 57 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 28 10 1 * *
-  affCronProd: 9 6 14 * *
+  affCronProd: 32 8 14 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -2060,7 +2060,7 @@ projects:
   cronTest: 7 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 58 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 37 14 1 * *
-  affCronProd: 46 10 14 * *
+  affCronProd: 7 13 14 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -2080,7 +2080,7 @@ projects:
   cronTest: 8 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 59 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   affCronTest: 45 18 1 * *
-  affCronProd: 23 15 14 * *
+  affCronProd: 42 17 14 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -2100,7 +2100,7 @@ projects:
   cronTest: 9 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 4 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 53 22 1 * *
-  affCronProd: 0 20 14 * *
+  affCronProd: 17 22 14 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -2118,9 +2118,9 @@ projects:
   org: BFE
   repo: bfenetworks/bfe
   cronTest: 9 0,2,4,6,8,10,12,14,16,18,20,22 * * *
-  cronProd: 4 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 5 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 2 3 2 * *
-  affCronProd: 36 0 15 * *
+  affCronProd: 52 2 15 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -2138,9 +2138,9 @@ projects:
   org: Crossplane
   repo: crossplane/crossplane
   cronTest: 10 0,2,4,6,8,10,12,14,16,18,20,22 * * *
-  cronProd: 5 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 6 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 10 7 2 * *
-  affCronProd: 13 5 15 * *
+  affCronProd: 27 7 15 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -2160,7 +2160,7 @@ projects:
   cronTest: 11 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 6 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 18 11 2 * *
-  affCronProd: 50 9 15 * *
+  affCronProd: 1 12 15 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [1, 1, 0, 0]
@@ -2180,7 +2180,7 @@ projects:
   cronTest: 12 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 7 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 26 15 2 * *
-  affCronProd: 27 14 15 * *
+  affCronProd: 36 16 15 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [1, 1, 0, 0]
@@ -2200,7 +2200,7 @@ projects:
   cronTest: 12 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 8 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 35 19 2 * *
-  affCronProd: 4 19 15 * *
+  affCronProd: 11 21 15 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -2220,7 +2220,7 @@ projects:
   cronTest: 13 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 9 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 43 23 2 * *
-  affCronProd: 41 23 15 * *
+  affCronProd: 46 1 16 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -2240,7 +2240,7 @@ projects:
   cronTest: 14 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 10 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 51 3 3 * *
-  affCronProd: 18 4 16 * *
+  affCronProd: 21 6 16 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -2258,9 +2258,9 @@ projects:
   org: Backstage
   repo: backstage/backstage
   cronTest: 15 0,2,4,6,8,10,12,14,16,18,20,22 * * *
-  cronProd: 10 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 11 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 0 8 3 * *
-  affCronProd: 55 8 16 * *
+  affCronProd: 55 10 16 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -2277,9 +2277,9 @@ projects:
   org: Tremor
   repo: tremor-rs/tremor-runtime
   cronTest: 15 0,2,4,6,8,10,12,14,16,18,20,22 * * *
-  cronProd: 11 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 12 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 8 12 3 * *
-  affCronProd: 32 13 16 * *
+  affCronProd: 30 15 16 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -2299,7 +2299,7 @@ projects:
   cronTest: 16 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 12 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 16 16 3 * *
-  affCronProd: 9 18 16 * *
+  affCronProd: 5 20 16 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -2319,7 +2319,7 @@ projects:
   cronTest: 17 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 13 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 24 20 3 * *
-  affCronProd: 46 22 16 * *
+  affCronProd: 40 0 17 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -2339,7 +2339,7 @@ projects:
   cronTest: 18 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 14 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 33 0 4 * *
-  affCronProd: 23 3 17 * *
+  affCronProd: 15 5 17 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -2359,7 +2359,7 @@ projects:
   cronTest: 19 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 15 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 41 4 4 * *
-  affCronProd: 59 7 17 * *
+  affCronProd: 49 9 17 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -2379,7 +2379,7 @@ projects:
   cronTest: 19 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 16 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 49 8 4 * *
-  affCronProd: 36 12 17 * *
+  affCronProd: 24 14 17 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [1, 1, 0, 0]
@@ -2418,9 +2418,9 @@ projects:
   org: SchemaHero
   repo: schemahero/schemahero
   cronTest: 21 0,2,4,6,8,10,12,14,16,18,20,22 * * *
-  cronProd: 16 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 17 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 6 17 4 * *
-  affCronProd: 13 17 17 * *
+  affCronProd: 59 18 17 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [1, 1, 0, 0]
@@ -2438,9 +2438,9 @@ projects:
   org: Cloud Deployment Kit for Kubernetes
   repo: awslabs/cdk8s
   cronTest: 22 0,2,4,6,8,10,12,14,16,18,20,22 * * *
-  cronProd: 17 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 18 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 14 21 4 * *
-  affCronProd: 50 21 17 * *
+  affCronProd: 34 23 17 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [1, 1, 0, 0]
@@ -2460,7 +2460,7 @@ projects:
   cronTest: 22 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 18 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 22 1 5 * *
-  affCronProd: 27 2 18 * *
+  affCronProd: 9 4 18 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [1, 1, 0, 0]
@@ -2480,7 +2480,7 @@ projects:
   cronTest: 23 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 19 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 31 5 5 * *
-  affCronProd: 4 7 18 * *
+  affCronProd: 43 8 18 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [1, 1, 0, 0]
@@ -2500,7 +2500,7 @@ projects:
   cronTest: 24 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 20 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 39 9 5 * *
-  affCronProd: 41 11 18 * *
+  affCronProd: 18 13 18 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [1, 1, 0, 0]
@@ -2520,7 +2520,7 @@ projects:
   cronTest: 25 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 21 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 47 13 5 * *
-  affCronProd: 18 16 18 * *
+  affCronProd: 53 17 18 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [1, 1, 0, 0]
@@ -2540,7 +2540,7 @@ projects:
   cronTest: 26 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 22 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 55 17 5 * *
-  affCronProd: 55 20 18 * *
+  affCronProd: 28 22 18 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [1, 1, 0, 0]
@@ -2558,9 +2558,9 @@ projects:
   org: GitOps WG
   repo: fluxcd/gitops-working-group
   cronTest: 26 0,2,4,6,8,10,12,14,16,18,20,22 * * *
-  cronProd: 22 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 23 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 4 22 5 * *
-  affCronProd: 32 1 19 * *
+  affCronProd: 3 3 19 * *
   affSkipTemp: "1"
   disk: 2Gi
   domains: [1, 1, 0, 0]
@@ -2578,9 +2578,9 @@ projects:
   org: Piraeus-Datastore
   repo: piraeusdatastore/piraeus-operator
   cronTest: 27 0,2,4,6,8,10,12,14,16,18,20,22 * * *
-  cronProd: 23 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 24 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 12 2 6 * *
-  affCronProd: 9 6 19 * *
+  affCronProd: 38 7 19 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -2600,7 +2600,7 @@ projects:
   cronTest: 28 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 24 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 20 6 6 * *
-  affCronProd: 46 10 19 * *
+  affCronProd: 12 12 19 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -2620,7 +2620,7 @@ projects:
   cronTest: 29 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 25 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 28 10 6 * *
-  affCronProd: 23 15 19 * *
+  affCronProd: 47 16 19 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -2640,7 +2640,7 @@ projects:
   cronTest: 29 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 26 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 37 14 6 * *
-  affCronProd: 59 19 19 * *
+  affCronProd: 22 21 19 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -2660,7 +2660,7 @@ projects:
   cronTest: 30 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 27 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 45 18 6 * *
-  affCronProd: 36 0 20 * *
+  affCronProd: 57 1 20 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -2680,7 +2680,7 @@ projects:
   cronTest: 31 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 28 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 53 22 6 * *
-  affCronProd: 13 5 20 * *
+  affCronProd: 32 6 20 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -2698,9 +2698,9 @@ projects:
   org: Foniod
   repo: foniod/foniod
   cronTest: 32 0,2,4,6,8,10,12,14,16,18,20,22 * * *
-  cronProd: 28 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 29 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 2 3 7 * *
-  affCronProd: 50 9 20 * *
+  affCronProd: 6 11 20 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -2718,9 +2718,9 @@ projects:
   org: Kuberhealthy
   repo: kuberhealthy/kuberhealthy
   cronTest: 32 0,2,4,6,8,10,12,14,16,18,20,22 * * *
-  cronProd: 29 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 30 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 10 7 7 * *
-  affCronProd: 27 14 20 * *
+  affCronProd: 41 15 20 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -2740,7 +2740,7 @@ projects:
   cronTest: 33 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 30 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 18 11 7 * *
-  affCronProd: 4 19 20 * *
+  affCronProd: 16 20 20 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -2760,7 +2760,7 @@ projects:
   cronTest: 34 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 31 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 26 15 7 * *
-  affCronProd: 41 23 20 * *
+  affCronProd: 51 0 21 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -2780,7 +2780,7 @@ projects:
   cronTest: 35 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 32 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 35 19 7 * *
-  affCronProd: 18 4 21 * *
+  affCronProd: 26 5 21 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -2800,7 +2800,7 @@ projects:
   cronTest: 36 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 33 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 43 23 7 * *
-  affCronProd: 55 8 21 * *
+  affCronProd: 0 10 21 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -2820,7 +2820,7 @@ projects:
   cronTest: 36 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 34 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 51 3 8 * *
-  affCronProd: 32 13 21 * *
+  affCronProd: 35 14 21 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -2840,7 +2840,7 @@ projects:
   cronTest: 37 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 35 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 0 8 8 * *
-  affCronProd: 9 18 21 * *
+  affCronProd: 10 19 21 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -2858,9 +2858,9 @@ projects:
   org: Antrea
   repo: antrea-io/antrea
   cronTest: 38 0,2,4,6,8,10,12,14,16,18,20,22 * * *
-  cronProd: 35 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 36 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 8 12 8 * *
-  affCronProd: 46 22 21 * *
+  affCronProd: 45 23 21 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -2880,7 +2880,7 @@ projects:
   cronTest: 39 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 36 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 16 16 8 * *
-  affCronProd: 23 3 22 * *
+  affCronProd: 20 4 22 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -2900,7 +2900,7 @@ projects:
   cronTest: 39 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 37 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 24 20 8 * *
-  affCronProd: 0 8 22 * *
+  affCronProd: 54 8 22 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -2920,7 +2920,7 @@ projects:
   cronTest: 40 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 38 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 33 0 9 * *
-  affCronProd: 36 12 22 * *
+  affCronProd: 29 13 22 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -2940,7 +2940,7 @@ projects:
   cronTest: 41 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 39 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 41 4 9 * *
-  affCronProd: 13 17 22 * *
+  affCronProd: 4 18 22 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -2960,7 +2960,7 @@ projects:
   cronTest: 42 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 40 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 49 8 9 * *
-  affCronProd: 50 21 22 * *
+  affCronProd: 39 22 22 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -2980,7 +2980,7 @@ projects:
   cronTest: 43 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 41 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 57 12 9 * *
-  affCronProd: 27 2 23 * *
+  affCronProd: 14 3 23 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -2998,9 +2998,9 @@ projects:
   org: kube-vip
   repo: kube-vip/kube-vip
   cronTest: 43 0,2,4,6,8,10,12,14,16,18,20,22 * * *
-  cronProd: 41 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 42 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 6 17 9 * *
-  affCronProd: 4 7 23 * *
+  affCronProd: 49 7 23 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -3020,7 +3020,7 @@ projects:
   cronTest: 44 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 42 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 14 21 9 * *
-  affCronProd: 41 11 23 * *
+  affCronProd: 23 12 23 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -3040,7 +3040,7 @@ projects:
   cronTest: 45 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 43 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 22 1 10 * *
-  affCronProd: 18 16 23 * *
+  affCronProd: 58 16 23 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -3060,7 +3060,7 @@ projects:
   cronTest: 46 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 44 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 31 5 10 * *
-  affCronProd: 55 20 23 * *
+  affCronProd: 33 21 23 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -3080,7 +3080,7 @@ projects:
   cronTest: 46 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 45 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 39 9 10 * *
-  affCronProd: 32 1 24 * *
+  affCronProd: 8 2 24 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -3100,7 +3100,7 @@ projects:
   cronTest: 47 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 46 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 47 13 10 * *
-  affCronProd: 9 6 24 * *
+  affCronProd: 43 6 24 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -3120,7 +3120,7 @@ projects:
   cronTest: 48 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 47 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 55 17 10 * *
-  affCronProd: 46 10 24 * *
+  affCronProd: 17 11 24 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -3138,9 +3138,9 @@ projects:
   org: MetalLB
   repo: metallb/metallb
   cronTest: 49 0,2,4,6,8,10,12,14,16,18,20,22 * * *
-  cronProd: 47 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 48 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 4 22 10 * *
-  affCronProd: 23 15 24 * *
+  affCronProd: 52 15 24 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -3160,7 +3160,7 @@ projects:
   cronTest: 49 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 48 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 12 2 11 * *
-  affCronProd: 0 20 24 * *
+  affCronProd: 27 20 24 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -3180,7 +3180,7 @@ projects:
   cronTest: 50 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 49 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 20 6 11 * *
-  affCronProd: 36 0 25 * *
+  affCronProd: 2 1 25 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -3200,7 +3200,7 @@ projects:
   cronTest: 51 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 50 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 28 10 11 * *
-  affCronProd: 13 5 25 * *
+  affCronProd: 37 5 25 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -3220,7 +3220,7 @@ projects:
   cronTest: 52 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 51 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 37 14 11 * *
-  affCronProd: 50 9 25 * *
+  affCronProd: 11 10 25 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [1, 1, 0, 0]
@@ -3240,7 +3240,7 @@ projects:
   cronTest: 53 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 52 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 45 18 11 * *
-  affCronProd: 27 14 25 * *
+  affCronProd: 46 14 25 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [1, 1, 0, 0]
@@ -3260,7 +3260,7 @@ projects:
   cronTest: 53 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 53 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 53 22 11 * *
-  affCronProd: 4 19 25 * *
+  affCronProd: 21 19 25 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -3278,9 +3278,9 @@ projects:
   org: Open Cluster Management
   repo: open-cluster-management-io/api
   cronTest: 54 0,2,4,6,8,10,12,14,16,18,20,22 * * *
-  cronProd: 53 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 54 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 2 3 12 * *
-  affCronProd: 41 23 25 * *
+  affCronProd: 56 23 25 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [1, 1, 0, 0]
@@ -3300,7 +3300,7 @@ projects:
   cronTest: 55 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 54 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 10 7 12 * *
-  affCronProd: 18 4 26 * *
+  affCronProd: 31 4 26 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [1, 1, 0, 0]
@@ -3320,7 +3320,7 @@ projects:
   cronTest: 56 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 55 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 18 11 12 * *
-  affCronProd: 55 8 26 * *
+  affCronProd: 5 9 26 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -3340,7 +3340,7 @@ projects:
   cronTest: 56 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 56 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 26 15 12 * *
-  affCronProd: 32 13 26 * *
+  affCronProd: 40 13 26 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -3360,7 +3360,7 @@ projects:
   cronTest: 57 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 57 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 35 19 12 * *
-  affCronProd: 9 18 26 * *
+  affCronProd: 15 18 26 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -3380,7 +3380,7 @@ projects:
   cronTest: 58 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 58 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 43 23 12 * *
-  affCronProd: 46 22 26 * *
+  affCronProd: 50 22 26 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
@@ -3400,7 +3400,7 @@ projects:
   cronTest: 59 0,2,4,6,8,10,12,14,16,18,20,22 * * *
   cronProd: 59 1,3,5,7,9,11,13,15,17,19,21,23 * * *
   affCronTest: 51 3 13 * *
-  affCronProd: 23 3 27 * *
+  affCronProd: 25 3 27 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [1, 1, 0, 0]
