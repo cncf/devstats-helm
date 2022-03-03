@@ -1490,7 +1490,6 @@ projects:
   cronProd: 21 * * * *
   affCronTest: 53 22 24 * *
   affCronProd: 15 6 * * 2
-  suspendCronProd: true
   affSkipTemp: "1"
   disk: 5Gi
   domains: [1, 1, 0, 0]
