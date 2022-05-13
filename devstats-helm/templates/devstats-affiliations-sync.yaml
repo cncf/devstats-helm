@@ -127,6 +127,18 @@ spec:
               value: '{{ $root.Values.useFlagsAffs }}'
             - name: SKIP_AFFS_LOCK
               value: '{{ .skipAffsLock }}'
+            - name: SKIP_IMP_AFFS
+{{ if .skipImpAffs }}
+              value: '{{ .skipImpAffs }}'
+{{ else }}
+              value: '{{ $root.Values.skipImpAffs }}'
+{{ end }}
+            - name: SKIP_UPD_AFFS
+{{ if .skipUpdAffs }}
+              value: '{{ .skipUpdAffs }}'
+{{ else }}
+              value: '{{ $root.Values.skipUpdAffs }}'
+{{ end }}
             - name: AFFS_LOCK_DB
               value: '{{ .affsLockDB }}'
             - name: NO_DURABLE

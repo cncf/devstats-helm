@@ -452,6 +452,8 @@ projects:
   maxRunDuration: annotations:1h:102,calc_metric:12h:102,columns:1h:102,get_repos:12h:102,gha2db:8h:102,ghapi2db:12h:102,structure:1h:102,tags:1h:102
   skipGHAPI: 1
   skipGetRepos: 1
+  skipImpAffs: '0'
+  skipUpdAffs: '0.5'
 - proj: prometheus
   url: prometheus
   db: prometheus
@@ -1215,6 +1217,7 @@ projects:
   maxRunDuration: annotations:1h:102,calc_metric:12h:102,columns:1h:102,get_repos:12h:102,gha2db:8h:102,ghapi2db:12h:102,structure:1h:102,tags:1h:102
   skipGHAPI: 1
   skipGetRepos: 1
+  skipUpdAffs: '0.5'
 - proj: tekton
   url: tekton
   db: tekton
