@@ -1,6 +1,6 @@
 ./scripts/deploy_backup_to_prod.sh kubernetes 0 1
 ./scripts/deploy_backup_to_prod.sh prometheus 1 2
-./scripts/deploy_backup_to_prod.sh opentracing 2 3
+# ./scripts/deploy_backup_to_prod.sh opentracing 2 3
 ./scripts/deploy_backup_to_prod.sh fluentd 3 4
 ./scripts/deploy_backup_to_prod.sh linkerd 4 5
 ./scripts/deploy_backup_to_prod.sh grpc 5 6
