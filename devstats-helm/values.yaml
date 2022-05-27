@@ -1811,6 +1811,7 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+  skipUpdAffs: 60
 - proj: prestodb
   url: prestodb
   db: prestodb
