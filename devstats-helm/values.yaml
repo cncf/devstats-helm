@@ -3514,3 +3514,143 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+- proj: clusterpedia
+  url: clusterpedia
+  db: clusterpedia
+  icon: clusterpedia
+  org: Clusterpedia
+  repo: clusterpedia-io/clusterpedia
+  cronTest: 57 2,8,14,20 * * *
+  cronProd: 57 5,11,17,23 * * *
+  affCronTest: 0 4 13 * *
+  affCronProd: 33 3 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-145264316-89
+  i: 153
+  certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: opencost
+  url: opencost
+  db: opencost
+  icon: opencost
+  org: OpenCost
+  repo: kubecost/opencost
+  cronTest: 57 2,8,14,20 * * *
+  cronProd: 57 5,11,17,23 * * *
+  affCronTest: 0 4 13 * *
+  affCronProd: 33 3 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-145264316-90
+  i: 154
+  certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: aerakimesh
+  url: aerakimesh
+  db: aerakimesh
+  icon: aerakimesh
+  org: 'Aeraki Mesh'
+  repo: aeraki-mesh/aeraki
+  cronTest: 57 2,8,14,20 * * *
+  cronProd: 57 5,11,17,23 * * *
+  affCronTest: 0 4 13 * *
+  affCronProd: 33 3 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-145264316-91
+  i: 155
+  certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: curve
+  url: curve
+  db: curve
+  icon: curve
+  org: Curve
+  repo: opencurve/curve
+  cronTest: 57 2,8,14,20 * * *
+  cronProd: 57 5,11,17,23 * * *
+  affCronTest: 0 4 13 * *
+  affCronProd: 33 3 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-145264316-92
+  i: 156
+  certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: openfeature
+  url: openfeature
+  db: openfeature
+  icon: openfeature
+  org: OpenFeature
+  repo: open-feature/spec
+  cronTest: 57 2,8,14,20 * * *
+  cronProd: 57 5,11,17,23 * * *
+  affCronTest: 0 4 13 * *
+  affCronProd: 33 3 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-145264316-93
+  i: 157
+  certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: kubewarden
+  url: kubewarden
+  db: kubewarden
+  icon: kubewarden
+  org: kubewarden
+  repo: kubewarden/kubewarden-controller
+  cronTest: 57 2,8,14,20 * * *
+  cronProd: 57 5,11,17,23 * * *
+  affCronTest: 0 4 13 * *
+  affCronProd: 33 3 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-145264316-94
+  i: 158
+  certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: devstream
+  url: devstream
+  db: devstream
+  icon: devstream
+  org: DevStream
+  repo: devstream-io/devstream
+  cronTest: 57 2,8,14,20 * * *
+  cronProd: 57 5,11,17,23 * * *
+  affCronTest: 0 4 13 * *
+  affCronProd: 33 3 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-145264316-95
+  i: 159
+  certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
