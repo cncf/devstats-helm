@@ -61,6 +61,7 @@ While on the `devstats-test` namespace, `git pull` and then for example if N=55 
 
 - `git pull`.
 - Install new project (excluding static pages and ingress): `helm install devstats-test-projname ./devstats-helm --set skipSecrets=1,indexPVsFrom=55,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,indexProvisionsFrom=55,indexCronsFrom=55,indexGrafanasFrom=55,indexServicesFrom=55,indexAffiliationsFrom=55,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,projectsOverride='+cncf\,+opencontainers\,+istio\,+zephyr\,+linux\,+rkt\,+sam\,+azf\,+riff\,+fn\,+openwhisk\,+openfaas\,+cii\,+prestodb\,+godotengine\,+opentracing',skipECFRGReset=1,nCPUs=32,forceAddAll=tsdb`.
+- Observe progress: `clear && k logs -f -l type=provision --max-log-requests=N-prj --tail=100`
 - Update (optional) `devstats-helm/values.yaml` cronjob schedules using `devstatscode:splitcrons.sh` script: `[MONTHLY=1] [ONLY_ENV=1] [PATCH_ENV='AffSkipTemp,MaxHist,SkipAffsLock,AffsLockDB,NoDurable,DurablePQ,MaxRunDuration,SkipGHAPI,SkipGetRepos'] ./splitcrons devstats-helm/values.yaml new-values.yaml`, typical: `MONTHLY=1 ./splitcrons devstats-helm/values.yaml new-values.yaml; vim devstats-helm/values.yaml new-values.yaml; git add .; git commit -asm "New cron schedules"; git push`.
 - Suspend all cronjobs (optional): `[MONTHLY=1] ONLY_SUSPEND=1 SUSPEND_ALL=1 ./splitcrons devstats-helm/values.yaml new-values.yaml`
 - Unsuspend all cronjobs (optional - use when all finished): `[MONTHLY=1] ONLY_SUSPEND=1 ./splitcrons devstats-helm/values.yaml new-values.yaml`
