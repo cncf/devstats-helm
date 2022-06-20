@@ -7,9 +7,11 @@ curl -s -XPATCH -d '{"loop_wait": "15", "postgresql": {"parameters": {"shared_bu
 curl -s -XPATCH -d '{"postgresql": {"parameters": {"k": "v"}, "use_pg_rewind": true}}' http://localhost:8008/config | jq .
 curl -s -XPATCH -d '{"postgresql": {"use_slots": true, "parameters": {"hot_standby": "on", "hot_standby_feedback": "on", "wal_log_hints": "on", "wal_keep_segments": "10", "wal_keep_size": "4GB", "wal_level": "replica", "max_wal_senders": "5", "max_replication_slots": "5"}}}' http://localhost:8008/config | jq .
 curl -s -XPATCH -d '{"loop_wait": "15", "retry_timeout": "60", "ttl": "60", "master_start_timeout": "60", "maximum_lag_on_failover": "5368709120"}' http://localhost:8008/config | jq .
+# Set single parameter (from withing patroni node)
+curl -s -XPATCH -d '{"postgresql": {"parameters": {"max_parallel_workers_per_gather": "16"}}}' http://localhost:8008/config | jq .
 # From master node only
 PG_USER=postgres psql -c 'select application_name, replay_lag, sync_state from pg_stat_replication'
-# \watch 2
+# watch 2
 patronictl list
 patronictl show-config
 patronictl restart devstats-postgres
