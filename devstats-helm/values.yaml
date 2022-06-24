@@ -3019,7 +3019,7 @@ projects:
   db: kubedl
   icon: kubedl
   org: KubeDL
-  repo: alibaba/kubedl
+  repo: kubedl-io/kubedl
   cronTest: 47 1,7,13,19 * * *
   cronProd: 40 4,10,16,22 * * *
   affCronTest: 42 5 8 * *
