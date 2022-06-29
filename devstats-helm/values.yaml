@@ -2979,7 +2979,7 @@ projects:
   db: kubevela
   icon: kubevela
   org: KubeVela
-  repo: oam-dev/kubevela
+  repo: kubevela/kubevela
   cronTest: 43 1,7,13,19 * * *
   cronProd: 35 4,10,16,22 * * *
   affCronTest: 3 22 7 * *
