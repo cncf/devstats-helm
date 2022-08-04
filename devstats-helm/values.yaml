@@ -3039,7 +3039,7 @@ projects:
   db: krustlet
   icon: krustlet
   org: Krustlet
-  repo: deislabs/krustlet
+  repo: krustlet/krustlet
   cronTest: 42 1,7,13,19 * * *
   cronProd: 35 4,10,16,22 * * *
   affCronTest: 33 21 7 * *
