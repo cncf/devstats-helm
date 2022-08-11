@@ -1838,8 +1838,8 @@ projects:
   url: chubaofs
   db: chubaofs
   icon: chubaofs
-  org: ChubaoFS
-  repo: chubaofs/chubaofs
+  org: CubeFS
+  repo: cubefs/cubefs
   cronTest: 29 5,11,17,23 * * *
   cronProd: 11 2,8,14,20 * * *
   affCronTest: 57 13 26 * *
