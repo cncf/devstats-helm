@@ -3734,3 +3734,123 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+- proj: serverlessdevs
+  url: serverlessdevs
+  db: serverlessdevs
+  icon: serverlessdevs
+  org: 'Serverless Devs'
+  repo: 'Serverless-Devs/Serverless-Devs'
+  cronTest: 57 2,8,14,20 * * *
+  cronProd: 57 5,11,17,23 * * *
+  affCronTest: 16 4 13 * *
+  affCronProd: 53 3 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-145264316-100
+  i: 164
+  certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: containerssh
+  url: containerssh
+  db: containerssh
+  icon: containerssh
+  org: ContainerSSH
+  repo: 'ContainerSSH/ContainerSSH'
+  cronTest: 57 2,8,14,20 * * *
+  cronProd: 57 5,11,17,23 * * *
+  affCronTest: 16 4 13 * *
+  affCronProd: 53 3 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-241436121-1
+  i: 165
+  certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: openfga
+  url: openfga
+  db: openfga
+  icon: openfga
+  org: OpenFGA
+  repo: 'openfga/openfga'
+  cronTest: 57 2,8,14,20 * * *
+  cronProd: 57 5,11,17,23 * * *
+  affCronTest: 16 4 13 * *
+  affCronProd: 53 3 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-241436121-2
+  i: 166
+  certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: kured
+  url: kured
+  db: kured
+  icon: kured
+  org: Kured
+  repo: 'weaveworks/kured'
+  cronTest: 57 2,8,14,20 * * *
+  cronProd: 57 5,11,17,23 * * *
+  affCronTest: 16 4 13 * *
+  affCronProd: 53 3 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-241436121-3
+  i: 167
+  certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: carvel
+  url: carvel
+  db: carvel
+  icon: carvel
+  org: Carvel
+  repo: 'vmware-tanzu/carvel-kapp'
+  cronTest: 57 2,8,14,20 * * *
+  cronProd: 57 5,11,17,23 * * *
+  affCronTest: 16 4 13 * *
+  affCronProd: 53 3 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-241436121-4
+  i: 168
+  certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: lima
+  url: lima
+  db: lima
+  icon: lima
+  org: Lima
+  repo: 'lima-vm/lima'
+  cronTest: 57 2,8,14,20 * * *
+  cronProd: 57 5,11,17,23 * * *
+  affCronTest: 16 4 13 * *
+  affCronProd: 53 3 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-241436121-5
+  i: 169
+  certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
