@@ -287,6 +287,7 @@ limitsStaticsMemory: '2Gi'
 limitsVacuumCPU: '300m'
 limitsVacuumMemory: '1Gi'
 metricsYAML: ''
+maxRunDuration: ''
 name: devstats
 namespace: 'devstats-test'
 nameOverride: devstats
