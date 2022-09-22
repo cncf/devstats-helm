@@ -1107,7 +1107,7 @@ projects:
   affCronProd: 25 6 7 * *
   affSkipTemp: "1"
   disk: 3Gi
-  domains: [1, 1, 0, 0]
+  domains: [1, 0, 0, 0]
   ga: UA-108085315-44
   i: 33
   certNum: 1
