@@ -3800,7 +3800,7 @@ projects:
   db: kured
   icon: kured
   org: Kured
-  repo: weaveworks/kured
+  repo: kubereboot/kured
   cronTest: 53 2,8,14,20 * * *
   cronProd: 53 5,11,17,23 * * *
   affCronTest: 13 21 12 * *
