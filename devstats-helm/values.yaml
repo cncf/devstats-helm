@@ -1570,7 +1570,7 @@ projects:
   db: flux
   icon: flux
   org: Flux
-  repo: fluxcd/flux
+  repo: fluxcd/flux2
   cronTest: 56 4,10,16,22 * * *
   cronProd: 51 1,7,13,19 * * *
   affCronTest: 0 10 24 * *
