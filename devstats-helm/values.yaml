@@ -107,7 +107,7 @@
 # postgresImageName: 'lukaszgryglicki/devstats-patroni-13'
 # periods: 'd7:t,m:f,q:t,y10:f,y3:t'
 # periods: 'c_j_i:t,c_i_g:t,c_g_n:t,c_i_n:t,c_j_g:t'
-# projectsOverride: '+azf,+cncf,+fn,+istio,+linux,+opencontainers,+openfaas,+openwhisk,+riff,+rkt,+sam,+zephyr,+opentracing'
+# projectsOverride: '+azf,+cncf,+fn,+linux,+opencontainers,+openfaas,+openwhisk,+riff,+rkt,+sam,+zephyr,+opentracing'
 # provisionImage: 'lukaszgryglicki/devstats-prod'
 # provisionCommand: './devstats-helm/reinit.sh'
 # provisionCommand: './devstats-helm/repos.sh'
@@ -1465,18 +1465,17 @@ projects:
 - proj: istio
   url: istio
   db: istio
-  icon: cncf
+  icon: istio
   org: Istio
   repo: istio/istio
   cronTest: 46 4,10,16,22 * * *
   cronProd: 20 * * * *
   affCronTest: 2 16 23 * *
   affCronProd: 15 6 * * 1
-  suspendCronProd: true
   affSkipTemp: "1"
   disk: 8Gi
-  domains: [1, 0, 0, 0]
-  ga: ""
+  domains: [1, 1, 0, 0]
+  ga: UA-241436121-6
   i: 51
   certNum: 1
   maxHist: 8
