@@ -1469,9 +1469,9 @@ projects:
   org: Istio
   repo: istio/istio
   cronTest: 46 4,10,16,22 * * *
-  cronProd: 20 * * * *
+  cronProd: 20 1,7,13,19 * * *
   affCronTest: 2 16 23 * *
-  affCronProd: 15 6 * * 1
+  affCronProd: 15 6 7 * *
   affSkipTemp: "1"
   disk: 8Gi
   domains: [1, 1, 0, 0]
