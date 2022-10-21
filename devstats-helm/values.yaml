@@ -3179,7 +3179,7 @@ projects:
   db: inclavarecontainers
   icon: inclavarecontainers
   org: Inclavare Containers
-  repo: alibaba/inclavare-containers
+  repo: inclavare-containers/inclavare-containers
   cronTest: 47 1,7,13,19 * * *
   cronProd: 40 4,10,16,22 * * *
   affCronTest: 50 5 8 * *
