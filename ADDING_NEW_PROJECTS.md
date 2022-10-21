@@ -179,6 +179,7 @@ To generate affiliations task for the next project(s):
 - Update `reports/cncf_projects_config.csv`.
 - Update `BigQuery/velocity_lf.sql BigQuery/velocity_cncf.sql`.
 - Update `map/hints.csv map/defmaps.csv map/urls.csv map/ranges_sane.csv`.
+- When running CNCF/LF/Top30 reports use `FORK_FILE` mode to support skipping forks.
 
 
 9. You should visit all dashboards and adjust date ranges and for some dashboards automatically selected values.
