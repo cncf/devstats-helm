@@ -3854,3 +3854,203 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+- proj: merbridge
+  url: merbridge
+  db: merbridge
+  icon: merbridge
+  org: Merbridge
+  repo: merbridge/merbridge
+  cronTest: 57 2,8,14,20 * * *
+  cronProd: 57 5,11,17,23 * * *
+  affCronTest: 24 4 13 * *
+  affCronProd: 3 4 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-241436121-7
+  i: 170
+  certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: devspace
+  url: devspace
+  db: devspace
+  icon: devspace
+  org: DevSpace
+  repo: devspace-cloud/devspace-cloud
+  cronTest: 57 2,8,14,20 * * *
+  cronProd: 57 5,11,17,23 * * *
+  affCronTest: 24 4 13 * *
+  affCronProd: 3 4 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-241436121-8
+  i: 171
+  certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: capsule
+  url: capsule
+  db: capsule
+  icon: capsule
+  org: capsule
+  repo: capsule-rs/capsule
+  cronTest: 57 2,8,14,20 * * *
+  cronProd: 57 5,11,17,23 * * *
+  affCronTest: 24 4 13 * *
+  affCronProd: 3 4 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-241436121-9
+  i: 172
+  certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: zot
+  url: zot
+  db: zot
+  icon: zot
+  org: zot
+  repo: project-zot/zot
+  cronTest: 57 2,8,14,20 * * *
+  cronProd: 57 5,11,17,23 * * *
+  affCronTest: 24 4 13 * *
+  affCronProd: 3 4 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-241436121-10
+  i: 173
+  certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: paralus
+  url: paralus
+  db: paralus
+  icon: paralus
+  org: Paralus
+  repo: paralus/paralus
+  cronTest: 57 2,8,14,20 * * *
+  cronProd: 57 5,11,17,23 * * *
+  affCronTest: 24 4 13 * *
+  affCronProd: 3 4 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-241436121-11
+  i: 174
+  certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: carina
+  url: carina
+  db: carina
+  icon: carina
+  org: Carina
+  repo: carina-io/carina
+  cronTest: 57 2,8,14,20 * * *
+  cronProd: 57 5,11,17,23 * * *
+  affCronTest: 24 4 13 * *
+  affCronProd: 3 4 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-241436121-12
+  i: 175
+  certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: ko
+  url: ko
+  db: ko
+  icon: ko
+  org: ko
+  repo: ko-build/ko
+  cronTest: 57 2,8,14,20 * * *
+  cronProd: 57 5,11,17,23 * * *
+  affCronTest: 24 4 13 * *
+  affCronProd: 3 4 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-241436121-13
+  i: 176
+  certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: opcr
+  url: opcr
+  db: opcr
+  icon: opcr
+  org: OPCR
+  repo: opcr-io/policy
+  cronTest: 57 2,8,14,20 * * *
+  cronProd: 57 5,11,17,23 * * *
+  affCronTest: 24 4 13 * *
+  affCronProd: 3 4 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-241436121-14
+  i: 177
+  certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: werf
+  url: werf
+  db: werf
+  icon: werf
+  org: werf
+  repo: werf/werf
+  cronTest: 57 2,8,14,20 * * *
+  cronProd: 57 5,11,17,23 * * *
+  affCronTest: 24 4 13 * *
+  affCronProd: 3 4 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-241436121-15
+  i: 178
+  certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: kubescape
+  url: kubescape
+  db: kubescape
+  icon: kubescape
+  org: Kubescape
+  repo: kubescape/kubescape
+  cronTest: 57 2,8,14,20 * * *
+  cronProd: 57 5,11,17,23 * * *
+  affCronTest: 24 4 13 * *
+  affCronProd: 3 4 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-241436121-16
+  i: 179
+  certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
