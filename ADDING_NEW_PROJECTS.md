@@ -211,4 +211,5 @@ while attempting to create a PVC, then:
 - Do on `master` node: `kubeadm certs check-expiration`.
 - Make a copy of `/etc/kubernetes` and `~/.kube`, `~/.kube/config.20221215` (cert expires then).
 - Do `kubeadm certs renew all`, reboot master & all nodes.
-
+- After restart: `vim /etc/kubernetes/admin.conf config` - copy `certificate-authority-data`, `client-certificate-data` and `client-key-data` from `admin.conf` to your `~/.kube/config` (1st file is not changed actually, so last two).
+- On each node: `cp ~/.kube/config ~/.kube/config.202X1215 && vim ~/.kube/config`.
