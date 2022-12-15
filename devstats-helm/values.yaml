@@ -680,7 +680,7 @@ projects:
   db: notary
   icon: notary
   org: Notary
-  repo: theupdateframework/notary
+  repo: notaryproject/notary
   cronTest: 26 3,9,15,21 * * *
   cronProd: 23 0,6,12,18 * * *
   affCronTest: 31 23 17 * *
