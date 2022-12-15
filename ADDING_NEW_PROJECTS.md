@@ -204,3 +204,11 @@ while attempting to create a PVC, then:
 # To tweak Helm release:
 
 - Decode V3 Helm release: `k get secret -n devstats-prod sh.helm.release.v1.devstats-helm-1646314187.v1 -o json | jq -r ".data.release" | base64 -d | base64 -d | gzip -d | jq -rS '.' > release.json`
+
+
+# Kubernetes certs expired
+
+- Do on `master` node: `kubeadm certs check-expiration`.
+- Make a copy of `/etc/kubernetes` and `~/.kube`, `~/.kube/config.20221215` (cert expires then).
+- Do `kubeadm certs renew all`, reboot master & all nodes.
+
