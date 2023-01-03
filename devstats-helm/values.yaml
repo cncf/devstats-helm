@@ -3259,7 +3259,7 @@ projects:
   db: openelb
   icon: openelb
   org: OpenELB
-  repo: kubesphere/openelb
+  repo: openelb/openelb
   cronTest: 40 1,7,13,19 * * *
   cronProd: 33 4,10,16,22 * * *
   affCronTest: 24 16 7 * *
