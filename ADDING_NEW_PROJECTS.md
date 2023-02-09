@@ -187,7 +187,7 @@ To generate affiliations task for the next project(s):
 
 10. Update affiliations.
 
-- Update cncf/gitdm affiliations with [official project maintainers](https://docs.google.com/spreadsheets/d/1Pr8cyp8RLrNGx9WBAgQvBzUUmqyOv69R7QAFKhacJEM/edit#gid=262035321).
+- Update cncf/gitdm affiliations with [official project maintainers](http://maintainers.cncf.io/).
 
 
 ## Troubleshooting
