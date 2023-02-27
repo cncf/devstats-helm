@@ -3539,7 +3539,7 @@ projects:
   db: opencost
   icon: opencost
   org: OpenCost
-  repo: kubecost/opencost
+  repo: opencost/opencost
   cronTest: 10 2,8,14,20 * * *
   cronProd: 6 5,11,17,23 * * *
   affCronTest: 51 15 9 * *
@@ -3819,7 +3819,7 @@ projects:
   db: carvel
   icon: carvel
   org: Carvel
-  repo: vmware-tanzu/carvel-kapp
+  repo: carvel-dev/kapp
   cronTest: 37 2,8,14,20 * * *
   cronProd: 35 5,11,17,23 * * *
   affCronTest: 19 15 11 * *
