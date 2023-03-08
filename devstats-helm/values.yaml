@@ -4054,3 +4054,43 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+- proj: inspektorgadget
+  url: inspektorgadget
+  db: inspektorgadget
+  icon: inspektorgadget
+  org: 'Inspektor Gadget'
+  repo: inspektor-gadget/inspektor-gadget
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 57 5,11,17,23 * * *
+  affCronTest: 36 4 13 * *
+  affCronProd: 17 4 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-241436121-17
+  i: 180
+  certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: clusternet
+  url: clusternet
+  db: clusternet
+  icon: clusternet
+  org: Clusternet
+  repo: clusternet/clusternet
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 57 5,11,17,23 * * *
+  affCronTest: 36 4 13 * *
+  affCronProd: 17 4 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-241436121-18
+  i: 181
+  certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
