@@ -11,7 +11,7 @@
 - Update `./k8s/all_*.txt` or `./example/all_*.txt` or `./gql/all_*.txt` or `devstats-helm/all_*.txt` or `./devstats-helm/projects.yaml` (lists of projects to process).
 - Update `images/Dockerfile.full.prod` and `images/Dockerfile.full.test` files.
 - Update `images/Dockerfile.minimal.prod` and `images/Dockerfile.minimal.test` files.
-- Eventually via `vim ./images/build_images.sh images/Dockerfile.full.???? images/Dockerfile.minimal.????`.
+- Eventually via `vim ./images/build_images.sh devstats-helm/all_*.txt images/Dockerfile.full.???? images/Dockerfile.minimal.????`.
 
 
 2. Go to `cncf/devstats`:
@@ -112,6 +112,7 @@ While on the `devstats-prod` namespace, `git pull` and then for example if N=55 
 Both test & prod namespaces:
 
 - To have all dashboards recreated you can also kill all Grafana pods via `[ITER=1] ../devstats-k8s-lf/util/delete_objects.sh po devstats-grafana-`, deployments will recreate them with the newest projects lists.
+- To recreate them in background and then track progress: `rm ~/recreate.log && ITER=1 ./delete_objects.sh po devstats-grafana- &>> ~/recreate.log &` and then `clear && tail -f ~/recreate.log`.
 - Delete intermediate helm installs - those with auto generated name like `devstats-helm-1565240123`: `helm delete devstats-helm-1565240123`.
 
 Regenerate projects health on "summary" projects (follow `cncf/devstats-docker-images`:`devstats-helm/health.sh` instructions):
