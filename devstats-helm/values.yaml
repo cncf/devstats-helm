@@ -4094,3 +4094,103 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+- proj: cdevents
+  url: cdevents
+  db: cdevents
+  icon: cdevents
+  org: CDEvents
+  repo: cdevents/spec
+  cronTest: 28 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 28 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 43 18 21 * *
+  affCronProd: 42 19 7 * *
+  affSkipTemp: "1"
+  disk: 4Gi
+  domains: [1, 0, 1, 0]
+  ga: ""
+  i: 182
+  certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: ortelius
+  url: ortelius
+  db: ortelius
+  icon: ortelius
+  org: Ortelius
+  repo: ortelius/ortelius
+  cronTest: 28 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 28 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 43 18 21 * *
+  affCronProd: 42 19 7 * *
+  affSkipTemp: "1"
+  disk: 4Gi
+  domains: [1, 0, 1, 0]
+  ga: ""
+  i: 183
+  certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: pyrsia
+  url: pyrsia
+  db: pyrsia
+  icon: pyrsia
+  org: Pyrsia
+  repo: pyrsia/pyrsia
+  cronTest: 28 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 28 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 43 18 21 * *
+  affCronProd: 42 19 7 * *
+  affSkipTemp: "1"
+  disk: 4Gi
+  domains: [1, 0, 1, 0]
+  ga: ""
+  i: 184
+  certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: screwdrivercd
+  url: screwdrivercd
+  db: screwdrivercd
+  icon: screwdrivercd
+  org: Screwdriver CD
+  repo: screwdriver-cd/screwdriver
+  cronTest: 28 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 28 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 43 18 21 * *
+  affCronProd: 42 19 7 * *
+  affSkipTemp: "1"
+  disk: 4Gi
+  domains: [1, 0, 1, 0]
+  ga: ""
+  i: 185
+  certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: shipwright
+  url: shipwright
+  db: shipwright
+  icon: shipwright
+  org: Shipwright
+  repo: shipwright-io/build
+  cronTest: 28 1,3,5,7,9,11,13,15,17,19,21,23 * * *
+  cronProd: 28 0,2,4,6,8,10,12,14,16,18,20,22 * * *
+  affCronTest: 43 18 21 * *
+  affCronProd: 42 19 7 * *
+  affSkipTemp: "1"
+  disk: 4Gi
+  domains: [1, 0, 1, 0]
+  ga: ""
+  i: 186
+  certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
