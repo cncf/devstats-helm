@@ -3499,7 +3499,7 @@ projects:
   db: sealer
   icon: sealer
   org: sealer
-  repo: alibaba/sealer
+  repo: sealerio/sealer
   cronTest: 52 1,7,13,19 * * *
   cronProd: 46 4,10,16,22 * * *
   affCronTest: 52 13 8 * *
