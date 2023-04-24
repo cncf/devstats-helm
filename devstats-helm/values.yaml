@@ -1140,7 +1140,7 @@ projects:
   db: networkservicemesh
   icon: networkservicemesh
   org: Network Service Mesh
-  repo: networkservicemesh/networkservicemesh
+  repo: networkservicemesh/api
   cronTest: 10 4,10,16,22 * * *
   cronProd: 9 1,7,13,19 * * *
   affCronTest: 52 22 20 * *
