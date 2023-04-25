@@ -519,7 +519,7 @@ projects:
   db: linkerd
   icon: linkerd
   org: Linkerd
-  repo: linkerd/linkerd
+  repo: linkerd/linkerd2
   cronTest: 9 3,9,15,21 * * *
   cronProd: 7 0,6,12,18 * * *
   affCronTest: 43 17 16 * *
@@ -700,7 +700,7 @@ projects:
   db: tuf
   icon: tuf
   org: TUF
-  repo: theupdateframework/tuf
+  repo: theupdateframework/python-tuf
   cronTest: 25 3,9,15,21 * * *
   cronProd: 23 0,6,12,18 * * *
   affCronTest: 55 22 17 * *
@@ -1000,7 +1000,7 @@ projects:
   db: buildpacks
   icon: buildpacks
   org: Buildpacks
-  repo: buildpacks/lifecycle
+  repo: buildpacks/pack
   cronTest: 53 3,9,15,21 * * *
   cronProd: 53 0,6,12,18 * * *
   affCronTest: 34 23 19 * *
@@ -1040,7 +1040,7 @@ projects:
   db: dragonfly
   icon: dragonfly
   org: Dragonfly
-  repo: dragonflyoss/Dragonfly
+  repo: dragonflyoss/Dragonfly2
   cronTest: 56 3,9,15,21 * * *
   cronProd: 57 0,6,12,18 * * *
   affCronTest: 3 6 20 * *
@@ -1899,7 +1899,7 @@ projects:
   db: argo
   icon: argo
   org: Argo
-  repo: argoproj/argo
+  repo: argoproj/argo-cd
   cronTest: 17 5,11,17,23 * * *
   cronProd: 56 1,7,13,19 * * *
   affCronTest: 47 15 25 * *
@@ -2298,7 +2298,7 @@ projects:
   db: metal3
   icon: metal3
   org: Metal³
-  repo: metal3/cluster-api-provider-metal3
+  repo: metal3-io/baremetal-operator
   cronTest: 53 5,11,17,23 * * *
   cronProd: 40 2,8,14,20 * * *
   affCronTest: 38 8 28 * *
@@ -3819,7 +3819,7 @@ projects:
   db: carvel
   icon: carvel
   org: Carvel
-  repo: carvel-dev/kapp
+  repo: carvel-dev/ytt
   cronTest: 23 2,8,14,20 * * *
   cronProd: 20 5,11,17,23 * * *
   affCronTest: 8 15 10 * *
