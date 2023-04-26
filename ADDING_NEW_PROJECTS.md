@@ -153,6 +153,24 @@ To generate affiliations task for the next project(s):
 - Upload `task.csv` to a Google Sheet.
 
 
+To import new affiliations do the following:
+
+- Eventually: `` k exec -itn devstats-prod devstats-postgres-2 -- psql devstats -c "delete from gha_computed where metric = 'affs_lock'" ``.
+- Eventually: `` k exec -itn devstats-prod devstats-postgres-2 -- psql projname -c "delete from gha_computed where metric = 'affs_lock_projname'" ``.
+- Eventually: `` k exec -itn devstats-prod devstats-postgres-2 -- psql projname -c " delete from gha_imported_shas where sha = '<sha>'" ``.
+- `k edit cj devstats-affiliations-projname`.
+- Addi/Control JSON import probability and then reinit affiliations related TSDB data probability:
+```
+              - name: SKIP_IMP_AFFS
+                value: "0"    # or "100" if already imported
+              - name: SKIP_UPD_AFFS
+                value: "0"
+```
+- Change `schedule:` to something like current minute = N: `N+1 * * * *`, store previous value to be restored later.
+- `k get po -w | grep devstats-affiliations-projectname` and then once started: `k logs -f devstats-affiliations-projname-xxx-yyy`.
+- Once process is running `k edit cj devstats-affiliations-projname` - restore previous values.
+
+
 5. Go to `cncf/devstats-helm-lf` (optional):
 
 - Update `devstats-helm/values.yaml` (add project).
