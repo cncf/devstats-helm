@@ -3681,7 +3681,7 @@ projects:
   db: konveyor
   icon: konveyor
   org: Konveyor
-  repo: konveyor/mig-operator
+  repo: konveyor/tackle2-operator
   cronTest: 10 2,8,14,20 * * *
   cronProd: 6 5,11,17,23 * * *
   affCronTest: 25 16 9 * *
