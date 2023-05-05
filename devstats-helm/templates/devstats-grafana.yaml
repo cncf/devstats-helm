@@ -99,7 +99,7 @@ spec:
               name: {{ $root.Values.pgSecret }}
               key: PG_PASS_RO.secret
         - name: GF_PANELS_DISABLE_SANITIZE_HTML
-          value: true
+          value: "true"
         - name: GF_SECURITY_ADMIN_USER
           valueFrom:
             secretKeyRef:
