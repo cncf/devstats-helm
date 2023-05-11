@@ -71,6 +71,10 @@ spec:
               value: "1"
             - name: GIANT
               value: '{{ $root.Values.giantSync }}'
+            - name: PROD_SERVER
+              value: '{{ $root.Values.prodServer }}'
+            - name: TEST_SERVER
+              value: '{{ $root.Values.testServer }}'
             - name: GHA2DB_MAX_HIST
               value: '{{ .maxHist }}'
             - name: GHA2DB_MAX_RUN_DURATION

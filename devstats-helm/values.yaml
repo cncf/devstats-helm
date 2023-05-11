@@ -67,6 +67,7 @@
 # - arg2
 # affiliationsCommandArgs:
 # - "affsarg"
+# affiliationsImage: 'lukaszgryglicki/devstats-test'
 # backupsImage: 'lukaszgryglicki/devstats-prod'
 # backupsOnlyProjects: 'kubernetes prometheus fluentd'
 # bootstrapCommand: 'sleep'
@@ -109,7 +110,7 @@
 # periods: 'd7:t,m:f,q:t,y10:f,y3:t,m6:f'
 # periods: 'c_j_i:t,c_i_g:t,c_g_n:t,c_i_n:t,c_j_g:t'
 # projectsOverride: '+azf,+cncf,+fn,+linux,+opencontainers,+openfaas,+openwhisk,+riff,+rkt,+sam,+zephyr,+opentracing,+brigade'
-# provisionImage: 'lukaszgryglicki/devstats-prod'
+# provisionImage: 'lukaszgryglicki/devstats-test'
 # provisionCommand: './devstats-helm/reinit.sh'
 # provisionCommand: './devstats-helm/repos.sh'
 # provisionCommand: './devstats-helm/repo_groups.sh'
@@ -150,7 +151,7 @@
 # storageClass: gp2
 # storageClass: openebs-hostpath
 # storageClass: nfs-openebs-localstorage
-# syncImage: 'lukaszgryglicki/devstats-minimal-prod'
+# syncImage: 'lukaszgryglicki/devstats-minimal-test'
 # syncCommandArgs:
 # - "syncarg"
 # backupsCommand: '/bin/sleep'
@@ -173,7 +174,7 @@ affiliationsCronHistoryLimit: 2
 affiliationsCronFailedHistoryLimit: 1
 affiliationsCronStartingDeadlineSeconds: 300
 affiliationsGetAffsFiles: '1'
-affiliationsImage: 'lukaszgryglicki/devstats-test'
+affiliationsImage: 'lukaszgryglicki/devstats-prod'
 affiliationsPodName: 'devstats-affiliations'
 affiliationsRestartPolicy: Never
 appNodeSelector:
@@ -309,7 +310,7 @@ prodNamespace: 'devstats-prod'
 projectsFile: 'devstats-helm/projects.yaml'
 projectsOverride: ''
 provisionCommand: './devstats-helm/deploy_all.sh'
-provisionImage: 'lukaszgryglicki/devstats-test'
+provisionImage: 'lukaszgryglicki/devstats-prod'
 provisionPodName: devstats-provision
 provisionRestartPolicy: Never
 postgresPort: 5432
@@ -394,7 +395,7 @@ syncCommand: devstats
 syncCronHistoryLimit: 2
 syncCronFailedHistoryLimit: 1
 syncCronStartingDeadlineSeconds: 180
-syncImage: 'lukaszgryglicki/devstats-minimal-test'
+syncImage: 'lukaszgryglicki/devstats-minimal-prod'
 syncPodName: devstats
 syncRestartPolicy: Never
 sslEnv: prod
