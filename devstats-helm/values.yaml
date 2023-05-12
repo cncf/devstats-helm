@@ -2562,7 +2562,7 @@ projects:
   db: gitopswg
   icon: gitopswg
   org: GitOps WG
-  repo: fluxcd/gitops-working-group
+  repo: cncf/tag-app-delivery
   cronTest: 21 0,6,12,18 * * *
   cronProd: 7 3,9,15,21 * * *
   affCronTest: 48 2 2 * *
@@ -3482,7 +3482,7 @@ projects:
   db: teller
   icon: teller
   org: Teller
-  repo: SpectralOps/teller
+  repo: tellerops/teller
   cronTest: 48 1,7,13,19 * * *
   cronProd: 42 4,10,16,22 * * *
   affCronTest: 0 8 8 * *
