@@ -4217,3 +4217,103 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+- proj: sops
+  url: sops
+  db: sops
+  icon: sops
+  org: SOPS
+  repo: mozilla/sops
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 45 4 13 * *
+  affCronProd: 28 4 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-241436121-20
+  i: 188
+  certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: headlamp
+  url: headlamp
+  db: headlamp
+  icon: headlamp
+  org: Headlamp
+  repo: headlamp-k8s/headlamp
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 45 4 13 * *
+  affCronProd: 28 4 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-241436121-21
+  i: 189
+  certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: slimtoolkit
+  url: slimtoolkit
+  db: slimtoolkit
+  icon: slimtoolkit
+  org: SlimToolkit
+  repo: slimtoolkit/slim
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 45 4 13 * *
+  affCronProd: 28 4 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-241436121-22
+  i: 190
+  certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: kepler
+  url: kepler
+  db: kepler
+  icon: kepler
+  org: Kepler
+  repo: sustainable-computing-io/kepler
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 45 4 13 * *
+  affCronProd: 28 4 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-241436121-23
+  i: 191
+  certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: pipecd
+  url: pipecd
+  db: pipecd
+  icon: pipecd
+  org: PipeCD
+  repo: pipe-cd/pipecd
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 45 4 13 * *
+  affCronProd: 28 4 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-241436121-24
+  i: 192
+  certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
