@@ -203,6 +203,7 @@ To import new affiliations do the following:
 - Update `reports/cncf_projects_config.csv`.
 - Update `BigQuery/velocity_lf.sql BigQuery/velocity_cncf.sql`.
 - Update `map/hints.csv map/defmaps.csv map/urls.csv map/ranges_sane.csv`.
+- All at once: `vim reports/cncf_projects_config.csv BigQuery/velocity_lf.sql BigQuery/velocity_cncf.sql map/hints.csv map/defmaps.csv map/urls.csv map/ranges_sane.csv`.
 - When running CNCF/LF/Top30 reports use `FORK_FILE` mode to support skipping forks.
 
 
