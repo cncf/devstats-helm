@@ -243,4 +243,4 @@ while attempting to create a PVC, then:
 
 # Adding multiple projects checklist
 
-- Add each, update cronjobs, report on cncf/toc, static & ingress, vars, merge each, update grafanas dashboards, fetch them, update shared grafana data, recreate all grafanas, generate affiliations task, reinit all CNCF, projects health(s) reports.
+- Add each, update cronjobs, report on cncf/toc, static & ingress, vars, merge each, update grafanas dashboards, fetch them, update shared grafana data, recreate all grafanas, generate affiliations task, update login contributions, reinit all CNCF, projects health(s) reports.
