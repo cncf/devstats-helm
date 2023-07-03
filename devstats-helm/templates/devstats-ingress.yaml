@@ -196,4 +196,82 @@ spec:
 {{ end }}
 {{ end }}
 {{ end }}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: '{{ .Values.namespace }}'
+  name: devstats-ingress-3
+  labels:
+    name: devstats
+    type: ingress
+  annotations:
+    #kubernetes.io/ingress.class: '{{ .Values.ingressClass }}'
+    acme.cert-manager.io/http01-ingress-class: '{{ .Values.ingressClass }}'
+    cert-manager.io/issuer: 'letsencrypt-{{ .Values.sslEnv }}'
+    certmanager.k8s.io/acme-challenge-type: http01
+spec:
+  ingressClassName: '{{ .Values.ingressClass }}'
+  tls:
+  - hosts:
+{{- $root := . -}}
+{{ range $jndex, $_ := .Values.domains }}
+{{- $dom := .name -}}
+{{ if and (or (eq ($jndex|int) ($root.Values.indexDomainsFrom|int)) (gt ($jndex|int) ($root.Values.indexDomainsFrom|int))) (lt ($jndex|int) ($root.Values.indexDomainsTo|int)) }}
+{{ range $index, $_ := $root.Values.projects }}
+{{ if and (or (eq ($index|int) ($root.Values.indexIngressesFrom|int)) (gt ($index|int) ($root.Values.indexIngressesFrom|int))) (lt ($index|int) ($root.Values.indexIngressesTo|int)) }}
+{{ if eq (.certNum|int) 3 }}
+{{ if gt ((index .domains $jndex)|int) 0 }}
+    - {{ .url }}.{{ $dom }}
+{{ end }}
+{{ if not $root.Values.skipAliases }}
+{{ range $_, $alias := .aliases }}
+    - {{ $alias }}
+{{ end }}
+{{ end }}
+{{ end }}
+{{ end }}
+{{ end }}
+{{ end }}
+{{ end }}
+    secretName: devstats-tls-3
+  rules:
+{{ range $jndex, $_ := .Values.domains }}
+{{- $dom := .name -}}
+{{ if and (or (eq ($jndex|int) ($root.Values.indexDomainsFrom|int)) (gt ($jndex|int) ($root.Values.indexDomainsFrom|int))) (lt ($jndex|int) ($root.Values.indexDomainsTo|int)) }}
+{{ range $index, $_ := $root.Values.projects }}
+{{ if and (or (eq ($index|int) ($root.Values.indexIngressesFrom|int)) (gt ($index|int) ($root.Values.indexIngressesFrom|int))) (lt ($index|int) ($root.Values.indexIngressesTo|int)) }}
+{{ if eq (.certNum|int) 3 }}
+{{ if gt ((index .domains $jndex)|int) 0 }}
+  - host: {{ .url }}.{{ $dom }}
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: devstats-service-{{ .proj }}
+            port:
+              number: 80
+{{ end }}
+{{ if not $root.Values.skipAliases }}
+{{- $proj := .proj -}}
+{{ range $_, $alias := .aliases }}
+  - host: {{ $alias }}
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: devstats-service-{{ $proj }}
+            port:
+              number: 80
+{{ end }}
+{{ end }}
+{{ end }}
+{{ end }}
+{{ end }}
+{{ end }}
+{{ end }}
 {{ end }}

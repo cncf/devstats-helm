@@ -4432,7 +4432,7 @@ projects:
   domains: [1, 1, 0, 0]
   ga: UA-241436121-30
   i: 198
-  certNum: 2
+  certNum: 3
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -4452,7 +4452,7 @@ projects:
   domains: [1, 1, 0, 0]
   ga: UA-241436121-31
   i: 199
-  certNum: 2
+  certNum: 3
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
