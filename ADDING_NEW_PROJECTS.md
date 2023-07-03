@@ -160,7 +160,7 @@ To import new affiliations do the following:
 - Eventually: `` k exec -itn devstats-prod devstats-postgres-2 -- psql projname -c "delete from gha_computed where metric = 'affs_lock_projname'" ``.
 - Eventually: `` k exec -itn devstats-prod devstats-postgres-2 -- psql projname -c " delete from gha_imported_shas where sha = '<sha>'" ``.
 - `k edit cj devstats-affiliations-projname`.
-- Addi/Control JSON import probability and then reinit affiliations related TSDB data probability:
+- Add/Control JSON import probability and then reinit affiliations related TSDB data probability:
 ```
               - name: SKIP_IMP_AFFS
                 value: "0"    # or "100" if already imported
