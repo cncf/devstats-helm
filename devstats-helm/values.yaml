@@ -4317,3 +4317,143 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+- proj: eraser
+  url: eraser
+  db: eraser
+  icon: eraser
+  org: Eraser
+  repo: Azure/eraser
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 50 4 13 * *
+  affCronProd: 34 4 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-241436121-25
+  i: 193
+  certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: xline
+  url: xline
+  db: xline
+  icon: xline
+  org: Xline
+  repo: xline-kv/xline
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 50 4 13 * *
+  affCronProd: 34 4 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-241436121-26
+  i: 194
+  certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: hwameistor
+  url: hwameistor
+  db: hwameistor
+  icon: hwameistor
+  org: Hwameistor
+  repo: hwameistor/hwameistor
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 50 4 13 * *
+  affCronProd: 34 4 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-241436121-27
+  i: 195
+  certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: kpt
+  url: kpt
+  db: kpt
+  icon: kpt
+  org: kpt
+  repo: GoogleContainerTools/kpt
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 50 4 13 * *
+  affCronProd: 34 4 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-241436121-28
+  i: 196
+  certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: microcks
+  url: microcks
+  db: microcks
+  icon: microcks
+  org: Microcks
+  repo: microcks/microcks
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 50 4 13 * *
+  affCronProd: 34 4 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-241436121-29
+  i: 197
+  certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: kubeclipper
+  url: kubeclipper
+  db: kubeclipper
+  icon: kubeclipper
+  org: Kubeclipper
+  repo: kubeclipper/kubeclipper
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 50 4 13 * *
+  affCronProd: 34 4 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-241436121-30
+  i: 198
+  certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: kubeflow
+  url: kubeflow
+  db: kubeflow
+  icon: kubeflow
+  org: Kubeflow
+  repo: kubeflow/kubeflow
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 50 4 13 * *
+  affCronProd: 34 4 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-241436121-31
+  i: 199
+  certNum: 2
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
