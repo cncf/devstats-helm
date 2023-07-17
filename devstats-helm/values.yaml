@@ -4222,7 +4222,7 @@ projects:
   db: sops
   icon: sops
   org: SOPS
-  repo: mozilla/sops
+  repo: getsops/sops
   cronTest: 39 2,8,14,20 * * *
   cronProd: 37 5,11,17,23 * * *
   affCronTest: 27 19 11 * *
