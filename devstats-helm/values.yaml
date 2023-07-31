@@ -316,7 +316,7 @@ provisionRestartPolicy: Never
 postgresPort: 5432
 postgresSvcName: 'devstats-postgres'
 # postgresImageName: 'lukaszgryglicki/devstats-patroni-new'
-postgresImageName: 'lukaszgryglicki/devstats-patroni-13'
+postgresImageName: 'lukaszgryglicki/devstats-patroni-hll-13'
 postgresStorageSize: '7500Gi'
 postgresNodes: 4
 postgresSharedBuffers: '80GB'
