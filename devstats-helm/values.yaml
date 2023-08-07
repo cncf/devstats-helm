@@ -4322,7 +4322,7 @@ projects:
   db: eraser
   icon: eraser
   org: Eraser
-  repo: Azure/eraser
+  repo: eraser-dev/eraser
   cronTest: 48 2,8,14,20 * * *
   cronProd: 47 5,11,17,23 * * *
   affCronTest: 40 10 12 * *
