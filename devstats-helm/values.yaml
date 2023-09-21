@@ -4457,3 +4457,103 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+- proj: copacetic
+  url: copacetic
+  db: copacetic
+  icon: copacetic
+  org: Copacetic
+  repo: project-copacetic/copacetic
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 57 4 13 * *
+  affCronProd: 42 4 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-241436121-32
+  i: 200
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: loggingoperator
+  url: loggingoperator
+  db: loggingoperator
+  icon: loggingoperator
+  org: 'Logging Operator'
+  repo: kube-logging/logging-operator
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 57 4 13 * *
+  affCronProd: 42 4 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-241436121-33
+  i: 201
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: kanister
+  url: kanister
+  db: kanister
+  icon: kanister
+  org: Kanister
+  repo: kanisterio/kanister
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 57 4 13 * *
+  affCronProd: 42 4 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-241436121-34
+  i: 202
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: kcp
+  url: kcp
+  db: kcp
+  icon: kcp
+  org: kcp
+  repo: kcp-dev/kcp
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 57 4 13 * *
+  affCronProd: 42 4 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-241436121-35
+  i: 203
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: kcl
+  url: kcl
+  db: kcl
+  icon: kcl
+  org: KCL
+  repo: kcl-lang/kcl
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 57 4 13 * *
+  affCronProd: 42 4 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-241436121-36
+  i: 204
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
