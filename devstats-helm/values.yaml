@@ -98,6 +98,7 @@
 # in DB restore mode: assumes that DB backup only had GHA data and all other stuff must be regenerated
 # onlyGHA: '1'
 # skipECFRGReset: '1'
+# skipGetRepos: '1'
 # overwritePostgresCommand: true
 # postgresCommand: 'sleep'
 # postgresCommandArgs:
@@ -299,6 +300,7 @@ nSyncCPUs: 8
 oauthSecret: github-oauth
 onlyGHA: ''
 skipECFRGReset: ''
+skipGetRepos: ''
 skipGHA: ''
 patroniLoopWait: 15
 patroniTtl: 60
