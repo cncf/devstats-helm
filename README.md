@@ -272,6 +272,9 @@ data:
 ```
 - More details [here](https://raw.githubusercontent.com/google/metallb/v0.9.5/manifests/example-config.yaml).
 - Check if both test and prod load balancers are OK (they should have External-IP values equal to requested in config map: `k -n devstats-test get svc -o wide -w nginx-ingress-test-ingress-nginx-controller; k -n devstats-prod get svc -o wide -w nginx-ingress-prod-ingress-nginx-controller`).
+- Update after 2 years - `metallb` moved to quay.io instead of docker.io, so you need to change its image locations to:
+- `k edit deployment -n metallb-system controller` -> `quay.io/metallb/controller:v0.9.8`.
+- `k edit daemonset -n metallb-system speaker` -> `quay.io/metallb/speaker:v0.9.8`.
 
 
 # SSL
