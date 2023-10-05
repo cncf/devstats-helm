@@ -559,8 +559,15 @@ This should only be done ideally right after the initial installation, otherwise
 
 # Approach with links
 
+Stop the `containerd` service: `service containerd stop`.
 Assuming that you have an NVMNE volume mounted on `/data`, do the following:
+
 ```
+mkdir /data/run/
+mkdir /data/run/containerd/
+mkdir /data/var
+mkdir /data/var/lib
+mkdir /data/var/lib/containerd
 mv /run/containerd /run/containerd.old
 mkdir /data/run/containerd
 ln -s /data/run/containerd /run/containerd
@@ -570,8 +577,19 @@ ln -s /data/var/lib/containerd/ /var/lib/containerd
 ```
 - Run `service containerd restart`.
 
-# Previous (not recommended) approach using alternate directories
 
+Eventually also `kubelet`:
+Stop the `kubelet` service: `service kubelet stop`.
+
+```
+mkdir /data/var/lib/kubelet
+mv /var/lib/kubelet /var/lib/kubelet.old
+ln -s /data/var/lib/kubelet /var/lib/kubelet
+```
+- Run `service kubelet restart`.
+
+
+# Previous (not recommended) approach using alternate directories
 
 Assuming that you have an NVMNE volume mounted on `/data`, do the following:
 ```
@@ -588,3 +606,4 @@ root = "/data/var/lib/containerd"
 state = "/data/run/containerd"
 ```
 - Run `service containerd restart`.
+
