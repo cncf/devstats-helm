@@ -121,6 +121,9 @@ spec:
       value: '{{ .noDurable }}'
     - name: DURABLE_PQ
       value: '{{ .durablePQ }}'
+    - name: GHA2DB_GETREPOSSKIP
+      # value: '{{ or .skipGetRepos $root.Values.skipGetRepos }}'
+      value: '{{ $root.Values.skipGetRepos }}'
     - name: REPOS
       value: '{{ $root.Values.useRepos }}'
     - name: PDROP
