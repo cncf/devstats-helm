@@ -552,3 +552,21 @@ For all nodes: `sftp user@node-name`, then `cd .kube`, `rm config`, `mput config
 
 Restart all nodes one after another.
 
+# Configure containerd data files locations
+
+This should only be done ideally right after the initial installation, otherwise you need to stop all cron-jobs and wait for othe rtasks to finish, this will render the cluster unusable for a while.
+
+Assuming that you have an NVMNE volume mounted on `/data`, do the following:
+```
+mkdir /data/run/
+mkdir /data/run/containerd/
+mkdir /data/var
+mkdir /data/var/lib
+mkdir /data/var/lib/containerd
+```
+Then edit `containerd`'s config file: `vim /etc/containerd/config.toml`:
+```
+version = 2
+root = "/data/var/lib/containerd"
+state = "/data/run/containerd"
+```
