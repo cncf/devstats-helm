@@ -209,9 +209,14 @@ To import new affiliations do the following:
 
 9. You should visit all dashboards and adjust date ranges and for some dashboards automatically selected values.
 
+
 10. Update affiliations.
 
 - Update cncf/gitdm affiliations with [official project maintainers](http://maintainers.cncf.io/).
+
+
+11. Update `LF-Engineering/lfx-redshift-migration`:
+- Update the `sql/sp/sp_sync_project.sql` file to specify maturity level of the new projects added, or update existing project maturity level.
 
 
 ## Troubleshooting
