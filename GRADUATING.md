@@ -10,6 +10,7 @@
 2. Go to `cncf/devstats`:
 
 - Follow instructions from `cncf/devstats`:`GRADUATING.md`.
+- Update shared garafana data.
 
 
 3. Go to `cncf/devstats-docker-images`:
