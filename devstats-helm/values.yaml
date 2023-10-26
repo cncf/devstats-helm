@@ -3904,7 +3904,7 @@ projects:
   db: capsule
   icon: capsule
   org: capsule
-  repo: clastix/capsule
+  repo: projectcapsule/capsule
   cronTest: 5 2,8,14,20 * * *
   cronProd: 56 4,10,16,22 * * *
   affCronTest: 58 5 9 * *
