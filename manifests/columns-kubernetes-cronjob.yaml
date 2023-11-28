@@ -1,0 +1,202 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  labels:
+    name: devstats
+    type: columns
+    proj: kubernetes
+  name: devstats-columns-kubernetes
+  namespace: devstats-prod
+spec:
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            name: devstats
+            type: columns
+            proj: kubernetes
+          name: devstats-columns-kubernetes
+          namespace: devstats-prod
+        spec:
+          containers:
+          - command:
+            - devstats-helm/columns.sh
+            env:
+            - name: PROJ
+              value: kubernetes
+            - name: PROJDB
+              value: gha
+            - name: PROJREPO
+              value: 'kubernetes/kubernetes'
+            - name: SKIPTEMP
+              value: '1'
+            - name: GIANT
+              value: 'lock'
+            - name: NOLOCK
+              value: "1"
+            - name: NOBACKUP
+              value: "1"
+            - name: SKIPADDALL
+              value: ''
+            - name: FORCEADDALL
+              value: ''
+            - name: HEALTH
+              value: ''
+            - name: TEST_SERVER
+              value: ''
+            - name: PROD_SERVER
+              value: '1'
+            - name: ONLY
+              value: kubernetes
+            - name: RESTORE_FROM
+              value: 'https://devstats.cncf.io/backups/'
+            - name: WAITBOOT
+              value: '120'
+            - name: GHA2DB_PROPAGATE_ONLY_VAR
+              value: "1"
+            - name: GHA2DB_MAX_HIST
+              value: '2'
+            - name: GHA2DB_MAX_RUN_DURATION
+              value: 'annotations:1h:102,calc_metric:24h:102,columns:2h:102,get_repos:24h:102,gha2db:24h:102,ghapi2db:24h:102,structure:2h:102,tags:1h:102'
+            - name: GHA2DB_GHAPISKIP
+              value: ''
+            - name: GHA2DB_NCPUS
+              value: ''
+            - name: GHA2DB_RECALC_RECIPROCAL
+              value: ''
+            - name: GHA2DB_DEBUG
+              value: ''
+            - name: GHA2DB_CMDDEBUG
+              value: ''
+            - name: GHA2DB_GITHUB_DEBUG
+              value: ''
+            - name: GHA2DB_QOUT
+              value: ''
+            - name: GHA2DB_REPOS_DIR
+              value: ''
+            - name: GET_AFFS_FILES
+              value: ''
+            - name: GHA2DB_CHECK_IMPORTED_SHA
+              value: '1'
+            - name: SKIP_IMP_AFFS
+              value: ''
+            - name: SKIP_UPD_AFFS
+              value: ''
+            - name: GHA2DB_COMPANY_ACQ_YAML
+              value: 'companies.yaml'
+            - name: GHA2DB_PROJECTS_YAML
+              value: devstats-helm/projects.yaml
+            - name: GHA2DB_PROJECTS_OVERRIDE
+              value: 
+            - name: GHA2DB_AFFILIATIONS_JSON
+              value: 'github_users.json'
+            - name: GHA2DB_COMPUTE_ALL
+              value: ''
+            - name: GHA2DB_SKIP_METRICS
+              value: ''
+            - name: GHA2DB_EXCLUDE_VARS
+              value: ''
+            - name: GHA2DB_ONLY_METRICS
+              value: ''
+            - name: GHA2DB_FORCE_PERIODS
+              value: ''
+            - name: USE_FLAGS
+              value: '1'
+            - name: SKIP_AFFS_LOCK
+              value: ''
+            - name: AFFS_LOCK_DB
+              value: 'gha'
+            - name: NO_DURABLE
+              value: ''
+            - name: DURABLE_PQ
+              value: '1'
+            - name: GHA2DB_GETREPOSSKIP
+              value: ''
+            - name: REPOS
+              value: ''
+            - name: PDROP
+              value: ''
+            - name: DELETE_ANNOTATIONS
+              value: ''
+            - name: TSDB_DROP
+              value: ''
+            - name: MERGE_MODE
+              value: ''
+            - name: ONLY_GHA
+              value: ''
+            - name: SKIP_ECFRG_RESET
+              value: ''
+            - name: SKIPGHA
+              value: ''
+            - name: GHA2DB_METRICS_YAML
+              value: ''
+            - name: GHA2DB_TAGS_YAML
+              value: ''
+            - name: GHA2DB_COLUMNS_YAML
+              value: ''
+            - name: GHA2DB_GITHUB_OAUTH
+              valueFrom:
+                secretKeyRef:
+                  name: github-oauth
+                  key: GHA2DB_GITHUB_OAUTH.secret
+            - name: PG_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: pg-db
+                  key: PG_HOST.secret
+            - name: PG_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: pg-db
+                  key: PG_PORT.secret
+            - name: PG_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: pg-db
+                  key: PG_PASS.secret
+            - name: PG_PASS_RO
+              valueFrom:
+                secretKeyRef:
+                  name: pg-db
+                  key: PG_PASS_RO.secret
+            - name: PG_PASS_TEAM
+              valueFrom:
+                secretKeyRef:
+                  name: pg-db
+                  key: PG_PASS_TEAM.secret
+            - name: PG_ADMIN_USER
+              valueFrom:
+                secretKeyRef:
+                  name: pg-db
+                  key: PG_ADMIN_USER.secret
+            image: lukaszgryglicki/devstats-prod
+            imagePullPolicy: Always
+            name: devstats-columns-kubernetes
+            resources:
+              requests:
+                memory: 512Mi
+                cpu: 1000m
+              limits:
+                memory: 32Gi
+                cpu: 2000m
+            terminationMessagePath: /dev/termination-log
+            terminationMessagePolicy: File
+            volumeMounts:
+            - mountPath: /root
+              name: data-kubernetes
+          dnsPolicy: ClusterFirst
+          nodeSelector:
+            node: devstats-app
+          restartPolicy: Never
+          schedulerName: default-scheduler
+          volumes:
+          - name: data-kubernetes
+            persistentVolumeClaim:
+              claimName: devstats-pvc-kubernetes
+  schedule: 0 * * * *
+  startingDeadlineSeconds: 300
+  successfulJobsHistoryLimit: 2
+  failedJobsHistoryLimit: 3
+  suspend: false
