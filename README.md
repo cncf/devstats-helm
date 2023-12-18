@@ -557,7 +557,7 @@ Restart all nodes one after another.
 
 # Configure containerd data files locations
 
-This should only be done ideally right after the initial installation, otherwise you need to stop all cron-jobs and wait for othe rtasks to finish, this will render the cluster unusable for a while.
+This should only be done ideally right after the initial installation, otherwise you need to stop all cron-jobs and wait for other tasks to finish, this will render the cluster unusable for a while.
 
 
 # Approach with links
