@@ -4559,3 +4559,143 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+- proj: kubeburner
+  url: kubeburner
+  db: kubeburner
+  icon: kubeburner
+  org: kube-burner
+  repo: kube-burner/kube-burner
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 1 5 13 * *
+  affCronProd: 47 4 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-241436121-37
+  i: 205
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: kuasar
+  url: kuasar
+  db: kuasar
+  icon: kuasar
+  org: Kuasar
+  repo: kuasar-io/kuasar
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 1 5 13 * *
+  affCronProd: 47 4 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-241436121-38
+  i: 206
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: krknchaos
+  url: krknchaos
+  db: krknchaos
+  icon: krknchaos
+  org: KrknChaos
+  repo: redhat-chaos/krknChaos
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 1 5 13 * *
+  affCronProd: 47 4 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-241436121-39
+  i: 207
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: kubestellar
+  url: kubestellar
+  db: kubestellar
+  icon: kubestellar
+  org: Kubestellar
+  repo: kubestellar/kubestellar
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 1 5 13 * *
+  affCronProd: 47 4 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-241436121-40
+  i: 208
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: easegress
+  url: easegress
+  db: easegress
+  icon: easegress
+  org: easegress
+  repo: megaease/easegress
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 1 5 13 * *
+  affCronProd: 47 4 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-241436121-41
+  i: 209
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: spiderpool
+  url: spiderpool
+  db: spiderpool
+  icon: spiderpool
+  org: Spiderpool
+  repo: spidernet-io/spiderpool
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 1 5 13 * *
+  affCronProd: 47 4 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-241436121-42
+  i: 210
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: k8sgpt
+  url: k8sgpt
+  db: k8sgpt
+  icon: k8sgpt
+  org: K8sGPT
+  repo: k8sgpt-ai/k8sgpt
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 1 5 13 * *
+  affCronProd: 47 4 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: UA-241436121-43
+  i: 211
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
