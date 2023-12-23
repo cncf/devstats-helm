@@ -249,3 +249,12 @@ while attempting to create a PVC, then:
 # Adding multiple projects checklist
 
 - Add each, update cronjobs, report on cncf/toc, static & ingress, vars, merge each, update grafanas dashboards, fetch them, update shared grafana data, recreate all grafanas, generate affiliations task, update login contributions, reinit all CNCF, projects health(s) reports.
+
+
+# To update running pod's container environment
+
+- Do: `k describe po -n devstats-prod pod-name` - to get which node it runs on.
+- On that node: `ps -axu | grep command-name` - to find pod's containers' PID.
+- Attach to it via gdb: `gdb -p pid`.
+- Set the env variable: `call (int) setenv("GHA2DB_NCPUS", "6", 1)`.
+- Detach & exit: `detach`, `quit`.
