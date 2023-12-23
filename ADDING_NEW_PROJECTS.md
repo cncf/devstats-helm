@@ -255,6 +255,7 @@ while attempting to create a PVC, then:
 
 - Do: `k describe po -n devstats-prod pod-name` - to get which node it runs on.
 - On that node: `ps -axu | grep command-name` - to find pod's containers' PID.
-- Attach to it via gdb: `gdb -p pid`.
+- Have the same version of binary compiled with debugging symbols, for example: `go build -o gha2db.g cmd/gha2db/gha2db.go`.
+- Attach to it via gdb: `gdb -p pid gha2db.g`.
 - Set the env variable: `call (int) setenv("GHA2DB_NCPUS", "6", 1)`.
 - Detach & exit: `detach`, `quit`.
