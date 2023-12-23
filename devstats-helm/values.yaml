@@ -4564,7 +4564,7 @@ projects:
   db: kubeburner
   icon: kubeburner
   org: kube-burner
-  repo: kube-burner/kube-burner
+  repo: cloud-bulldozer/kube-burner
   cronTest: 48 2,8,14,20 * * *
   cronProd: 47 5,11,17,23 * * *
   affCronTest: 54 11 12 * *
