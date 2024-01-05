@@ -3884,7 +3884,7 @@ projects:
   db: devspace
   icon: devspace
   org: DevSpace
-  repo: devspace-cloud/devspace-cloud
+  repo: devspace-sh/devspace
   cronTest: 50 1,7,13,19 * * *
   cronProd: 44 4,10,16,22 * * *
   affCronTest: 17 10 8 * *
