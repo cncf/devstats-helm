@@ -2563,7 +2563,7 @@ projects:
   url: gitopswg
   db: gitopswg
   icon: gitopswg
-  org: GitOps WG
+  org: OpenGitOps
   repo: cncf/tag-app-delivery
   cronTest: 55 5,11,17,23 * * *
   cronProd: 42 2,8,14,20 * * *
