@@ -4699,3 +4699,123 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+- proj: kubeslice
+  url: kubeslice
+  db: kubeslice
+  icon: kubeslice
+  org: Kubeslice
+  repo: kubeslice/kubeslice
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 7 5 13 * *
+  affCronProd: 54 4 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: ""
+  i: 212
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: connect
+  url: connect
+  db: connect
+  icon: connect
+  org: Connect
+  repo: connectrpc/connect-go
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 7 5 13 * *
+  affCronProd: 54 4 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: ""
+  i: 213
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: kairos
+  url: kairos
+  db: kairos
+  icon: kairos
+  org: Kairos
+  repo: kairos-io/kairos
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 7 5 13 * *
+  affCronProd: 54 4 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: ""
+  i: 214
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: kubean
+  url: kubean
+  db: kubean
+  icon: kubean
+  org: Kubean
+  repo: kubean-io/kubean
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 7 5 13 * *
+  affCronProd: 54 4 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: ""
+  i: 215
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: koordinator
+  url: koordinator
+  db: koordinator
+  icon: koordinator
+  org: Koordinator
+  repo: koordinator-sh/koordinator
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 7 5 13 * *
+  affCronProd: 54 4 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: ""
+  i: 216
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: radius
+  url: radius
+  db: radius
+  icon: radius
+  org: Radius
+  repo: radius-project/radius
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 7 5 13 * *
+  affCronProd: 54 4 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: ""
+  i: 217
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
