@@ -3384,7 +3384,7 @@ projects:
   db: kubers
   icon: kubers
   org: kube-rs
-  repo: kube-rs/kube-rs
+  repo: kube-rs/kube
   cronTest: 59 0,6,12,18 * * *
   cronProd: 51 3,9,15,21 * * *
   affCronTest: 4 23 4 * *
