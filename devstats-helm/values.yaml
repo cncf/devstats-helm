@@ -55,6 +55,7 @@
 # skipImpAffs: 100 (percent chance to skip importing affiliations)
 # skipUpdAffs: 100 (percent chance to skip updating affiliations - regenerate TSDB data)
 # skipGHA: 1
+# skipRand: 1
 #
 # You can overwrite the number of CPU autodetected in each pod, setting this to 1 will make each pod single-threaded
 # nCPUs: 0
@@ -302,6 +303,7 @@ onlyGHA: ''
 skipECFRGReset: ''
 skipGetRepos: ''
 skipGHA: ''
+skipRand: ''
 patroniLoopWait: 15
 patroniTtl: 60
 patroniRetryTimeout: 60

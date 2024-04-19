@@ -111,6 +111,8 @@ spec:
       value: '{{ $root.Values.onlyMetrics }}'
     - name: GHA2DB_FORCE_PERIODS
       value: '{{ $root.Values.periods }}'
+    - name: GHA2DB_SKIP_RAND
+      value: '{{ $root.Values.skipRand }}'
     - name: USE_FLAGS
       value: '{{ $root.Values.useFlagsProv }}'
     - name: SKIP_AFFS_LOCK
