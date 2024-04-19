@@ -4644,7 +4644,7 @@ projects:
   db: easegress
   icon: easegress
   org: easegress
-  repo: megaease/easegress
+  repo: easegress-io/easegress
   cronTest: 45 2,8,14,20 * * *
   cronProd: 44 5,11,17,23 * * *
   affCronTest: 53 6 12 * *
