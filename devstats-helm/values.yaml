@@ -109,7 +109,7 @@
 # postgresImageName: 'lukaszgryglicki/devstats-patroni-new'
 # postgresImageName: 'jberkus/patroni-simple:v13'
 # postgresImageName: 'lukaszgryglicki/devstats-patroni-13'
-# periods: 'd7:t,m:f,q:t,y10:f,y3:t,m6:f'
+# periods: 'd7:t,m:f,q:t,y10:f,y3:t,m6:f,y100:f'
 # periods: 'c_j_i:t,c_i_g:t,c_g_n:t,c_i_n:t,c_j_g:t'
 # projectsOverride: '+azf,+cncf,+fn,+linux,+opencontainers,+openfaas,+openwhisk,+riff,+rkt,+sam,+zephyr,+opentracing,+brigade,+openservicemesh'
 # provisionImage: 'lukaszgryglicki/devstats-test'
