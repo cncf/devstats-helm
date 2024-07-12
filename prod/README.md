@@ -89,7 +89,7 @@ Projects that should be skipped on prod cluster: `azf cncf fn linux opencontaine
 Prod provision ranges: [0, 8), [9, 49), [55, 59), [65, 97), [98, 182), [182, 187), [187, 218)
 Test-only projects: 8, 49, 50, 52, 53, 54, 59, 60, 61, 62, 63, 64, 67, 68, 97, 153, 154, 155, 156, 157, 158, 159
 Prod-only projects: [153, 218)
-Archived: [2, 8, 33, 71, 95],
+Archived: [2, 8, 23, 33, 71, 95],
 CDF projects [39, 44), [182, 187)
 Go dot: [97]
 GraphQL: [44, 49)
