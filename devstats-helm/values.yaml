@@ -4821,3 +4821,163 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+- proj: bankvaults
+  url: bankvaults
+  db: bankvaults
+  icon: bankvaults
+  org: Bank-Vaults
+  repo: bank-vaults/bank-vaults
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 12 5 13 * *
+  affCronProd: 0 5 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: ""
+  i: 218
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: atlantis
+  url: atlantis
+  db: atlantis
+  icon: atlantis
+  org: Atlantis
+  repo: runatlantis/atlantis
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 12 5 13 * *
+  affCronProd: 0 5 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: ""
+  i: 219
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: stacker
+  url: stacker
+  db: stacker
+  icon: stacker
+  org: Stacker
+  repo: project-stacker/stacker
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 12 5 13 * *
+  affCronProd: 0 5 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: ""
+  i: 220
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: trestlegrc
+  url: trestlegrc
+  db: trestlegrc
+  icon: trestlegrc
+  org: TrestleGRC
+  repo: oscal-compass/compliance-trestle
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 12 5 13 * *
+  affCronProd: 0 5 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: ""
+  i: 221
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: kuadrant
+  url: kuadrant
+  db: kuadrant
+  icon: kuadrant
+  org: Kuadrant
+  repo: Kuadrant/authorino
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 12 5 13 * *
+  affCronProd: 0 5 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: ""
+  i: 222
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: opengemini
+  url: opengemini
+  db: opengemini
+  icon: opengemini
+  org: openGemini
+  repo: openGemini/openGemini
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 12 5 13 * *
+  affCronProd: 0 5 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: ""
+  i: 223
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: score
+  url: score
+  db: score
+  icon: score
+  org: Score
+  repo: score-spec/score-go
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 12 5 13 * *
+  affCronProd: 0 5 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: ""
+  i: 224
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: bpfman
+  url: bpfman
+  db: bpfman
+  icon: bpfman
+  org: bpfman
+  repo: bpfman/bpfman
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 12 5 13 * *
+  affCronProd: 0 5 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: ""
+  i: 225
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
