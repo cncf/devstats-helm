@@ -4981,3 +4981,123 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+- proj: loxilb
+  url: loxilb
+  db: loxilb
+  icon: loxilb
+  org: LoxiLB
+  repo: loxilb-io/loxilb
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 18 5 13 * *
+  affCronProd: 6 5 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: ""
+  i: 226
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: cartography
+  url: cartography
+  db: cartography
+  icon: cartography
+  org: Cartography
+  repo: lyft/cartography
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 18 5 13 * *
+  affCronProd: 6 5 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: ""
+  i: 227
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: perses
+  url: perses
+  db: perses
+  icon: perses
+  org: Perses
+  repo: perses/perses
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 18 5 13 * *
+  affCronProd: 6 5 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: ""
+  i: 228
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: ratify
+  url: ratify
+  db: ratify
+  icon: ratify
+  org: Ratify
+  repo: ratify-project/ratify
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 18 5 13 * *
+  affCronProd: 6 5 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: ""
+  i: 229
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: hami
+  url: hami
+  db: hami
+  icon: hami
+  org: HAMi
+  repo: Project-HAMi/HAMi
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 18 5 13 * *
+  affCronProd: 6 5 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: ""
+  i: 230
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: shipwrightcncf
+  url: shipwrightcncf
+  db: shipwrightcncf
+  icon: shipwrightcncf
+  org: Shipwright
+  repo: shipwright-io/build
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 18 5 13 * *
+  affCronProd: 6 5 27 * *
+  affSkipTemp: "1"
+  disk: 3Gi
+  domains: [1, 1, 0, 0]
+  ga: ""
+  i: 231
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
