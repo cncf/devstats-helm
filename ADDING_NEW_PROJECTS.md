@@ -32,6 +32,7 @@
 - Name in `partials/projects_health.html` must be from normalized repo name, so for example in `shipwrightcncf` DB it must be `shipwright`: `metrics:series:phealthshipwright:loop:1:i:2`.
 - Eventually check: `partials/projects_health.html`, `metrics/shared/projects_health.sql`, `metrics/all/health.yaml` files and `sprojects_health`, `sannotations_shared` tables in `allprj` DB.
 - In reverse cases (where DB name cannot be the same as normalized project name` - then use `cncf` suffix for DB name, example: `shipwrightcncf` as DB name while full name is `Shipwright`. No mapping is needed then.
+- Check `metrics/shared/projects_health.sql` for `suffix_projects`, `strip_projects`, `skip_projects`.
 - Copy `metrics/oldproject` to `metrics/projectname`. Update `./metrics/projectname/vars.yaml` file.
 - `cp -Rv scripts/oldproject/ scripts/projectname`, `vim scripts/projectname/*`. Usually it is only `repo_groups.sql` and in simple cases it can fallback to `scripts/shared/repo_groups.sql`, you can skip copy then.
 - `cp -Rv grafana/oldproject/ grafana/projectname/` and then update files. Usually `%s/oldproject/newproject/g|w|next` and `%s/Old Project/New Project/g|w|next`.
