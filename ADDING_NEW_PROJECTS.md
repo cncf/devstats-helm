@@ -29,7 +29,8 @@
 - Update `partials/projects.html partials/projects_health.html metrics/all/sync_vars.yaml` (number of projects and partials).
 - If normalized project name is not equal to lower project name, you need to update projects health metric to do the mapping, for example `series_name_map: { clouddeploymentkitforkubernetes: cdk8s }`, see `metrics/*/*.yaml`.
 - If upper name is for example `WasmEdge Runtime` then map from `wasmedgeruntime` - target mapping must be normalized DB name, so the entry will be: `wasmedgeruntime: wasmedge`.
-- Eventually check: `metrics/shared/projects_health.sql`, `metrics/all/health.yaml` files and `sprojects_health`, `sannotations_shared` tables in `allprj` DB.
+- Name in `partials/projects_health.html` must be from normalized repo name, so for example in `shipwrightcncf` DB it must be `shipwright`.
+- Eventually check: `partials/projects_health.html`, `metrics/shared/projects_health.sql`, `metrics/all/health.yaml` files and `sprojects_health`, `sannotations_shared` tables in `allprj` DB.
 - In reverse cases (where DB name cannot be the same as normalized project name` - then use `cncf` suffix for DB name, example: `shipwrightcncf` as DB name while full name is `Shipwright`. No mapping is needed then.
 - Copy `metrics/oldproject` to `metrics/projectname`. Update `./metrics/projectname/vars.yaml` file.
 - `cp -Rv scripts/oldproject/ scripts/projectname`, `vim scripts/projectname/*`. Usually it is only `repo_groups.sql` and in simple cases it can fallback to `scripts/shared/repo_groups.sql`, you can skip copy then.
