@@ -11,6 +11,7 @@
 
 - Follow instructions from `cncf/devstats`:`GRADUATING.md`.
 - Update shared Grafana data.
+- If archiving then delete project configuration form `all:` (current tracing in `projects.yaml`).
 
 
 3. Go to `cncf/devstats-docker-images`:
@@ -43,3 +44,8 @@ While on the `devstats-prod` namespace: `git pull`, then:
 - You can regenerate Health dashboards too: `helm install --generate-name ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,testServer='',prodServer='1',provisionImage='lukaszgryglicki/devstats-prod',provisionCommand='devstats-helm/health.sh',indexProvisionsFrom=38,indexProvisionsTo=39`.
 - Delete intermediate helm installs - those with auto generated name like `devstats-helm-1565240123`: `helm delete devstats-helm-1565240123`.
 
+
+For both:
+
+- If archival then delete cronjobs: `k delete cj -n devstats-{{env}} devstats-proj devstats-affiliations-proj`.
+- Eventually delete projects database: `k exec -itn devstats-{{env}} devstats-postgres-3 -- psql`, `drop database proj`.
