@@ -11,7 +11,7 @@
 
 - Follow instructions from `cncf/devstats`:`GRADUATING.md`.
 - Update shared Grafana data.
-- If archiving then delete project configuration form `all:` (current tracing in `projects.yaml`). Eventually consider updating `all/psql.sh` and `scripts/all/repo_groups.sql`.
+- If archiving then delete project configuration form `all:` (current tracing in `devstats`:`projects.yaml`, `devstats-docker-images`:`devstats-helm/projects.yaml`). Eventually consider updating `all/psql.sh` and `scripts/all/repo_groups.sql`.
 
 
 3. Go to `cncf/devstats-docker-images`:
