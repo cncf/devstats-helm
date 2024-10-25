@@ -5006,7 +5006,7 @@ projects:
   db: cartography
   icon: cartography
   org: Cartography
-  repo: lyft/cartography
+  repo: cartography-cncf/cartography
   cronTest: 49 2,8,14,20 * * *
   cronProd: 49 5,11,17,23 * * *
   affCronTest: 49 13 12 * *
