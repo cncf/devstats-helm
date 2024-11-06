@@ -177,6 +177,7 @@ To import new affiliations do the following:
 - Change `schedule:` to something like current minute = N: `N+1 * * * *`, store previous value to be restored later.
 - `k get po -w | grep devstats-affiliations-projectname` and then once started: `k logs -f devstats-affiliations-projname-xxx-yyy`.
 - Once process is running `k edit cj devstats-affiliations-projname` - restore previous values.
+- Or use manual pod via helm temporary install: `` helm install --generate-name ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,testServer='',prodServer='1',provisionImage='lukaszgryglicki/devstats-prod',provisionCommand='devstats-helm/affs.sh',skipImpAffs=0,skipUpdAffs=0,checkImportedSHA=0,getAffsFiles=0,nCPUs=8,indexProvisionsFrom=N,indexProvisionsTo=N+1 ``.
 
 
 5. Go to `cncf/devstats-helm-lf` (optional):
