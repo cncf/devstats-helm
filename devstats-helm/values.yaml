@@ -2445,7 +2445,7 @@ projects:
   url: cdk8s
   db: cdk8s
   icon: cdk8s
-  org: Cloud Deployment Kit for Kubernetes
+  org: Cloud Development Kit for Kubernetes
   repo: awslabs/cdk8s
   cronTest: 28 5,11,17,23 * * *
   cronProd: 15 2,8,14,20 * * *
