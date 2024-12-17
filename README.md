@@ -551,6 +551,8 @@ You can renew them via: `kubeadm certs renew all`.
 
 Then you need: `cp ~/.kube/config ~/.kube/config.2021-12-15; cp /etc/kubernetes/admin.conf ~/.kube/config; cd ~/.kube/`, then you need to merge them, especially your config had special contxts - only update cert related data.
 
+It means take `config.2024-12-17` file and update it with `certificate-*-data` coming from the new `config` file.
+
 For all nodes: `sftp user@node-name`, then `cd .kube`, `rm config`, `mput config`, `mput config.2021-12-15`.
 
 Restart all nodes one after another.
