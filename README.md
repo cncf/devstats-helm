@@ -545,7 +545,7 @@ See `ADDING_NEW_PROJECTS.md` for informations about how to add more projects.
 
 If you get `` Unable to connect to the server: x509: certificate has expired or is not yet valid `` error, that means your kubectl certificates have expired.
 
-You can check their expiration date via: `kubeadm certs check-expiration`.
+You can check their expiration date via (execute this on master): `kubeadm certs check-expiration`.
 
 You can renew them via: `kubeadm certs renew all`.
 
