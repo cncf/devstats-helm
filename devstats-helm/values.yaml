@@ -1047,7 +1047,7 @@ projects:
   db: dragonfly
   icon: dragonfly
   org: Dragonfly
-  repo: dragonflyoss/Dragonfly2
+  repo: dragonflyoss/Dragonfly
   cronTest: 45 3,9,15,21 * * *
   cronProd: 45 0,6,12,18 * * *
   affCronTest: 43 9 19 * *
