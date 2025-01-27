@@ -5,7 +5,7 @@
 - Add project entry to `devstats-helm/projects.yaml` file. (also update `all:`) Find projects orgs, repos, select start date, eventually add test coverage for complex regular expression in `cncf/devstatscode`:`regexp_test.go`.
 - Graduation/Incubation dates are [here](https://docs.google.com/spreadsheets/d/10-rSBsSMQZD6nCLBkyKfeU4kdffB4bOSV0NnZqF5bBk/edit#gid=1632287387).
 - To identify repo and/or org name changes, date ranges for entrire projest use `cncf/devstats`:`util_sh/(repo|org)_name_changes_bigquery.sh org|org/repo`. There is also a more resource-consuming script, example use: `./util_sh/org_name_changes_complex.sh org 'year.201*'`.
-- You may need to update `cncf/devstats`:`util_sql/(org|repo)_name_changes_bigquery.sql` to include newest months.
+- You may need to update `cncf/devstats`:`util_sql/(org|repo)_name_changes_bigquery.sql` to include newest months. Example: `` ./util_sh/org_repos_name_changes_bigquery.sh org-name ``.
 - For other Helm deployments (like LF or GraphQL) update `k8s/projects.yaml` or `gql/projects.yaml` or `devstats-helm/projects.yaml` file instead of `example/projects.yaml`.
 - Update `./images/build_images.sh` (add project's directory).
 - Update `./k8s/all_*.txt` or `./example/all_*.txt` or `./gql/all_*.txt` or `devstats-helm/all_*.txt` or `./devstats-helm/projects.yaml` (lists of projects to process).
