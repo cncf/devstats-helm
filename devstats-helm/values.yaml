@@ -5241,3 +5241,283 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+- proj: tratteria
+  url: tratteria
+  db: tratteria
+  icon: tratteria
+  org: Tratteria
+  repo: tratteria/tratteria
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 27 5 13 * *
+  affCronProd: 17 5 27 * *
+  affSkipTemp: "1"
+  disk: 5Gi
+  domains: [1, 1, 0, 0]
+  ga: ""
+  i: 239
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: spin
+  url: spin
+  db: spin
+  icon: spin
+  org: Spin
+  repo: fermyon/spin
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 27 5 13 * *
+  affCronProd: 17 5 27 * *
+  affSkipTemp: "1"
+  disk: 5Gi
+  domains: [1, 1, 0, 0]
+  ga: ""
+  i: 240
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: spinkube
+  url: spinkube
+  db: spinkube
+  icon: spinkube
+  org: SpinKube
+  repo: spinkube/spin-operator
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 27 5 13 * *
+  affCronProd: 17 5 27 * *
+  affSkipTemp: "1"
+  disk: 5Gi
+  domains: [1, 1, 0, 0]
+  ga: ""
+  i: 241
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: slimfaas
+  url: slimfaas
+  db: slimfaas
+  icon: slimfaas
+  org: SlimFaaS
+  repo: AxaFrance/SlimFaas
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 27 5 13 * *
+  affCronProd: 17 5 27 * *
+  affSkipTemp: "1"
+  disk: 5Gi
+  domains: [1, 1, 0, 0]
+  ga: ""
+  i: 242
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: container2wasm
+  url: container2wasm
+  db: container2wasm
+  icon: container2wasm
+  org: container2wasm
+  repo: ktock/container2wasm
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 27 5 13 * *
+  affCronProd: 17 5 27 * *
+  affSkipTemp: "1"
+  disk: 5Gi
+  domains: [1, 1, 0, 0]
+  ga: ""
+  i: 243
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: k0s
+  url: k0s
+  db: k0s
+  icon: k0s
+  org: k0s
+  repo: k0sproject/k0s
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 27 5 13 * *
+  affCronProd: 17 5 27 * *
+  affSkipTemp: "1"
+  disk: 5Gi
+  domains: [1, 1, 0, 0]
+  ga: ""
+  i: 244
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: runmenotebooks
+  url: runmenotebooks
+  db: runmenotebooks
+  icon: runmenotebooks
+  org: "Runme Notebooks"
+  repo: stateful/runme
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 27 5 13 * *
+  affCronProd: 17 5 27 * *
+  affSkipTemp: "1"
+  disk: 5Gi
+  domains: [1, 1, 0, 0]
+  ga: ""
+  i: 245
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: cloudnativepg
+  url: cloudnativepg
+  db: cloudnativepg
+  icon: cloudnativepg
+  org: CloudNativePG
+  repo: cloudnative-pg/cloudnative-pg
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 27 5 13 * *
+  affCronProd: 17 5 27 * *
+  affSkipTemp: "1"
+  disk: 5Gi
+  domains: [1, 1, 0, 0]
+  ga: ""
+  i: 246
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: kubefleet
+  url: kubefleet
+  db: kubefleet
+  icon: kubefleet
+  org: KubeFleet
+  repo: Azure/fleet
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 27 5 13 * *
+  affCronProd: 17 5 27 * *
+  affSkipTemp: "1"
+  disk: 5Gi
+  domains: [1, 1, 0, 0]
+  ga: ""
+  i: 247
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: podmandesktop
+  url: podmandesktop
+  db: podmandesktop
+  icon: podmandesktop
+  org: "Podman Desktop"
+  repo: podman-desktop/podman-desktop
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 27 5 13 * *
+  affCronProd: 17 5 27 * *
+  affSkipTemp: "1"
+  disk: 5Gi
+  domains: [1, 1, 0, 0]
+  ga: ""
+  i: 248
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: podmancontainertools
+  url: podmancontainertools
+  db: podmancontainertools
+  icon: podmancontainertools
+  org: "Podman Container Tools"
+  repo: containers/podman
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 27 5 13 * *
+  affCronProd: 17 5 27 * *
+  affSkipTemp: "1"
+  disk: 5Gi
+  domains: [1, 1, 0, 0]
+  ga: ""
+  i: 249
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: bootc
+  url: bootc
+  db: bootc
+  icon: bootc
+  org: bootc
+  repo: containers/bootc
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 27 5 13 * *
+  affCronProd: 17 5 27 * *
+  affSkipTemp: "1"
+  disk: 5Gi
+  domains: [1, 1, 0, 0]
+  ga: ""
+  i: 239
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: composefs
+  url: composefs
+  db: composefs
+  icon: composefs
+  org: composefs
+  repo: containers/composefs
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 27 5 13 * *
+  affCronProd: 17 5 27 * *
+  affSkipTemp: "1"
+  disk: 5Gi
+  domains: [1, 1, 0, 0]
+  ga: ""
+  i: 250
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: drasi
+  url: drasi
+  db: drasi
+  icon: drasi
+  org: Drasi
+  repo: drasi-project/drasi-platform
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 27 5 13 * *
+  affCronProd: 17 5 27 * *
+  affSkipTemp: "1"
+  disk: 5Gi
+  domains: [1, 1, 0, 0]
+  ga: ""
+  i: 251
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
