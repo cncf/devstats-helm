@@ -1,0 +1,1 @@
+kubectl delete po  devstats-static-prod-5b96c8b9f9-972b9
