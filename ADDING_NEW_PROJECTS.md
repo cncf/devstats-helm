@@ -26,7 +26,7 @@
 - Update automatic deploy script: `./devel/deploy_all.sh`.
 - Update static index pages `apache/www/index_*`.
 - Update `partials/projects.html partials/projects_health.html metrics/all/sync_vars.yaml` (number of projects and partials).
-- If normalized project name is not equal to lower project name, you need to update projects health metric to do the mapping, for example `series_name_map: { clouddeploymentkitforkubernetes: cdk8s }`, see `metrics/*/*.yaml`.
+- If normalized project name is not equal to lower project name, you need to update projects health metric to do the mapping, for example `series_name_map: { clouddevelopmentkitforkubernetes: cdk8s }`, see `metrics/*/*.yaml`.
 - If upper name is for example `WasmEdge Runtime` then map from `wasmedgeruntime` - target mapping must be normalized DB name, so the entry will be: `wasmedgeruntime: wasmedge`.
 - Name in `partials/projects_health.html` must be from normalized repo name, so for example in `shipwrightcncf` DB it must be `shipwright`: `metrics:series:phealthshipwright:loop:1:i:2`.
 - Eventually check: `partials/projects_health.html`, `metrics/shared/projects_health.sql`, `metrics/all/health.yaml` files and `sprojects_health`, `sannotations_shared` tables in `allprj` DB.
@@ -128,7 +128,7 @@ Both test & prod namespaces:
 
 Regenerate projects health on "summary" projects (follow `cncf/devstats-docker-images`:`devstats-helm/health.sh` instructions):
 
-- If normalized project name is not equal to lower project name, you need to update projects health metric to do the mapping, for example `series_name_map: { clouddeploymentkitforkubernetes: cdk8s }`, see `metrics/*/*.yaml`.
+- If normalized project name is not equal to lower project name, you need to update projects health metric to do the mapping, for example `series_name_map: { clouddevelopmentkitforkubernetes: cdk8s }`, see `metrics/*/*.yaml`.
 - You can check this via: `k exec -it devstats-postgres-1 -- psql allprj`, then `select distinct series from sprojects_health where series like '%proj%'`.
 
 Test:
