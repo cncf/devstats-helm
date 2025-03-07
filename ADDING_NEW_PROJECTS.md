@@ -206,7 +206,7 @@ To import new affiliations do the following:
 - Eventually update `scripts/contrib/repo_groups.sql`.
 
 
-8. Go to `cncf/velocity` (optional):
+8. Go to `cncf/velocity`:
 
 - Update `reports/cncf_projects_config.csv`.
 - Update `BigQuery/velocity_lf.sql BigQuery/velocity_cncf.sql`.
