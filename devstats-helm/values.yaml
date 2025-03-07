@@ -5521,3 +5521,103 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+- proj: interlink
+  url: interlink
+  db: interlink
+  icon: interlink
+  org: Interlink
+  repo: interTwin-eu/interLink
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 36 5 13 * *
+  affCronProd: 26 5 27 * *
+  affSkipTemp: "1"
+  disk: 5Gi
+  domains: [1, 1, 0, 0]
+  ga: ""
+  i: 253
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: cozystack
+  url: cozystack
+  db: cozystack
+  icon: cozystack
+  org: CozyStack
+  repo: aenix-io/cozystack
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 36 5 13 * *
+  affCronProd: 26 5 27 * *
+  affSkipTemp: "1"
+  disk: 5Gi
+  domains: [1, 1, 0, 0]
+  ga: ""
+  i: 254
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: kgateway
+  url: kgateway
+  db: kgateway
+  icon: kgateway
+  org: kgateway
+  repo: kgateway-dev/kgateway
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 36 5 13 * *
+  affCronProd: 26 5 27 * *
+  affSkipTemp: "1"
+  disk: 5Gi
+  domains: [1, 1, 0, 0]
+  ga: ""
+  i: 255
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: kitops
+  url: kitops
+  db: kitops
+  icon: kitops
+  org: KitOps
+  repo: jozu-ai/kitops
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 36 5 13 * *
+  affCronProd: 26 5 27 * *
+  affSkipTemp: "1"
+  disk: 5Gi
+  domains: [1, 1, 0, 0]
+  ga: ""
+  i: 256
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: hyperlight
+  url: hyperlight
+  db: hyperlight
+  icon: hyperlight
+  org: Hyperlight
+  repo: hyperlight-dev/hyperlight
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 36 5 13 * *
+  affCronProd: 26 5 27 * *
+  affSkipTemp: "1"
+  disk: 5Gi
+  domains: [1, 1, 0, 0]
+  ga: ""
+  i: 257
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
