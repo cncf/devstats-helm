@@ -5546,7 +5546,7 @@ projects:
   db: cozystack
   icon: cozystack
   org: CozyStack
-  repo: aenix-io/cozystack
+  repo: cozystack/cozystack
   cronTest: 54 2,8,14,20 * * *
   cronProd: 54 5,11,17,23 * * *
   affCronTest: 35 22 12 * *
