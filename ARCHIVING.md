@@ -27,6 +27,7 @@
 While on the `devstats-prod` namespace: `git pull`, then:
 
 - Recreate static pages handler: `../devstats-k8s-lf/util/delete_objects.sh po devstats-static-prod`.
+- Recreate ingress with a new hostname: `helm delete devstats-prod-ingress`, `helm install devstats-prod-ingress ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipStatic=1,skipAPI=1,skipNamespaces=1,indexDomainsFrom=1,skipAliases=1,ingressClass=nginx-prod,sslEnv=prod`.
 - Run vars regenerate on all projects: `helm install --generate-name ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,testServer='',prodServer='1',provisionImage='lukaszgryglicki/devstats-prod',provisionCommand='devstats-helm/vars.sh',provisionPodName=vars`.
 - Wait for it to finish: `clear && k get po -w | grep vars`.
 - Recreate Grafanas: `rm ~/recreate.log && ITER=1 ./delete_objects.sh po devstats-grafana- &>> ~/recreate.log &`, `clear && tail -f ~/recreate.log`.
