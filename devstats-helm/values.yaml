@@ -5586,7 +5586,7 @@ projects:
   db: kitops
   icon: kitops
   org: KitOps
-  repo: jozu-ai/kitops
+  repo: kitops-ml/kitops
   cronTest: 57 2,8,14,20 * * *
   cronProd: 57 5,11,17,23 * * *
   affCronTest: 17 3 13 * *
