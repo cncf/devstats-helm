@@ -37,7 +37,7 @@ While on the `devstats-prod` namespace: `git pull`, then:
 - Delete deployment: `k delete deployment devstats-grafana-proj`.
 - Delete service: `k delete service devstats-service-proj`.
 - Delete projects database: `k exec -itn devstats-prod devstats-postgres-3 -- psql`, `drop database proj`.
-- Delete other k8s objects as needed: `k get all -n devstats-prod | grep proj`.
+- Delete PVC: `k delete pvc devstats-pvc-proj`.
 
 
 5. Go to `cncf/velocity` (optional, we usually keep archived projects configuration):
