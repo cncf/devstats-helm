@@ -36,7 +36,11 @@ While on the `devstats-prod` namespace: `git pull`, then:
 - Delete projects database: `k exec -itn devstats-prod devstats-postgres-3 -- psql`, `drop database proj`.
 - Delete other k8s objects as needed: `k get all -n devstats-prod | grep proj`.
 
+
 5. Go to `cncf/velocity`:
 
 - Update `reports/cncf_projects_config.csv`.
 - Update `BigQuery/velocity_lf.sql BigQuery/velocity_cncf.sql`.
+
+
+
