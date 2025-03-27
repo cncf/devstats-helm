@@ -33,6 +33,8 @@ While on the `devstats-prod` namespace: `git pull`, then:
 - Regenerate Health dashboards: `helm install --generate-name ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,testServer='',prodServer='1',provisionImage='lukaszgryglicki/devstats-prod',provisionCommand='devstats-helm/health.sh',indexProvisionsFrom=38,indexProvisionsTo=39`.
 - Delete intermediate helm installs - those with auto generated name like `devstats-helm-1565240123`: `helm delete devstats-helm-1565240123`.
 - Delete cronjobs: `k delete cj -n devstats-prod devstats-proj devstats-affiliations-proj`.
+- Delete deployment: `k delete deployment devstats-grafana-proj`.
+- Delete service: `k delete service devstats-service-proj`.
 - Delete projects database: `k exec -itn devstats-prod devstats-postgres-3 -- psql`, `drop database proj`.
 - Delete other k8s objects as needed: `k get all -n devstats-prod | grep proj`.
 
