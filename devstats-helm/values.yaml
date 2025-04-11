@@ -5245,8 +5245,8 @@ projects:
   url: tratteria
   db: tratteria
   icon: tratteria
-  org: Tratteria
-  repo: tratteria/tratteria
+  org: Tokenetes
+  repo: tokenetes/tokenetes
   cronTest: 34 2,8,14,20 * * *
   cronProd: 33 5,11,17,23 * * *
   affCronTest: 17 11 11 * *
@@ -5266,7 +5266,7 @@ projects:
   db: spin
   icon: spin
   org: Spin
-  repo: fermyon/spin
+  repo: spinframework/spin
   cronTest: 36 2,8,14,20 * * *
   cronProd: 34 5,11,17,23 * * *
   affCronTest: 38 13 11 * *
@@ -5286,7 +5286,7 @@ projects:
   db: spinkube
   icon: spinkube
   org: SpinKube
-  repo: spinkube/spin-operator
+  repo: spinframework/spin-operator
   cronTest: 37 2,8,14,20 * * *
   cronProd: 36 5,11,17,23 * * *
   affCronTest: 0 16 11 * *
@@ -5306,7 +5306,7 @@ projects:
   db: slimfaas
   icon: slimfaas
   org: SlimFaaS
-  repo: AxaFrance/SlimFaas
+  repo: SlimPlanet/SlimFaas
   cronTest: 38 2,8,14,20 * * *
   cronProd: 37 5,11,17,23 * * *
   affCronTest: 21 18 11 * *
@@ -5326,7 +5326,7 @@ projects:
   db: container2wasm
   icon: container2wasm
   org: container2wasm
-  repo: ktock/container2wasm
+  repo: container2wasm/container2wasm
   cronTest: 40 2,8,14,20 * * *
   cronProd: 39 5,11,17,23 * * *
   affCronTest: 42 20 11 * *
@@ -5366,7 +5366,7 @@ projects:
   db: runmenotebooks
   icon: runmenotebooks
   org: Runme Notebooks
-  repo: stateful/runme
+  repo: runmedev/runme
   cronTest: 42 2,8,14,20 * * *
   cronProd: 41 5,11,17,23 * * *
   affCronTest: 24 1 12 * *
@@ -5466,7 +5466,7 @@ projects:
   db: bootc
   icon: bootc
   org: bootc
-  repo: containers/bootc
+  repo: bootc-dev/bootc
   cronTest: 49 2,8,14,20 * * *
   cronProd: 48 5,11,17,23 * * *
   affCronTest: 10 13 12 * *
@@ -5486,7 +5486,7 @@ projects:
   db: composefs
   icon: composefs
   org: composefs
-  repo: containers/composefs
+  repo: composefs/composefs
   cronTest: 50 2,8,14,20 * * *
   cronProd: 50 5,11,17,23 * * *
   affCronTest: 31 15 12 * *
