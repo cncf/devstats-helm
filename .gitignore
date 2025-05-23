@@ -61,4 +61,5 @@ sqlite/*.sql
 /openebs/cstor-pool-config.yaml
 /values.yaml
 splitcrons
+splitcrons.old
 /new-values.yaml
