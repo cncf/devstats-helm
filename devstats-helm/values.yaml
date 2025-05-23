@@ -501,6 +501,7 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+  archived: true
 - proj: fluentd
   url: fluentd
   db: fluentd
@@ -622,6 +623,7 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+  archived: true
 - proj: cni
   url: cni
   db: cni
@@ -1122,6 +1124,7 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+  archived: true
 - proj: crio
   url: crio
   db: crio
@@ -1901,6 +1904,7 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+  archived: true
 - proj: argo
   url: argo
   db: argo
@@ -1961,6 +1965,7 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+  archived: true
 - proj: keptn
   url: keptn
   db: keptn
@@ -2380,6 +2385,7 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+  archived: true
 - proj: keylime
   url: keylime
   db: keylime
@@ -2621,6 +2627,7 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+  archived: true
 - proj: athenz
   url: athenz
   db: athenz
@@ -2681,6 +2688,7 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+  archived: true
 - proj: distribution
   url: distribution
   db: distribution
@@ -2721,6 +2729,7 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+  archived: true
 - proj: kuberhealthy
   url: kuberhealthy
   db: kuberhealthy
@@ -3041,6 +3050,7 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+  archived: true
 - proj: krustlet
   url: krustlet
   db: krustlet
@@ -3061,6 +3071,7 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+  archived: true
 - proj: krator
   url: krator
   db: krator
@@ -3081,6 +3092,7 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+  archived: true
 - proj: oras
   url: oras
   db: oras
@@ -3221,6 +3233,7 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+  archived: true
 - proj: cilium
   url: cilium
   db: cilium
@@ -3281,6 +3294,7 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+  archived: true
 - proj: openclustermanagement
   url: openclustermanagement
   db: openclustermanagement
@@ -3341,6 +3355,7 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+  archived: true
 - proj: kubearmor
   url: kubearmor
   db: kubearmor
@@ -3441,6 +3456,7 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+  archived: true
 - proj: confidentialcontainers
   url: confidentialcontainers
   db: confidentialcontainers
@@ -3501,6 +3517,7 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+  archived: true
 - proj: sealer
   url: sealer
   db: sealer
@@ -3521,6 +3538,7 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+  archived: true
 - proj: clusterpedia
   url: clusterpedia
   db: clusterpedia
@@ -3601,6 +3619,7 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+  archived: true
 - proj: openfeature
   url: openfeature
   db: openfeature
@@ -3661,6 +3680,7 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+  archived: true
 - proj: hexapolicyorchestrator
   url: hexapolicyorchestrator
   db: hexapolicyorchestrator
@@ -3881,6 +3901,7 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+  archived: true
 - proj: devspace
   url: devspace
   db: devspace
