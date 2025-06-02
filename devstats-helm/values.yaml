@@ -5662,3 +5662,63 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+- proj: cadence
+  url: cadence
+  db: cadence
+  icon: cadence
+  org: Cadence
+  repo: cadence-workflow/cadence
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 37 5 13 * *
+  affCronProd: 30 5 27 * *
+  affSkipTemp: "1"
+  disk: 5Gi
+  domains: [1, 1, 0, 0]
+  ga: ""
+  i: 259
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: kagent
+  url: kagent
+  db: kagent
+  icon: kagent
+  org: kagent
+  repo: kagent-dev/kagent
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 37 5 13 * *
+  affCronProd: 30 5 27 * *
+  affSkipTemp: "1"
+  disk: 5Gi
+  domains: [1, 1, 0, 0]
+  ga: ""
+  i: 260
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: urunc
+  url: urunc
+  db: urunc
+  icon: urunc
+  org: urunc
+  repo: urunc-dev/urunc
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 37 5 13 * *
+  affCronProd: 30 5 27 * *
+  affSkipTemp: "1"
+  disk: 5Gi
+  domains: [1, 1, 0, 0]
+  ga: ""
+  i: 261
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
