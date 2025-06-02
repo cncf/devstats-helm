@@ -4267,7 +4267,7 @@ projects:
   db: headlamp
   icon: headlamp
   org: Headlamp
-  repo: headlamp-k8s/headlamp
+  repo: kubernetes-sigs/headlamp
   cronTest: 22 1,7,13,19 * * *
   cronProd: 18 4,10,16,22 * * *
   affCronTest: 20 9 6 * *
