@@ -5722,3 +5722,43 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+- proj: xregistry
+  url: xregistry
+  db: xregistry
+  icon: xregistry
+  org: xRegistry
+  repo: xregistry/server
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 37 5 13 * *
+  affCronProd: 32 5 27 * *
+  affSkipTemp: "1"
+  disk: 5Gi
+  domains: [1, 1, 0, 0]
+  ga: ""
+  i: 262
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: modelpack
+  url: modelpack
+  db: modelpack
+  icon: modelpack
+  org: ModelPack
+  repo: CloudNativeAI/model-spec
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 37 5 13 * *
+  affCronProd: 32 5 27 * *
+  affSkipTemp: "1"
+  disk: 5Gi
+  domains: [1, 1, 0, 0]
+  ga: ""
+  i: 263
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
