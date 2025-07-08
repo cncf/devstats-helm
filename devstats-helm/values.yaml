@@ -289,7 +289,7 @@ limitsReportsCPU: '1000m'
 limitsReportsMemory: '8Gi'
 limitsStaticsCPU: '1000m'
 limitsStaticsMemory: '2Gi'
-limitsVacuumCPU: '300m'
+limitsVacuumCPU: '200m'
 limitsVacuumMemory: '1Gi'
 metricsYAML: ''
 maxRunDuration: ''
@@ -350,6 +350,13 @@ postgresDefaultStatisticsTarget: 1000
 postgresCacheSize: '128GB'
 postgresIOConcurrency: 8
 postgresRandomPageCost: 1.1
+postgresAutovacuumMaxWorkers: 1
+postgresAutovacuumNaptime: '120s'
+postgresAutovacuumVacuumCostLimit: 100
+postgresAutovacuumVacuumThreshold: 150
+postgresAutovacuumVacuumScaleFactor: '0.25'
+postgresAutovacuumAnalyzeThreshold: 100
+postgresAutovacuumAnalyzeScaleFactor: '0.2'
 prodServer: ''
 pvName: devstats-pvc
 reinitDropDB: ''
