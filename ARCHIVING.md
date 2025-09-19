@@ -4,7 +4,6 @@
 
 - Update status to `Archived` in `devstats-helm/projects.yaml`. Remove its orgs/repos from `All CNCF`.
 - Add `archived_date`.
-- Refer to [this](https://docs.google.com/spreadsheets/d/10-rSBsSMQZD6nCLBkyKfeU4kdffB4bOSV0NnZqF5bBk/edit#gid=1632287387) and/or issues on [cncf/toc](https://github.com/cncf/toc) repo.
 
 
 2. Go to `cncf/devstats`:
@@ -45,6 +44,5 @@ While on the `devstats-prod` namespace: `git pull`, then:
 
 - Update `reports/cncf_projects_config.csv`.
 - Update `BigQuery/velocity_lf.sql BigQuery/velocity_cncf.sql`.
-
 
 
