@@ -2989,7 +2989,7 @@ projects:
   affCronProd: 58 4 13 * *
   affSkipTemp: "1"
   disk: 3Gi
-  domains: [1, 1, 0, 0]
+  domains: [0, 1, 0, 0]
   ga: ""
   i: 125
   certNum: 2
