@@ -4,6 +4,7 @@
 
 - Update status to `Archived` in `devstats-helm/projects.yaml`. Remove its orgs/repos from `All CNCF`.
 - Add `archived_date`.
+- Refer to issues/PRs on [cncf/toc](https://github.com/cncf/toc) repo.
 
 
 2. Go to `cncf/devstats`:
