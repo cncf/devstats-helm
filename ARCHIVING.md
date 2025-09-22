@@ -39,6 +39,7 @@ While on the `devstats-prod` namespace: `git pull`, then:
 - Delete service: `k delete service devstats-service-proj`.
 - Delete projects database: `k exec -itn devstats-prod devstats-postgres-3 -- psql`, `drop database proj`.
 - Delete PVC: `k delete pvc devstats-pvc-proj`.
+- Or delete all of the above via a single command: `` VE=1 OP=delete NS=devstats-prod MN=0 ../devstats-k8s-lf/util/delete_project.sh proj ``.
 
 
 5. Go to `cncf/velocity` (optional, we usually keep archived projects configuration):
