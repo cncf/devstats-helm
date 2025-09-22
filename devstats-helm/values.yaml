@@ -1903,7 +1903,7 @@ projects:
   affCronProd: 42 19 7 * *
   affSkipTemp: "1"
   disk: 3Gi
-  domains: [1, 1, 0, 0]
+  domains: [1, 0, 0, 0]
   ga: ""
   i: 71
   certNum: 1
@@ -1964,7 +1964,7 @@ projects:
   affCronProd: 1 3 8 * *
   affSkipTemp: "1"
   disk: 3Gi
-  domains: [1, 1, 0, 0]
+  domains: [1, 0, 0, 0]
   ga: ""
   i: 74
   certNum: 1
@@ -1985,7 +1985,7 @@ projects:
   affCronProd: 27 5 8 * *
   affSkipTemp: "1"
   disk: 3Gi
-  domains: [1, 1, 0, 0]
+  domains: [1, 0, 0, 0]
   ga: ""
   i: 75
   certNum: 1
@@ -2384,7 +2384,7 @@ projects:
   affCronProd: 14 6 10 * *
   affSkipTemp: "1"
   disk: 3Gi
-  domains: [1, 1, 0, 0]
+  domains: [1, 0, 0, 0]
   ga: ""
   i: 95
   certNum: 1
@@ -2626,7 +2626,7 @@ projects:
   affCronProd: 4 9 11 * *
   affSkipTemp: "1"
   disk: 3Gi
-  domains: [1, 1, 0, 0]
+  domains: [1, 0, 0, 0]
   ga: ""
   i: 107
   certNum: 2
@@ -2687,7 +2687,7 @@ projects:
   affCronProd: 23 16 11 * *
   affSkipTemp: "1"
   disk: 3Gi
-  domains: [1, 1, 0, 0]
+  domains: [1, 0, 0, 0]
   ga: ""
   i: 110
   certNum: 2
@@ -2728,7 +2728,7 @@ projects:
   affCronProd: 16 21 11 * *
   affSkipTemp: "1"
   disk: 3Gi
-  domains: [1, 1, 0, 0]
+  domains: [1, 0, 0, 0]
   ga: ""
   i: 112
   certNum: 2
@@ -2989,7 +2989,7 @@ projects:
   affCronProd: 58 4 13 * *
   affSkipTemp: "1"
   disk: 3Gi
-  domains: [0, 1, 0, 0]
+  domains: [1, 0, 0, 0]
   ga: ""
   i: 125
   certNum: 2
@@ -3049,7 +3049,7 @@ projects:
   affCronProd: 17 12 13 * *
   affSkipTemp: "1"
   disk: 3Gi
-  domains: [0, 1, 0, 0]
+  domains: [1, 0, 0, 0]
   ga: ""
   i: 128
   certNum: 2
@@ -3070,7 +3070,7 @@ projects:
   affCronProd: 43 14 13 * *
   affSkipTemp: "1"
   disk: 3Gi
-  domains: [1, 1, 0, 0]
+  domains: [1, 0, 0, 0]
   ga: ""
   i: 129
   certNum: 2
@@ -3091,7 +3091,7 @@ projects:
   affCronProd: 10 17 13 * *
   affSkipTemp: "1"
   disk: 3Gi
-  domains: [1, 1, 0, 0]
+  domains: [1, 0, 0, 0]
   ga: ""
   i: 130
   certNum: 2
@@ -3232,7 +3232,7 @@ projects:
   affCronProd: 14 10 14 * *
   affSkipTemp: "1"
   disk: 3Gi
-  domains: [0, 1, 0, 0]
+  domains: [1, 0, 0, 0]
   ga: ""
   i: 137
   certNum: 2
@@ -3293,7 +3293,7 @@ projects:
   affCronProd: 33 17 14 * *
   affSkipTemp: "1"
   disk: 3Gi
-  domains: [1, 1, 0, 0]
+  domains: [1, 0, 0, 0]
   ga: ""
   i: 140
   certNum: 2
@@ -3354,7 +3354,7 @@ projects:
   affCronProd: 52 0 15 * *
   affSkipTemp: "1"
   disk: 3Gi
-  domains: [0, 1, 0, 0]
+  domains: [1, 0, 0, 0]
   ga: ""
   i: 143
   certNum: 2
@@ -3455,7 +3455,7 @@ projects:
   affCronProd: 4 13 15 * *
   affSkipTemp: "1"
   disk: 3Gi
-  domains: [1, 1, 0, 0]
+  domains: [1, 0, 0, 0]
   ga: ""
   i: 148
   certNum: 2
@@ -3516,7 +3516,7 @@ projects:
   affCronProd: 23 20 15 * *
   affSkipTemp: "1"
   disk: 3Gi
-  domains: [1, 1, 0, 0]
+  domains: [1, 0, 0, 0]
   ga: ""
   i: 151
   certNum: 2
@@ -3537,7 +3537,7 @@ projects:
   affCronProd: 49 22 15 * *
   affSkipTemp: "1"
   disk: 3Gi
-  domains: [1, 1, 0, 0]
+  domains: [1, 0, 0, 0]
   ga: ""
   i: 152
   certNum: 2
@@ -3618,7 +3618,7 @@ projects:
   affCronProd: 35 8 16 * *
   affSkipTemp: "1"
   disk: 3Gi
-  domains: [0, 1, 0, 0]
+  domains: [1, 0, 0, 0]
   ga: ""
   i: 156
   certNum: 2
@@ -3679,7 +3679,7 @@ projects:
   affCronProd: 54 15 16 * *
   affSkipTemp: "1"
   disk: 3Gi
-  domains: [1, 1, 0, 0]
+  domains: [1, 0, 0, 0]
   ga: ""
   i: 159
   certNum: 2
@@ -3900,7 +3900,7 @@ projects:
   affCronProd: 43 18 17 * *
   affSkipTemp: "1"
   disk: 3Gi
-  domains: [1, 1, 0, 0]
+  domains: [1, 0, 0, 0]
   ga: ""
   i: 170
   certNum: 2
@@ -4381,7 +4381,7 @@ projects:
   affCronProd: 16 5 20 * *
   affSkipTemp: "1"
   disk: 3Gi
-  domains: [1, 1, 0, 0]
+  domains: [1, 0, 0, 0]
   ga: ""
   i: 194
   certNum: 2

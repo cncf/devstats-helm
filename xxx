@@ -1,0 +1,141 @@
+gha=# \d sgh_stats_r
+                                               Table "public.sgh_stats_r"
+                         Column                         |            Type             | Collation | Nullable | Default  
+--------------------------------------------------------+-----------------------------+-----------+----------+----------
+ time                                                   | timestamp without time zone |           | not null | 
+ series                                                 | text                        |           | not null | 
+ period                                                 | text                        |           | not null | ''::text
+ kubernetes/sig-release                                 | double precision            |           | not null | 0.0
+ kubernetes-sigs/kubespray                              | double precision            |           | not null | 0.0
+ kubernetes-sigs/cluster-api-provider-aws               | double precision            |           | not null | 0.0
+ kubernetes/minikube                                    | double precision            |           | not null | 0.0
+ kubernetes/test-infra                                  | double precision            |           | not null | 0.0
+ kubernetes/enhancements                                | double precision            |           | not null | 0.0
+ kubernetes/kubeadm                                     | double precision            |           | not null | 0.0
+ kubernetes/autoscaler                                  | double precision            |           | not null | 0.0
+ kubernetes/kube-state-metrics                          | double precision            |           | not null | 0.0
+ kubernetes-client/csharp                               | double precision            |           | not null | 0.0
+ kubernetes/cloud-provider-aws                          | double precision            |           | not null | 0.0
+ kubernetes-csi/csi-test                                | double precision            |           | not null | 0.0
+ kubernetes/dns                                         | double precision            |           | not null | 0.0
+ kubernetes-retired/heapster                            | double precision            |           | not null | 0.0
+ kubernetes/perf-tests                                  | double precision            |           | not null | 0.0
+ kubernetes/kops                                        | double precision            |           | not null | 0.0
+ kubernetes-sigs/cluster-api-provider-openstack         | double precision            |           | not null | 0.0
+ kubernetes/git-sync                                    | double precision            |           | not null | 0.0
+ kubernetes/kubectl                                     | double precision            |           | not null | 0.0
+ kubernetes/cloud-provider-openstack                    | double precision            |           | not null | 0.0
+ kubernetes-client/java                                 | double precision            |           | not null | 0.0
+ kubernetes-sigs/azuredisk-csi-driver                   | double precision            |           | not null | 0.0
+ kubernetes-client/python                               | double precision            |           | not null | 0.0
+ kubernetes-sigs/aws-iam-authenticator                  | double precision            |           | not null | 0.0
+ kubernetes-sigs/aws-ebs-csi-driver                     | double precision            |           | not null | 0.0
+ kubernetes/utils                                       | double precision            |           | not null | 0.0
+ kubernetes-sigs/cluster-api-provider-ibmcloud          | double precision            |           | not null | 0.0
+ kubernetes/examples                                    | double precision            |           | not null | 0.0
+ kubernetes-retired/contrib                             | double precision            |           | not null | 0.0
+ kubernetes-sigs/kustomize                              | double precision            |           | not null | 0.0
+ kubernetes/website                                     | double precision            |           | not null | 0.0
+ kubernetes-sigs/cluster-api-provider-gcp               | double precision            |           | not null | 0.0
+ kubernetes-csi/external-snapshotter                    | double precision            |           | not null | 0.0
+ kubernetes-sigs/cri-tools                              | double precision            |           | not null | 0.0
+ kubernetes/dashboard                                   | double precision            |           | not null | 0.0
+ kubernetes/ingress-nginx                               | double precision            |           | not null | 0.0
+ kubernetes/node-problem-detector                       | double precision            |           | not null | 0.0
+ kubernetes/ingress-gce                                 | double precision            |           | not null | 0.0
+ kubernetes-sigs/kind                                   | double precision            |           | not null | 0.0
+ kubernetes-client/javascript                           | double precision            |           | not null | 0.0
+ kubernetes-sigs/kubebuilder                            | double precision            |           | not null | 0.0
+ kubernetes-sigs/cluster-api-provider-vsphere           | double precision            |           | not null | 0.0
+ kubernetes/community                                   | double precision            |           | not null | 0.0
+ kubernetes-sigs/cluster-api                            | double precision            |           | not null | 0.0
+ kubernetes-sigs/cluster-api-provider-azure             | double precision            |           | not null | 0.0
+ kubernetes-sigs/cri-o                                  | double precision            |           | not null | 0.0
+ kubernetes/kubernetes                                  | double precision            |           | not null | 0.0
+ kubernetes-sigs/gcp-compute-persistent-disk-csi-driver | double precision            |           | not null | 0.0
+ kubernetes-csi/external-provisioner                    | double precision            |           | not null | 0.0
+ kubernetes/org                                         | double precision            |           | not null | 0.0
+ kubernetes/publishing-bot                              | double precision            |           | not null | 0.0
+ kubernetes-sigs/krew-index                             | double precision            |           | not null | 0.0
+ kubernetes/cloud-provider-vsphere                      | double precision            |           | not null | 0.0
+ kubernetes-sigs/controller-runtime                     | double precision            |           | not null | 0.0
+ kubernetes-sigs/contributor-playground                 | double precision            |           | not null | 0.0
+ kubernetes-sigs/sig-storage-local-static-provisioner   | double precision            |           | not null | 0.0
+ kubernetes/k8s.io                                      | double precision            |           | not null | 0.0
+ kubernetes-sigs/kubebuilder-declarative-pattern        | double precision            |           | not null | 0.0
+ kubernetes-csi/docs                                    | double precision            |           | not null | 0.0
+ kubernetes/cloud-provider-gcp                          | double precision            |           | not null | 0.0
+ kubernetes/release                                     | double precision            |           | not null | 0.0
+ kubernetes-sigs/controller-tools                       | double precision            |           | not null | 0.0
+ kubernetes-sigs/krew                                   | double precision            |           | not null | 0.0
+ kubernetes-csi/csi-driver-host-path                    | double precision            |           | not null | 0.0
+ kubernetes/klog                                        | double precision            |           | not null | 0.0
+ kubernetes-csi/external-attacher                       | double precision            |           | not null | 0.0
+ kubernetes/kompose                                     | double precision            |           | not null | 0.0
+ kubernetes-sigs/node-feature-discovery                 | double precision            |           | not null | 0.0
+ kubernetes-sigs/azurefile-csi-driver                   | double precision            |           | not null | 0.0
+ kubernetes-csi/external-resizer                        | double precision            |           | not null | 0.0
+ kubernetes-csi/csi-driver-nfs                          | double precision            |           | not null | 0.0
+ kubernetes/kube-openapi                                | double precision            |           | not null | 0.0
+ kubernetes-sigs/aws-efs-csi-driver                     | double precision            |           | not null | 0.0
+ kubernetes-sigs/vsphere-csi-driver                     | double precision            |           | not null | 0.0
+ kubernetes-sigs/windows-testing                        | double precision            |           | not null | 0.0
+ kubernetes-sigs/gcp-filestore-csi-driver               | double precision            |           | not null | 0.0
+ kubernetes-sigs/apiserver-network-proxy                | double precision            |           | not null | 0.0
+ kubernetes-sigs/release-notes                          | double precision            |           | not null | 0.0
+ kubernetes-csi/node-driver-registrar                   | double precision            |           | not null | 0.0
+ kubernetes-sigs/cluster-api-provider-digitalocean      | double precision            |           | not null | 0.0
+ kubernetes/charts                                      | double precision            |           | not null | 0.0
+ kubernetes-sigs/cli-utils                              | double precision            |           | not null | 0.0
+ kubernetes-sigs/image-builder                          | double precision            |           | not null | 0.0
+ kubernetes-csi/csi-proxy                               | double precision            |           | not null | 0.0
+ kubernetes-sigs/apiserver-builder-alpha                | double precision            |           | not null | 0.0
+ kubernetes-sigs/alibaba-cloud-csi-driver               | double precision            |           | not null | 0.0
+ kubernetes-sigs/descheduler                            | double precision            |           | not null | 0.0
+ kubernetes-sigs/external-dns                           | double precision            |           | not null | 0.0
+ kubernetes-sigs/cloud-provider-azure                   | double precision            |           | not null | 0.0
+ kubernetes-sigs/metrics-server                         | double precision            |           | not null | 0.0
+ kubernetes-sigs/scheduler-plugins                      | double precision            |           | not null | 0.0
+ kubernetes-sigs/secrets-store-csi-driver               | double precision            |           | not null | 0.0
+ kubernetes-sigs/nfs-subdir-external-provisioner        | double precision            |           | not null | 0.0
+ kubernetes-csi/csi-driver-smb                          | double precision            |           | not null | 0.0
+ kubernetes-sigs/cluster-api-provider-packet            | double precision            |           | not null | 0.0
+ kubernetes-retired/external-storage                    | double precision            |           | not null | 0.0
+ kubernetes-sigs/blob-csi-driver                        | double precision            |           | not null | 0.0
+ kubernetes-sigs/zeitgeist                              | double precision            |           | not null | 0.0
+ kubernetes-sigs/security-profiles-operator             | double precision            |           | not null | 0.0
+ kubernetes-retired/kube-aws                            | double precision            |           | not null | 0.0
+ kubernetes-sigs/e2e-framework                          | double precision            |           | not null | 0.0
+ kubernetes-sigs/aws-load-balancer-controller           | double precision            |           | not null | 0.0
+ kubernetes-sigs/prometheus-adapter                     | double precision            |           | not null | 0.0
+ kubernetes-sigs/gateway-api                            | double precision            |           | not null | 0.0
+ kubernetes/contributor-site                            | double precision            |           | not null | 0.0
+ kubernetes-sigs/kube-scheduler-simulator               | double precision            |           | not null | 0.0
+ kubernetes-retired/bootkube                            | double precision            |           | not null | 0.0
+ kubernetes-sigs/promo-tools                            | double precision            |           | not null | 0.0
+ kubernetes-sigs/bom                                    | double precision            |           | not null | 0.0
+ kubernetes-sigs/cluster-api-operator                   | double precision            |           | not null | 0.0
+ kubernetes-sigs/ibm-powervs-block-csi-driver           | double precision            |           | not null | 0.0
+ kubernetes-sigs/kueue                                  | double precision            |           | not null | 0.0
+ kubernetes-retired/service-catalog                     | double precision            |           | not null | 0.0
+ kubernetes-sigs/kwok                                   | double precision            |           | not null | 0.0
+ kubernetes-sigs/kernel-module-management               | double precision            |           | not null | 0.0
+ kubernetes-sigs/jobset                                 | double precision            |           | not null | 0.0
+ kubernetes-retired/kubefed                             | double precision            |           | not null | 0.0
+ kubernetes-retired/kube-batch                          | double precision            |           | not null | 0.0
+ kubernetes-retired/multi-tenancy                       | double precision            |           | not null | 0.0
+ kubernetes-sigs/karpenter                              | double precision            |           | not null | 0.0
+ kubernetes-sigs/lws                                    | double precision            |           | not null | 0.0
+ kubernetes-retired/etcdadm                             | double precision            |           | not null | 0.0
+ kubernetes-retired/kpng                                | double precision            |           | not null | 0.0
+ kubernetes-sigs/gateway-api-inference-extension        | double precision            |           | not null | 0.0
+ kubernetes-retired/hierarchical-namespaces             | double precision            |           | not null | 0.0
+ kubernetes-sigs/structured-merge-diff                  | double precision            |           | not null | 0.0
+Indexes:
+    "sgh_stats_r_tmp_pkey" PRIMARY KEY, btree ("time", series, period)
+    "sgh_stats_r_tmp_period_idx" btree (period)
+    "sgh_stats_r_tmp_series_idx" btree (series)
+    "sgh_stats_r_tmp_time_idx" btree ("time")
+
+gha=# 
+
