@@ -89,9 +89,9 @@
 
 
 Projects that should be skipped on prod cluster: `azf cncf fn linux opencontainers openfaas openwhisk riff rkt sam zephyr opentracing`, `azf\|cncf\|fn\|linux\|opencontainers\|openfaas\|openwhisk\|riff\|rkt\|sam\|zephyr\|cii\|prestodb\|godotengine\|opentracing`.
-Prod provision ranges: [0, 8), [9, 49), [55, 59), [65, 97), [98, 182), [182, 187), [187, 263]
+Prod provision ranges: [0, 8), [9, 49), [55, 59), [65, 97), [98, 182), [182, 187), [187, 264]
 Test-only projects: 8, 49, 50, 52, 53, 54, 59, 60, 61, 62, 63, 64, 67, 68, 97, 153, 154, 155, 156, 157, 158, 159
-Prod-only projects: [153, 263]
+Prod-only projects: [153, 264]
 Archived: [2, 8, 33, 71, 95, 107, 110, 112, 129, 130]
 Merged: [23]
 CDF projects [39, 44), [182, 187)
