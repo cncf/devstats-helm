@@ -263,3 +263,9 @@ while attempting to create a PVC, then:
 - Attach to it via gdb: `gdb -p pid gha2db.g`.
 - Set the env variable: `call (int) setenv("GHA2DB_NCPUS", "6", 1)`.
 - Detach & exit: `detach`, `quit`.
+
+
+# Columns provisioning for Kubernetes
+
+- Kubernetes project has a separate cronjob `devstats-columns-kubernetes`, this can be suspended during kubernetes project reinit if needed via `k edit cj devstats-columns-kubernetes` and changing `active: true` to `active: false`.
+
