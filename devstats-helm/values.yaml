@@ -186,6 +186,7 @@ backupsNodeSelector:
 dbNodeSelector:
   node2: devstats-db
 deleteAnnotations: ''
+allowMetricFail: ''
 backupsBackoffLimit: 10
 backupsCronTest: '45 3 30 * *'
 backupsCronProd: '45 3 29 * *'

@@ -60,6 +60,8 @@ spec:
       value: '{{ .Values.bootstrapNoCreate }}'
     - name: GHA2DB_NCPUS
       value: '{{ .Values.nCPUs }}'
+    - name: GHA2DB_ALLOW_METRIC_FAIL
+      value: '{{ .Values.allowMetricFail }}'
     - name: GHA2DB_GHAPISKIP
       value: '{{ .Values.ghaAPISkip }}'
     - name: GHA2DB_RECALC_RECIPROCAL

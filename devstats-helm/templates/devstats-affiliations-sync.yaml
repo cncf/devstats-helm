@@ -95,6 +95,8 @@ spec:
               value: '{{ or .maxRunDuration $root.Values.maxRunDuration }}'
             - name: GHA2DB_NCPUS
               value: '{{ $root.Values.nAffsCPUs }}'
+            - name: GHA2DB_ALLOW_METRIC_FAIL
+              value: '{{ $root.Values.allowMetricFail }}'
             - name: GHA2DB_RECALC_RECIPROCAL
               value: '{{ $root.Values.recalcReciprocal }}'
             - name: GHA2DB_DEBUG
