@@ -5810,3 +5810,83 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+- proj: oxia
+  url: oxia
+  db: oxia
+  icon: oxia
+  org: Oxia
+  repo: oxia-db/osia
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 37 5 13 * *
+  affCronProd: 20 5 27 * *
+  affSkipTemp: "1"
+  disk: 5Gi
+  domains: [1, 1, 0, 0]
+  ga: ""
+  i: 266
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: holmesgpt
+  url: holmesgpt
+  db: holmesgpt
+  icon: holmesgpt
+  org: HolmesGPT
+  repo: robusta-dev/holmesgpt
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 37 5 13 * *
+  affCronProd: 20 5 27 * *
+  affSkipTemp: "1"
+  disk: 5Gi
+  domains: [1, 1, 0, 0]
+  ga: ""
+  i: 267
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: cedarpolicy
+  url: cedarpolicy
+  db: cedarpolicy
+  icon: cedarpolicy
+  org: "Cedar Policy"
+  repo: cedar-policy/cedar
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 37 5 13 * *
+  affCronProd: 20 5 27 * *
+  affSkipTemp: "1"
+  disk: 5Gi
+  domains: [1, 1, 0, 0]
+  ga: ""
+  i: 268
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: dalec
+  url: dalec
+  db: dalec
+  icon: dalec
+  org: Dalec
+  repo: Azure/dalec
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 37 5 13 * *
+  affCronProd: 20 5 27 * *
+  affSkipTemp: "1"
+  disk: 5Gi
+  domains: [1, 1, 0, 0]
+  ga: ""
+  i: 269
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
