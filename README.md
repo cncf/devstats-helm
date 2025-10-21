@@ -123,7 +123,12 @@ kubectl -n calico-system rollout status ds/calico-node
 ```
 kubectl run dns-test --image=busybox:latest -it --rm --restart=Never -- nslookup kubernetes.default.svc.cluster.local
 ```
-
+- Update some K8s defaults:
+````
+sudo vim /var/lib/kubelet/config.yaml
+maxPods: 1024
+sudo systemctl restart kubelet
+```
 - Edit `/etc/hosts` add:
 ```
 X.Y.Z.A1 devstats-master
