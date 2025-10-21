@@ -1,136 +1,192 @@
 ﻿# devstats-helm
 
-DevStats deployment on Oracle Cloud Ubuntu 24.04 LTS bare metal Kubernetes using Helm.
+DevStats deployment on Equinix Ubuntu 20.04 LTS bare metal Kubernetes using Helm.
 
 This is deployed:
+- [CNCF test](https://teststats.cncf.io) (this also includes CDF, GraphQL test instance, for example [GraphQL All](https://graphql.teststats.cncf.io) and [CDF All](https://allcdf.teststats.cncf.io)).
 - [CNCF prod](https://devstats.cncf.io).
+- [CDF prod](https://devstats.cd.foundation).
+- [GraphQL prod](https://devstats.graphql.org).
 
 
-# NVMe RAID-10 arrays
+# Equinix NVMe disks
 - See `NVME.md`.
 
 
 # Installing Kubernetes on bare metal
 
-- Setup 4 BM.DenseIO.E4.128 servers, give them hostnames: devstats-master, devstats-node-0, devstats-node-1, devstats-node-2.
-- Choose Ubuntu 24.04 LTS for them, then update apt `apt update`, `apt upgrade`.
-- Enable root login `vim /etc/ssh/sshd_config` add line `PermitRootLogin yes`, change `PasswordAuthentication no` to `PasswordAuthentication yes` then `sudo systemctl restart ssh`.
-- Install required packages:
+- Setup 4 metal.equinix.com servers, give them hostnames: master, node-0, node-1, node-2.
+- Install Ubuntu 20.04 LTS on all of them, then update apt `apt update`, `apt upgrade`.
+- Enable root login `vim /etc/ssh/sshd_config` add line `PermitRootLogin yes`, change `PasswordAuthentication no` to `PasswordAuthentication yes` then `sudo service sshd restart`.
+- Turn swap off on all of them `swapoff -a`.
+- Load required kernel modeles: `modprobe br_netfilter`
+  - Run:
 ```
-sudo apt update && sudo apt upgrade -y
-sudo apt install -y apt-transport-https ca-certificates curl gnupg nfs-common net-tools
+cat <<EOF | tee /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+EOF
 ```
-- Load required kernel modeles:
+- `sysctl --system`.
+  - Install containerd (this is now a recommended Kubernetes CRI instead of docker).
+  - Run:
 ```
-cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
+cat <<EOF | sudo tee /etc/modules-load.d/containerd.conf
 overlay
 br_netfilter
 EOF
-
-sudo modprobe overlay
-sudo modprobe br_netfilter
-
-cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+```
+  - `sudo modprobe overlay; sudo modprobe br_netfilter`.
+  - Run:
+```
+cat <<EOF | sudo tee /etc/sysctl.d/99-kubernetes-cri.conf
 net.bridge.bridge-nf-call-iptables  = 1
-net.bridge.bridge-nf-call-ip6tables = 1
 net.ipv4.ip_forward                 = 1
+net.bridge.bridge-nf-call-ip6tables = 1
 EOF
-
-sudo sysctl --system
 ```
-- Install containerd:
+  - `sudo sysctl --system`.
+  - `sudo apt-get update && sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common`.
+  - `curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key --keyring /etc/apt/trusted.gpg.d/docker.gpg add -`.
+  - `sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"`.
+  - `sudo apt-get update && sudo apt-get install -y containerd.io`.
+  - `sudo mkdir -p /etc/containerd`.
+  - `sudo containerd config default | sudo tee /etc/containerd/config.toml`.
+  - `sudo systemctl restart containerd`.
+  - `sudo systemctl enable containerd`.
+  - Set cgroup driver to systemd.
+  - `vim /etc/containerd/config.toml`, search: `/plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options`.
+  - Add: `SystemdCgroup = true`, so it looks like:
 ```
-sudo apt install -y containerd
-sudo mkdir -p /etc/containerd
-sudo containerd config default | sudo tee /etc/containerd/config.toml > /dev/null
-sudo sed -i 's/SystemdCgroup = false/SystemdCgroup = true/' /etc/containerd/config.toml
-sudo systemctl restart containerd
-sudo systemctl enable containerd
-sudo systemctl status containerd
+          base_runtime_spec = ""
+          [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
+            SystemdCgroup = true
+    [plugins."io.containerd.grpc.v1.cri".cni]
 ```
-- Install kubernetes:
+  - `service containerd restart`.
+  - Install kubectl [reference](https://kubernetes.io/docs/tasks/tools/install-kubectl/).
+  - `curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"`.
+  - `chmod +x ./kubectl; mv ./kubectl /usr/local/bin/kubectl; kubectl version --client; kubectl completion bash`.
+  - `vim ~/.bashrc`, uncomment `. /etc/bash_completion` part, relogin, `echo 'source <(kubectl completion bash)' >>~/.bashrc`, `kubectl completion bash >/etc/bash_completion.d/kubectl`.
+  - `echo 'alias k=kubectl' >>~/.bashrc; echo 'complete -F __start_kubectl k' >>~/.bashrc`.
+  - Install kubeadm [reference](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#installing-kubeadm-kubelet-and-kubectl) (we will use calico network plugin, no additional setup is needed).
+  - `curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -`.
+  - Run:
 ```
-sudo mkdir -p /etc/apt/keyrings
-curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.34/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
-
-echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.34/deb/ /' \
-  | sudo tee /etc/apt/sources.list.d/kubernetes.list
-sudo apt update
-sudo apt install -y kubelet kubeadm kubectl
-sudo apt-mark hold kubelet kubeadm kubectl
-```
-- Verify versions:
-```
-kubeadm version
-kubectl version --client
-```
-- Disable eventual swap:
-```
-sudo swapoff -a
-sudo sed -i '/ swap / s/^/#/' /etc/fstab
-```
-- Run kubeadm:
-```
-API_IP="$(ip route get 1.1.1.1 | awk '{for(i=1;i<=NF;i++) if($i=="src") {print $(i+1); exit}}')"
-sudo kubeadm init --pod-network-cidr=192.168.0.0/16 --apiserver-advertise-address="$API_IP"
-```
-- Save output to `~/kubeadm.secret`.
-- Configure kubectl:
-```
-mkdir -p $HOME/.kube
-sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-sudo chown $(id -u):$(id -g) $HOME/.kube/config
-```
-- Install CNI (for example Calico):
-```
-kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.30.4/manifests/operator-crds.yaml
-kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.30.4/manifests/tigera-operator.yaml
-curl -O https://raw.githubusercontent.com/projectcalico/calico/v3.30.4/manifests/custom-resources.yaml
-# If your kubeadm --pod-network-cidr was NOT 192.168.0.0/16, edit the ippools.cidr here to match.
-kubectl apply -f custom-resources.yaml
-watch kubectl get pods -n calico-system
-```
-- Wait until master node is up and enable on boot:
-```
-kubectl get pods -A
-kubectl get nodes
-sudo systemctl enable kubelet
-sudo systemctl enable containerd
-kubectl taint nodes --all node-role.kubernetes.io/control-plane-
-```
-- Fix network/firewall rules:
-```
-sudo tee /etc/sysctl.d/99-k8s.conf >/dev/null <<'EOF'
-net.ipv4.ip_forward=1
-net.ipv4.conf.all.rp_filter=0
-net.ipv4.conf.default.rp_filter=0
-net.bridge.bridge-nf-call-iptables=1
-net.bridge.bridge-nf-call-ip6tables=1
+cat <<EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
+deb https://apt.kubernetes.io/ kubernetes-xenial main
 EOF
-
-sudo modprobe br_netfilter || true
-sudo sysctl --system
-sudo iptables -D FORWARD -j REJECT 2>/dev/null || true
-sudo iptables -P FORWARD ACCEPT
-sudo iptables -C FORWARD -j ACCEPT 2>/dev/null || sudo iptables -I FORWARD -j ACCEPT
-
-kubectl -n kube-system rollout restart ds/kube-proxy
-kubectl -n calico-system rollout restart ds/calico-node
-kubectl -n calico-system rollout status ds/calico-node
-
 ```
-- Test if DNS is working fine:
+  - `apt-get update && apt-get install -y kubelet kubeadm kubectl`.
+  - `apt-mark hold kubelet kubeadm kubectl`
+  - `systemctl daemon-reload; systemctl restart kubelet`.
+  - Configure the cgroup driver for kubeadm using containerd (change advertiseAddress, `featureGates` and `shutdownGracePeriod*` - not tested yet):
 ```
-kubectl run dns-test --image=busybox:latest -it --rm --restart=Never -- nslookup kubernetes.default.svc.cluster.local
+cat <<EOF | sudo tee /etc/kubeadm_cgroup_driver.yml
+apiVersion: kubeadm.k8s.io/v1beta2
+kind: InitConfiguration
+localAPIEndpoint:
+  advertiseAddress: X.Y.Z.A1
+---
+apiVersion: kubeadm.k8s.io/v1beta2
+kind: ClusterConfiguration
+networking:
+  podSubnet: '192.168.0.0/16'
+featureGates:
+  GracefulNodeShutdown: true
+  DynamicKubeletConfig: true
+---
+apiVersion: kubelet.config.k8s.io/v1beta1
+kind: KubeletConfiguration
+cgroupDriver: systemd
+shutdownGracePeriod: 60s
+shutdownGracePeriodCriticalPods: 20s
+EOF
 ```
-
-- Edit `/etc/hosts` add:
+  - `apt install -y nfs-common net-tools`.
+  - Edit `/etc/hosts` add:
 ```
 X.Y.Z.A1 devstats-master
 X.Y.Z.A2 devstats-node-0
 X.Y.Z.A3 devstats-node-1
 X.Y.Z.A4 devstats-node-2
 ```
+  - Initialize the cluster: `kubeadm init --config /etc/kubeadm_cgroup_driver.yml`.
+  - Run on master:
+```
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+```
+  - Save kubeadm join command output to `join.sh` on master and all nodes, something like then `chmod +x join.sh`:
+```
+  #!/bin/bash
+  kubeadm join 10.13.13.0:1234 --token xxxxxx.yyyyyyyyyyyy --discovery-token-ca-cert-hash sha256:0123456789abcdef0
+```
+  - Install networking plugin (calico):
+  - On master: `wget https://docs.projectcalico.org/manifests/calico.yaml; kubectl apply -f calico.yaml`.
+  - Allow scheduling on the master node [reference](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#control-plane-node-isolation):
+  - On master: `kubectl taint nodes --all node-role.kubernetes.io/master-`.
+  - On master: `kubectl get po -A; kubectl get nodes`. Wait for all pods to be in `Running` state.
+  - On all nodes: `./join.sh`.
+  - Copy config from master to all nodes:
+  - `sftp root@devstats-node-N`:
+```
+mkdir .kube
+lcd .kube
+cd .kube
+mput config
+```
+  - `k get node; service kubelet status`.
+
+
+# Feature gates
+
+- You can enable feature gates on a live system via: `k get cm -n kube-system | grep kubeadm`, then `k -n kube-system edit cm kubeadm-config`:
+- Add your `kubeadm` options below the `networking` in `ClusterConfiguration` section, like this:
+```
+    networking:
+      dnsDomain: cluster.local
+      podSubnet: 192.168.0.0/16
+      serviceSubnet: 10.96.0.0/12
+    featureGates:
+      GracefulNodeShutdown: true
+      DynamicKubeletConfig: true
+```
+- You can enable specific kubelet features on a live system via: `k get cm -n kube-system | grep kubelet`, then `k -n kube-system edit cm kubelet-config-1.20`:
+- Add your `kubelet` options below the `cgroup` driver in `KubeletConfiguration`, like this:
+```
+    cgroupDriver: systemd
+    shutdownGracePeriod: 60s
+    shutdownGracePeriodCriticalPods: 20s
+    maxPods: 255
+```
+- Enable feature gates for `kube-apiserver`: `vim /etc/kubernetes/manifests/kube-apiserver.yaml`, add `- --feature-gates=GracefulNodeShutdown=True,DynamicKubeletConfig=True` so it looks like:
+```
+    - --tls-private-key-file=/etc/kubernetes/pki/apiserver.key
+    - --feature-gates=GracefulNodeShutdown=True,DynamicKubeletConfig=True
+    image: k8s.gcr.io/kube-apiserver:v1.20.0
+```
+- Enable feature gates for `kubelet`, run `service kubelet status` - you will see something like `--config=/var/lib/kubelet/config.yaml`:
+- `vim /var/lib/kubelet/config.yaml`, put your options there (master and all nodes):
+```
+shutdownGracePeriod: 60s
+shutdownGracePeriodCriticalPods: 20s
+```
+- `vim /var/lib/kubelet/kubeadm-flags.env` update to something like (master and all nodes) `KUBELET_KUBEADM_ARGS="... --feature-gates=GracefulNodeShutdown=True,DynamicKubeletConfig=True"`.
+- Edit node `k get no; k edit node node-name`, add under `spec` section, so it looks like:
+```
+spec:
+  configSource:
+    configMap:
+      name: kubelet-config-1.20
+      namespace: kube-system
+      kubeletConfigKey: kubelet
+  podCIDR: 192.168.0.0/24
+```
+- `service kubelet restart`.
+- Check if `kubelet` and `kube-apiserver` are using feature gates: `ps aux | grep kube-apiserver | grep feature-gates`, `service kubelet status`.
+
 
 # DevStats labels
 
@@ -154,8 +210,6 @@ X.Y.Z.A4 devstats-node-2
 - You will also need a shared storage for backups (ReadWriteMany access mode - backup pods are writing, static pages are reading).
 - Install NFS provisioner that will use OpenEBS local storage while on `default` namespace: `helm install local-storage-nfs stable/nfs-server-provisioner --set=persistence.enabled=true,persistence.storageClass=openebs-hostpath,persistence.size=8Ti,storageClass.name=nfs-openebs-localstorage`
 
-
-LG:XXX continue
 
 # DevStats namespaces
 
