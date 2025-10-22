@@ -151,6 +151,11 @@ sudo apt remove iptables-persistent
 kubeadm token create --print-join-command
 ```
 - Execute it on the node.
+- Finally add to `~/.bashrc`:
+```
+alias k='kubectl'
+```
+- And copy `~/.kube/config` from master to nodes (and maybe also your local machine) to be able to use `kubectl` from there.
 
 # Nodes
 
