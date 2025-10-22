@@ -117,7 +117,6 @@ sudo iptables -C FORWARD -j ACCEPT 2>/dev/null || sudo iptables -I FORWARD -j AC
 kubectl -n kube-system rollout restart ds/kube-proxy
 kubectl -n calico-system rollout restart ds/calico-node
 kubectl -n calico-system rollout status ds/calico-node
-
 ```
 - Test if DNS is working fine:
 ```
@@ -136,6 +135,18 @@ X.Y.Z.A2 devstats-node-0
 X.Y.Z.A3 devstats-node-1
 X.Y.Z.A4 devstats-node-2
 ```
+
+
+# Nodes
+
+- Repeat commands on each node (NVME.md, everything up to `kubeadm` part).
+- Don't need to install calico on nodes - they are installed via operator on master.
+- See `kubeadm.secret` on master and run join command on nodes, like this:
+```
+sudo kubeadm join 10.0.0.253:xxxx --token [redacted] --discovery-token-ca-cert-hash sha256:[redacted]
+```
+- Go to `Default Security List` and add TCP 6443 to `Ingress Rules` to allow nodes to join the cluster.
+- Also add `UDP 4789 (VXLAN)`.
 
 # DevStats labels
 
