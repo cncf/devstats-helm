@@ -71,30 +71,23 @@ fetch_rt() {
 
 fetch_nsg() {
   local id="$1"
-  [[ -n "${NSG_JSON[$id]+x}" ]] || NSG_JSON[$id]="$(oci network network-security-group get \
-      --network-security-group-id "$id" --query 'data' --raw-output 2>/dev/null | json_or_default '{}')"
+  [[ -n "${NSG_JSON[$id]+x}" ]] || NSG_JSON[$id]="$(
+    # Do NOT pre-filter; some builds wrap in {data:{...}}
+    (oci network nsg get --network-security-group-id "$id" 2>/dev/null \
+     || oci network network-security-group get --network-security-group-id "$id" 2>/dev/null) \
+    | json_or_default '{}' | jq -c '.data // .'
+  )"
   printf '%s' "${NSG_JSON[$id]}"
 }
 
 list_nsg_rules() {
   local id="$1"
   local raw
-  if ! raw="$(oci network network-security-group rules list --network-security-group-id "$id" --query 'data' --raw-output 2>/dev/null)"; then
+  if ! raw="$(oci network nsg rules list --nsg-id "$id" --all 2>/dev/null)"; then
     printf '[]'
     return
   fi
-  printf '%s' "$raw" | json_or_default '[]' | jq '
-    map({
-      direction,
-      protocol,
-      source: (."source" // empty),
-      destination: (."destination" // empty),
-      "icmp-options",
-      "tcp-options",
-      "udp-options",
-      description: (.description // "")
-    })
-  '
+  printf '%s' "$raw" | jq -c '.data // []'
 }
 
 # Optional: DRG & LPG visibility for cross-VCN checks
@@ -241,9 +234,11 @@ printf '%s' "$INSTANCES_JSON" | jq -r '.[].id' | while read -r INSTANCE_ID; do
         NSG="$(fetch_nsg "$NSG_ID")"
         echo "    - NSG: $NSG_ID"
         printf '%s' "$NSG" | jq '{id:.id, "display-name":."display-name"}'
-        echo "      NSG Rules:"
+        echo "      NSG Ingress Rules:"
         NSG_RULES_JSON="$(list_nsg_rules "$NSG_ID")"
-        printf '%s' "$NSG_RULES_JSON" | jq '.'
+        printf '%s' "$NSG_RULES_JSON" | jq '[ .[] | select(.direction=="INGRESS") ]'
+        echo "      NSG Egress Rules:"
+        printf '%s' "$NSG_RULES_JSON" | jq '[ .[] | select(.direction=="EGRESS") ]'
 
         echo "      ⚠ ICMP visibility check (basic):"
         printf '%s' "$NSG_RULES_JSON" | jq '
@@ -269,17 +264,4 @@ printf '%s' "$INSTANCES_JSON" | jq -r '.[].id' | while read -r INSTANCE_ID; do
     list_local_peering_gateways_for_vcn "$VCN_ID" | jq -r '.'
   done
 done
-
-hr
-sec "Hints (Ping/ICMP Basics)"
-cat <<'EOF'
-- PING needs ICMP type 8 (echo-request) inbound on the target, and type 0 (echo-reply) outbound back.
-- In OCI, allow rules can specify ICMP type/code. If type/code are omitted, it's "all ICMP".
-- Common fixes:
-  * Security List OR NSG must allow ICMP from the peer CIDR(s).
-  * If using NSGs, remember NSGs apply to their members in addition to subnet security lists.
-  * Cross-VCN traffic needs peering (LPG or DRG) + correct route tables + security rules.
-  * Instance OS firewalls (iptables/firewalld/ufw) can still block ICMP.
-- PMTU (ICMP type 3 code 4) is useful for path MTU discovery but does NOT replace echo-request/reply for ping.
-EOF
 
