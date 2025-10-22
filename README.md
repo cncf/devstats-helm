@@ -135,7 +135,22 @@ X.Y.Z.A2 devstats-node-0
 X.Y.Z.A3 devstats-node-1
 X.Y.Z.A4 devstats-node-2
 ```
-
+- Possibly:
+```
+sudo iptables -D INPUT -j REJECT --reject-with icmp-host-prohibited || true
+sudo iptables -D FORWARD -j REJECT --reject-with icmp-host-prohibited || true
+sudo iptables -P INPUT ACCEPT
+sudo iptables -P FORWARD ACCEPT
+sudo iptables-save | sudo tee /etc/iptables/rules.v4 >/dev/null
+sudo systemctl disable --now netfilter-persistent
+sudo apt remove iptables-persistent
+# sudo reboot
+```
+- If node was added more than 24 hours after kubeadm join command was generated, then you need a fresh command:
+```
+kubeadm token create --print-join-command
+```
+- Execute it on the node.
 
 # Nodes
 
