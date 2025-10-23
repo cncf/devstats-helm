@@ -152,6 +152,29 @@ CILVER=$(curl -s https://api.github.com/repos/cilium/cilium-cli/releases/latest 
 curl -L --fail -o cilium.tgz https://github.com/cilium/cilium-cli/releases/download/${CILVER}/cilium-linux-amd64.tar.gz
 tar -C /usr/local/bin -xzvf cilium.tgz cilium
 rm cilium.tgz
+apt install -y linux-tools-oracle
 CIL_HELM_VER=$(helm search repo cilium/cilium -o json | jq -r '.[0].version')
-xxx - continue - install cilium/eBPF via helm - xxx
 ```
+
+# On master node
+```
+helm upgrade --install cilium cilium/cilium \
+  --version ${CIL_HELM_VER} \
+  --namespace kube-system \
+  --set kubeProxyReplacement=true \
+  --set routingMode=native \
+  --set autoDirectNodeRoutes=true \
+  --set ipam.mode=kubernetes \
+  --set k8sServiceHost=${MASTER_IP} \
+  --set k8sServicePort=6443 \
+  --set hubble.enabled=true \
+  --set hubble.relay.enabled=true \
+  --set hubble.ui.enabled=true \
+  --set ipv4NativeRoutingCIDR="172.20.0.0/16" \
+  --set ipam.mode=cluster-pool \
+  --set ipam.operator.clusterPoolIPv4PodCIDRList="{172.20.0.0/16}"
+```
+
+# On nodes
+
+- Run kubeadm join command that was generated at the end of master node kubeadm init output.
