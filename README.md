@@ -153,11 +153,11 @@ curl -L --fail -o cilium.tgz https://github.com/cilium/cilium-cli/releases/downl
 tar -C /usr/local/bin -xzvf cilium.tgz cilium
 rm cilium.tgz
 apt install -y linux-tools-oracle
-CIL_HELM_VER=$(helm search repo cilium/cilium -o json | jq -r '.[0].version')
 ```
 
 # On master node
 ```
+CIL_HELM_VER=$(helm search repo cilium/cilium -o json | jq -r '.[0].version')
 helm upgrade --install cilium cilium/cilium \
   --version ${CIL_HELM_VER} \
   --namespace kube-system \
