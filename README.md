@@ -147,6 +147,11 @@ mkdir /root/.kube ~ubuntu/.kube
 vim /root/.kube/config ~ubuntu/.kube/config
 chown -R ubuntu ~ubuntu/.kube/
 curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+helm version
+CILVER=$(curl -s https://api.github.com/repos/cilium/cilium-cli/releases/latest | grep tag_name | cut -d '"' -f4)
+curl -L --fail -o cilium.tgz https://github.com/cilium/cilium-cli/releases/download/${CILVER}/cilium-linux-amd64.tar.gz
+tar -C /usr/local/bin -xzvf cilium.tgz cilium
+rm cilium.tgz
+CIL_HELM_VER=$(helm search repo cilium/cilium -o json | jq -r '.[0].version')
+xxx - continue - install cilium/eBPF via helm - xxx
 ```
-
-
