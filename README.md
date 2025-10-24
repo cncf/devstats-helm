@@ -116,6 +116,7 @@ EOF
 kubeadm init --config kubeadm.yaml --skip-phases=addon/kube-proxy
 alias k=kubectl
 echo 'alias k=kubectl' >> ~/.profile
+echo 'alias k=kubectl' >> ~/.bashrc
 mkdir -p $HOME/.kube
 cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 chown $(id -u):$(id -g) $HOME/.kube/config
@@ -135,6 +136,7 @@ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 alias k=kubectl
 echo 'alias k=kubectl' >> ~/.profile
+echo 'alias k=kubectl' >> ~/.bashrc
 ```
 
 # Steps for Kubernetes worker nodes - as root
@@ -143,6 +145,7 @@ echo 'alias k=kubectl' >> ~/.profile
 ```
 alias k=kubectl
 echo 'alias k=kubectl' >> ~/.profile
+echo 'alias k=kubectl' >> ~/.bashrc
 mkdir /root/.kube ~ubuntu/.kube
 vim /root/.kube/config ~ubuntu/.kube/config
 chown -R ubuntu ~ubuntu/.kube/
@@ -171,6 +174,10 @@ helm upgrade --install cilium cilium/cilium \
   --set hubble.relay.enabled=true \
   --set hubble.ui.enabled=true \
   --set ipv4NativeRoutingCIDR="172.20.0.0/16" \
+  --set envoy.enabled=false \
+  --set l7Proxy=false \
+  --set ingressController.enabled=false \
+  --set gatewayAPI.enabled=false \
   --set ipam.mode=cluster-pool \
   --set ipam.operator.clusterPoolIPv4PodCIDRList="{172.20.0.0/16}"
 ```
