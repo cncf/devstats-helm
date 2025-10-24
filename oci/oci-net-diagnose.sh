@@ -122,6 +122,14 @@ printf '%s' "$INSTANCES_JSON" | jq -r '.[].id' | while read -r INSTANCE_ID; do
   NAME="$(printf '%s' "$INSTANCES_JSON" | jq -r ".[] | select(.id==\"${INSTANCE_ID}\") | .\"display-name\"")"
   hr
   echo "# Instance: ${NAME} (${INSTANCE_ID})"
+  STATE="$(printf '%s' "$INSTANCES_JSON" | jq -r ".[] | select(.id==\"${INSTANCE_ID}\") | .\"lifecycle-state\"")"
+  hr
+  echo "# State: ${STATE} (${INSTANCE_ID})"
+
+  if [[ "$STATE" != "RUNNING" ]]; then
+    echo "Instance is not RUNNING; skipping networking details."
+    continue
+  fi
 
   VNIC_ATT="$(
     oci compute vnic-attachment list \

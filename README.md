@@ -6,8 +6,8 @@ This is deployed:
 - [CNCF prod](https://devstats.cncf.io).
 
 # Shared steps for all nodes (master and workers)
-- In Ocarcle Cloud web interface your 4 nodes must have the following settings in NSG (network security group) and default security group of subnet:
-- Allow all egress to CIDR 0.0.0.0/0.
+- In Ocacle Cloud web interface your 4 nodes must have the following settings in NSG (network security group) and default security group of subnet:
+- Allow all egress to CIDR 0.0.0.0/0 (by all I mean all protocols/all ports).
 - Allow all ingress from CIDR: 10.0.0.0/16.
 - For each node's VNIC do: `oci network vnic update --vnic-id "ocid1.vnic.[...]" --skip-source-dest-check true`.
 - As root: `sudo bash`:
@@ -78,7 +78,9 @@ mv /tmp/containerd.service /etc/systemd/system/containerd.service
 systemctl daemon-reload
 mkdir -p /etc/containerd
 containerd config default | tee /etc/containerd/config.toml >/dev/null
-sed -i 's/SystemdCgroup = false/SystemdCgroup = true/' /etc/containerd/config.toml
+```
+- Now edit `vim /etc/containerd/config.toml` and under `[plugins.'io.containerd.cri.v1.runtime'.containerd.runtimes.runc.options]` add `SystemdCgroup = true`.
+```
 systemctl enable --now containerd
 curl -fsSL -o /tmp/crictl-v1.34.0-linux-amd64.tar.gz https://github.com/kubernetes-sigs/cri-tools/releases/download/v1.34.0/crictl-v1.34.0-linux-amd64.tar.gz
 tar -C /usr/local/bin -xzf /tmp/crictl-v1.34.0-linux-amd64.tar.gz crictl
@@ -104,7 +106,7 @@ apt-mark hold kubelet kubeadm kubectl
 
 ```
 MASTER_IP="$(hostname -I | awk '{print $1}')"
-sudo kubeadm init --apiserver-advertise-address="${MASTER_IP}" --pod-network-cidr="10.0.128.0/18"
+kubeadm init --apiserver-advertise-address="${MASTER_IP}" --pod-network-cidr="10.244.0.0/16"
 alias k=kubectl
 echo 'alias k=kubectl' >> ~/.profile
 echo 'alias k=kubectl' >> ~/.bashrc
@@ -112,12 +114,7 @@ mkdir -p $HOME/.kube
 cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 chown $(id -u):$(id -g) $HOME/.kube/config
 k get no
-sysctl -w net.ipv4.ip_forward=1
-sysctl -w net.ipv4.conf.all.rp_filter=0
-sysctl -w net.ipv4.conf.default.rp_filter=0
 kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/refs/heads/master/Documentation/kube-flannel.yml
-kubectl -n kube-flannel patch cm kube-flannel-cfg --type merge -p '{"data":{"net-conf.json":"{\"Network\":\"10.0.128.0/18\",\"Backend\":{\"Type\":\"vxlan\"}}"}}'
-kubectl -n kube-flannel rollout restart ds/kube-flannel-ds
 k taint nodes devstats-master node-role.kubernetes.io/control-plane:NoSchedule-
 ```
 
@@ -150,6 +147,21 @@ helm version
 # On nodes
 
 - Run kubeadm join command that was generated at the end of master node kubeadm init output.
+- Add history stuff: `cp ~/.bash_history ~/.history; vim ~/.bashrc vim ~/.inputrc`:
+```
+# History stuff
+export HISTFILESIZE=
+export HISTSIZE=
+export HISTFILE=~/.history
+export HISTTIMEFORMAT="[%F %T] "
+export PROMPT_COMMAND="history -a; history -c; history -r"
+export HISTCONTROL=ignoredups:ignorespace:erasedups
+```
+And:
+```
+"\e[A": history-search-backward
+"\e[B": history-search-forward
+```
 
 
 # Used Software
