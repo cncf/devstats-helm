@@ -170,7 +170,6 @@ helm upgrade --install cilium cilium/cilium \
   --set kubeProxyReplacement=true \
   --set routingMode=native \
   --set autoDirectNodeRoutes=true \
-  --set ipam.mode=kubernetes \
   --set k8sServiceHost=${MASTER_IP} \
   --set k8sServicePort=6443 \
   --set hubble.enabled=true \
@@ -183,6 +182,8 @@ helm upgrade --install cilium cilium/cilium \
   --set gatewayAPI.enabled=false \
   --set ipam.mode=cluster-pool \
   --set ipam.operator.clusterPoolIPv4PodCIDRList="{172.20.0.0/16}"
+helm -n kube-system history cilium
+# helm rollback cilium 4 -n kube-system --wait --cleanup-on-fail
 ```
 
 # On nodes

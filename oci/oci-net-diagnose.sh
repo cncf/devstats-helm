@@ -152,6 +152,7 @@ printf '%s' "$INSTANCES_JSON" | jq -r '.[].id' | while read -r INSTANCE_ID; do
       "private-ip": ."private-ip",
       "public-ip": ."public-ip",
       "subnet-id": ."subnet-id",
+      "skip-source-dest-check": ."skip-source-dest-check",
       "nsg-ids": (."nsg-ids" // [])
     }'
 
@@ -159,6 +160,7 @@ printf '%s' "$INSTANCES_JSON" | jq -r '.[].id' | while read -r INSTANCE_ID; do
     SUBNET="$(fetch_subnet "$SUBNET_ID")"
     VCN_ID="$(printf '%s' "$SUBNET" | jq -r '."vcn-id"')"
     VCN="$(fetch_vcn "$VCN_ID")"
+    SKIP_CHECK="$(printf '%s' "$VNIC" | jq -r '."skip-source-dest-check"')"
 
     echo
     echo "  Subnet:"
@@ -167,6 +169,9 @@ printf '%s' "$INSTANCES_JSON" | jq -r '.[].id' | while read -r INSTANCE_ID; do
     echo
     echo "  VCN:"
     printf '%s' "$VCN" | jq '{id:.id, "cidr-blocks":."cidr-blocks", "dns-label":."dns-label", "display-name":."display-name"}'
+
+    echo
+    echo "  Skip Src/Dst check: $SKIP_CHECK"
 
     RT_ID="$(printf '%s' "$SUBNET" | jq -r '."route-table-id"')"
     if [[ "$RT_ID" != "null" && -n "$RT_ID" ]]; then
