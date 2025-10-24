@@ -104,7 +104,19 @@ apt-mark hold kubelet kubeadm kubectl
 
 ```
 MASTER_IP="$(hostname -I | awk '{print $1}')"
-sudo kubeadm init --apiserver-advertise-address="${MASTER_IP}" --pod-network-cidr="10.0.128.0/18"
+cat <<EOF | tee kubeadm.yaml
+apiVersion: kubeadm.k8s.io/v1beta4
+kind: InitConfiguration
+localAPIEndpoint:
+  advertiseAddress: ${MASTER_IP}
+---
+apiVersion: kubeadm.k8s.io/v1beta4
+kind: ClusterConfiguration
+kubernetesVersion: v1.34.1
+networking:
+  podSubnet: "10.0.128.0/18"
+EOF
+kubeadm init --config kubeadm.yaml --skip-phases=addon/kube-proxy
 alias k=kubectl
 echo 'alias k=kubectl' >> ~/.profile
 echo 'alias k=kubectl' >> ~/.bashrc
@@ -115,9 +127,6 @@ k get no
 sysctl -w net.ipv4.ip_forward=1
 sysctl -w net.ipv4.conf.all.rp_filter=0
 sysctl -w net.ipv4.conf.default.rp_filter=0
-kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/refs/heads/master/Documentation/kube-flannel.yml
-kubectl -n kube-flannel patch cm kube-flannel-cfg --type merge -p '{"data":{"net-conf.json":"{\"Network\":\"10.0.128.0/18\",\"Backend\":{\"Type\":\"vxlan\"}}"}}'
-kubectl -n kube-flannel rollout restart ds/kube-flannel-ds
 k taint nodes devstats-master node-role.kubernetes.io/control-plane:NoSchedule-
 ```
 
@@ -145,11 +154,53 @@ vim /root/.kube/config ~ubuntu/.kube/config
 chown -R ubuntu ~ubuntu/.kube/
 curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 helm version
+CILVER=$(curl -s https://api.github.com/repos/cilium/cilium-cli/releases/latest | grep tag_name | cut -d '"' -f4)
+curl -L --fail -o cilium.tgz https://github.com/cilium/cilium-cli/releases/download/${CILVER}/cilium-linux-amd64.tar.gz
+tar -C /usr/local/bin -xzvf cilium.tgz cilium
+rm cilium.tgz
+apt install -y linux-tools-oracle
+```
+
+# On master node
+```
+MASTER_IP="$(hostname -I | awk '{print $1}')"
+CIL_HELM_VER=$(helm search repo cilium/cilium -o json | jq -r '.[0].version')
+helm upgrade --install cilium cilium/cilium \
+  --version "${CIL_HELM_VER}" \
+  --namespace kube-system \
+  --set kubeProxyReplacement=true \
+  --set routingMode=native \
+  --set autoDirectNodeRoutes=true \
+  --set k8sServiceHost="${MASTER_IP}" \
+  --set k8sServicePort=6443 \
+  --set ipv4NativeRoutingCIDR="10.0.128.0/18" \
+  --set envoy.enabled=false \
+  --set l7Proxy=false \
+  --set ingressController.enabled=false \
+  --set gatewayAPI.enabled=false \
+  --set devices='{ens300np0}' \
+  --set hostRoutingMode=ebpf \
+  --set ipam.mode=cluster-pool \
+  --set ipam.operator.clusterPoolIPv4MaskSize=20 \
+  --set ipam.operator.clusterPoolIPv4PodCIDRList="{10.0.128.0/18}"
+helm -n kube-system history cilium
+# helm rollback cilium 4 -n kube-system --wait --cleanup-on-fail
 ```
 
 # On nodes
 
 - Run kubeadm join command that was generated at the end of master node kubeadm init output.
+- Then (if installed hubble which is done via passing `--set hubble.enabled=true --set hubble.relay.enabled=true  --set hubble.ui.enabled=true` to helm install):
+```
+HUBBLE_VERSION=$(curl -s https://raw.githubusercontent.com/cilium/hubble/master/stable.txt)
+ARCH=$(uname -m); [ "$ARCH" = "aarch64" ] && ARCH=arm64 || ARCH=amd64
+curl -L --fail --remote-name-all https://github.com/cilium/hubble/releases/download/${HUBBLE_VERSION}/hubble-linux-${ARCH}.tar.gz{,.sha256sum}
+sha256sum --check hubble-linux-${ARCH}.tar.gz.sha256sum
+sudo tar -C /usr/local/bin -xzf hubble-linux-${ARCH}.tar.gz hubble
+rm hubble-linux-${ARCH}.tar.gz
+hubble version
+```
+
 
 
 # Used Software
@@ -160,3 +211,5 @@ helm version
 - kubernetes 1.34.1
 - coredns 1.14.1
 - helm 3.18.0
+- cilium-cli 0.14.6
+- cilium / eBPF 1.14.6
