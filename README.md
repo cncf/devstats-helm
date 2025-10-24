@@ -6,7 +6,10 @@ This is deployed:
 - [CNCF prod](https://devstats.cncf.io).
 
 # Shared steps for all nodes (master and workers)
-
+- In Ocarcle Cloud web interface your 4 nodes must have the following settings in NSG (network security group) and default security group of subnet:
+- Allow all egress to CIDR 0.0.0.0/0.
+- Allow all ingress from CIDR: 10.0.0.0/16 and CIDR: 172.20.0.0/16.
+- For each node's VNIC do: `oci network vnic update --vnic-id "ocid1.vnic.[...]" --skip-source-dest-check true`.
 - As root: `sudo bash`:
 - Add `/etc/hosts` entries for all servers on all instances (do this 4 times):
 ```
@@ -185,3 +188,26 @@ helm upgrade --install cilium cilium/cilium \
 # On nodes
 
 - Run kubeadm join command that was generated at the end of master node kubeadm init output.
+- Then:
+```
+HUBBLE_VERSION=$(curl -s https://raw.githubusercontent.com/cilium/hubble/master/stable.txt)
+ARCH=$(uname -m); [ "$ARCH" = "aarch64" ] && ARCH=arm64 || ARCH=amd64
+curl -L --fail --remote-name-all https://github.com/cilium/hubble/releases/download/${HUBBLE_VERSION}/hubble-linux-${ARCH}.tar.gz{,.sha256sum}
+sha256sum --check hubble-linux-${ARCH}.tar.gz.sha256sum
+sudo tar -C /usr/local/bin -xzf hubble-linux-${ARCH}.tar.gz hubble
+rm hubble-linux-${ARCH}.tar.gz
+hubble version
+```
+
+
+
+# Used Software
+
+- containerd 2.1.4
+- crictl 1.34.0
+- runc 1.3.0
+- kubernetes 1.34.1
+- coredns 1.14.1
+- helm 3.18.0
+- cilium-cli 0.14.6
+- cilium / eBPF 1.14.6
