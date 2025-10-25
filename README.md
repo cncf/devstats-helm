@@ -162,7 +162,22 @@ And:
 "\e[A": history-search-backward
 "\e[B": history-search-forward
 ```
-
+To raise 1024 pods/node limit (from ~110) do:
+- `kubectl -n kube-flannel get cm kube-flannel-cfg -o yaml > kube-flannel-cfg.bak.yaml; vim kube-flannel-cfg.bak.yaml`
+- Add `Subnetlen": 22,`:
+```
+  net-conf.json: |
+    {
+      "Network": "10.244.0.0/16",
+      "SubnetLen": 22,
+      "Backend": { "Type": "vxlan" }
+    }
+```
+- Then:
+```
+kubectl -n kube-flannel rollout restart ds/kube-flannel-ds
+XXX: todo - drain nodes one by one to apply new flannel config
+```
 
 # Used Software
 
@@ -170,5 +185,6 @@ And:
 - crictl 1.34.0
 - runc 1.3.0
 - kubernetes 1.34.1
+- flannel
 - coredns 1.14.1
 - helm 3.18.0
