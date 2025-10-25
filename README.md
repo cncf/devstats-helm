@@ -163,7 +163,7 @@ And:
 "\e[B": history-search-forward
 ```
 To raise 1024 pods/node limit (from ~110) do:
-- `kubectl -n kube-flannel get cm kube-flannel-cfg -o yaml > kube-flannel-cfg.bak.yaml; vim kube-flannel-cfg.bak.yaml`
+- `kubectl -n kube-flannel get cm kube-flannel-cfg -o yaml > kube-flannel-cfg.bak.yaml; vim kube-flannel-cfg.bak.yaml` (this is only needed from any node).
 - Add `Subnetlen": 22,`:
 ```
   net-conf.json: |
@@ -173,10 +173,48 @@ To raise 1024 pods/node limit (from ~110) do:
       "Backend": { "Type": "vxlan" }
     }
 ```
-- Then:
+- Then: `kubectl -n kube-flannel rollout restart ds/kube-flannel-ds`.
+- Edit: `vim /var/lib/kubelet/config.yaml` add `maxPods: 1024`, and then (on all nodes):
 ```
-kubectl -n kube-flannel rollout restart ds/kube-flannel-ds
-XXX: todo - drain nodes one by one to apply new flannel config
+systemctl daemon-reload
+systemctl restart kubelet
+```
+- On master edit: `/etc/kubernetes/manifests/kube-controller-manager.yaml`, make sure it has:
+```
+- --allocate-node-cidrs=true
+- --cluster-cidr=10.244.0.0/16
+- --node-cidr-mask-size-ipv4=22
+```
+- On all nodes:
+```
+tee /etc/sysctl.d/99-k8s-scale.conf >/dev/null <<'EOF'
+net.ipv4.neigh.default.gc_thresh1=4096
+net.ipv4.neigh.default.gc_thresh2=8192
+net.ipv4.neigh.default.gc_thresh3=16384
+fs.inotify.max_user_instances=4096
+fs.inotify.max_user_watches=1048576
+net.netfilter.nf_conntrack_max=2621440
+net.core.somaxconn=4096
+EOF
+sudo sysctl --system
+```
+- On all nodes, master last:
+```
+#!/bin/bash
+NODE="$(hostname)"
+echo "node: $NODE"
+kubectl drain "$NODE" --ignore-daemonsets --delete-emptydir-data --force
+systemctl stop kubelet
+systemctl stop containerd
+ip link del cni0    2>/dev/null || true
+ip link del flannel.1 2>/dev/null || true
+rm -rf /var/lib/cni/networks/cni0
+rm -rf /var/lib/cni/flannel            2>/dev/null || true
+rm -f  /run/flannel/subnet.env         2>/dev/null || true
+systemctl start containerd
+systemctl start kubelet
+kubectl -n kube-flannel delete pod -l app=flannel --field-selector spec.nodeName="$NODE"
+kubectl uncordon "$NODE"
 ```
 
 # Used Software
