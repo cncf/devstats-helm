@@ -217,6 +217,10 @@ kubectl -n kube-flannel delete pod -l app=flannel --field-selector spec.nodeName
 kubectl uncordon "$NODE"
 ```
 - You can test networking by executing `./k8s/test-networking.sh`.
+- On any node:
+```
+for node in devstats-master devstats-node-0 devstats-node-1 devstats-node-2; do k label node $node node=devstats-app; k label node $node node2=devstats-db; done
+```
 
 # Used Software
 
