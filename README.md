@@ -216,6 +216,7 @@ systemctl start kubelet
 kubectl -n kube-flannel delete pod -l app=flannel --field-selector spec.nodeName="$NODE"
 kubectl uncordon "$NODE"
 ```
+- You can test networking by executing `./k8s/test-networking.sh`.
 
 # Used Software
 
