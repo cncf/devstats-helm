@@ -222,6 +222,51 @@ kubectl uncordon "$NODE"
 for node in devstats-master devstats-node-0 devstats-node-1 devstats-node-2; do k label node $node node=devstats-app; k label node $node node2=devstats-db; done
 ```
 
+# Storage
+- Run:
+```
+mkdir /data/openebs && ln -s /data/openebs /var/openebs
+kubectl create namespace openebs
+helm repo add openebs https://openebs.github.io/charts
+helm repo update
+helm install openebs openebs/openebs -n openebs
+kubectl -n openebs get pods -w
+sleep 20
+k patch storageclass openebs-hostpath -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+helm repo add openebs-dynamic-nfs https://openebs-archive.github.io/dynamic-nfs-provisioner/
+helm repo update
+helm install openebs-nfs openebs-dynamic-nfs/nfs-provisioner --namespace openebs-nfs --create-namespace --set nfsStorageClass.name=nfs-openebs-localstorage --set-string nfsStorageClass.backendStorageClass=openebs-hostpath
+```
+# DevStats namespaces
+
+- Create DevStats test and prod namespaces: `k create ns devstats-test; k create ns devstats-prod`.
+
+
+# Contexts
+
+- You need to have at least those 2 contexts in your `~/.kube/config`:
+```
+- context:
+    cluster: kubernetes
+    namespace: devstats-prod
+    user: kubernetes-admin
+  name: prod
+- context:
+    cluster: kubernetes
+    namespace: devstats-test
+    user: kubernetes-admin
+  name: test
+- context:
+    cluster: kubernetes
+    namespace: default
+    user: kubernetes-admin
+  name: shared
+```
+
+# Domain, DNS and Ingress
+XXX: continue
+
+
 # Used Software
 
 - containerd 2.1.4
@@ -231,3 +276,5 @@ for node in devstats-master devstats-node-0 devstats-node-1 devstats-node-2; do 
 - flannel
 - coredns 1.14.1
 - helm 3.18.0
+- openebs 3.10.0
+- openebs-dynamic-nfs 

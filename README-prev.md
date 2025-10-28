@@ -191,8 +191,6 @@ sudo kubeadm join 10.0.0.253:xxxx --token [redacted] --discovery-token-ca-cert-h
 - Install NFS provisioner that will use OpenEBS local storage while on `default` namespace: `helm install local-storage-nfs stable/nfs-server-provisioner --set=persistence.enabled=true,persistence.storageClass=openebs-hostpath,persistence.size=8Ti,storageClass.name=nfs-openebs-localstorage`
 
 
-LG:XXX continue
-
 # DevStats namespaces
 
 - Create DevStats test and prod namespaces: `k create ns devstats-test; k create ns devstats-prod`.
