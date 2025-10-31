@@ -319,10 +319,6 @@ helm upgrade --install nginx-ingress-prod ingress-nginx/ingress-nginx \
   --set controller.readinessProbe.failureThreshold=5
 ```
 
-- metallb:
-```
-```
-
 
 # Used Software
 
@@ -330,9 +326,9 @@ helm upgrade --install nginx-ingress-prod ingress-nginx/ingress-nginx \
 - crictl 1.34.0
 - runc 1.3.0
 - kubernetes 1.34.1
-- flannel
+- flannel v0.27.4
 - coredns 1.14.1
 - helm 3.18.0
 - openebs 3.10.0
-- openebs-dynamic-nfs 
-- niginx-ingress 4.13.3
+- openebs-dynamic-nfs 0.11.0
+- nginx-ingress 4.13.3
