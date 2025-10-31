@@ -5875,7 +5875,7 @@ projects:
   db: dalec
   icon: dalec
   org: Dalec
-  repo: Azure/dalec
+  repo: project-dalec/dalec
   cronTest: 58 2,8,14,20 * * *
   cronProd: 58 5,11,17,23 * * *
   affCronTest: 37 5 13 * *
