@@ -264,7 +264,64 @@ helm install openebs-nfs openebs-dynamic-nfs/nfs-provisioner --namespace openebs
 ```
 
 # Domain, DNS and Ingress
-XXX: continue
+
+- niginx-ingress:
+```
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm repo update
+kubectl config use-context test
+helm upgrade --install nginx-ingress-test ingress-nginx/ingress-nginx \
+  --namespace devstats-test --create-namespace \
+  --set controller.ingressClassResource.name=nginx-test \
+  --set controller.ingressClass=nginx-test \
+  --set controller.scope.enabled=true \
+  --set controller.scope.namespace=devstats-test \
+  --set defaultBackend.enabled=false \
+  --set controller.config.disable-ipv6="true" \
+  --set controller.config.worker-rlimit-nofile="65535" \
+  --set controller.startupProbe.httpGet.path=/healthz \
+  --set controller.startupProbe.httpGet.port=10254 \
+  --set controller.startupProbe.failureThreshold=18 \
+  --set controller.startupProbe.periodSeconds=5 \
+  --set controller.livenessProbe.initialDelaySeconds=30 \
+  --set controller.livenessProbe.periodSeconds=20 \
+  --set controller.livenessProbe.timeoutSeconds=5 \
+  --set controller.livenessProbe.successThreshold=1 \
+  --set controller.livenessProbe.failureThreshold=5 \
+  --set controller.readinessProbe.initialDelaySeconds=15 \
+  --set controller.readinessProbe.periodSeconds=20 \
+  --set controller.readinessProbe.timeoutSeconds=5 \
+  --set controller.readinessProbe.successThreshold=1 \
+  --set controller.readinessProbe.failureThreshold=5
+kubectl config use-context prod
+helm upgrade --install nginx-ingress-prod ingress-nginx/ingress-nginx \
+  --namespace devstats-prod --create-namespace \
+  --set controller.ingressClassResource.name=nginx-prod \
+  --set controller.ingressClass=nginx-prod \
+  --set controller.scope.enabled=true \
+  --set controller.scope.namespace=devstats-prod \
+  --set defaultBackend.enabled=false \
+  --set controller.config.disable-ipv6="true" \
+  --set controller.config.worker-rlimit-nofile="65535" \
+  --set controller.startupProbe.httpGet.path=/healthz \
+  --set controller.startupProbe.httpGet.port=10254 \
+  --set controller.startupProbe.failureThreshold=18 \
+  --set controller.startupProbe.periodSeconds=5 \
+  --set controller.livenessProbe.initialDelaySeconds=30 \
+  --set controller.livenessProbe.periodSeconds=20 \
+  --set controller.livenessProbe.timeoutSeconds=5 \
+  --set controller.livenessProbe.successThreshold=1 \
+  --set controller.livenessProbe.failureThreshold=5 \
+  --set controller.readinessProbe.initialDelaySeconds=15 \
+  --set controller.readinessProbe.periodSeconds=20 \
+  --set controller.readinessProbe.timeoutSeconds=5 \
+  --set controller.readinessProbe.successThreshold=1 \
+  --set controller.readinessProbe.failureThreshold=5
+```
+
+- metallb:
+```
+```
 
 
 # Used Software
@@ -278,3 +335,4 @@ XXX: continue
 - helm 3.18.0
 - openebs 3.10.0
 - openebs-dynamic-nfs 
+- niginx-ingress 4.13.3
