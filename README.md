@@ -263,12 +263,16 @@ helm install openebs-nfs openebs-dynamic-nfs/nfs-provisioner --namespace openebs
   name: shared
 ```
 
-# Domain, DNS and Ingress
+# nginx-ingress
 
-- niginx-ingress:
+- niginx-ingress (using NodePort, prod adds 30000 to port number, test adds 31000):
 ```
 helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 helm repo update
+kubectl label node devstats-master ingress=test
+kubectl label node devstats-node-0 ingress=prod
+kubectl label node devstats-node-1 ingress=test
+kubectl label node devstats-node-2 ingress=prod
 kubectl config use-context test
 helm upgrade --install nginx-ingress-test ingress-nginx/ingress-nginx \
   --namespace devstats-test --create-namespace \
@@ -276,6 +280,7 @@ helm upgrade --install nginx-ingress-test ingress-nginx/ingress-nginx \
   --set controller.ingressClass=nginx-test \
   --set controller.scope.enabled=true \
   --set controller.scope.namespace=devstats-test \
+  --set controller.nodeSelector.ingress=test \
   --set defaultBackend.enabled=false \
   --set controller.config.disable-ipv6="true" \
   --set controller.config.worker-rlimit-nofile="65535" \
@@ -292,7 +297,12 @@ helm upgrade --install nginx-ingress-test ingress-nginx/ingress-nginx \
   --set controller.readinessProbe.periodSeconds=20 \
   --set controller.readinessProbe.timeoutSeconds=5 \
   --set controller.readinessProbe.successThreshold=1 \
-  --set controller.readinessProbe.failureThreshold=5
+  --set controller.readinessProbe.failureThreshold=5 \
+  --set controller.service.type=NodePort \
+  --set controller.kind=DaemonSet \
+  --set controller.service.nodePorts.http=31080 \
+  --set controller.service.nodePorts.https=31443 \
+  --set controller.service.externalTrafficPolicy=Local
 kubectl config use-context prod
 helm upgrade --install nginx-ingress-prod ingress-nginx/ingress-nginx \
   --namespace devstats-prod --create-namespace \
@@ -300,6 +310,7 @@ helm upgrade --install nginx-ingress-prod ingress-nginx/ingress-nginx \
   --set controller.ingressClass=nginx-prod \
   --set controller.scope.enabled=true \
   --set controller.scope.namespace=devstats-prod \
+  --set controller.nodeSelector.ingress=prod \
   --set defaultBackend.enabled=false \
   --set controller.config.disable-ipv6="true" \
   --set controller.config.worker-rlimit-nofile="65535" \
@@ -316,8 +327,17 @@ helm upgrade --install nginx-ingress-prod ingress-nginx/ingress-nginx \
   --set controller.readinessProbe.periodSeconds=20 \
   --set controller.readinessProbe.timeoutSeconds=5 \
   --set controller.readinessProbe.successThreshold=1 \
-  --set controller.readinessProbe.failureThreshold=5
+  --set controller.readinessProbe.failureThreshold=5 \
+  --set controller.service.type=NodePort \
+  --set controller.kind=DaemonSet \
+  --set controller.service.nodePorts.http=30080 \
+  --set controller.service.nodePorts.https=30443 \
+  --set controller.service.externalTrafficPolicy=Local
 ```
+
+# OCI NLBs
+- `` ./oci/oci-create-nlbs.sh ``.
+XXX: continue (from continue.secret file).
 
 
 # Used Software
