@@ -14,4 +14,5 @@ then
   echo "You need to provide regexp pattern to search for as a third argument"
   exit 1
 fi
-find "$1" -type f -iname "$2" -not -name "out" -not -path '*.git/*' -exec grep -EHIin "$3" "{}" \; | tee -a out
+# find "$1" -type f -iname "$2" -not -name "out" -not -path '*.git/*' -exec grep -EHIin "$3" "{}" \; | tee -a out
+find "$1" -type f -iname "$2" -not -name "out" -not -path '*.git/*' -not -path '*node_modules/*' -not -path '*.venv/*' -exec grep -EHIin "$3" "{}" \; | tee -a out
