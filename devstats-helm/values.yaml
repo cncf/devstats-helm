@@ -5555,7 +5555,7 @@ projects:
   db: interlink
   icon: interlink
   org: Interlink
-  repo: interTwin-eu/interLink
+  repo: interlink-hq/interLink
   cronTest: 52 2,8,14,20 * * *
   cronProd: 35 5,11,17,23 * * *
   affCronTest: 42 17 12 * *
