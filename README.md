@@ -1,4 +1,5 @@
-﻿# devstats-helm
+﻿et wrap
+devstats-helm
 
 DevStats deployment on Oracle Cloud Ubuntu 24.04 LTS bare metal Kubernetes using Helm.
 
@@ -140,14 +141,14 @@ echo 'alias k=kubectl' >> ~/.bashrc
 mkdir /root/.kube ~ubuntu/.kube
 vim /root/.kube/config ~ubuntu/.kube/config
 chown -R ubuntu ~ubuntu/.kube/
-curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-4 | bash
 helm version
 ```
 
 # On nodes
 
 - Run kubeadm join command that was generated at the end of master node kubeadm init output.
-- Add history stuff: `cp ~/.bash_history ~/.history; vim ~/.bashrc vim ~/.inputrc`:
+- Add history stuff: `cp ~/.bash_history ~/.history; vim ~/.bashrc ~/.inputrc`:
 ```
 # History stuff
 export HISTFILESIZE=
