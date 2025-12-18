@@ -404,7 +404,8 @@ curl -s -X PATCH \
 - Install prod ingress (will not work yet until SSL certs and DNS are set): `` helm install devstats-prod-ingress ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipStatic=1,skipAPI=1,skipNamespaces=1,skipAliases=1,indexDomainsFrom=1,ingressClass=nginx-prod,sslEnv=prod ``.
 - Install bootstrap DB: `` helm install devstats-prod-bootstrap ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1 ``.
 - Make sure it finishes successfully: `` k logs -f devstats-provision-bootstrap ``. Then: `` devstats-provision-bootstrap ``.
-- Install 1st project (Kuberentes): `` helm install devstats-kubernetes ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,indexPVsTo=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,indexProvisionsTo=1,indexCronsTo=1,indexGrafanasTo=1,indexServicesTo=1,indexAffiliationsTo=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,testServer='',prodServer='1',skipECFRGReset=1,nCPUs=64,skipAddAll=1 ``.
+- Follow `Copy grafana shared data` from `cncf/devstats/ADDING_NEW_PROJECT.md`.
+- Install 1st project (Kuberentes): `` helm install devstats-kubernetes ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,indexProvisionsTo=1,indexCronsTo=1,indexGrafanasTo=1,indexServicesTo=1,indexAffiliationsTo=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,testServer='',prodServer='1',skipECFRGReset=1,nCPUs=64,skipAddAll=1 ``.
 
 
 # Used Software
