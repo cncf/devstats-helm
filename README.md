@@ -404,8 +404,19 @@ curl -s -X PATCH \
 - Install prod ingress (will not work yet until SSL certs and DNS are set): `` helm install devstats-prod-ingress ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipStatic=1,skipAPI=1,skipNamespaces=1,skipAliases=1,indexDomainsFrom=1,ingressClass=nginx-prod,sslEnv=prod ``.
 - Install bootstrap DB: `` helm install devstats-prod-bootstrap ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1 ``.
 - Make sure it finishes successfully: `` k logs -f devstats-provision-bootstrap ``. Then: `` devstats-provision-bootstrap ``.
-- Follow `Copy grafana shared data` from `cncf/devstats/ADDING_NEW_PROJECT.md`.
+- Follow `Copy grafana shared data` from `cncf/devstats/ADDING_NEW_PROJECT.md`, do from `cncf/devstats` repo:
+```
+cp ../devstatscode/sqlitedb ../devstatscode/runq ../devstatscode/replacer grafana/ && tar cf devstats-grafana.tar grafana/runq grafana/sqlitedb grafana/replacer grafana/shared grafana/img/*.svg grafana/img/*.png grafana/*/change_title_and_icons.sh grafana/*/custom_sqlite.sql grafana/dashboards/*/*.json
+```
+- `sftp` it to devstats node: `sftp ubuntu@onodeN`, `mput devstats-grafana.tar`. SSH into that node: `ssh ubuntu@onodeN`, get static pod name: `k get po -n devstats-prod | grep static-prod`.
+- Copy new grafana data to that pod: `k cp devstats-grafana.tar -n devstats-prod devstats-static-prod-5779c5dd5d-2prpr:/devstats-grafana.tar`, shell into that pod: `k exec -itn devstats-prod devstats-static-prod-5779c5dd5d-2prpr -- bash`.
+- Do all/everything command: `rm -rf /grafana && tar xf /devstats-grafana.tar && rm -rf /usr/share/nginx/html/backups/grafana && mv /grafana /usr/share/nginx/html/backups/grafana && rm /devstats-grafana.tar && chmod -R ugo+rwx /usr/share/nginx/html/backups/grafana/ && echo 'All OK'`.
 - Install 1st project (Kuberentes): `` helm install devstats-kubernetes ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,indexProvisionsTo=1,indexCronsTo=1,indexGrafanasTo=1,indexServicesTo=1,indexAffiliationsTo=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,testServer='',prodServer='1',skipECFRGReset=1,nCPUs=64,skipAddAll=1 ``.
+- Now at the same time create pod for backups (on the previous cluster): `` helm install devstats-prod-debug ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,bootstrapPodName=debug,bootstrapCommand=sleep,bootstrapCommandArgs={360000s},bootstrapMountBackups=1,limitsBackupsCPU=4000m,limitsBackupsMemory=64Gi ``.
+- Shell into it: `` ../devstats-k8s-lf/util/pod_shell.sh debug ``. Then run: `` FASTXZ=1 NOBACKUP='' ./devstats-helm/backup_artificial.sh gha ``. Or for all: `` FASTXZ=1 NOBACKUP='' ./devstats-helm/backup_artificial.sh ``.
+- Now create restore pod (on the new cluster): `` helm install devstats-prod-debug ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,bootstrapPodName=debug,bootstrapCommand=sleep,bootstrapCommandArgs={360000s},bootstrapMountBackups=1 ``.
+- Shell into it: `` k exec -it debug -- bash ``.
+- Restore: `` RESTORE_FROM='https://devstats.cncf.io' NOBACKUP='' ./devstats-helm/restore_artificial.sh gha ``. Or for all: `` RESTORE_FROM='https://devstats.cncf.io' NOBACKUP='' ./devstats-helm/restore_artificial_all.sh ``.
 
 
 # Used Software
