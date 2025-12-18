@@ -21,6 +21,6 @@ spec:
   selector:
     name: devstats
     type: postgres
-    role: master
+    role: primary
     cluster-name: '{{ .Values.postgresSvcName }}'
 {{ end }}
