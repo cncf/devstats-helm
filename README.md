@@ -343,7 +343,62 @@ XXX: continue (from continue.secret file).
 
 # DevStats installation
 - Copy `devstats-helm` repo onto the master node (or clone and then also copy gitignored *.secret files).
-- Change directory to that repo and install `prod` namespace secrets: `` elm install devstats-prod-secrets ./devstats-helm --set namespace='devstats-prod',skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1 ``.
+- Change directory to that repo and install `prod` namespace secrets: `` helm install devstats-prod-secrets ./devstats-helm --set namespace='devstats-prod',skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1 ``.
+- Create backups PV (ReadWriteMany): `` helm install devstats-prod-backups-pv ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1 ``.
+- Deploy git storage PVs: `` helm install devstats-prod-pvcs ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1 ``.
+- Deploy patroni: `` helm install devstats-prod-patroni ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1 ``.
+- Manually tweak it:
+```
+curl -s -X PATCH \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "loop_wait": 15,
+    "ttl": 60,
+    "retry_timeout": 60,
+    "primary_start_timeout": 600,
+    "maximum_lag_on_failover": 53687091200,
+    "postgresql": {
+      "use_pg_rewind": true,
+      "use_slots": true,
+      "parameters": {
+        "shared_buffers": "500GB",
+        "max_connections": 1024,
+        "max_worker_processes": 32,
+        "max_parallel_workers": 32,
+        "max_parallel_workers_per_gather": 28,
+        "work_mem": "8GB",
+        "wal_buffers": "1GB",
+        "temp_file_limit": "200GB",
+        "wal_keep_size": "100GB",
+        "max_wal_senders": 5,
+        "max_replication_slots": 5,
+        "maintenance_work_mem": "2GB",
+        "idle_in_transaction_session_timeout": "30min",
+        "wal_level": "replica",
+        "wal_log_hints": "on",
+        "hot_standby": "on",
+        "hot_standby_feedback": "on",
+        "max_wal_size": "128GB",
+        "min_wal_size": "4GB",
+        "checkpoint_completion_target": 0.9,
+        "default_statistics_target": 1000,
+        "effective_cache_size": "256GB",
+        "effective_io_concurrency": 8,
+        "random_page_cost": 1.1,
+        "autovacuum_max_workers": 1,
+        "autovacuum_naptime": "120s",
+        "autovacuum_vacuum_cost_limit": 100,
+        "autovacuum_vacuum_threshold": 150,
+        "autovacuum_vacuum_scale_factor": 0.25,
+        "autovacuum_analyze_threshold": 100,
+        "autovacuum_analyze_scale_factor": 0.2
+      }
+    }
+  }' \
+  http://<leader-ip>:8008/config | jq .
+```
+- Restart due to those changes: `` patronictl restart devstats-postgres devstats-postgres-0 ``.
+- Confirm final configuration and clean state: `` k exec -itn devstats-prod devstats-postgres-0 -- patronictl show-config && k exec -itn devstats-prod devstats-postgres-0 -- patronictl list ``.
 
 
 # Used Software
