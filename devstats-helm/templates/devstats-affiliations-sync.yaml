@@ -4,7 +4,7 @@
 {{- range $index, $_ := .Values.projects -}}
 {{- if and (or (eq ($index|int) ($root.Values.indexAffiliationsFrom|int)) (gt ($index|int) ($root.Values.indexAffiliationsFrom|int))) (lt ($index|int) ($root.Values.indexAffiliationsTo|int)) -}}
 ---
-apiVersion: batch/v1beta1
+apiVersion: batch/v1
 kind: CronJob
 metadata:
   namespace: '{{ $root.Values.namespace }}'

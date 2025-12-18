@@ -1,7 +1,7 @@
 {{- $skipVacuum := .Values.skipVacuum -}}
 {{ if not $skipVacuum }}
 ---
-apiVersion: batch/v1beta1
+apiVersion: batch/v1
 kind: CronJob
 metadata:
   namespace: '{{ .Values.namespace }}'
