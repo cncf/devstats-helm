@@ -227,7 +227,7 @@ To import new affiliations do the following:
 
 If you get:
 ```
-Error: Internal error occurred: failed calling webhook "admission-webhook.openebs.io": Post "https://admission-server-svc.openebs.svc:443/validate?timeout=5s": x509: certificate has expired or is not yet valid: current time 2022-01-13T07:57:42Z is after 2021-12-15T12:55:03Z
+Error: Internal error occurred: failed calling webhook "admission-webhook.openebs.io": Post "https://admission-server-svc.openebs.svc:443/validate?timeout=5s": x509: cclient-certificate-dataertificate has expired or is not yet valid: current time 2022-01-13T07:57:42Z is after 2021-12-15T12:55:03Z
 ```
 while attempting to create a PVC, then:
 
@@ -244,7 +244,7 @@ while attempting to create a PVC, then:
 
 - Do on `master` node: `kubeadm certs check-expiration`.
 - Make a copy of `/etc/kubernetes` and `~/.kube`, `~/.kube/config.20221215` (cert expires then).
-- Do `kubeadm certs renew all`, reboot master & all nodes.
+- Do `kubeadm certs renew all`, reboot master & all nodes. Acually restarting master and copying kube config files (from the next step) is enough.
 - After restart: `vim /etc/kubernetes/admin.conf config` - copy `certificate-authority-data`, `client-certificate-data` and `client-key-data` from `admin.conf` to your `~/.kube/config` (1st file is not changed actually, so last two).
 - On each node: `cp ~/.kube/config ~/.kube/config.202X1215 && vim ~/.kube/config`.
 - Reference [here](https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm-certs/).
