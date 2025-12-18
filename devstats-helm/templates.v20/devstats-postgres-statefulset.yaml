@@ -146,9 +146,9 @@ spec:
           value: '{{ .Values.postgresMaxConn }}'
         - name: PATRONI_POSTGRES_MAX_PARALLEL_WORKERS_PER_GATHER
           value: '{{ .Values.postgresMaxParallelWorkersPerGather }}'
-        - name: PATRONI_POSTGRES_MAX_WORKER_PROCESSES
+        - name: PATRON_POSTGRES_MAX_WORKER_PROCESSES
           value: '{{ .Values.postgresMaxWorkerProcesses }}'
-        - name: PATRONI_POSTGRES_MAX_PARALLEL_WORKERS
+        - name: PATRON_POSTGRES_MAX_PARALLEL_WORKERS
           value: '{{ .Values.postgresMaxParallelWorkers }}'
         - name: PATRONI_POSTGRES_WORK_MEM
           value: '{{ .Values.postgresWorkMem }}'
@@ -164,6 +164,8 @@ spec:
           value: '{{ .Values.postgresHotStandbyFeedback }}'
         - name: PATRONI_POSTGRES_WAL_LOG_HINTS
           value: '{{ .Values.postgresWalLogHints }}'
+        - name: PATRONI_POSTGRES_WAL_KEEP_SEGMENTS
+          value: '{{ .Values.postgresWalKeepSegments }}'
         - name: PATRONI_POSTGRES_WAL_KEEP_SIZE
           value: '{{ .Values.postgresWalKeepSize }}'
         - name: PATRONI_POSTGRES_WAL_LEVEL
@@ -214,7 +216,7 @@ spec:
           value: '{{ .Values.postgresIOConcurrency }}'
         - name: PATRONI_POSTGRES_RANDOM_PAGE_COST
           value: '{{ .Values.postgresRandomPageCost }}'
-      terminationGracePeriodSeconds: 30
+      terminationGracePeriodSeconds: 0
       nodeSelector:
 {{- with .Values.dbNodeSelector -}}
 {{ toYaml . | nindent 8 }}

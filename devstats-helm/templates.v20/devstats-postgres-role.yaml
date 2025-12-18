@@ -58,8 +58,4 @@ rules:
   - create
   - get
   - list
-  # Suggested that they are needed by AI
-  - watch
-  - patch
-  - update
 {{ end }}

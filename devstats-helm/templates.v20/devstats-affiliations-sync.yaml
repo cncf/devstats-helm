@@ -1,0 +1,202 @@
+{{- $skipAffiliations := .Values.skipAffiliations -}}
+{{ if not $skipAffiliations }}
+{{- $root := . -}}
+{{- range $index, $_ := .Values.projects -}}
+{{- if and (or (eq ($index|int) ($root.Values.indexAffiliationsFrom|int)) (gt ($index|int) ($root.Values.indexAffiliationsFrom|int))) (lt ($index|int) ($root.Values.indexAffiliationsTo|int)) -}}
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  namespace: '{{ $root.Values.namespace }}'
+  name: '{{ $root.Values.affiliationsPodName }}-{{ .proj }}'
+  labels:
+    name: devstats
+    type: 'affiliations-cron'
+    proj: {{ .proj }}
+spec:
+{{ if and ($root.Values.testServer) (not $root.Values.prodServer) }}
+  schedule: '{{ .affCronTest }}'
+{{ if .suspendCronTest }}
+  suspend: {{ .suspendCronTest }}
+{{ end }}
+{{ else }}
+  schedule: '{{ .affCronProd }}'
+{{ if .suspendCronProd }}
+  suspend: {{ .suspendCronProd }}
+{{ end }}
+{{ end }}
+  successfulJobsHistoryLimit: {{ $root.Values.affiliationsCronHistoryLimit }}
+  failedJobsHistoryLimit: {{ $root.Values.affiliationsCronFailedHistoryLimit }}
+  startingDeadlineSeconds: {{ $root.Values.affiliationsCronStartingDeadlineSeconds }}
+  concurrencyPolicy: {{ $root.Values.concurrencyPolicy }}
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          namespace: '{{ $root.Values.namespace }}'
+          name: '{{ $root.Values.affiliationsPodName }}-{{ .proj }}'
+          labels:
+            name: devstats
+            type: 'affiliations'
+            proj: {{ .proj }}
+        spec:
+          containers:
+          - command:
+            - {{ $root.Values.affiliationsCommand }}
+{{ if $root.Values.affiliationsCommandArgs }}
+            args:
+{{- with $root.Values.affiliationsCommandArgs -}}
+{{ toYaml . | nindent 14 }}
+{{ end }}
+{{ end }}
+{{ if $root.Values.useAffiliationsResourcesLimits }}
+            resources:
+              requests:
+                memory: '{{ $root.Values.requestsAffiliationsMemory }}'
+                cpu: '{{ $root.Values.requestsAffiliationsCPU }}'
+              limits:
+                memory: '{{ $root.Values.limitsAffiliationsMemory }}'
+                cpu: '{{ $root.Values.limitsAffiliationsCPU }}'
+{{ end }}
+            env:
+            - name: PROJ
+              value: {{ .proj }}
+            - name: PROJDB
+              value: {{ .db }}
+            - name: PROJREPO
+              value: '{{ .repo }}'
+            - name: SKIPTEMP
+              value: '{{ .affSkipTemp }}'
+            - name: GIANT
+              value: '{{ $root.Values.giantAffs }}'
+            - name: GET_AFFS_FILES
+              value: '{{ $root.Values.affiliationsGetAffsFiles }}'
+            - name: GHA2DB_CHECK_IMPORTED_SHA
+              value: '{{ $root.Values.checkImportedSHA }}'
+            - name: NOLOCK
+              value: "1"
+            - name: NOBACKUP
+              value: "1"
+            - name: TEST_SERVER
+              value: '{{ $root.Values.testServer }}'
+            - name: PROD_SERVER
+              value: '{{ $root.Values.prodServer }}'
+            - name: ONLY
+              value: {{ .proj }}
+            - name: GHA2DB_PROPAGATE_ONLY_VAR
+              value: "1"
+            - name: GHA2DB_GHAPISKIP
+              value: '{{ .skipGHAPI }}'
+            - name: GHA2DB_GETREPOSSKIP
+              value: '{{ .skipGetRepos }}'
+            - name: GHA2DB_MAX_HIST
+              value: '{{ .maxHist }}'
+            - name: GHA2DB_MAX_RUN_DURATION
+              value: '{{ or .maxRunDuration $root.Values.maxRunDuration }}'
+            - name: GHA2DB_NCPUS
+              value: '{{ $root.Values.nAffsCPUs }}'
+            - name: GHA2DB_ALLOW_METRIC_FAIL
+              value: '{{ $root.Values.allowMetricFail }}'
+            - name: GHA2DB_RECALC_RECIPROCAL
+              value: '{{ $root.Values.recalcReciprocal }}'
+            - name: GHA2DB_DEBUG
+              value: '{{ $root.Values.debug }}'
+            - name: GHA2DB_CMDDEBUG
+              value: '{{ $root.Values.cmdDebug }}'
+            - name: GHA2DB_GITHUB_DEBUG
+              value: '{{ $root.Values.githubDebug }}'
+            - name: GHA2DB_QOUT
+              value: '{{ $root.Values.queryOut }}'
+            - name: GHA2DB_COMPANY_ACQ_YAML
+              value: '{{ $root.Values.companyAcq }}'
+            - name: GHA2DB_PROJECTS_YAML
+              value: {{ $root.Values.projectsFile }}
+            - name: GHA2DB_PROJECTS_OVERRIDE
+              value: {{ $root.Values.projectsOverride }}
+            - name: GHA2DB_AFFILIATIONS_JSON
+              value: '{{ $root.Values.affiliations }}'
+            - name: GHA2DB_COMPUTE_ALL
+              value: '{{ $root.Values.forceComputeAll }}'
+            - name: GHA2DB_SKIP_METRICS
+              value: '{{ $root.Values.skipMetrics }}'
+            - name: GHA2DB_EXCLUDE_VARS
+              value: '{{ $root.Values.excludeVars }}'
+            - name: GHA2DB_ONLY_METRICS
+              value: '{{ $root.Values.onlyMetrics }}'
+            - name: GHA2DB_FORCE_PERIODS
+              value: '{{ $root.Values.periods }}'
+            - name: USE_FLAGS
+              value: '{{ $root.Values.useFlagsAffs }}'
+            - name: SKIP_AFFS_LOCK
+              value: '{{ .skipAffsLock }}'
+            - name: SKIP_IMP_AFFS
+{{ if .skipImpAffs }}
+              value: '{{ .skipImpAffs }}'
+{{ else }}
+              value: '{{ $root.Values.skipImpAffs }}'
+{{ end }}
+            - name: SKIP_UPD_AFFS
+{{ if .skipUpdAffs }}
+              value: '{{ .skipUpdAffs }}'
+{{ else }}
+              value: '{{ $root.Values.skipUpdAffs }}'
+{{ end }}
+            - name: AFFS_LOCK_DB
+              value: '{{ .affsLockDB }}'
+            - name: NO_DURABLE
+              value: '{{ .noDurable }}'
+            - name: DURABLE_PQ
+              value: '{{ .durablePQ }}'
+            - name: GHA2DB_GITHUB_OAUTH
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $root.Values.oauthSecret }}
+                  key: GHA2DB_GITHUB_OAUTH.secret
+            - name: PG_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $root.Values.pgSecret }}
+                  key: PG_HOST.secret
+            - name: PG_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $root.Values.pgSecret }}
+                  key: PG_PORT.secret
+            - name: PG_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $root.Values.pgSecret }}
+                  key: PG_PASS.secret
+            - name: PG_PASS_RO
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $root.Values.pgSecret }}
+                  key: PG_PASS_RO.secret
+            - name: PG_PASS_TEAM
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $root.Values.pgSecret }}
+                  key: PG_PASS_TEAM.secret
+            - name: PG_ADMIN_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $root.Values.pgSecret }}
+                  key: PG_ADMIN_USER.secret
+            image: {{ $root.Values.affiliationsImage }}
+            imagePullPolicy: {{ $root.Values.imagePullPolicy }}
+            name: '{{ $root.Values.affiliationsPodName }}-{{ .proj }}'
+            volumeMounts:
+            - name: '{{ $root.Values.volumeMountName }}-{{ .proj }}'
+              mountPath: '{{ $root.Values.volumeMountPath }}'
+          volumes:
+          - name: '{{ $root.Values.volumeName }}-{{ .proj }}'
+            persistentVolumeClaim:
+              claimName: '{{ $root.Values.pvName }}-{{ .proj }}'
+          restartPolicy: {{ $root.Values.affiliationsRestartPolicy }}
+          nodeSelector:
+{{- with $root.Values.appNodeSelector -}}
+{{ toYaml . | nindent 12 }}
+{{ end }}
+{{ end }}
+{{ end }}
+{{ end }}

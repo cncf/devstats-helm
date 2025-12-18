@@ -1,0 +1,17 @@
+{{- $skipNamespaces := .Values.skipNamespaces -}}
+{{ if not $skipNamespaces }}
+---
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: '{{ .Values.testNamespace }}'
+  labels:
+    name: '{{ .Values.testNamespace }}'
+---
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: '{{ .Values.prodNamespace }}'
+  labels:
+    name: '{{ .Values.prodNamespace }}'
+{{ end }}

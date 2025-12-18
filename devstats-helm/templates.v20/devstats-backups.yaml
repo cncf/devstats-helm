@@ -1,0 +1,100 @@
+{{- $skipBackups := .Values.skipBackups -}}
+{{ if not $skipBackups }}
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  namespace: '{{ .Values.namespace }}'
+  name: '{{ .Values.backupsPodName }}'
+  labels:
+    name: devstats
+    type: 'backups-cron'
+spec:
+{{ if and (.Values.backupsProdServer) (not .Values.backupsTestServer) }}
+  schedule: '{{ .Values.backupsCronProd }}'
+{{ if .Values.backupsSuspendCronProd }}
+  suspend: {{ .Values.backupsSuspendCronProd }}
+{{ end }}
+{{ else }}
+  schedule: '{{ .Values.backupsCronTest }}'
+{{ if .Values.backupsSuspendCronTest }}
+  suspend: {{ .Values.backupsSuspendCronTest }}
+{{ end }}
+{{ end }}
+  successfulJobsHistoryLimit: {{ .Values.backupsCronHistoryLimit }}
+  failedJobsHistoryLimit: {{ .Values.backupsCronFailedHistoryLimit }}
+  startingDeadlineSeconds: {{ .Values.backupsCronStartingDeadlineSeconds }}
+  concurrencyPolicy: {{ .Values.concurrencyPolicy }}
+  jobTemplate:
+    spec:
+      backoffLimit: {{ .values.backupsBackoffLimit }}
+      template:
+        metadata:
+          namespace: '{{ .Values.namespace }}'
+          name: '{{ .Values.backupsPodName }}'
+          labels:
+            name: devstats
+            type: 'backups-sync'
+        spec:
+          containers:
+          - command:
+            - {{ .Values.backupsCommand }}
+{{ if .Values.backupsCommandArgs }}
+            args:
+{{- with .Values.backupsCommandArgs -}}
+{{ toYaml . | nindent 14 }}
+{{ end }}
+{{ end }}
+{{ if .Values.useBackupsResourcesLimits }}
+            resources:
+              requests:
+                memory: '{{ .Values.requestsBackupsMemory }}'
+                cpu: '{{ .Values.requestsBackupsCPU }}'
+              limits:
+                memory: '{{ .Values.limitsBackupsMemory }}'
+                cpu: '{{ .Values.limitsBackupsCPU }}'
+{{ end }}
+            env:
+            - name: TEST_SERVER
+              value: '{{ .Values.backupsTestServer }}'
+            - name: PROD_SERVER
+              value: '{{ .Values.backupsProdServer }}'
+            - name: ONLY
+              value: '{{ .Values.backupsOnlyProjects}}'
+            - name: NOAGE
+              value: '{{ .Values.backupsNoAge}}'
+            - name: DBDEBUG
+              value: '{{ .Values.debug }}'
+            - name: GIANT
+              value: '{{ .Values.giantBackups }}'
+            - name: PG_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.pgSecret }}
+                  key: PG_PORT.secret
+            - name: PG_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.pgSecret }}
+                  key: PG_HOST_RO.secret
+            - name: PG_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.pgSecret }}
+                  key: PG_PASS.secret
+            image: {{ .Values.backupsImage }}
+            imagePullPolicy: {{ .Values.imagePullPolicy }}
+            name: '{{ .Values.backupsPodName }}'
+            volumeMounts:
+            - name: '{{ .Values.volumeMountName }}-backups'
+              mountPath: '{{ .Values.volumeMountPath }}'
+          volumes:
+          - name: '{{ .Values.volumeName }}-backups'
+            persistentVolumeClaim:
+              claimName: '{{ .Values.backupsPVName }}'
+          restartPolicy: {{ .Values.backupsRestartPolicy }}
+          nodeSelector:
+{{- with .Values.backupsNodeSelector -}}
+{{ toYaml . | nindent 12 }}
+{{ end }}
+{{ end }}

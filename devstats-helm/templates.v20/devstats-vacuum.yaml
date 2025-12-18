@@ -1,0 +1,72 @@
+{{- $skipVacuum := .Values.skipVacuum -}}
+{{ if not $skipVacuum }}
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  namespace: '{{ .Values.namespace }}'
+  name: '{{ .Values.vacuumPodName }}'
+  labels:
+    name: devstats
+    type: 'vacuum-cron'
+spec:
+  schedule: '{{ .Values.vacuumCron }}'
+  successfulJobsHistoryLimit: {{ .Values.vacuumCronHistoryLimit }}
+  failedJobsHistoryLimit: {{ .Values.vacuumCronFailedHistoryLimit }}
+  startingDeadlineSeconds: {{ .Values.vacuumCronStartingDeadlineSeconds }}
+  concurrencyPolicy: {{ .Values.concurrencyPolicy }}
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          namespace: '{{ .Values.namespace }}'
+          name: '{{ .Values.vacuumPodName }}'
+          labels:
+            name: devstats
+            type: 'vacuum-sync'
+        spec:
+          containers:
+          - command:
+            - {{ .Values.vacuumCommand }}
+{{ if .Values.vacuumCommandArgs }}
+            args:
+{{- with .Values.vacuumCommandArgs -}}
+{{ toYaml . | nindent 14 }}
+{{ end }}
+{{ end }}
+{{ if .Values.useVacuumResourcesLimits }}
+            resources:
+              requests:
+                memory: '{{ .Values.requestsVacuumMemory }}'
+                cpu: '{{ .Values.requestsVacuumCPU }}'
+              limits:
+                memory: '{{ .Values.limitsVacuumMemory }}'
+                cpu: '{{ .Values.limitsVacuumCPU }}'
+{{ end }}
+            env:
+            - name: DBDEBUG
+              value: '{{ .Values.debug }}'
+            - name: PG_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.pgSecret }}
+                  key: PG_PORT.secret
+            - name: PG_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.pgSecret }}
+                  key: PG_HOST.secret
+            - name: PG_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.pgSecret }}
+                  key: PG_PASS.secret
+            image: {{ .Values.vacuumImage }}
+            imagePullPolicy: {{ .Values.imagePullPolicy }}
+            name: '{{ .Values.vacuumPodName }}'
+          restartPolicy: {{ .Values.vacuumRestartPolicy }}
+          nodeSelector:
+{{- with .Values.appNodeSelector -}}
+{{ toYaml . | nindent 12 }}
+{{ end }}
+{{ end }}

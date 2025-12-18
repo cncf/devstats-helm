@@ -341,6 +341,11 @@ helm upgrade --install nginx-ingress-prod ingress-nginx/ingress-nginx \
 XXX: continue (from continue.secret file).
 
 
+# DevStats installation
+- Copy `devstats-helm` repo onto the master node (or clone and then also copy gitignored *.secret files).
+- Change directory to that repo and install `prod` namespace secrets: `` elm install devstats-prod-secrets ./devstats-helm --set namespace='devstats-prod',skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1 ``.
+
+
 # Used Software
 
 - containerd 2.1.4

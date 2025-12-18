@@ -109,8 +109,6 @@
 # postgresImageName: 'lukaszgryglicki/devstats-patroni-new'
 # postgresImageName: 'jberkus/patroni-simple:v13'
 # postgresImageName: 'lukaszgryglicki/devstats-patroni-13'
-# postgresImageName: 'lukaszgryglicki/devstats-patroni-13'
-# postgresImageName: 'lukaszgryglicki/devstats-patroni-18-hll'
 # periods: 'd7:t,m:f,q:t,y10:f,y3:t,m6:f,y100:f'
 # periods: 'c_j_i:t,c_i_g:t,c_g_n:t,c_i_n:t,c_j_g:t'
 # projectsOverride: '+azf,+cncf,+fn,+linux,+opencontainers,+openfaas,+openwhisk,+riff,+rkt,+sam,+zephyr,+opentracing,+brigade,+openservicemesh'
@@ -272,28 +270,28 @@ indexServicesFrom: 0
 indexServicesTo: 300
 indexStaticsFrom: 0
 indexStaticsTo: 4
-limitsAPICPU: '4000m'
-limitsAPIMemory: '6Gi'
-limitsBackupsCPU: '4000m'
-limitsBackupsMemory: '100Gi'
-limitsBootstrapCPU: '8000m'
-limitsBootstrapMemory: '32Gi'
-limitsAffiliationsCPU: '10000m'
-limitsAffiliationsMemory: '256Gi'
-limitsCronsCPU: '6000m'
-limitsCronsMemory: '256Gi'
-limitsGrafanasCPU: '2000m'
-limitsGrafanasMemory: '6Gi'
-limitsPostgresCPU: '160000m'
-limitsPostgresMemory: '1Ti'
-limitsProvisionsCPU: '10000m'
-limitsProvisionsMemory: '256Gi'
-limitsReportsCPU: '2000m'
-limitsReportsMemory: '16Gi'
-limitsStaticsCPU: '2000m'
-limitsStaticsMemory: '4Gi'
-limitsVacuumCPU: '500m'
-limitsVacuumMemory: '2Gi'
+limitsAPICPU: '1000m'
+limitsAPIMemory: '3Gi'
+limitsBackupsCPU: '2000m'
+limitsBackupsMemory: '24Gi'
+limitsBootstrapCPU: '2000m'
+limitsBootstrapMemory: '4Gi'
+limitsAffiliationsCPU: '8000m'
+limitsAffiliationsMemory: '64Gi'
+limitsCronsCPU: '4000m'
+limitsCronsMemory: '64Gi'
+limitsGrafanasCPU: '1000m'
+limitsGrafanasMemory: '2Gi'
+limitsPostgresCPU: '40000m'
+limitsPostgresMemory: '256Gi'
+limitsProvisionsCPU: '8000m'
+limitsProvisionsMemory: '100Gi'
+limitsReportsCPU: '1000m'
+limitsReportsMemory: '8Gi'
+limitsStaticsCPU: '1000m'
+limitsStaticsMemory: '2Gi'
+limitsVacuumCPU: '200m'
+limitsVacuumMemory: '1Gi'
 metricsYAML: ''
 maxRunDuration: ''
 name: devstats
@@ -311,7 +309,7 @@ patroniLoopWait: 15
 patroniTtl: 60
 patroniRetryTimeout: 60
 patroniMasterStartTimeout: 600
-patroniMaximumLagOnFailover: 53687091200
+patroniMaximumLagOnFailover: 5368709120
 pgSecret: pg-db
 prodNamespace: 'devstats-prod'
 projectsFile: 'devstats-helm/projects.yaml'
@@ -323,34 +321,34 @@ provisionRestartPolicy: Never
 postgresPort: 5432
 postgresSvcName: 'devstats-postgres'
 # postgresImageName: 'lukaszgryglicki/devstats-patroni-new'
-# postgresImageName: 'lukaszgryglicki/devstats-patroni-hll-13'
-postgresImageName: 'lukaszgryglicki/devstats-patroni-18-hll'
-postgresStorageSize: '23000Gi'
+postgresImageName: 'lukaszgryglicki/devstats-patroni-hll-13'
+postgresStorageSize: '7500Gi'
 postgresNodes: 4
-postgresSharedBuffers: '500GB'
+postgresSharedBuffers: '80GB'
 postgresMaxConn: 1024
 #postgresMaxParallelWorkersPerGather: 12
 postgresMaxParallelWorkersPerGather: 28 # josh
 postgresMaxWorkerProcesses: 32
 postgresMaxParallelWorkers: 32
-postgresWorkMem: '8GB'
-postgresWalBuffers: '1GB'
-postgresMaxTempFile: '200GB'
+postgresWorkMem: '2GB'
+postgresWalBuffers: '128MB'
+postgresMaxTempFile: '50GB'
 postgresUseSlots: true
 postgresHotStandby: 'on'
 postgresHotStandbyFeedback: 'on'
 postgresWalLogHints: 'on'
+postgresWalKeepSegments: 500
 postgresWalLevel: 'replica'
-postgresWalKeepSize: '100GB'
+postgresWalKeepSize: '12GB'
 postgresMaxWalSenders: 5
 postgresMaxReplicationSlots: 5
-postgresMaintenanceWorkMem: '2GB'
+postgresMaintenanceWorkMem: '1GB'
 postgresIdleTransactionTimeout: '30min'
-postgresMaxWalSize: '128GB'
-postgresMinWalSize: '4GB'
+postgresMaxWalSize: '16GB'
+postgresMinWalSize: '1GB'
 postgresCheckpointCompletionTarget: '0.9'
 postgresDefaultStatisticsTarget: 1000
-postgresCacheSize: '256GB'
+postgresCacheSize: '128GB'
 postgresIOConcurrency: 8
 postgresRandomPageCost: 1.1
 postgresAutovacuumMaxWorkers: 1
@@ -371,28 +369,28 @@ reportsCommandArgs: ['36525d']
 reportsImage: 'lukaszgryglicki/devstats-reports'
 reportsRestartPolicy: 'Never'
 reportsVolumeMountPath: '/data'
-requestsAPICPU: '1000m'
-requestsAPIMemory: '512Mi'
-requestsBackupsCPU: '1000m'
-requestsBackupsMemory: '1Gi'
-requestsBootstrapCPU: '1000m'
-requestsBootstrapMemory: '1Gi'
-requestsAffiliationsCPU: '1000m'
-requestsAffiliationsMemory: '2Gi'
-requestsCronsCPU: '1000m'
-requestsCronsMemory: '2Gi'
-requestsGrafanasCPU: '200m'
-requestsGrafanasMemory: '512Mi'
-requestsPostgresCPU: '32000m'
-requestsPostgresMemory: '128Gi'
-requestsProvisionsCPU: '1000m'
-requestsProvisionsMemory: '4Gi'
-requestsReportsCPU: '1000m'
-requestsReportsMemory: '1Gi'
-requestsStaticsCPU: '500m'
-requestsStaticsMemory: '512Mi'
-requestsVacuumCPU: '200m'
-requestsVacuumMemory: '256Mi'
+requestsAPICPU: '100m'
+requestsAPIMemory: '256Mi'
+requestsBackupsCPU: '100m'
+requestsBackupsMemory: '256Mi'
+requestsBootstrapCPU: '300m'
+requestsBootstrapMemory: '512Mi'
+requestsAffiliationsCPU: '150m'
+requestsAffiliationsMemory: '384Mi'
+requestsCronsCPU: '100m'
+requestsCronsMemory: '256Mi'
+requestsGrafanasCPU: '50m'
+requestsGrafanasMemory: '128Mi'
+requestsPostgresCPU: '8000m'
+requestsPostgresMemory: '32Gi'
+requestsProvisionsCPU: '500m'
+requestsProvisionsMemory: '1536Mi'
+requestsReportsCPU: '100m'
+requestsReportsMemory: '256Mi'
+requestsStaticsCPU: '100m'
+requestsStaticsMemory: '256Mi'
+requestsVacuumCPU: '50m'
+requestsVacuumMemory: '128Mi'
 restoreFrom: 'https://devstats.cncf.io/backups/'
 secretType: Opaque
 servicePodName: devstats-service
@@ -446,7 +444,7 @@ useReportsResourcesLimits: 1
 useStaticsResourcesLimits: 1
 useVacuumResourcesLimits: 1
 waitForBootstrap: 120
-waitForPostgres: 60
+waitForPostgres: 30
 projects:
 - proj: kubernetes
   url: k8s

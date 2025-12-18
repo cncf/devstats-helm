@@ -1,0 +1,20 @@
+{{- $skipBackupsPV := .Values.skipBackupsPV -}}
+{{ if not $skipBackupsPV }}
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  namespace: '{{ .Values.namespace }}'
+  name: '{{ .Values.backupsPVName }}'
+  labels:
+    name: devstats
+    type: pvc
+    proj: backups
+spec:
+  accessModes:
+    - {{ .Values.backupsStorageAccessModes }}
+  storageClassName: {{ .Values.backupsStorageClass }}
+  resources:
+    requests:
+      storage: {{ .Values.backupsPVSize }}
+{{ end }}
