@@ -391,7 +391,8 @@ curl -s -X PATCH \
         "autovacuum_vacuum_threshold": 150,
         "autovacuum_vacuum_scale_factor": 0.25,
         "autovacuum_analyze_threshold": 100,
-        "autovacuum_analyze_scale_factor": 0.2
+        "autovacuum_analyze_scale_factor": 0.2,
+        "password_encryption": "scram-sha-256"
       }
     }
   }' \
@@ -401,6 +402,8 @@ curl -s -X PATCH \
 - Confirm final configuration and clean state: `` k exec -itn devstats-prod devstats-postgres-0 -- patronictl show-config && k exec -itn devstats-prod devstats-postgres-0 -- patronictl list ``.
 - Install static page handlers: `` helm install devstats-prod-statics ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipAPI=1,skipNamespaces=1,indexStaticsFrom=1 ``.
 - Install prod ingress (will not work yet until SSL certs and DNS are set): `` helm install devstats-prod-ingress ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipStatic=1,skipAPI=1,skipNamespaces=1,skipAliases=1,indexDomainsFrom=1,ingressClass=nginx-prod,sslEnv=prod ``.
+- Install bootstrap DB: `` helm install devstats-prod-bootstrap ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1 ``.
+- Make sure it finishes successfully: `` k logs -f devstats-provision-bootstrap ``. Then: `` devstats-provision-bootstrap ``.
 
 
 # Used Software
