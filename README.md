@@ -342,7 +342,7 @@ XXX: continue (from continue.secret file).
 
 
 # DevStats installation
-- Copy `devstats-helm` repo onto the master node (or clone and then also copy gitignored *.secret files).
+- Copy `devstats-helm` repo onto the master node (or clone and then also copy gitignored `*.secret` files).
 - Change directory to that repo and install `prod` namespace secrets: `` helm install devstats-prod-secrets ./devstats-helm --set namespace='devstats-prod',skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1 ``.
 - Create backups PV (ReadWriteMany): `` helm install devstats-prod-backups-pv ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1 ``.
 - Deploy git storage PVs: `` helm install devstats-prod-pvcs ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1 ``.
@@ -433,10 +433,10 @@ cp ../devstatscode/sqlitedb ../devstatscode/runq ../devstatscode/replacer grafan
 - containerd 2.1.4
 - crictl 1.34.0
 - runc 1.3.0
-- kubernetes 1.34.1
+- kubernetes 1.35.0
 - flannel v0.27.4
 - coredns 1.14.1
-- helm 3.18.0
+- helm 4.0.4
 - openebs 3.10.0
 - openebs-dynamic-nfs 0.11.0
 - nginx-ingress 4.13.3
