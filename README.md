@@ -444,3 +444,5 @@ cp ../devstatscode/sqlitedb ../devstatscode/runq ../devstatscode/replacer grafan
 - openebs 3.10.0
 - openebs-dynamic-nfs 0.11.0
 - nginx-ingress 4.13.3
+- patroni 4.1.0
+- postgresql 18.1
