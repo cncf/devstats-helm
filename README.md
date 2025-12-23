@@ -446,3 +446,5 @@ cp ../devstatscode/sqlitedb ../devstatscode/runq ../devstatscode/replacer grafan
 - nginx-ingress 4.13.3
 - patroni 4.1.0
 - postgresql 18.1
+- grafana 8.5.27
+- nginx 1.29.3
