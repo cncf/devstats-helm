@@ -432,6 +432,13 @@ cp ../devstatscode/sqlitedb ../devstatscode/runq ../devstatscode/replacer grafan
 - Deploy DevStats API service: `` helm install devstats-prod-api ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipNamespaces=1,apiImage='lukaszgryglicki/devstats-api-prod' ``.
 - XXX: Deploy backups cron job: `` helm install devstats-prod-backups ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,backupsCronProd='45 2 10,24 * *',backupsTestServer='',backupsProdServer='1' ``.
 
+# Other instances
+
+- Normal prod instances are marked via `` domains: [0, 1, 0, 0] ``.
+- Only the following projects should be installed in the test namespace: `` azf cii cncf fn godotengine linux opencontainers openfaas openwhisk riff sam zephyr ``. They are in `` [1, 0, 0, 0] ``.
+- GraphQL instances, they are marked as domains: `` [0, 0, 0, 1] ``: `` graphqljs graphiql grpahqlspec expressgraphql graphql ``. Indexes are: `` [44, 48] ``.
+- CDF instances, they are marked as domains: `` [0, 0, 1, 0] ``: `` tekton spinnaker jenkinsx jenkins allcdf cdevents ortelius pyrsia screwdrivercd shipwright ``. Indexes are: `` [39, 43], [182, 186] ``.
+
 
 # Used Software
 
