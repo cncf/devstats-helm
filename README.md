@@ -437,7 +437,7 @@ cp ../devstatscode/sqlitedb ../devstatscode/runq ../devstatscode/replacer grafan
 # Other instances
 
 - Normal prod instances are marked via `` domains: [0, 1, 0, 0] ``.
-- Only the following projects should be installed in the test namespace: `` azf cii cncf fn godotengine linux opencontainers openfaas openwhisk riff sam zephyr ``. They are in `` [1, 0, 0, 0] ``.
+- Only the following projects should be installed in the test namespace: `` azf cii cncf fn godotengine linux opencontainers openfaas openwhisk riff sam zephyr ``. They are in `` [1, 0, 0, 0] ``. Indexes are: `` [49, 50], [53, 54], [59, 64], [67], [97] ``.
 - GraphQL instances, they are on prod and marked as domains: `` [0, 0, 0, 1] ``: `` graphqljs graphiql graphqlspec expressgraphql graphql ``. Indexes are: `` [44, 48] ``.
 - CDF instances, they are on prod and marked as domains: `` [0, 0, 1, 0] ``: `` tekton spinnaker jenkinsx jenkins allcdf cdevents ortelius pyrsia screwdrivercd shipwright ``. Indexes are: `` [39, 43], [182, 186] ``.
 
@@ -457,8 +457,17 @@ cp ../devstatscode/sqlitedb ../devstatscode/runq ../devstatscode/replacer grafan
 - Restart due to those changes: `` k exec -it devstats-postgres-0 -c devstats-postgres -- patronictl restart devstats-postgres devstats-postgres-0 ``.
 - Deploy static page handlers (default and for test domain): `` helm install devstats-test-statics ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipAPI=1,skipNamespaces=1,indexStaticsFrom=0,indexStaticsTo=1 ``.
 - Deploy test domain ingress: `` helm install devstats-test-ingress ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipStatic=1,skipAPI=1,skipNamespaces=1,indexDomainsFrom=0,indexDomainsTo=1,ingressClass=nginx-test,sslEnv=test ``.
-- Install bootstrap DB: `` helm install devstats-prod-bootstrap ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1 ``.
-- Make sure it finishes successfully: `` k logs -f devstats-provision-bootstrap ``. Then: `` devstats-provision-bootstrap ``.
+- Deploy/bootstrap logs database: `` helm install devstats-test-bootstrap ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1 ``.
+- Make sure it finishes successfully: `` k logs -f devstats-provision-bootstrap ``. Then: `` k delete po devstats-provision-bootstrap ``.
+- Follow `Copy grafana shared data` from `cncf/devstats/ADDING_NEW_PROJECT.md`, do from `cncf/devstats` repo:
+```
+cp ../devstatscode/sqlitedb ../devstatscode/runq ../devstatscode/replacer grafana/ && tar cf devstats-grafana.tar grafana/runq grafana/sqlitedb grafana/replacer grafana/shared grafana/img/*.svg grafana/img/*.png grafana/*/change_title_and_icons.sh grafana/*/custom_sqlite.sql grafana/dashboards/*/*.json
+```
+- `sftp` it to devstats node: `sftp ubuntu@onodeN`, `mput devstats-grafana.tar`. SSH into that node: `ssh ubuntu@onodeN`, get static pod name: `k get po -n devstats-test | grep static-test`.
+- Copy new grafana data to that pod: `k cp devstats-grafana.tar -n devstats-test devstats-static-test-5779c5dd5d-2prpr:/devstats-grafana.tar`, shell into that pod: `k exec -itn devstats-test devstats-static-test-5779c5dd5d-2prpr -- bash`.
+- Do all/everything command: `rm -rf /grafana && tar xf /devstats-grafana.tar && rm -rf /usr/share/nginx/html/backups/grafana && mv /grafana /usr/share/nginx/html/backups/grafana && rm /devstats-grafana.tar && chmod -R ugo+rwx /usr/share/nginx/html/backups/grafana/ && echo 'All OK'`.
+- Install 1st set of test projects: `` ./scripts/helm_install_test_set.sh devstats-test-projects-1 49 51 8 512 ``.
+- XXX: continue installing test projects.
 
 
 # Used Software
