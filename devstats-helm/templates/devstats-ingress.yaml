@@ -1,5 +1,44 @@
 {{- $skipIngress := .Values.skipIngress -}}
-{{ if not $skipIngress }}
+{{- if not $skipIngress -}}
+
+{{- $root := . -}}
+
+{{- $hasIngress2Rules := dict "v" false -}}
+{{- $hasIngress3Rules := dict "v" false -}}
+
+{{- range $jndex, $_ := .Values.domains -}}
+  {{- $dom := .name -}}
+  {{- if and (or (eq ($jndex|int) ($root.Values.indexDomainsFrom|int)) (gt ($jndex|int) ($root.Values.indexDomainsFrom|int))) (lt ($jndex|int) ($root.Values.indexDomainsTo|int)) -}}
+    {{- range $index, $_ := $root.Values.projects -}}
+      {{- if and (or (eq ($index|int) ($root.Values.indexIngressesFrom|int)) (gt ($index|int) ($root.Values.indexIngressesFrom|int))) (lt ($index|int) ($root.Values.indexIngressesTo|int)) -}}
+
+        {{- if and (eq (.certNum|int) 2) (or (eq ($jndex|int) 0) (not .archived)) -}}
+          {{- if gt ((index .domains $jndex)|int) 0 -}}
+            {{- $_ := set $hasIngress2Rules "v" true -}}
+          {{- end -}}
+          {{- if not $root.Values.skipAliases -}}
+            {{- range $_, $alias := .aliases -}}
+              {{- $_ := set $hasIngress2Rules "v" true -}}
+            {{- end -}}
+          {{- end -}}
+        {{- end -}}
+
+        {{- if and (eq (.certNum|int) 3) (or (eq ($jndex|int) 0) (not .archived)) -}}
+          {{- if gt ((index .domains $jndex)|int) 0 -}}
+            {{- $_ := set $hasIngress3Rules "v" true -}}
+          {{- end -}}
+          {{- if not $root.Values.skipAliases -}}
+            {{- range $_, $alias := .aliases -}}
+              {{- $_ := set $hasIngress3Rules "v" true -}}
+            {{- end -}}
+          {{- end -}}
+        {{- end -}}
+
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -18,7 +57,6 @@ spec:
   ingressClassName: '{{ .Values.ingressClass }}'
   tls:
   - hosts:
-{{- $root := . -}}
 {{ range $jndex, $_ := .Values.domains }}
 {{ if and (or (eq ($jndex|int) ($root.Values.indexDomainsFrom|int)) (gt ($jndex|int) ($root.Values.indexDomainsFrom|int))) (lt ($jndex|int) ($root.Values.indexDomainsTo|int)) }}
     - {{ .name }}
@@ -118,6 +156,8 @@ spec:
 {{ end }}
 {{ end }}
 {{ end }}
+
+{{- if $hasIngress2Rules.v }}
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -136,7 +176,6 @@ spec:
   ingressClassName: '{{ .Values.ingressClass }}'
   tls:
   - hosts:
-{{- $root := . -}}
 {{ range $jndex, $_ := .Values.domains }}
 {{- $dom := .name -}}
 {{ if and (or (eq ($jndex|int) ($root.Values.indexDomainsFrom|int)) (gt ($jndex|int) ($root.Values.indexDomainsFrom|int))) (lt ($jndex|int) ($root.Values.indexDomainsTo|int)) }}
@@ -196,6 +235,9 @@ spec:
 {{ end }}
 {{ end }}
 {{ end }}
+{{- end }}
+
+{{- if $hasIngress3Rules.v }}
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -214,7 +256,6 @@ spec:
   ingressClassName: '{{ .Values.ingressClass }}'
   tls:
   - hosts:
-{{- $root := . -}}
 {{ range $jndex, $_ := .Values.domains }}
 {{- $dom := .name -}}
 {{ if and (or (eq ($jndex|int) ($root.Values.indexDomainsFrom|int)) (gt ($jndex|int) ($root.Values.indexDomainsFrom|int))) (lt ($jndex|int) ($root.Values.indexDomainsTo|int)) }}
@@ -274,4 +315,7 @@ spec:
 {{ end }}
 {{ end }}
 {{ end }}
-{{ end }}
+{{- end }}
+
+{{- end -}}
+
