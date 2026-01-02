@@ -342,11 +342,13 @@ XXX: continue (from continue.secret file).
 
 
 # DevStats installation
+
 - Copy `devstats-helm` repo onto the master node (or clone and then also copy gitignored `*.secret` files).
 - Change directory to that repo and install `prod` namespace secrets: `` helm install devstats-prod-secrets ./devstats-helm --set namespace='devstats-prod',skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1 ``.
 - Create backups PV (ReadWriteMany): `` helm install devstats-prod-backups-pv ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1 ``.
 - Deploy git storage PVs: `` helm install devstats-prod-pvcs ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1 ``.
 - Deploy patroni: `` helm install devstats-prod-patroni ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1 ``.
+- Get master IP: `` k exec -it devstats-postgres-0 -- patronictl list ``.
 - Manually tweak it:
 ```
 curl -s -X PATCH \
@@ -403,7 +405,7 @@ curl -s -X PATCH \
 - Install static page handlers: `` helm install devstats-prod-statics ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipAPI=1,skipNamespaces=1,indexStaticsFrom=1 ``.
 - Install prod ingress (will not work yet until SSL certs and DNS are set): `` helm install devstats-prod-ingress ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipStatic=1,skipAPI=1,skipNamespaces=1,skipAliases=1,indexDomainsFrom=1,ingressClass=nginx-prod,sslEnv=prod ``.
 - Install bootstrap DB: `` helm install devstats-prod-bootstrap ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1 ``.
-- Make sure it finishes successfully: `` k logs -f devstats-provision-bootstrap ``. Then: `` devstats-provision-bootstrap ``.
+- Make sure it finishes successfully: `` k logs -f devstats-provision-bootstrap ``. Then: `` k delete po devstats-provision-bootstrap ``.
 - Follow `Copy grafana shared data` from `cncf/devstats/ADDING_NEW_PROJECT.md`, do from `cncf/devstats` repo:
 ```
 cp ../devstatscode/sqlitedb ../devstatscode/runq ../devstatscode/replacer grafana/ && tar cf devstats-grafana.tar grafana/runq grafana/sqlitedb grafana/replacer grafana/shared grafana/img/*.svg grafana/img/*.png grafana/*/change_title_and_icons.sh grafana/*/custom_sqlite.sql grafana/dashboards/*/*.json
@@ -438,6 +440,25 @@ cp ../devstatscode/sqlitedb ../devstatscode/runq ../devstatscode/replacer grafan
 - Only the following projects should be installed in the test namespace: `` azf cii cncf fn godotengine linux opencontainers openfaas openwhisk riff sam zephyr ``. They are in `` [1, 0, 0, 0] ``.
 - GraphQL instances, they are on prod and marked as domains: `` [0, 0, 0, 1] ``: `` graphqljs graphiql graphqlspec expressgraphql graphql ``. Indexes are: `` [44, 48] ``.
 - CDF instances, they are on prod and marked as domains: `` [0, 0, 1, 0] ``: `` tekton spinnaker jenkinsx jenkins allcdf cdevents ortelius pyrsia screwdrivercd shipwright ``. Indexes are: `` [39, 43], [182, 186] ``.
+
+
+# DevStats installation in test namespace
+
+- Copy `devstats-helm` repo onto the node0 (or clone and then also copy gitignored `*.secret` files).
+- First switch context to test: `./switch_context.sh test`.
+- Second confirm that the current context is test: `./current_context.sh`.
+- Confirm that you have test secrets defined and that they have no end-line: `cat devstats-helm/secrets/*.secret` - should return one big line of all secret values concatenated.
+- Change directory to that repo and install `test` namespace secrets: `` helm install devstats-test-secrets ./devstats-helm --set skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1 ``.
+- Deploy backups PV (ReadWriteMany): `` helm install devstats-test-backups-pv ./devstats-helm --set skipSecrets=1,skipPVs=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1 ``.
+- Deploy git storage PVs: `` helm install devstats-test-pvcs ./devstats-helm --set skipSecrets=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1 ``.
+- Deploy patroni: `` helm install devstats-test-patroni ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1 ``.
+- Get master IP: `` k exec -it devstats-postgres-0 -- patronictl list ``.
+- Manually tweak it: `` curl -s -X PATCH -H 'Content-Type: application/json' -d '{"loop_wait":15,"ttl":60,"retry_timeout":60,"primary_start_timeout":600,"maximum_lag_on_failover":53687091200,"postgresql":{"use_pg_rewind":true,"use_slots":true,"parameters":{"shared_buffers":"250GB","max_connections":1024,"max_worker_processes":16,"max_parallel_workers":16,"max_parallel_workers_per_gather":28,"work_mem":"4GB","wal_buffers":"1GB","temp_file_limit":"200GB","wal_keep_size":"100GB","max_wal_senders":5,"max_replication_slots":5,"maintenance_work_mem":"2GB","idle_in_transaction_session_timeout":"30min","wal_level":"replica","wal_log_hints":"on","hot_standby":"on","hot_standby_feedback":"on","max_wal_size":"128GB","min_wal_size":"4GB","checkpoint_completion_target":0.9,"default_statistics_target":1000,"effective_cache_size":"128GB","effective_io_concurrency":8,"random_page_cost":1.1,"autovacuum_max_workers":1,"autovacuum_naptime":"120s","autovacuum_vacuum_cost_limit":100,"autovacuum_vacuum_threshold":150,"autovacuum_vacuum_scale_factor":0.25,"autovacuum_analyze_threshold":100,"autovacuum_analyze_scale_factor":0.2,"password_encryption":"scram-sha-256"}}}' http://10.244.8.229:8008/config | jq ``.
+- Restart due to those changes: `` k exec -it devstats-postgres-0 -c devstats-postgres -- patronictl restart devstats-postgres devstats-postgres-0 ``.
+- Deploy static page handlers (default and for test domain): `` helm install devstats-test-statics ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipAPI=1,skipNamespaces=1,indexStaticsFrom=0,indexStaticsTo=1 ``.
+- Deploy test domain ingress: `` helm install devstats-test-ingress ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipStatic=1,skipAPI=1,skipNamespaces=1,indexDomainsFrom=0,indexDomainsTo=1,ingressClass=nginx-test,sslEnv=test ``.
+- Install bootstrap DB: `` helm install devstats-prod-bootstrap ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1 ``.
+- Make sure it finishes successfully: `` k logs -f devstats-provision-bootstrap ``. Then: `` devstats-provision-bootstrap ``.
 
 
 # Used Software
