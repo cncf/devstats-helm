@@ -277,6 +277,8 @@ kubectl label node devstats-master ingress=test
 kubectl label node devstats-node-0 ingress=prod
 kubectl label node devstats-node-1 ingress=test
 kubectl label node devstats-node-2 ingress=prod
+kubectl label node devstats-node-3 ingress=test
+kubectl label node devstats-node-4 ingress=prod
 kubectl config use-context test
 helm upgrade --install nginx-ingress-test ingress-nginx/ingress-nginx \
   --namespace devstats-test --create-namespace \
@@ -470,7 +472,7 @@ cp ../devstatscode/sqlitedb ../devstatscode/runq ../devstatscode/replacer grafan
 - Copy new grafana data to that pod: `k cp devstats-grafana.tar -n devstats-test devstats-static-test-5779c5dd5d-2prpr:/devstats-grafana.tar`, shell into that pod: `k exec -itn devstats-test devstats-static-test-5779c5dd5d-2prpr -- bash`.
 - Do all/everything command: `rm -rf /grafana && tar xf /devstats-grafana.tar && rm -rf /usr/share/nginx/html/backups/grafana && mv /grafana /usr/share/nginx/html/backups/grafana && rm /devstats-grafana.tar && chmod -R ugo+rwx /usr/share/nginx/html/backups/grafana/ && echo 'All OK'`.
 - Install 1st set of test projects: `` ./scripts/helm_install_test_set.sh devstats-test-projects-1 49 51 8 512 ``.
-- XXX: continue installing test projects.
+- XXX: Deploy backups cron job: `` helm install devstats-test-backups ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,backupsCronProd='45 2 16,28 * *' ``.
 
 
 # Used Software
