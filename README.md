@@ -221,8 +221,7 @@ kubectl uncordon "$NODE"
 - You can test networking by executing `./k8s/test-networking.sh`.
 - On any node:
 ```
-for node in devstats-master devstats-node-0 devstats-node-1 devstats-node-2; do k label node $node node=devstats-app; k label node $node node2=devstats-db; done
-for node in devstats-node-3 devstats-node-4; do k label node $node node=devstats-app; done
+for node in devstats-master devstats-node-0 devstats-node-1 devstats-node-2 devstats-node-3 devstats-node-4; do k label node $node node=devstats-app; k label node $node node2=devstats-db; done
 ```
 
 - Confirm that all nodes have `/22` CIDR and 1024 pods/node: `` kubectl get nodes -o custom-columns=NAME:.metadata.name,CAP:.status.capacity.pods,PODCIDR:.spec.podCIDR `` - do NOT proceed until you see `1024` and `/22`.
