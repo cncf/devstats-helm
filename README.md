@@ -1,7 +1,4 @@
-﻿et wrap
-devstats-helm
-
-DevStats deployment on Oracle Cloud Ubuntu 24.04 LTS bare metal Kubernetes using Helm.
+﻿DevStats deployment on Oracle Cloud Ubuntu 24.04 LTS bare metal Kubernetes using Helm.
 
 This is deployed:
 - [CNCF prod](https://devstats.cncf.io).
@@ -18,11 +15,15 @@ This is deployed:
 10.0.0.y devstats-node-0
 10.0.0.z devstats-node-1
 10.0.0.v devstats-node-2
+10.0.0.w devstats-node-3
+10.0.0.k devstats-node-4
 
 x.y.z.v omaster
 x.y.z.v onode0
 x.y.z.v onode1
 x.y.z.v onode2
+x.y.z.v onode3
+x.y.z.v onode4
 ```
 - Then proceed:
 ```
@@ -96,10 +97,10 @@ YAML
 crictl info >/dev/null && echo "crictl wired to containerd"
 apt-get update && apt-get install -y apt-transport-https ca-certificates curl gpg
 mkdir -p -m 755 /etc/apt/keyrings
-curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.34/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-1-34.gpg
-echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-1-34.gpg] https://pkgs.k8s.io/core:/stable:/v1.34/deb/ /' | tee /etc/apt/sources.list.d/kubernetes-1-34.list
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.35/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-1-35.gpg
+echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-1-35.gpg] https://pkgs.k8s.io/core:/stable:/v1.35/deb/ /' | tee /etc/apt/sources.list.d/kubernetes-1-35.list
 apt-get update
-apt-get install -y kubelet=1.34.1-1.1 kubeadm=1.34.1-1.1 kubectl=1.34.1-1.1
+apt-get install -y kubelet=1.35.0-1.1 kubeadm=1.35.0-1.1 kubectl=1.35.0-1.1
 apt-mark hold kubelet kubeadm kubectl
 ```
 
@@ -147,7 +148,7 @@ helm version
 
 # On nodes
 
-- Run kubeadm join command that was generated at the end of master node kubeadm init output.
+- Run kubeadm join command that was generated at the end of master node kubeadm init output, or get a fresh one via: `` sudo kubeadm token create --print-join-command ``.
 - Add history stuff: `cp ~/.bash_history ~/.history; vim ~/.bashrc ~/.inputrc`:
 ```
 # History stuff
@@ -221,7 +222,10 @@ kubectl uncordon "$NODE"
 - On any node:
 ```
 for node in devstats-master devstats-node-0 devstats-node-1 devstats-node-2; do k label node $node node=devstats-app; k label node $node node2=devstats-db; done
+for node in devstats-node-3 devstats-node-4; do k label node $node node=devstats-app; done
 ```
+
+- Confirm that all nodes have `/22` CIDR and 1024 pods/node: `` kubectl get nodes -o custom-columns=NAME:.metadata.name,CAP:.status.capacity.pods,PODCIDR:.spec.podCIDR `` - do NOT proceed until you see `1024` and `/22`.
 
 # Storage
 - Run:
