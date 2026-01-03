@@ -281,6 +281,7 @@ kubectl label node devstats-node-1 ingress=test
 kubectl label node devstats-node-2 ingress=prod
 kubectl label node devstats-node-3 ingress=test
 kubectl label node devstats-node-4 ingress=prod
+k get no --show-labels
 kubectl config use-context test
 helm upgrade --install nginx-ingress-test ingress-nginx/ingress-nginx \
   --namespace devstats-test --create-namespace \
