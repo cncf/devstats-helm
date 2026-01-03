@@ -326,7 +326,7 @@ postgresSvcName: 'devstats-postgres'
 # postgresImageName: 'lukaszgryglicki/devstats-patroni-hll-13'
 postgresImageName: 'lukaszgryglicki/devstats-patroni-18-hll'
 postgresStorageSize: '23000Gi'
-postgresNodes: 5
+postgresNodes: 6
 postgresSharedBuffers: '500GB'
 postgresMaxConn: 1024
 #postgresMaxParallelWorkersPerGather: 12
@@ -342,8 +342,8 @@ postgresHotStandbyFeedback: 'on'
 postgresWalLogHints: 'on'
 postgresWalLevel: 'replica'
 postgresWalKeepSize: '100GB'
-postgresMaxWalSenders: 5
-postgresMaxReplicationSlots: 5
+postgresMaxWalSenders: 10
+postgresMaxReplicationSlots: 10
 postgresMaintenanceWorkMem: '2GB'
 postgresIdleTransactionTimeout: '30min'
 postgresMaxWalSize: '128GB'
