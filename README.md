@@ -29,6 +29,7 @@ x.y.z.v onode4
 ```
 passwd
 passwd ubuntu
+sudo chmod -x /etc/update-motd.d/*
 apt update -y && apt upgrade -y
 apt install mdadm mc btop -y
 mdadm --create /dev/md0 --level=10 --raid-devices=8 /dev/nvme[0-7]n1
@@ -42,6 +43,7 @@ echo "UUID=$UUID /data ext4 defaults,noatime,x-systemd.before=local-fs.target,x-
 umount /data
 mount -a
 systemctl daemon-reload
+mkdir /data/openebs && ln -s /data/openebs /var/openebs
 mkdir -p /data/{containerd,kubelet,etcd,logs/{containers,pods}}
 chown -R root:root /data
 chmod 755 /data
@@ -472,7 +474,8 @@ cp ../devstatscode/sqlitedb ../devstatscode/runq ../devstatscode/replacer grafan
 - Copy new grafana data to that pod: `k cp devstats-grafana.tar -n devstats-test devstats-static-test-5779c5dd5d-2prpr:/devstats-grafana.tar`, shell into that pod: `k exec -itn devstats-test devstats-static-test-5779c5dd5d-2prpr -- bash`.
 - Do all/everything command: `rm -rf /grafana && tar xf /devstats-grafana.tar && rm -rf /usr/share/nginx/html/backups/grafana && mv /grafana /usr/share/nginx/html/backups/grafana && rm /devstats-grafana.tar && chmod -R ugo+rwx /usr/share/nginx/html/backups/grafana/ && echo 'All OK'`.
 - Install 1st set of test projects: `` ./scripts/helm_install_test_set.sh devstats-test-projects-1 49 51 8 512 ``.
-- In case of provisioning failure you can do: `` helm install --generate-name ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipCrons=1,skipGrafanas=1,skipServices=1,skipAffiliations=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,skipECFRGReset=1,skipAddAll=1,projectsOverride='+azf\,+cii\,+cncf\,+fn\,+godotengine\,+linux\,+opencontainers\,+openfaas\,+openwhisk\,+riff\,+sam\,+zephyr',provisionCommand=sleep,provisionCommandArgs={360000s},provisionPodName=fix,indexProvisionsFrom=49,indexProvisionsTo=50,nCPUs=10,limitsProvisionsMemory=512Gi ``.
+- In case of provisioning failure you can do: `` helm install --generate-name ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipCrons=1,skipGrafanas=1,skipServices=1,skipAffiliations=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,skipECFRGReset=1,skipAddAll=1,projectsOverride='+azf\,+cii\,+cncf\,+fn\,+godotengine\,+linux\,+opencontainers\,+openfaas\,+openwhisk\,+riff\,+sam\,+zephyr',provisionCommand=sleep,provisionCommandArgs={360000s},provisionPodName=fix,indexProvisionsFrom=49,indexProvisionsTo=51,nCPUs=10,limitsProvisionsMemory=512Gi ``.
+- If Reinit metrics calculation is needed (allowing metrics to fail): `` helm install --generate-name ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,projectsOverride='+azf\,+cii\,+cncf\,+fn\,+godotengine\,+linux\,+opencontainers\,+openfaas\,+openwhisk\,+riff\,+sam\,+zephyr',indexProvisionsFrom=49,indexProvisionsTo=51,provisionCommand='./devstats-helm/reinit.sh',provisionPodName=reinit,allowMetricFail=1,maxRunDuration='calc_metric:72h:102',nCPUs=10,limitsProvisionsMemory=512Gi ``.
 - XXX: Deploy backups cron job: `` helm install devstats-test-backups ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,backupsCronProd='45 2 16,28 * *' ``.
 
 
