@@ -67,6 +67,8 @@ spec:
               value: '{{ .Values.debug }}'
             - name: GIANT
               value: '{{ .Values.giantBackups }}'
+            - name: FASTXZ
+              value: '1'
             - name: PG_PORT
               valueFrom:
                 secretKeyRef:
