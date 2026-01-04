@@ -27,7 +27,7 @@ spec:
   concurrencyPolicy: {{ .Values.concurrencyPolicy }}
   jobTemplate:
     spec:
-      backoffLimit: {{ .values.backupsBackoffLimit }}
+      backoffLimit: {{ .Values.backupsBackoffLimit }}
       template:
         metadata:
           namespace: '{{ .Values.namespace }}'
