@@ -5836,7 +5836,7 @@ projects:
   db: holmesgpt
   icon: holmesgpt
   org: HolmesGPT
-  repo: robusta-dev/holmesgpt
+  repo: HolmesGPT/holmesgpt
   cronTest: 58 2,8,14,20 * * *
   cronProd: 55 5,11,17,23 * * *
   affCronTest: 37 5 13 * *
