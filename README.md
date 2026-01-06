@@ -8,6 +8,7 @@ This is deployed:
 - Allow all egress to CIDR 0.0.0.0/0 (by all I mean all protocols/all ports).
 - Allow all ingress from CIDR: 10.0.0.0/16.
 - For each node's VNIC do: `oci network vnic update --vnic-id "ocid1.vnic.[...]" --skip-source-dest-check true`.
+- Setup NLBs: `` ./oci/nlb-setup.sh ``. You need to tweak that file with your OCIDs.
 - As root: `sudo bash`:
 - Add `/etc/hosts` entries for all servers on all instances (do this 4 times):
 ```
@@ -480,6 +481,11 @@ cp ../devstatscode/sqlitedb ../devstatscode/runq ../devstatscode/replacer grafan
 - If debug pod is needed: `` helm install devstats-test-debug ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,bootstrapPodName=debug,bootstrapCommand=sleep,bootstrapCommandArgs={360000s},bootstrapMountBackups=1 ``.
 - Shell into it: `` k exec -it debug -- bash ``. Then: `` helm delete devstats-test-debug ``.
 - Deploy backups cron job: `` helm install devstats-test-backups ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1 ``. Then `` k edit cj -n devstats-test devstats-backups ``, set `schedule:` to `45 2 8,15,22,28 * *`.
+
+
+# DNS and SSL
+
+- XXX: Switchover DNS address for DevStats domains and wildcard domains, request is in `DNS-switchover.secret` file.
 
 
 # Used Software

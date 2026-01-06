@@ -9,10 +9,12 @@ export NSG_OCID="$(cat ./OCI_NSG.secret)"
 # List of worker node private IPs per env (only the ones you labeled for that env):
 # k label node devstats-master ingress=test
 # k label node devstats-node-1 ingress=test
+# k label node devstats-node-3 ingress=test
 # k label node devstats-node-0 ingress=prod
 # k label node devstats-node-2 ingress=prod
-export TEST_NODE_IPS=("10.0.0.253" "10.0.0.53")
-export PROD_NODE_IPS=("10.0.0.223" "10.0.0.48")
+# k label node devstats-node-4 ingress=prod
+export TEST_NODE_IPS=("10.0.0.253" "10.0.0.53" "10.0.9.45")
+export PROD_NODE_IPS=("10.0.0.223" "10.0.0.48" "10.0.27.190")
 
 # NodePorts (HTTPS only)
 export TEST_HTTPS=31443

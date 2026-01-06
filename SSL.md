@@ -10,7 +10,7 @@ Please make sure that you have DNS configured and ingress controller working wit
 - Tweak them - change email value: `vim cert/cert-issuer.yaml`, also set correct `nginx-class`, for example: `class: nginx-prod`.
 - Apply issuers: `kubectl apply -f cert/cert-issuer.yaml`. Do not issue this before DNS is ready. If you've deployed DevStats ingress before this step, it will be ready with self-signed certificate.
 - Check it: `kubectl get issuers`.
-- Observer `k get challenge -w` wait until ready.
+- Observe `k get challenge -w` wait until ready.
 
 Troubleshooting/debugging:
 - If you deployed DevStats before applying cert issuer, you need to delete devstats-ingress and recreate - it will pick up cert issuer and get its certificates.
