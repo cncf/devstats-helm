@@ -54,6 +54,26 @@ oci nlb backend create --network-load-balancer-id "${NLB_PROD}" --backend-set-na
 # oci nlb backend list --network-load-balancer-id "${NLB_TEST}" --backend-set-name bs-test-http
 # oci nlb backend list --network-load-balancer-id "${NLB_PROD}" --backend-set-name bs-prod-http
 
+# Backends health
+# Test
+# HTTPS
+oci nlb backend-health get --network-load-balancer-id "${NLB_TEST}" --backend-set-name bs-test-https --backend-name "10.0.0.253:31443"
+oci nlb backend-health get --network-load-balancer-id "${NLB_TEST}" --backend-set-name bs-test-https --backend-name "10.0.0.53:31443"
+oci nlb backend-health get --network-load-balancer-id "${NLB_TEST}" --backend-set-name bs-test-https --backend-name "10.0.9.45:31443"
+# HTTP
+oci nlb backend-health get --network-load-balancer-id "${NLB_TEST}" --backend-set-name bs-test-http --backend-name "10.0.0.253:31080"
+oci nlb backend-health get --network-load-balancer-id "${NLB_TEST}" --backend-set-name bs-test-http --backend-name "10.0.0.53:31080"
+oci nlb backend-health get --network-load-balancer-id "${NLB_TEST}" --backend-set-name bs-test-http --backend-name "10.0.9.45:31080"
+# Prod
+# HTTPS
+oci nlb backend-health get --network-load-balancer-id "${NLB_PROD}" --backend-set-name bs-prod-https --backend-name "10.0.0.223:30443"
+oci nlb backend-health get --network-load-balancer-id "${NLB_PROD}" --backend-set-name bs-prod-https --backend-name "10.0.0.48:30443"
+oci nlb backend-health get --network-load-balancer-id "${NLB_PROD}" --backend-set-name bs-prod-https --backend-name "10.0.27.190:30443"
+# HTTP
+oci nlb backend-health get --network-load-balancer-id "${NLB_PROD}" --backend-set-name bs-prod-http --backend-name "10.0.0.223:30080"
+oci nlb backend-health get --network-load-balancer-id "${NLB_PROD}" --backend-set-name bs-prod-http --backend-name "10.0.0.48:30080"
+oci nlb backend-health get --network-load-balancer-id "${NLB_PROD}" --backend-set-name bs-prod-http --backend-name "10.0.27.190:30080"
+
 # Listeners
 # For 443 SSL
 oci nlb listener create --network-load-balancer-id "${NLB_TEST}" --default-backend-set-name bs-test-https --name li-test-https --port 443 --protocol TCP
