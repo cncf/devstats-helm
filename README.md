@@ -348,7 +348,46 @@ helm upgrade --install nginx-ingress-prod ingress-nginx/ingress-nginx \
 
 # OCI NLBs
 - `` ./oci/oci-create-nlbs.sh ``.
-XXX: continue (from continue.secret file).
+
+
+# DNS, SSL, cert-manager
+- Switch all domains listed in values.yaml to either prod or test NLB public reserved IPs.
+- Install cert-manager via:
+```
+helm repo add jetstack https://charts.jetstack.io
+helm repo update
+
+kubectl create namespace cert-manager --dry-run=client -o yaml | kubectl apply -f -
+
+helm upgrade --install cert-manager jetstack/cert-manager \
+  -n cert-manager \
+  --set crds.enabled=true
+
+kubectl -n cert-manager get pods
+kubectl get crd | grep cert-manager.io
+```
+- Tweak `cert/cert-issuer.yaml.example` to `cert/cert-issuer.yaml` and apply it:
+```
+cp cert/cert-issuer.yaml.example cert/cert-issuer.yaml
+vim cert/cert-issuer.yaml
+kubectl apply -f cert/cert-issuer.yaml
+```
+
+- Then check:
+```
+kubectl -n devstats-test  describe issuer letsencrypt-test
+kubectl -n devstats-prod  describe issuer letsencrypt-prod 
+kubectl -n devstats-test get certificate,certificaterequest,order,challenge
+kubectl -n devstats-prod get certificate,certificaterequest,order,challenge
+kubectl -n devstats-prod describe certificate devstats-tls-1
+curl -I --resolve devstats.cncf.io:80:132.226.49.222 http://devstats.cncf.io/
+curl -I --resolve teststats.cncf.io:80:152.70.192.23 http://teststats.cncf.io/
+kubectl -n devstats-test get ingress devstats-ingress-1 -o json | jq '.spec.tls[0].hosts | length'
+kubectl -n devstats-test get ingress devstats-ingress-2 -o json | jq '.spec.tls[0].hosts | length'
+kubectl -n devstats-prod get ingress devstats-ingress-1 -o json | jq '.spec.tls[0].hosts | length'
+kubectl -n devstats-prod get ingress devstats-ingress-2 -o json | jq '.spec.tls[0].hosts | length'
+kubectl -n devstats-prod get ingress devstats-ingress-3 -o json | jq '.spec.tls[0].hosts | length'
+```
 
 
 # DevStats installation
