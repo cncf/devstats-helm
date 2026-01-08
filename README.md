@@ -344,6 +344,7 @@ helm upgrade --install nginx-ingress-prod ingress-nginx/ingress-nginx \
   --set controller.service.nodePorts.https=30443 \
   --set controller.service.externalTrafficPolicy=Local
 ```
+- Then run: `` ULIMIT_N=65535 ./k8s/update_ingress_limits.sh ``.
 
 # OCI NLBs
 - `` ./oci/oci-create-nlbs.sh ``.
