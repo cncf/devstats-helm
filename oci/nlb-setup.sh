@@ -86,16 +86,16 @@ oci nlb listener create --network-load-balancer-id "${PROD_NLB_ID}" --default-ba
 # For 80 HTTP (needed by cert-manager)
 oci nlb listener create --network-load-balancer-id "${TEST_NLB_ID}" --default-backend-set-name bs-test-http --name li-test-http --port 80 --protocol TCP
 oci nlb listener create --network-load-balancer-id "${PROD_NLB_ID}" --default-backend-set-name bs-prod-http --name li-prod-http --port 80 --protocol TCP
-# oci nlb listener list --network-load-balancer-id "${TEST_NLB_ID}"
-# oci nlb listener list --network-load-balancer-id "${PROD_NLB_ID}"
+oci nlb listener list --network-load-balancer-id "${TEST_NLB_ID}"
+oci nlb listener list --network-load-balancer-id "${PROD_NLB_ID}"
 
 # NLB NSG Rules (used by both prod and test NLBs)
-oci network nsg rules add --nsg-id "ocid1.networksecuritygroup.oc1.iad.aaaaaaaadkgo3hprtpdbl3yr5qu2i6ovtsp7cwpjf6xfictb4bhmkxbfibdq" --security-rules '[{"direction":"INGRESS","protocol":"6","source":"0.0.0.0/0","sourceType":"CIDR_BLOCK","tcpOptions":{"destinationPortRange":{"min":443,"max":443}}}]'
-oci network nsg rules add --nsg-id "ocid1.networksecuritygroup.oc1.iad.aaaaaaaadkgo3hprtpdbl3yr5qu2i6ovtsp7cwpjf6xfictb4bhmkxbfibdq" --security-rules '[{"direction":"INGRESS","protocol":"6","source":"0.0.0.0/0","sourceType":"CIDR_BLOCK","tcpOptions":{"destinationPortRange":{"min":80,"max":80}}}]'
-oci network nsg rules add --nsg-id "ocid1.networksecuritygroup.oc1.iad.aaaaaaaadkgo3hprtpdbl3yr5qu2i6ovtsp7cwpjf6xfictb4bhmkxbfibdq" --security-rules '[{"direction":"INGRESS","protocol":"6","source":"ocid1.networksecuritygroup.oc1.iad.aaaaaaaadkgo3hprtpdbl3yr5qu2i6ovtsp7cwpjf6xfictb4bhmkxbfibdq","sourceType":"NETWORK_SECURITY_GROUP","tcpOptions":{"destinationPortRange":{"min":'"31443"',"max":'"31443"'}}},{"direction":"INGRESS","protocol":"6","source":"ocid1.networksecuritygroup.oc1.iad.aaaaaaaadkgo3hprtpdbl3yr5qu2i6ovtsp7cwpjf6xfictb4bhmkxbfibdq","sourceType":"NETWORK_SECURITY_GROUP","tcpOptions":{"destinationPortRange":{"min":'"30443"',"max":'"30443"'}}}]'
-oci network nsg rules add --nsg-id "ocid1.networksecuritygroup.oc1.iad.aaaaaaaadkgo3hprtpdbl3yr5qu2i6ovtsp7cwpjf6xfictb4bhmkxbfibdq" --security-rules '[{"direction":"INGRESS","protocol":"6","source":"ocid1.networksecuritygroup.oc1.iad.aaaaaaaadkgo3hprtpdbl3yr5qu2i6ovtsp7cwpjf6xfictb4bhmkxbfibdq","sourceType":"NETWORK_SECURITY_GROUP","tcpOptions":{"destinationPortRange":{"min":'"31080"',"max":'"31080"'}}},{"direction":"INGRESS","protocol":"6","source":"ocid1.networksecuritygroup.oc1.iad.aaaaaaaadkgo3hprtpdbl3yr5qu2i6ovtsp7cwpjf6xfictb4bhmkxbfibdq","sourceType":"NETWORK_SECURITY_GROUP","tcpOptions":{"destinationPortRange":{"min":'"30080"',"max":'"30080"'}}}]'
+oci network nsg rules add --nsg-id "${NSG_ID}" --security-rules '[{"direction":"INGRESS","protocol":"6","source":"0.0.0.0/0","sourceType":"CIDR_BLOCK","tcpOptions":{"destinationPortRange":{"min":443,"max":443}}}]'
+oci network nsg rules add --nsg-id "${NSG_ID}" --security-rules '[{"direction":"INGRESS","protocol":"6","source":"0.0.0.0/0","sourceType":"CIDR_BLOCK","tcpOptions":{"destinationPortRange":{"min":80,"max":80}}}]'
+oci network nsg rules add --nsg-id "${NSG_ID}" --security-rules '[{"direction":"INGRESS","protocol":"6","source":"'"${NSG_ID}"'","sourceType":"NETWORK_SECURITY_GROUP","tcpOptions":{"destinationPortRange":{"min":31443,"max":31443}}},{"direction":"INGRESS","protocol":"6","source":"'"${NSG_ID}"'","sourceType":"NETWORK_SECURITY_GROUP","tcpOptions":{"destinationPortRange":{"min":30443,"max":30443}}}]'
+oci network nsg rules add --nsg-id "${NSG_ID}" --security-rules '[{"direction":"INGRESS","protocol":"6","source":"'"${NSG_ID}"'","sourceType":"NETWORK_SECURITY_GROUP","tcpOptions":{"destinationPortRange":{"min":31080,"max":31080}}},{"direction":"INGRESS","protocol":"6","source":"'"${NSG_ID}"'","sourceType":"NETWORK_SECURITY_GROUP","tcpOptions":{"destinationPortRange":{"min":30080,"max":30080}}}]'
 # oci network nsg list --compartment-id "${OCI_COMPARTMENT_ID}"
-# oci network nsg rules list --nsg-id "ocid1.networksecuritygroup.oc1.iad.aaaaaaaadkgo3hprtpdbl3yr5qu2i6ovtsp7cwpjf6xfictb4bhmkxbfibdq"
+# oci network nsg rules list --nsg-id "${NSG_ID}"
 
 # Public IPs
 oci nlb network-load-balancer get --network-load-balancer-id "${PROD_NLB_ID}" --query 'data."ip-addresses"[0]."ip-address"' --raw-output
