@@ -5795,7 +5795,7 @@ projects:
   url: oauth2proxy
   db: oauth2proxy
   icon: oauth2proxy
-  org: Oauth2-Proxy
+  org: OAuth2-Proxy
   repo: oauth2-proxy/oauth2-proxy
   cronTest: 58 2,8,14,20 * * *
   cronProd: 52 5,11,17,23 * * *
