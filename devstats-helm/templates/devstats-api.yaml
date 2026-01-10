@@ -68,6 +68,8 @@ spec:
         ports:
         - containerPort: {{ .Values.apiPort }}
         env:
+        - name: GHA2DB_PROJECTS_OVERRIDE
+          value: {{ .Values.projectsOverride }}
         - name: PG_PORT
           valueFrom:
             secretKeyRef:
