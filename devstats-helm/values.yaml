@@ -5891,3 +5891,63 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+- proj: openchoreo
+  url: openchoreo
+  db: openchoreo
+  icon: openchoreo
+  org: OpenChoreo
+  repo: openchoreo/openchoreo
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 37 5 13 * *
+  affCronProd: 23 5 27 * *
+  affSkipTemp: "1"
+  disk: 5Gi
+  domains: [0, 1, 0, 0]
+  ga: ""
+  i: 270
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: cohdi
+  url: cohdi
+  db: cohdi
+  icon: cohdi
+  org: CoHDI
+  repo: CoHDI/composable-dra-driver
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 37 5 13 * *
+  affCronProd: 23 5 27 * *
+  affSkipTemp: "1"
+  disk: 5Gi
+  domains: [0, 1, 0, 0]
+  ga: ""
+  i: 271
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: kubeelasti
+  url: kubeelasti
+  db: kubeelasti
+  icon: kubeelasti
+  org: KubeElasti
+  repo: truefoundry/KubeElasti
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 37 5 13 * *
+  affCronProd: 23 5 27 * *
+  affSkipTemp: "1"
+  disk: 5Gi
+  domains: [0, 1, 0, 0]
+  ga: ""
+  i: 272
+  certNum: 3
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
