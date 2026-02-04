@@ -1,0 +1,120 @@
+{{- $skipIngress := .Values.skipIngress -}}
+{{- if not $skipIngress -}}
+{{- $root := . -}}
+
+{{- $maxHosts := ($root.Values.tlsMaxHostsPerCert | default 35 | int) -}}
+{{- $start := ($root.Values.tlsProjectsIngressStart | default 2 | int) -}}
+
+{{- $buckets := dict -}}
+{{- $bucket := $start -}}
+{{- $count := 0 -}}
+{{- $maxBucket := (sub $start 1) -}}
+{{- $seen := dict -}}
+
+{{- $domain0InRange := and (le ($root.Values.indexDomainsFrom|int) 0) (gt ($root.Values.indexDomainsTo|int) 0) -}}
+
+{{- range $pIndex, $p := $root.Values.projects -}}
+  {{- if and (or (eq ($pIndex|int) ($root.Values.indexIngressesFrom|int)) (gt ($pIndex|int) ($root.Values.indexIngressesFrom|int)))
+            (lt ($pIndex|int) ($root.Values.indexIngressesTo|int)) -}}
+
+    {{- /* Add per-domain project hosts */ -}}
+    {{- range $dIndex, $d := $root.Values.domains -}}
+      {{- if and (or (eq ($dIndex|int) ($root.Values.indexDomainsFrom|int)) (gt ($dIndex|int) ($root.Values.indexDomainsFrom|int)))
+                (lt ($dIndex|int) ($root.Values.indexDomainsTo|int)) -}}
+
+        {{- if and (or (eq ($dIndex|int) 0) (not $p.archived)) (gt ((index $p.domains $dIndex)|int) 0) -}}
+          {{- $host := printf "%s.%s" $p.url $d.name -}}
+          {{- if not (hasKey $seen $host) -}}
+            {{- $_ := set $seen $host true -}}
+
+            {{- if ge $count $maxHosts -}}
+              {{- $bucket = add $bucket 1 -}}
+              {{- $count = 0 -}}
+            {{- end -}}
+
+            {{- $key := printf "%d" $bucket -}}
+            {{- $lst := get $buckets $key | default (list) -}}
+            {{- $lst = append $lst (dict "host" $host "svc" (printf "devstats-service-%s" $p.proj)) -}}
+            {{- $_ := set $buckets $key $lst -}}
+
+            {{- $count = add $count 1 -}}
+            {{- $maxBucket = $bucket -}}
+          {{- end -}}
+        {{- end -}}
+
+      {{- end -}}
+    {{- end -}}
+
+    {{- /* Add aliases once per project (and keep archived-only-on-domain0 behavior) */ -}}
+    {{- if and (not $root.Values.skipAliases) (or (not $p.archived) $domain0InRange) -}}
+      {{- range $_, $alias := $p.aliases -}}
+        {{- $host := $alias -}}
+        {{- if not (hasKey $seen $host) -}}
+          {{- $_ := set $seen $host true -}}
+
+          {{- if ge $count $maxHosts -}}
+            {{- $bucket = add $bucket 1 -}}
+            {{- $count = 0 -}}
+          {{- end -}}
+
+          {{- $key := printf "%d" $bucket -}}
+          {{- $lst := get $buckets $key | default (list) -}}
+          {{- $lst = append $lst (dict "host" $host "svc" (printf "devstats-service-%s" $p.proj)) -}}
+          {{- $_ := set $buckets $key $lst -}}
+
+          {{- $count = add $count 1 -}}
+          {{- $maxBucket = $bucket -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+
+  {{- end -}}
+{{- end -}}
+
+{{- /* Emit one Ingress per bucket: devstats-ingress-2..N with devstats-tls-2..N */ -}}
+{{- if ge $maxBucket $start -}}
+  {{- $numBuckets := add 1 (sub $maxBucket $start) -}}
+  {{- range $x := until $numBuckets -}}
+    {{- $i := add $start $x -}}
+    {{- $key := printf "%d" $i -}}
+    {{- $items := get $buckets $key -}}
+    {{- if $items -}}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: '{{ $root.Values.namespace }}'
+  name: devstats-ingress-{{ $i }}
+  labels:
+    name: devstats
+    type: ingress
+  annotations:
+    acme.cert-manager.io/http01-ingress-class: '{{ $root.Values.ingressClass }}'
+    cert-manager.io/issuer: 'letsencrypt-{{ $root.Values.sslEnv }}'
+spec:
+  ingressClassName: '{{ $root.Values.ingressClass }}'
+  tls:
+  - hosts:
+{{- range $items }}
+    - {{ .host }}
+{{- end }}
+    secretName: devstats-tls-{{ $i }}
+  rules:
+{{- range $items }}
+  - host: {{ .host }}
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ .svc }}
+            port:
+              number: 80
+{{- end }}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- end -}}
+
