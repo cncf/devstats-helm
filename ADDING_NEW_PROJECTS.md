@@ -163,9 +163,9 @@ To generate affiliations task for the next project(s):
 
 To import new affiliations do the following:
 
-- Eventually: `` k exec -itn devstats-prod devstats-postgres-2 -- psql devstats -c "delete from gha_computed where metric = 'affs_lock'" ``.
-- Eventually: `` k exec -itn devstats-prod devstats-postgres-2 -- psql projname -c "delete from gha_computed where metric = 'affs_lock_projname'" ``.
-- Eventually: `` k exec -itn devstats-prod devstats-postgres-2 -- psql projname -c " delete from gha_imported_shas where sha = '<sha>'" ``.
+- Eventually: `` k exec -itn devstats-prod devstats-postgres-0 -c devstats-postgres -- psql devstats -c "delete from gha_computed where metric = 'affs_lock'" ``.
+- Eventually: `` k exec -itn devstats-prod devstats-postgres-0 -c devstats-postgres -- psql projname -c "delete from gha_computed where metric = 'affs_lock_projname'" ``.
+- Eventually: `` k exec -itn devstats-prod devstats-postgres-0 -c devstats-postgres -- psql projname -c " delete from gha_imported_shas where sha = '<sha>'" ``.
 - `k edit cj devstats-affiliations-projname`.
 - Add/Control JSON import probability and then reinit affiliations related TSDB data probability:
 ```
