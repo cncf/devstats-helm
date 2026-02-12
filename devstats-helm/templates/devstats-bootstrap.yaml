@@ -98,6 +98,10 @@ spec:
       value: '{{ .Values.onlyMetrics }}'
     - name: GHA2DB_FORCE_PERIODS
       value: '{{ .Values.periods }}'
+    - name: GHA2DB_FETCH_COMMITS_MODE
+      value: "{{ .Values.fetchCommitsMode }}"
+    - name: GHA2DB_GIT_COMMITS_BATCH
+      value: "{{ .Values.gitCommitsBatch }}"
     - name: GIANT
       value: '{{ .Values.giantBoot }}'
     - name: GHA2DB_GITHUB_OAUTH

@@ -233,6 +233,7 @@ domains:
 - name: 'devstats.graphql.org'
   image: 'lukaszgryglicki/devstats-static-graphql'
   shortname: graphql
+fetchCommitsMode: 1
 forceAddAll: ''
 fullnameOverride: devstats
 ghaAPISkip: ''
@@ -241,6 +242,7 @@ giantBackups: 'wait'
 giantBoot: 'lock'
 giantSync: 'wait'
 giantProv: 'lock'
+gitCommitsBatch: 1000
 getAffsFiles: ''
 grafanaCommand: 'grafana_start.sh'
 grafanaImage: 'lukaszgryglicki/devstats-grafana'

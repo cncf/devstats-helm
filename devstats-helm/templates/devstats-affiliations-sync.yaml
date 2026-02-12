@@ -125,6 +125,10 @@ spec:
               value: '{{ $root.Values.onlyMetrics }}'
             - name: GHA2DB_FORCE_PERIODS
               value: '{{ $root.Values.periods }}'
+            - name: GHA2DB_FETCH_COMMITS_MODE
+              value: "{{ $root.Values.fetchCommitsMode }}"
+            - name: GHA2DB_GIT_COMMITS_BATCH
+              value: "{{ $root.Values.gitCommitsBatch }}"
             - name: USE_FLAGS
               value: '{{ $root.Values.useFlagsAffs }}'
             - name: SKIP_AFFS_LOCK

@@ -123,6 +123,10 @@ spec:
               value: {{ $root.Values.projectsFile }}
             - name: GHA2DB_PROJECTS_OVERRIDE
               value: {{ $root.Values.projectsOverride }}
+            - name: GHA2DB_FETCH_COMMITS_MODE
+              value: "{{ $root.Values.fetchCommitsMode }}"
+            - name: GHA2DB_GIT_COMMITS_BATCH
+              value: "{{ $root.Values.gitCommitsBatch }}"
             - name: GHA2DB_GITHUB_OAUTH
               valueFrom:
                 secretKeyRef:

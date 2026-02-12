@@ -115,6 +115,10 @@ spec:
       value: '{{ $root.Values.periods }}'
     - name: GHA2DB_SKIP_RAND
       value: '{{ $root.Values.skipRand }}'
+    - name: GHA2DB_FETCH_COMMITS_MODE
+      value: "{{ $root.Values.fetchCommitsMode }}"
+    - name: GHA2DB_GIT_COMMITS_BATCH
+      value: "{{ $root.Values.gitCommitsBatch }}"
     - name: USE_FLAGS
       value: '{{ $root.Values.useFlagsProv }}'
     - name: SKIP_AFFS_LOCK

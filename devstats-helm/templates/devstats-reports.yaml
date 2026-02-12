@@ -45,6 +45,10 @@ spec:
       value: '{{ .Values.cmdDebug }}'
     - name: GHA2DB_QOUT
       value: '{{ .Values.queryOut }}'
+    - name: GHA2DB_FETCH_COMMITS_MODE
+      value: "{{ .Values.fetchCommitsMode }}"
+    - name: GHA2DB_GIT_COMMITS_BATCH
+      value: "{{ .Values.gitCommitsBatch }}"
     - name: PG_PORT
       valueFrom:
         secretKeyRef:
