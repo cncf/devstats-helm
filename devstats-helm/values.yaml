@@ -802,7 +802,7 @@ projects:
   url: opa
   db: opa
   icon: opa
-  org: OPA
+  org: Open Policy Agent
   repo: open-policy-agent/opa
   cronTest: 25 3,9,15,21 * * *
   cronProd: 24 0,6,12,18 * * *
@@ -2322,7 +2322,7 @@ projects:
   url: metal3
   db: metal3
   icon: metal3
-  org: Metal³
+  org: metal3-io
   repo: metal3-io/baremetal-operator
   cronTest: 10 5,11,17,23 * * *
   cronProd: 51 1,7,13,19 * * *
@@ -2464,7 +2464,7 @@ projects:
   url: cdk8s
   db: cdk8s
   icon: cdk8s
-  org: Cloud Development Kit for Kubernetes
+  org: cdk8s
   repo: awslabs/cdk8s
   cronTest: 20 5,11,17,23 * * *
   cronProd: 59 1,7,13,19 * * *
@@ -3698,7 +3698,7 @@ projects:
   url: hexapolicyorchestrator
   db: hexapolicyorchestrator
   icon: hexapolicyorchestrator
-  org: Hexa Policy Orchestrator
+  org: Hexa
   repo: hexa-org/policy-orchestrator
   cronTest: 40 0,6,12,18 * * *
   cronProd: 11 3,9,15,21 * * *
@@ -4499,7 +4499,7 @@ projects:
   url: copacetic
   db: copacetic
   icon: copacetic
-  org: Copacetic
+  org: Copa
   repo: project-copacetic/copacetic
   cronTest: 37 1,7,13,19 * * *
   cronProd: 10 4,10,16,22 * * *
@@ -4639,7 +4639,7 @@ projects:
   url: krknchaos
   db: krknchaos
   icon: krknchaos
-  org: KrknChaos
+  org: krkn
   repo: krkn-chaos/krkn
   cronTest: 46 1,7,13,19 * * *
   cronProd: 20 4,10,16,22 * * *
@@ -4759,7 +4759,7 @@ projects:
   url: connect
   db: connect
   icon: connect
-  org: Connect
+  org: Connect RPC
   repo: connectrpc/connect-go
   cronTest: 54 1,7,13,19 * * *
   cronProd: 29 4,10,16,22 * * *
