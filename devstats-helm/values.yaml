@@ -467,7 +467,7 @@ projects:
   domains: [0, 1, 0, 0]
   ga: ""
   i: 0
-  # certNum: 1
+  certNum: 0
   maxHist: 2
   affsLockDB: gha
   durablePQ: 1
@@ -490,7 +490,7 @@ projects:
   domains: [0, 1, 0, 0]
   ga: ""
   i: 1
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -510,7 +510,7 @@ projects:
   domains: [0, 0, 0, 0]
   ga: ""
   i: 2
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -525,13 +525,13 @@ projects:
   cronTest: 6 3,9,15,21 * * *
   cronProd: 5 0,6,12,18 * * *
   affCronTest: 45 12 16 * *
-  affCronProd: 34 10 2 * *
+  affCronProd: 33 10 2 * *
   affSkipTemp: "1"
   disk: 10Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 3
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -545,13 +545,13 @@ projects:
   cronTest: 8 3,9,15,21 * * *
   cronProd: 6 0,6,12,18 * * *
   affCronTest: 8 15 16 * *
-  affCronProd: 9 13 2 * *
+  affCronProd: 7 13 2 * *
   affSkipTemp: "1"
   disk: 4Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 4
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -565,13 +565,13 @@ projects:
   cronTest: 9 3,9,15,21 * * *
   cronProd: 8 0,6,12,18 * * *
   affCronTest: 31 17 16 * *
-  affCronProd: 43 15 2 * *
+  affCronProd: 41 15 2 * *
   affSkipTemp: "1"
   disk: 4Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 5
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -585,13 +585,13 @@ projects:
   cronTest: 10 3,9,15,21 * * *
   cronProd: 9 0,6,12,18 * * *
   affCronTest: 54 19 16 * *
-  affCronProd: 18 18 2 * *
+  affCronProd: 15 18 2 * *
   affSkipTemp: "1"
   disk: 4Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 6
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -605,13 +605,13 @@ projects:
   cronTest: 12 3,9,15,21 * * *
   cronProd: 11 0,6,12,18 * * *
   affCronTest: 17 22 16 * *
-  affCronProd: 52 20 2 * *
+  affCronProd: 49 20 2 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 7
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -632,7 +632,7 @@ projects:
   domains: [0, 0, 0, 0]
   ga: ""
   i: 8
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -647,13 +647,13 @@ projects:
   cronTest: 14 3,9,15,21 * * *
   cronProd: 12 0,6,12,18 * * *
   affCronTest: 2 3 17 * *
-  affCronProd: 27 23 2 * *
+  affCronProd: 23 23 2 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 9
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -667,13 +667,13 @@ projects:
   cronTest: 16 3,9,15,21 * * *
   cronProd: 14 0,6,12,18 * * *
   affCronTest: 25 5 17 * *
-  affCronProd: 1 2 3 * *
+  affCronProd: 56 1 3 * *
   affSkipTemp: "1"
   disk: 4Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 10
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -687,13 +687,13 @@ projects:
   cronTest: 17 3,9,15,21 * * *
   cronProd: 15 0,6,12,18 * * *
   affCronTest: 48 7 17 * *
-  affCronProd: 36 4 3 * *
+  affCronProd: 30 4 3 * *
   affSkipTemp: "1"
   disk: 4Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 11
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -707,13 +707,13 @@ projects:
   cronTest: 18 3,9,15,21 * * *
   cronProd: 16 0,6,12,18 * * *
   affCronTest: 11 10 17 * *
-  affCronProd: 10 7 3 * *
+  affCronProd: 4 7 3 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 12
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -727,13 +727,13 @@ projects:
   cronTest: 20 3,9,15,21 * * *
   cronProd: 18 0,6,12,18 * * *
   affCronTest: 34 12 17 * *
-  affCronProd: 45 9 3 * *
+  affCronProd: 38 9 3 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 13
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -747,13 +747,13 @@ projects:
   cronTest: 21 3,9,15,21 * * *
   cronProd: 19 0,6,12,18 * * *
   affCronTest: 57 14 17 * *
-  affCronProd: 19 12 3 * *
+  affCronProd: 12 12 3 * *
   affSkipTemp: "1"
   disk: 4Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 14
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -767,13 +767,13 @@ projects:
   cronTest: 22 3,9,15,21 * * *
   cronProd: 21 0,6,12,18 * * *
   affCronTest: 20 17 17 * *
-  affCronProd: 54 14 3 * *
+  affCronProd: 46 14 3 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 15
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -787,13 +787,13 @@ projects:
   cronTest: 24 3,9,15,21 * * *
   cronProd: 22 0,6,12,18 * * *
   affCronTest: 42 19 17 * *
-  affCronProd: 28 17 3 * *
+  affCronProd: 20 17 3 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 16
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -807,13 +807,13 @@ projects:
   cronTest: 25 3,9,15,21 * * *
   cronProd: 24 0,6,12,18 * * *
   affCronTest: 5 22 17 * *
-  affCronProd: 3 20 3 * *
+  affCronProd: 53 19 3 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 17
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -827,13 +827,13 @@ projects:
   cronTest: 26 3,9,15,21 * * *
   cronProd: 25 0,6,12,18 * * *
   affCronTest: 28 0 18 * *
-  affCronProd: 37 22 3 * *
+  affCronProd: 27 22 3 * *
   affSkipTemp: "1"
   disk: 4Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 18
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -845,15 +845,15 @@ projects:
   org: SPIRE
   repo: spiffe/spire
   cronTest: 28 3,9,15,21 * * *
-  cronProd: 27 0,6,12,18 * * *
+  cronProd: 26 0,6,12,18 * * *
   affCronTest: 51 2 18 * *
-  affCronProd: 12 1 4 * *
+  affCronProd: 1 1 4 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 19
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -867,13 +867,13 @@ projects:
   cronTest: 29 3,9,15,21 * * *
   cronProd: 28 0,6,12,18 * * *
   affCronTest: 14 5 18 * *
-  affCronProd: 46 3 4 * *
+  affCronProd: 35 3 4 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 20
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -887,13 +887,13 @@ projects:
   cronTest: 30 3,9,15,21 * * *
   cronProd: 29 0,6,12,18 * * *
   affCronTest: 37 7 18 * *
-  affCronProd: 21 6 4 * *
+  affCronProd: 9 6 4 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 21
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -907,13 +907,13 @@ projects:
   cronTest: 32 3,9,15,21 * * *
   cronProd: 31 0,6,12,18 * * *
   affCronTest: 0 10 18 * *
-  affCronProd: 55 8 4 * *
+  affCronProd: 43 8 4 * *
   affSkipTemp: "1"
   disk: 8Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 22
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -927,13 +927,13 @@ projects:
   cronTest: 33 3,9,15,21 * * *
   cronProd: 32 0,6,12,18 * * *
   affCronTest: 22 12 18 * *
-  affCronProd: 30 11 4 * *
+  affCronProd: 16 11 4 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 23
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -947,13 +947,13 @@ projects:
   cronTest: 34 3,9,15,21 * * *
   cronProd: 34 0,6,12,18 * * *
   affCronTest: 45 14 18 * *
-  affCronProd: 4 14 4 * *
+  affCronProd: 50 13 4 * *
   affSkipTemp: "1"
   disk: 4Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 24
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -967,13 +967,13 @@ projects:
   cronTest: 36 3,9,15,21 * * *
   cronProd: 35 0,6,12,18 * * *
   affCronTest: 8 17 18 * *
-  affCronProd: 39 16 4 * *
+  affCronProd: 24 16 4 * *
   affSkipTemp: "1"
   disk: 4Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 25
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -987,13 +987,13 @@ projects:
   cronTest: 37 3,9,15,21 * * *
   cronProd: 37 0,6,12,18 * * *
   affCronTest: 31 19 18 * *
-  affCronProd: 13 19 4 * *
+  affCronProd: 58 18 4 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 26
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -1007,13 +1007,13 @@ projects:
   cronTest: 38 3,9,15,21 * * *
   cronProd: 38 0,6,12,18 * * *
   affCronTest: 54 21 18 * *
-  affCronProd: 48 21 4 * *
+  affCronProd: 32 21 4 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 27
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -1025,15 +1025,15 @@ projects:
   org: Buildpacks
   repo: buildpacks/pack
   cronTest: 40 3,9,15,21 * * *
-  cronProd: 40 0,6,12,18 * * *
+  cronProd: 39 0,6,12,18 * * *
   affCronTest: 17 0 19 * *
-  affCronProd: 22 0 5 * *
+  affCronProd: 6 0 5 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 28
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -1047,13 +1047,13 @@ projects:
   cronTest: 41 3,9,15,21 * * *
   cronProd: 41 0,6,12,18 * * *
   affCronTest: 40 2 19 * *
-  affCronProd: 57 2 5 * *
+  affCronProd: 40 2 5 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 29
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -1067,13 +1067,13 @@ projects:
   cronTest: 42 3,9,15,21 * * *
   cronProd: 42 0,6,12,18 * * *
   affCronTest: 2 5 19 * *
-  affCronProd: 31 5 5 * *
+  affCronProd: 13 5 5 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 30
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -1087,13 +1087,13 @@ projects:
   cronTest: 44 3,9,15,21 * * *
   cronProd: 44 0,6,12,18 * * *
   affCronTest: 25 7 19 * *
-  affCronProd: 6 8 5 * *
+  affCronProd: 47 7 5 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 31
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -1107,13 +1107,13 @@ projects:
   cronTest: 45 3,9,15,21 * * *
   cronProd: 45 0,6,12,18 * * *
   affCronTest: 48 9 19 * *
-  affCronProd: 40 10 5 * *
+  affCronProd: 21 10 5 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 32
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -1133,7 +1133,7 @@ projects:
   domains: [0, 0, 0, 0]
   ga: ""
   i: 33
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -1148,13 +1148,13 @@ projects:
   cronTest: 48 3,9,15,21 * * *
   cronProd: 47 0,6,12,18 * * *
   affCronTest: 34 14 19 * *
-  affCronProd: 15 13 5 * *
+  affCronProd: 55 12 5 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 34
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -1168,13 +1168,13 @@ projects:
   cronTest: 49 3,9,15,21 * * *
   cronProd: 48 0,6,12,18 * * *
   affCronTest: 57 16 19 * *
-  affCronProd: 49 15 5 * *
+  affCronProd: 29 15 5 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 35
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -1186,15 +1186,15 @@ projects:
   org: OpenEBS
   repo: openebs/openebs
   cronTest: 50 3,9,15,21 * * *
-  cronProd: 50 0,6,12,18 * * *
+  cronProd: 49 0,6,12,18 * * *
   affCronTest: 20 19 19 * *
-  affCronProd: 24 18 5 * *
+  affCronProd: 3 18 5 * *
   affSkipTemp: "1"
   disk: 10Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 36
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -1208,13 +1208,13 @@ projects:
   cronTest: 52 3,9,15,21 * * *
   cronProd: 51 0,6,12,18 * * *
   affCronTest: 42 21 19 * *
-  affCronProd: 58 20 5 * *
+  affCronProd: 36 20 5 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 37
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -1234,7 +1234,7 @@ projects:
   domains: [0, 1, 0, 0]
   ga: ""
   i: 38
-  # certNum: 1
+  certNum: 0
   maxHist: 2
   affsLockDB: allprj
   durablePQ: 1
@@ -1249,15 +1249,15 @@ projects:
   org: Tekton
   repo: knative/build
   cronTest: 53 3,9,15,21 * * *
-  cronProd: 53 0,6,12,18 * * *
+  cronProd: 52 0,6,12,18 * * *
   affCronTest: 5 0 20 * *
-  affCronProd: 33 23 5 * *
+  affCronProd: 10 23 5 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 0, 1, 0]
   ga: ""
   i: 39
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -1271,13 +1271,13 @@ projects:
   cronTest: 54 3,9,15,21 * * *
   cronProd: 54 0,6,12,18 * * *
   affCronTest: 28 2 20 * *
-  affCronProd: 7 2 6 * *
+  affCronProd: 44 1 6 * *
   affSkipTemp: "1"
   disk: 4Gi
   domains: [0, 0, 1, 0]
   ga: ""
   i: 40
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -1291,13 +1291,13 @@ projects:
   cronTest: 56 3,9,15,21 * * *
   cronProd: 55 0,6,12,18 * * *
   affCronTest: 51 4 20 * *
-  affCronProd: 42 4 6 * *
+  affCronProd: 18 4 6 * *
   affSkipTemp: "1"
   disk: 6Gi
   domains: [0, 0, 1, 0]
   ga: ""
   i: 41
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -1311,13 +1311,13 @@ projects:
   cronTest: 57 3,9,15,21 * * *
   cronProd: 57 0,6,12,18 * * *
   affCronTest: 14 7 20 * *
-  affCronProd: 16 7 6 * *
+  affCronProd: 52 6 6 * *
   affSkipTemp: "1"
   disk: 40Gi
   domains: [0, 0, 1, 0]
   ga: ""
   i: 42
-  # certNum: 1
+  certNum: 0
   maxHist: 4
   durablePQ: 1
   maxRunDuration: annotations:1h:102,calc_metric:48h:102,columns:1h:102,get_repos:24h:102,gha2db:24h:102,ghapi2db:24h:102,structure:1h:102,tags:1h:102
@@ -1332,13 +1332,13 @@ projects:
   cronTest: 58 3,9,15,21 * * *
   cronProd: 58 0,6,12,18 * * *
   affCronTest: 37 9 20 * *
-  affCronProd: 51 9 6 * *
+  affCronProd: 26 9 6 * *
   affSkipTemp: "1"
   disk: 50Gi
   domains: [0, 0, 1, 0]
   ga: ""
   i: 43
-  # certNum: 1
+  certNum: 0
   maxHist: 4
   durablePQ: 1
   maxRunDuration: annotations:1h:102,calc_metric:48h:102,columns:1h:102,get_repos:24h:102,gha2db:120h:102,ghapi2db:24h:102,structure:1h:102,tags:1h:102
@@ -1353,13 +1353,13 @@ projects:
   cronTest: 4 4,10,16,22 * * *
   cronProd: 4 1,7,13,19 * * *
   affCronTest: 0 12 20 * *
-  affCronProd: 25 12 6 * *
+  affCronProd: 0 12 6 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 0, 0, 1]
   ga: ""
   i: 44
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -1373,13 +1373,13 @@ projects:
   cronTest: 5 4,10,16,22 * * *
   cronProd: 5 1,7,13,19 * * *
   affCronTest: 22 14 20 * *
-  affCronProd: 0 15 6 * *
+  affCronProd: 33 14 6 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 0, 0, 1]
   ga: ""
   i: 45
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -1391,15 +1391,15 @@ projects:
   org: GraphQL Spec
   repo: graphql/graphql-spec
   cronTest: 6 4,10,16,22 * * *
-  cronProd: 7 1,7,13,19 * * *
+  cronProd: 6 1,7,13,19 * * *
   affCronTest: 45 16 20 * *
-  affCronProd: 34 17 6 * *
+  affCronProd: 7 17 6 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 0, 0, 1]
   ga: ""
   i: 46
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -1413,13 +1413,13 @@ projects:
   cronTest: 8 4,10,16,22 * * *
   cronProd: 8 1,7,13,19 * * *
   affCronTest: 8 19 20 * *
-  affCronProd: 9 20 6 * *
+  affCronProd: 41 19 6 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 0, 0, 1]
   ga: ""
   i: 47
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -1431,15 +1431,15 @@ projects:
   org: GraphQL
   repo: graphql/graphql-js
   cronTest: 9 4,10,16,22 * * *
-  cronProd: 10 1,7,13,19 * * *
+  cronProd: 9 1,7,13,19 * * *
   affCronTest: 31 21 20 * *
-  affCronProd: 43 22 6 * *
+  affCronProd: 15 22 6 * *
   affSkipTemp: "1"
   disk: 30Gi
   domains: [0, 0, 0, 1]
   ga: ""
   i: 48
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -1460,7 +1460,7 @@ projects:
   domains: [1, 0, 0, 0]
   ga: ""
   i: 49
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -1481,7 +1481,7 @@ projects:
   domains: [1, 0, 0, 0]
   ga: ""
   i: 50
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -1495,13 +1495,13 @@ projects:
   cronTest: 13 4,10,16,22 * * *
   cronProd: 11 1,7,13,19 * * *
   affCronTest: 40 4 21 * *
-  affCronProd: 18 1 7 * *
+  affCronProd: 49 0 7 * *
   affSkipTemp: "1"
   disk: 8Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 51
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -1515,13 +1515,13 @@ projects:
   cronTest: 14 4,10,16,22 * * *
   cronProd: 12 1,7,13,19 * * *
   affCronTest: 2 7 21 * *
-  affCronProd: 52 3 7 * *
+  affCronProd: 23 3 7 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 52
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -1542,7 +1542,7 @@ projects:
   domains: [1, 0, 0, 0]
   ga: ""
   i: 53
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -1563,7 +1563,7 @@ projects:
   domains: [1, 0, 0, 0]
   ga: ""
   i: 54
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -1577,13 +1577,13 @@ projects:
   cronTest: 18 4,10,16,22 * * *
   cronProd: 14 1,7,13,19 * * *
   affCronTest: 11 14 21 * *
-  affCronProd: 27 6 7 * *
+  affCronProd: 56 5 7 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 55
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -1597,13 +1597,13 @@ projects:
   cronTest: 20 4,10,16,22 * * *
   cronProd: 15 1,7,13,19 * * *
   affCronTest: 34 16 21 * *
-  affCronProd: 1 9 7 * *
+  affCronProd: 30 8 7 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 56
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -1615,15 +1615,15 @@ projects:
   org: in-toto
   repo: in-toto/in-toto
   cronTest: 21 4,10,16,22 * * *
-  cronProd: 17 1,7,13,19 * * *
+  cronProd: 16 1,7,13,19 * * *
   affCronTest: 57 18 21 * *
-  affCronProd: 36 11 7 * *
+  affCronProd: 4 11 7 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 57
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -1637,13 +1637,13 @@ projects:
   cronTest: 22 4,10,16,22 * * *
   cronProd: 18 1,7,13,19 * * *
   affCronTest: 20 21 21 * *
-  affCronProd: 10 14 7 * *
+  affCronProd: 38 13 7 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 58
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -1664,7 +1664,7 @@ projects:
   domains: [1, 0, 0, 0]
   ga: ""
   i: 59
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -1685,7 +1685,7 @@ projects:
   domains: [1, 0, 0, 0]
   ga: ""
   i: 60
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -1706,7 +1706,7 @@ projects:
   domains: [1, 0, 0, 0]
   ga: ""
   i: 61
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -1727,7 +1727,7 @@ projects:
   domains: [1, 0, 0, 0]
   ga: ""
   i: 62
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -1748,7 +1748,7 @@ projects:
   domains: [1, 0, 0, 0]
   ga: ""
   i: 63
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -1769,7 +1769,7 @@ projects:
   domains: [1, 0, 0, 0]
   ga: ""
   i: 64
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -1781,15 +1781,15 @@ projects:
   org: KubeVirt
   repo: kubevirt/kubevirt
   cronTest: 32 4,10,16,22 * * *
-  cronProd: 20 1,7,13,19 * * *
+  cronProd: 19 1,7,13,19 * * *
   affCronTest: 0 14 22 * *
-  affCronProd: 45 16 7 * *
+  affCronProd: 12 16 7 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 65
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -1803,13 +1803,13 @@ projects:
   cronTest: 33 4,10,16,22 * * *
   cronProd: 21 1,7,13,19 * * *
   affCronTest: 22 16 22 * *
-  affCronProd: 19 19 7 * *
+  affCronProd: 46 18 7 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 66
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -1830,7 +1830,7 @@ projects:
   domains: [1, 0, 0, 0]
   ga: ""
   i: 67
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -1853,7 +1853,7 @@ projects:
   domains: [0, 0, 0, 0]
   ga: ""
   i: 68
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -1867,13 +1867,13 @@ projects:
   cronTest: 36 4,10,16,22 * * *
   cronProd: 22 1,7,13,19 * * *
   affCronTest: 8 21 22 * *
-  affCronProd: 54 21 7 * *
+  affCronProd: 20 21 7 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 69
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -1887,13 +1887,13 @@ projects:
   cronTest: 37 4,10,16,22 * * *
   cronProd: 24 1,7,13,19 * * *
   affCronTest: 31 23 22 * *
-  affCronProd: 28 0 8 * *
+  affCronProd: 53 23 7 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 70
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -1913,7 +1913,7 @@ projects:
   domains: [0, 0, 0, 0]
   ga: ""
   i: 71
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -1928,13 +1928,13 @@ projects:
   cronTest: 40 4,10,16,22 * * *
   cronProd: 25 1,7,13,19 * * *
   affCronTest: 17 4 23 * *
-  affCronProd: 3 3 8 * *
+  affCronProd: 27 2 8 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 72
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -1946,15 +1946,15 @@ projects:
   org: Volcano
   repo: volcano-sh/volcano
   cronTest: 41 4,10,16,22 * * *
-  cronProd: 27 1,7,13,19 * * *
+  cronProd: 26 1,7,13,19 * * *
   affCronTest: 40 6 23 * *
-  affCronProd: 37 5 8 * *
+  affCronProd: 1 5 8 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 73
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -1974,7 +1974,7 @@ projects:
   domains: [0, 0, 0, 0]
   ga: ""
   i: 74
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -1995,7 +1995,7 @@ projects:
   domains: [0, 0, 0, 0]
   ga: ""
   i: 75
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -2009,13 +2009,13 @@ projects:
   cronTest: 45 4,10,16,22 * * *
   cronProd: 28 1,7,13,19 * * *
   affCronTest: 48 13 23 * *
-  affCronProd: 12 8 8 * *
+  affCronProd: 35 7 8 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 76
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -2027,15 +2027,15 @@ projects:
   org: Cloud Custodian
   repo: cloud-custodian/cloud-custodian
   cronTest: 46 4,10,16,22 * * *
-  cronProd: 30 1,7,13,19 * * *
+  cronProd: 29 1,7,13,19 * * *
   affCronTest: 11 16 23 * *
-  affCronProd: 46 10 8 * *
+  affCronProd: 9 10 8 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 77
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -2049,13 +2049,13 @@ projects:
   cronTest: 48 4,10,16,22 * * *
   cronProd: 31 1,7,13,19 * * *
   affCronTest: 34 18 23 * *
-  affCronProd: 21 13 8 * *
+  affCronProd: 43 12 8 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 78
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -2067,15 +2067,15 @@ projects:
   org: LitmusChaos
   repo: litmuschaos/litmus
   cronTest: 49 4,10,16,22 * * *
-  cronProd: 33 1,7,13,19 * * *
+  cronProd: 32 1,7,13,19 * * *
   affCronTest: 57 20 23 * *
-  affCronProd: 55 15 8 * *
+  affCronProd: 16 15 8 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 79
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -2089,13 +2089,13 @@ projects:
   cronTest: 50 4,10,16,22 * * *
   cronProd: 34 1,7,13,19 * * *
   affCronTest: 20 23 23 * *
-  affCronProd: 30 18 8 * *
+  affCronProd: 50 17 8 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 80
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -2109,13 +2109,13 @@ projects:
   cronTest: 52 4,10,16,22 * * *
   cronProd: 35 1,7,13,19 * * *
   affCronTest: 42 1 24 * *
-  affCronProd: 4 21 8 * *
+  affCronProd: 24 20 8 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 81
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -2129,13 +2129,13 @@ projects:
   cronTest: 53 4,10,16,22 * * *
   cronProd: 37 1,7,13,19 * * *
   affCronTest: 5 4 24 * *
-  affCronProd: 39 23 8 * *
+  affCronProd: 58 22 8 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 82
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -2149,13 +2149,13 @@ projects:
   cronTest: 54 4,10,16,22 * * *
   cronProd: 38 1,7,13,19 * * *
   affCronTest: 28 6 24 * *
-  affCronProd: 13 2 9 * *
+  affCronProd: 32 1 9 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 83
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -2167,15 +2167,15 @@ projects:
   org: Crossplane
   repo: crossplane/crossplane
   cronTest: 56 4,10,16,22 * * *
-  cronProd: 40 1,7,13,19 * * *
+  cronProd: 39 1,7,13,19 * * *
   affCronTest: 51 8 24 * *
-  affCronProd: 48 4 9 * *
+  affCronProd: 6 4 9 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 84
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -2189,13 +2189,13 @@ projects:
   cronTest: 57 4,10,16,22 * * *
   cronProd: 41 1,7,13,19 * * *
   affCronTest: 14 11 24 * *
-  affCronProd: 22 7 9 * *
+  affCronProd: 40 6 9 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 85
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -2207,15 +2207,15 @@ projects:
   org: Operator Framework
   repo: operator-framework/operator-sdk
   cronTest: 58 4,10,16,22 * * *
-  cronProd: 43 1,7,13,19 * * *
+  cronProd: 42 1,7,13,19 * * *
   affCronTest: 37 13 24 * *
-  affCronProd: 57 9 9 * *
+  affCronProd: 13 9 9 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 86
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -2229,13 +2229,13 @@ projects:
   cronTest: 4 5,11,17,23 * * *
   cronProd: 44 1,7,13,19 * * *
   affCronTest: 0 16 24 * *
-  affCronProd: 31 12 9 * *
+  affCronProd: 47 11 9 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 87
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -2247,15 +2247,15 @@ projects:
   org: Serverless Workflow
   repo: serverlessworkflow/specification
   cronTest: 5 5,11,17,23 * * *
-  cronProd: 46 1,7,13,19 * * *
+  cronProd: 45 1,7,13,19 * * *
   affCronTest: 22 18 24 * *
-  affCronProd: 6 15 9 * *
+  affCronProd: 21 14 9 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 88
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -2269,13 +2269,13 @@ projects:
   cronTest: 6 5,11,17,23 * * *
   cronProd: 47 1,7,13,19 * * *
   affCronTest: 45 20 24 * *
-  affCronProd: 40 17 9 * *
+  affCronProd: 55 16 9 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 89
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -2289,13 +2289,13 @@ projects:
   cronTest: 8 5,11,17,23 * * *
   cronProd: 48 1,7,13,19 * * *
   affCronTest: 8 23 24 * *
-  affCronProd: 15 20 9 * *
+  affCronProd: 29 19 9 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 90
-  # certNum: 1
+  certNum: 0
   maxHist: 4
   durablePQ: 1
 - proj: tremor
@@ -2305,15 +2305,15 @@ projects:
   org: Tremor
   repo: tremor-rs/tremor-runtime
   cronTest: 9 5,11,17,23 * * *
-  cronProd: 50 1,7,13,19 * * *
+  cronProd: 49 1,7,13,19 * * *
   affCronTest: 31 1 25 * *
-  affCronProd: 49 22 9 * *
+  affCronProd: 3 22 9 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 91
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -2327,13 +2327,13 @@ projects:
   cronTest: 10 5,11,17,23 * * *
   cronProd: 51 1,7,13,19 * * *
   affCronTest: 54 3 25 * *
-  affCronProd: 24 1 10 * *
+  affCronProd: 36 0 10 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 92
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -2345,15 +2345,15 @@ projects:
   org: Porter
   repo: desilabs/porter
   cronTest: 12 5,11,17,23 * * *
-  cronProd: 53 1,7,13,19 * * *
+  cronProd: 52 1,7,13,19 * * *
   affCronTest: 17 6 25 * *
-  affCronProd: 58 3 10 * *
+  affCronProd: 10 3 10 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 93
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -2367,13 +2367,13 @@ projects:
   cronTest: 13 5,11,17,23 * * *
   cronProd: 54 1,7,13,19 * * *
   affCronTest: 40 8 25 * *
-  affCronProd: 33 6 10 * *
+  affCronProd: 44 5 10 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 94
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -2393,7 +2393,7 @@ projects:
   domains: [0, 0, 0, 0]
   ga: ""
   i: 95
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -2406,15 +2406,15 @@ projects:
   org: Keylime
   repo: keylime/keylime
   cronTest: 16 5,11,17,23 * * *
-  cronProd: 56 1,7,13,19 * * *
+  cronProd: 55 1,7,13,19 * * *
   affCronTest: 25 13 25 * *
-  affCronProd: 7 9 10 * *
+  affCronProd: 18 8 10 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 96
-  # certNum: 1
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -2435,7 +2435,7 @@ projects:
   domains: [1, 0, 0, 0]
   ga: ""
   i: 97
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -2449,13 +2449,13 @@ projects:
   cronTest: 18 5,11,17,23 * * *
   cronProd: 57 1,7,13,19 * * *
   affCronTest: 11 18 25 * *
-  affCronProd: 42 11 10 * *
+  affCronProd: 52 10 10 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 98
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -2467,15 +2467,15 @@ projects:
   org: cdk8s
   repo: awslabs/cdk8s
   cronTest: 20 5,11,17,23 * * *
-  cronProd: 59 1,7,13,19 * * *
+  cronProd: 58 1,7,13,19 * * *
   affCronTest: 34 20 25 * *
-  affCronProd: 16 14 10 * *
+  affCronProd: 26 13 10 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 99
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -2489,13 +2489,13 @@ projects:
   cronTest: 21 5,11,17,23 * * *
   cronProd: 4 2,8,14,20 * * *
   affCronTest: 57 22 25 * *
-  affCronProd: 51 16 10 * *
+  affCronProd: 0 16 10 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 100
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -2509,13 +2509,13 @@ projects:
   cronTest: 22 5,11,17,23 * * *
   cronProd: 5 2,8,14,20 * * *
   affCronTest: 20 1 26 * *
-  affCronProd: 26 19 10 * *
+  affCronProd: 33 18 10 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 101
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -2527,15 +2527,15 @@ projects:
   org: Tinkerbell
   repo: tinkerbell/tink
   cronTest: 24 5,11,17,23 * * *
-  cronProd: 7 2,8,14,20 * * *
+  cronProd: 6 2,8,14,20 * * *
   affCronTest: 42 3 26 * *
-  affCronProd: 0 22 10 * *
+  affCronProd: 7 21 10 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 102
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -2555,7 +2555,7 @@ projects:
   domains: [0, 0, 0, 0]
   ga: ""
   i: 103
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -2569,13 +2569,13 @@ projects:
   cronTest: 26 5,11,17,23 * * *
   cronProd: 8 2,8,14,20 * * *
   affCronTest: 28 8 26 * *
-  affCronProd: 35 0 11 * *
+  affCronProd: 41 23 10 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 104
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -2587,15 +2587,15 @@ projects:
   org: OpenGitOps
   repo: cncf/tag-app-delivery
   cronTest: 28 5,11,17,23 * * *
-  cronProd: 10 2,8,14,20 * * *
+  cronProd: 9 2,8,14,20 * * *
   affCronTest: 51 10 26 * *
-  affCronProd: 9 3 11 * *
+  affCronProd: 15 2 11 * *
   affSkipTemp: "1"
   disk: 2Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 105
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -2609,13 +2609,13 @@ projects:
   cronTest: 29 5,11,17,23 * * *
   cronProd: 11 2,8,14,20 * * *
   affCronTest: 14 13 26 * *
-  affCronProd: 44 5 11 * *
+  affCronProd: 49 4 11 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 106
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -2635,7 +2635,7 @@ projects:
   domains: [0, 0, 0, 0]
   ga: ""
   i: 107
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -2648,15 +2648,15 @@ projects:
   org: Athenz
   repo: AthenZ/athenz
   cronTest: 32 5,11,17,23 * * *
-  cronProd: 13 2,8,14,20 * * *
+  cronProd: 12 2,8,14,20 * * *
   affCronTest: 0 18 26 * *
-  affCronProd: 18 8 11 * *
+  affCronProd: 23 7 11 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 108
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -2670,13 +2670,13 @@ projects:
   cronTest: 33 5,11,17,23 * * *
   cronProd: 14 2,8,14,20 * * *
   affCronTest: 22 20 26 * *
-  affCronProd: 53 10 11 * *
+  affCronProd: 56 9 11 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 109
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -2696,7 +2696,7 @@ projects:
   domains: [0, 0, 0, 0]
   ga: ""
   i: 110
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -2709,15 +2709,15 @@ projects:
   org: Distribution
   repo: distribution/distribution
   cronTest: 36 5,11,17,23 * * *
-  cronProd: 16 2,8,14,20 * * *
+  cronProd: 15 2,8,14,20 * * *
   affCronTest: 8 1 27 * *
-  affCronProd: 27 13 11 * *
+  affCronProd: 30 12 11 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 111
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -2737,7 +2737,7 @@ projects:
   domains: [0, 0, 0, 0]
   ga: ""
   i: 112
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -2750,15 +2750,15 @@ projects:
   org: Kuberhealthy
   repo: kuberhealthy/kuberhealthy
   cronTest: 38 5,11,17,23 * * *
-  cronProd: 17 2,8,14,20 * * *
+  cronProd: 16 2,8,14,20 * * *
   affCronTest: 54 5 27 * *
-  affCronProd: 2 16 11 * *
+  affCronProd: 4 15 11 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 113
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -2772,13 +2772,13 @@ projects:
   cronTest: 40 5,11,17,23 * * *
   cronProd: 18 2,8,14,20 * * *
   affCronTest: 17 8 27 * *
-  affCronProd: 36 18 11 * *
+  affCronProd: 38 17 11 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 114
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -2790,15 +2790,15 @@ projects:
   org: Trickster
   repo: trickstercache/trickster
   cronTest: 41 5,11,17,23 * * *
-  cronProd: 20 2,8,14,20 * * *
+  cronProd: 19 2,8,14,20 * * *
   affCronTest: 40 10 27 * *
-  affCronProd: 11 21 11 * *
+  affCronProd: 12 20 11 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 115
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -2812,13 +2812,13 @@ projects:
   cronTest: 42 5,11,17,23 * * *
   cronProd: 21 2,8,14,20 * * *
   affCronTest: 2 13 27 * *
-  affCronProd: 45 23 11 * *
+  affCronProd: 46 22 11 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 116
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -2830,15 +2830,15 @@ projects:
   org: WasmEdge Runtime
   repo: WasmEdge/WasmEdge
   cronTest: 44 5,11,17,23 * * *
-  cronProd: 23 2,8,14,20 * * *
+  cronProd: 22 2,8,14,20 * * *
   affCronTest: 25 15 27 * *
-  affCronProd: 20 2 12 * *
+  affCronProd: 20 1 12 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 117
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -2852,13 +2852,13 @@ projects:
   cronTest: 45 5,11,17,23 * * *
   cronProd: 24 2,8,14,20 * * *
   affCronTest: 48 17 27 * *
-  affCronProd: 54 4 12 * *
+  affCronProd: 53 3 12 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 118
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -2870,15 +2870,15 @@ projects:
   org: Vineyard
   repo: v6d-io/v6d
   cronTest: 46 5,11,17,23 * * *
-  cronProd: 26 2,8,14,20 * * *
+  cronProd: 25 2,8,14,20 * * *
   affCronTest: 11 20 27 * *
-  affCronProd: 29 7 12 * *
+  affCronProd: 27 6 12 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 119
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -2890,15 +2890,15 @@ projects:
   org: Antrea
   repo: antrea-io/antrea
   cronTest: 48 5,11,17,23 * * *
-  cronProd: 27 2,8,14,20 * * *
+  cronProd: 26 2,8,14,20 * * *
   affCronTest: 34 22 27 * *
-  affCronProd: 3 10 12 * *
+  affCronProd: 1 9 12 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 120
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -2912,13 +2912,13 @@ projects:
   cronTest: 49 5,11,17,23 * * *
   cronProd: 28 2,8,14,20 * * *
   affCronTest: 57 0 28 * *
-  affCronProd: 38 12 12 * *
+  affCronProd: 35 11 12 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 121
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -2930,15 +2930,15 @@ projects:
   org: Submariner
   repo: submariner-io/submariner
   cronTest: 50 5,11,17,23 * * *
-  cronProd: 30 2,8,14,20 * * *
+  cronProd: 29 2,8,14,20 * * *
   affCronTest: 20 3 28 * *
-  affCronProd: 12 15 12 * *
+  affCronProd: 9 14 12 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 122
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -2952,13 +2952,13 @@ projects:
   cronTest: 52 5,11,17,23 * * *
   cronProd: 31 2,8,14,20 * * *
   affCronTest: 42 5 28 * *
-  affCronProd: 47 17 12 * *
+  affCronProd: 43 16 12 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 123
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -2970,15 +2970,15 @@ projects:
   org: Meshery
   repo: meshery/meshery
   cronTest: 53 5,11,17,23 * * *
-  cronProd: 33 2,8,14,20 * * *
+  cronProd: 32 2,8,14,20 * * *
   affCronTest: 5 8 28 * *
-  affCronProd: 21 20 12 * *
+  affCronProd: 16 19 12 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 124
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -2998,7 +2998,7 @@ projects:
   domains: [0, 0, 0, 0]
   ga: ""
   i: 125
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -3012,13 +3012,13 @@ projects:
   cronTest: 56 5,11,17,23 * * *
   cronProd: 34 2,8,14,20 * * *
   affCronTest: 51 12 28 * *
-  affCronProd: 56 22 12 * *
+  affCronProd: 50 21 12 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 126
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -3030,15 +3030,15 @@ projects:
   org: kube-vip
   repo: kube-vip/kube-vip
   cronTest: 57 5,11,17,23 * * *
-  cronProd: 36 2,8,14,20 * * *
+  cronProd: 35 2,8,14,20 * * *
   affCronTest: 14 15 28 * *
-  affCronProd: 30 1 13 * *
+  affCronProd: 24 0 13 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 127
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -3058,7 +3058,7 @@ projects:
   domains: [0, 0, 0, 0]
   ga: ""
   i: 128
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -3079,7 +3079,7 @@ projects:
   domains: [0, 0, 0, 0]
   ga: ""
   i: 129
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -3100,7 +3100,7 @@ projects:
   domains: [0, 0, 0, 0]
   ga: ""
   i: 130
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -3115,13 +3115,13 @@ projects:
   cronTest: 5 0,6,12,18 * * *
   cronProd: 37 2,8,14,20 * * *
   affCronTest: 22 22 28 * *
-  affCronProd: 5 4 13 * *
+  affCronProd: 58 2 13 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 131
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -3133,15 +3133,15 @@ projects:
   org: wasmCloud
   repo: wasmCloud/wasmCloud
   cronTest: 6 0,6,12,18 * * *
-  cronProd: 39 2,8,14,20 * * *
+  cronProd: 38 2,8,14,20 * * *
   affCronTest: 45 0 1 * *
-  affCronProd: 39 6 13 * *
+  affCronProd: 32 5 13 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 132
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -3153,15 +3153,15 @@ projects:
   org: Akri
   repo: project-akri/akri
   cronTest: 8 0,6,12,18 * * *
-  cronProd: 40 2,8,14,20 * * *
+  cronProd: 39 2,8,14,20 * * *
   affCronTest: 8 3 1 * *
-  affCronProd: 14 9 13 * *
+  affCronProd: 6 8 13 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 133
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -3175,13 +3175,13 @@ projects:
   cronTest: 9 0,6,12,18 * * *
   cronProd: 41 2,8,14,20 * * *
   affCronTest: 31 5 1 * *
-  affCronProd: 48 11 13 * *
+  affCronProd: 40 10 13 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 134
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -3193,15 +3193,15 @@ projects:
   org: Karmada
   repo: karmada-io/karmada
   cronTest: 10 0,6,12,18 * * *
-  cronProd: 43 2,8,14,20 * * *
+  cronProd: 42 2,8,14,20 * * *
   affCronTest: 54 7 1 * *
-  affCronProd: 23 14 13 * *
+  affCronProd: 13 13 13 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 135
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -3215,13 +3215,13 @@ projects:
   cronTest: 12 0,6,12,18 * * *
   cronProd: 44 2,8,14,20 * * *
   affCronTest: 17 10 1 * *
-  affCronProd: 57 16 13 * *
+  affCronProd: 47 15 13 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 136
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -3241,7 +3241,7 @@ projects:
   domains: [0, 0, 0, 0]
   ga: ""
   i: 137
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -3254,15 +3254,15 @@ projects:
   org: Cilium
   repo: cilium/cilium
   cronTest: 13 0,6,12,18 * * *
-  cronProd: 46 2,8,14,20 * * *
+  cronProd: 45 2,8,14,20 * * *
   affCronTest: 40 12 1 * *
-  affCronProd: 32 19 13 * *
+  affCronProd: 21 18 13 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 138
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -3276,13 +3276,13 @@ projects:
   cronTest: 14 0,6,12,18 * * *
   cronProd: 47 2,8,14,20 * * *
   affCronTest: 2 15 1 * *
-  affCronProd: 6 22 13 * *
+  affCronProd: 55 20 13 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 139
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -3302,7 +3302,7 @@ projects:
   domains: [0, 0, 0, 0]
   ga: ""
   i: 140
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -3315,15 +3315,15 @@ projects:
   org: Open Cluster Management
   repo: open-cluster-management-io/api
   cronTest: 17 0,6,12,18 * * *
-  cronProd: 49 2,8,14,20 * * *
+  cronProd: 48 2,8,14,20 * * *
   affCronTest: 48 19 1 * *
-  affCronProd: 41 0 14 * *
+  affCronProd: 29 23 13 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 141
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -3335,15 +3335,15 @@ projects:
   org: VS Code Kubernetes Tools
   repo: vscode-kubernetes-tools/vscode-kubernetes-tools
   cronTest: 18 0,6,12,18 * * *
-  cronProd: 50 2,8,14,20 * * *
+  cronProd: 49 2,8,14,20 * * *
   affCronTest: 11 22 1 * *
-  affCronProd: 15 3 14 * *
+  affCronProd: 3 2 14 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 142
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -3363,7 +3363,7 @@ projects:
   domains: [0, 0, 0, 0]
   ga: ""
   i: 143
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -3376,15 +3376,15 @@ projects:
   org: KubeArmor
   repo: kubearmor/KubeArmor
   cronTest: 20 0,6,12,18 * * *
-  cronProd: 52 2,8,14,20 * * *
+  cronProd: 51 2,8,14,20 * * *
   affCronTest: 34 0 2 * *
-  affCronProd: 50 5 14 * *
+  affCronProd: 36 4 14 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 144
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -3396,15 +3396,15 @@ projects:
   org: K8up
   repo: k8up-io/k8up
   cronTest: 21 0,6,12,18 * * *
-  cronProd: 53 2,8,14,20 * * *
+  cronProd: 52 2,8,14,20 * * *
   affCronTest: 57 2 2 * *
-  affCronProd: 24 8 14 * *
+  affCronProd: 10 7 14 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 145
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -3418,13 +3418,13 @@ projects:
   cronTest: 22 0,6,12,18 * * *
   cronProd: 54 2,8,14,20 * * *
   affCronTest: 20 5 2 * *
-  affCronProd: 59 10 14 * *
+  affCronProd: 44 9 14 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 146
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -3436,15 +3436,15 @@ projects:
   org: Devfile
   repo: devfile/api
   cronTest: 24 0,6,12,18 * * *
-  cronProd: 56 2,8,14,20 * * *
+  cronProd: 55 2,8,14,20 * * *
   affCronTest: 42 7 2 * *
-  affCronProd: 33 13 14 * *
+  affCronProd: 18 12 14 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 147
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -3464,7 +3464,7 @@ projects:
   domains: [0, 0, 0, 0]
   ga: ""
   i: 148
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -3479,13 +3479,13 @@ projects:
   cronTest: 26 0,6,12,18 * * *
   cronProd: 57 2,8,14,20 * * *
   affCronTest: 28 12 2 * *
-  affCronProd: 8 16 14 * *
+  affCronProd: 52 14 14 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 149
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -3497,15 +3497,15 @@ projects:
   org: OpenFunction
   repo: OpenFunction/OpenFunction
   cronTest: 28 0,6,12,18 * * *
-  cronProd: 59 2,8,14,20 * * *
+  cronProd: 58 2,8,14,20 * * *
   affCronTest: 51 14 2 * *
-  affCronProd: 42 18 14 * *
+  affCronProd: 26 17 14 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 150
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -3525,7 +3525,7 @@ projects:
   domains: [0, 0, 0, 0]
   ga: ""
   i: 151
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -3546,7 +3546,7 @@ projects:
   domains: [0, 0, 0, 0]
   ga: ""
   i: 152
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -3561,13 +3561,13 @@ projects:
   cronTest: 32 0,6,12,18 * * *
   cronProd: 4 3,9,15,21 * * *
   affCronTest: 0 22 2 * *
-  affCronProd: 17 21 14 * *
+  affCronProd: 0 20 14 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 153
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -3579,15 +3579,15 @@ projects:
   org: OpenCost
   repo: opencost/opencost
   cronTest: 33 0,6,12,18 * * *
-  cronProd: 6 3,9,15,21 * * *
+  cronProd: 5 3,9,15,21 * * *
   affCronTest: 22 0 3 * *
-  affCronProd: 51 23 14 * *
+  affCronProd: 33 22 14 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 154
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -3599,15 +3599,15 @@ projects:
   org: Aeraki Mesh
   repo: aeraki-mesh/aeraki
   cronTest: 34 0,6,12,18 * * *
-  cronProd: 7 3,9,15,21 * * *
+  cronProd: 6 3,9,15,21 * * *
   affCronTest: 45 2 3 * *
-  affCronProd: 26 2 15 * *
+  affCronProd: 7 1 15 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 155
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -3627,7 +3627,7 @@ projects:
   domains: [0, 0, 0, 0]
   ga: ""
   i: 156
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -3640,15 +3640,15 @@ projects:
   org: OpenFeature
   repo: open-feature/spec
   cronTest: 36 0,6,12,18 * * *
-  cronProd: 9 3,9,15,21 * * *
+  cronProd: 8 3,9,15,21 * * *
   affCronTest: 8 5 3 * *
-  affCronProd: 0 5 15 * *
+  affCronProd: 41 3 15 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 157
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -3660,15 +3660,15 @@ projects:
   org: kubewarden
   repo: kubewarden/kubewarden-controller
   cronTest: 37 0,6,12,18 * * *
-  cronProd: 10 3,9,15,21 * * *
+  cronProd: 9 3,9,15,21 * * *
   affCronTest: 31 7 3 * *
-  affCronProd: 35 7 15 * *
+  affCronProd: 15 6 15 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 158
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -3688,7 +3688,7 @@ projects:
   domains: [0, 0, 0, 0]
   ga: ""
   i: 159
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -3703,13 +3703,13 @@ projects:
   cronTest: 40 0,6,12,18 * * *
   cronProd: 11 3,9,15,21 * * *
   affCronTest: 17 12 3 * *
-  affCronProd: 9 10 15 * *
+  affCronProd: 49 8 15 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 160
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -3721,15 +3721,15 @@ projects:
   org: Konveyor
   repo: konveyor/operator
   cronTest: 41 0,6,12,18 * * *
-  cronProd: 13 3,9,15,21 * * *
+  cronProd: 12 3,9,15,21 * * *
   affCronTest: 40 14 3 * *
-  affCronProd: 44 12 15 * *
+  affCronProd: 23 11 15 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 161
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -3743,13 +3743,13 @@ projects:
   cronTest: 42 0,6,12,18 * * *
   cronProd: 14 3,9,15,21 * * *
   affCronTest: 2 17 3 * *
-  affCronProd: 18 15 15 * *
+  affCronProd: 56 13 15 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 162
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -3761,15 +3761,15 @@ projects:
   org: External Secrets Operator
   repo: external-secrets/external-secrets
   cronTest: 44 0,6,12,18 * * *
-  cronProd: 16 3,9,15,21 * * *
+  cronProd: 15 3,9,15,21 * * *
   affCronTest: 25 19 3 * *
-  affCronProd: 53 17 15 * *
+  affCronProd: 30 16 15 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 163
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -3781,15 +3781,15 @@ projects:
   org: Serverless Devs
   repo: Serverless-Devs/Serverless-Devs
   cronTest: 45 0,6,12,18 * * *
-  cronProd: 17 3,9,15,21 * * *
+  cronProd: 16 3,9,15,21 * * *
   affCronTest: 48 21 3 * *
-  affCronProd: 27 20 15 * *
+  affCronProd: 4 19 15 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 164
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -3801,15 +3801,15 @@ projects:
   org: ContainerSSH
   repo: ContainerSSH/ContainerSSH
   cronTest: 46 0,6,12,18 * * *
-  cronProd: 19 3,9,15,21 * * *
+  cronProd: 18 3,9,15,21 * * *
   affCronTest: 11 0 4 * *
-  affCronProd: 2 23 15 * *
+  affCronProd: 38 21 15 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 165
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -3821,15 +3821,15 @@ projects:
   org: OpenFGA
   repo: openfga/openfga
   cronTest: 48 0,6,12,18 * * *
-  cronProd: 20 3,9,15,21 * * *
+  cronProd: 19 3,9,15,21 * * *
   affCronTest: 34 2 4 * *
-  affCronProd: 36 1 16 * *
+  affCronProd: 12 0 16 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 166
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -3841,15 +3841,15 @@ projects:
   org: Kured
   repo: kubereboot/kured
   cronTest: 49 0,6,12,18 * * *
-  cronProd: 22 3,9,15,21 * * *
+  cronProd: 21 3,9,15,21 * * *
   affCronTest: 57 4 4 * *
-  affCronProd: 11 4 16 * *
+  affCronProd: 46 2 16 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 167
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -3861,15 +3861,15 @@ projects:
   org: Carvel
   repo: carvel-dev/ytt
   cronTest: 50 0,6,12,18 * * *
-  cronProd: 23 3,9,15,21 * * *
+  cronProd: 22 3,9,15,21 * * *
   affCronTest: 20 7 4 * *
-  affCronProd: 45 6 16 * *
+  affCronProd: 20 5 16 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 168
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -3883,13 +3883,13 @@ projects:
   cronTest: 52 0,6,12,18 * * *
   cronProd: 24 3,9,15,21 * * *
   affCronTest: 42 9 4 * *
-  affCronProd: 20 9 16 * *
+  affCronProd: 53 7 16 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 169
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -3909,7 +3909,7 @@ projects:
   domains: [0, 0, 0, 0]
   ga: ""
   i: 170
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -3922,15 +3922,15 @@ projects:
   org: DevSpace
   repo: devspace-sh/devspace
   cronTest: 54 0,6,12,18 * * *
-  cronProd: 26 3,9,15,21 * * *
+  cronProd: 25 3,9,15,21 * * *
   affCronTest: 28 14 4 * *
-  affCronProd: 54 11 16 * *
+  affCronProd: 27 10 16 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 171
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -3942,15 +3942,15 @@ projects:
   org: capsule
   repo: projectcapsule/capsule
   cronTest: 56 0,6,12,18 * * *
-  cronProd: 27 3,9,15,21 * * *
+  cronProd: 26 3,9,15,21 * * *
   affCronTest: 51 16 4 * *
-  affCronProd: 29 14 16 * *
+  affCronProd: 1 13 16 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 172
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -3962,15 +3962,15 @@ projects:
   org: zot
   repo: project-zot/zot
   cronTest: 57 0,6,12,18 * * *
-  cronProd: 29 3,9,15,21 * * *
+  cronProd: 28 3,9,15,21 * * *
   affCronTest: 14 19 4 * *
-  affCronProd: 3 17 16 * *
+  affCronProd: 35 15 16 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 173
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -3982,15 +3982,15 @@ projects:
   org: Paralus
   repo: paralus/paralus
   cronTest: 58 0,6,12,18 * * *
-  cronProd: 30 3,9,15,21 * * *
+  cronProd: 29 3,9,15,21 * * *
   affCronTest: 37 21 4 * *
-  affCronProd: 38 19 16 * *
+  affCronProd: 9 18 16 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 174
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -4002,15 +4002,15 @@ projects:
   org: Carina
   repo: carina-io/carina
   cronTest: 4 1,7,13,19 * * *
-  cronProd: 32 3,9,15,21 * * *
+  cronProd: 31 3,9,15,21 * * *
   affCronTest: 0 0 5 * *
-  affCronProd: 12 22 16 * *
+  affCronProd: 43 20 16 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 175
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -4022,15 +4022,15 @@ projects:
   org: ko
   repo: ko-build/ko
   cronTest: 5 1,7,13,19 * * *
-  cronProd: 33 3,9,15,21 * * *
+  cronProd: 32 3,9,15,21 * * *
   affCronTest: 22 2 5 * *
-  affCronProd: 47 0 17 * *
+  affCronProd: 16 23 16 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 176
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -4042,15 +4042,15 @@ projects:
   org: OPCR
   repo: opcr-io/policy
   cronTest: 6 1,7,13,19 * * *
-  cronProd: 35 3,9,15,21 * * *
+  cronProd: 34 3,9,15,21 * * *
   affCronTest: 45 4 5 * *
-  affCronProd: 21 3 17 * *
+  affCronProd: 50 1 17 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 177
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -4062,15 +4062,15 @@ projects:
   org: werf
   repo: werf/werf
   cronTest: 8 1,7,13,19 * * *
-  cronProd: 36 3,9,15,21 * * *
+  cronProd: 35 3,9,15,21 * * *
   affCronTest: 8 7 5 * *
-  affCronProd: 56 5 17 * *
+  affCronProd: 24 4 17 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 178
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -4084,13 +4084,13 @@ projects:
   cronTest: 9 1,7,13,19 * * *
   cronProd: 37 3,9,15,21 * * *
   affCronTest: 31 9 5 * *
-  affCronProd: 30 8 17 * *
+  affCronProd: 58 6 17 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 179
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -4102,15 +4102,15 @@ projects:
   org: Inspektor Gadget
   repo: inspektor-gadget/inspektor-gadget
   cronTest: 10 1,7,13,19 * * *
-  cronProd: 39 3,9,15,21 * * *
+  cronProd: 38 3,9,15,21 * * *
   affCronTest: 54 11 5 * *
-  affCronProd: 5 11 17 * *
+  affCronProd: 32 9 17 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 180
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -4122,15 +4122,15 @@ projects:
   org: Clusternet
   repo: clusternet/clusternet
   cronTest: 12 1,7,13,19 * * *
-  cronProd: 40 3,9,15,21 * * *
+  cronProd: 39 3,9,15,21 * * *
   affCronTest: 17 14 5 * *
-  affCronProd: 39 13 17 * *
+  affCronProd: 6 12 17 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 181
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -4142,15 +4142,15 @@ projects:
   org: CDEvents
   repo: cdevents/spec
   cronTest: 13 1,7,13,19 * * *
-  cronProd: 42 3,9,15,21 * * *
+  cronProd: 41 3,9,15,21 * * *
   affCronTest: 40 16 5 * *
-  affCronProd: 14 16 17 * *
+  affCronProd: 40 14 17 * *
   affSkipTemp: "1"
   disk: 4Gi
   domains: [0, 0, 1, 0]
   ga: ""
   i: 182
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -4162,15 +4162,15 @@ projects:
   org: Ortelius
   repo: ortelius/ortelius
   cronTest: 14 1,7,13,19 * * *
-  cronProd: 43 3,9,15,21 * * *
+  cronProd: 42 3,9,15,21 * * *
   affCronTest: 2 19 5 * *
-  affCronProd: 48 18 17 * *
+  affCronProd: 13 17 17 * *
   affSkipTemp: "1"
   disk: 4Gi
   domains: [0, 0, 1, 0]
   ga: ""
   i: 183
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -4182,15 +4182,15 @@ projects:
   org: Pyrsia
   repo: pyrsia/pyrsia
   cronTest: 16 1,7,13,19 * * *
-  cronProd: 45 3,9,15,21 * * *
+  cronProd: 44 3,9,15,21 * * *
   affCronTest: 25 21 5 * *
-  affCronProd: 23 21 17 * *
+  affCronProd: 47 19 17 * *
   affSkipTemp: "1"
   disk: 4Gi
   domains: [0, 0, 1, 0]
   ga: ""
   i: 184
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -4202,15 +4202,15 @@ projects:
   org: Screwdriver CD
   repo: screwdriver-cd/screwdriver
   cronTest: 17 1,7,13,19 * * *
-  cronProd: 46 3,9,15,21 * * *
+  cronProd: 45 3,9,15,21 * * *
   affCronTest: 48 23 5 * *
-  affCronProd: 57 23 17 * *
+  affCronProd: 21 22 17 * *
   affSkipTemp: "1"
   disk: 4Gi
   domains: [0, 0, 1, 0]
   ga: ""
   i: 185
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -4224,13 +4224,13 @@ projects:
   cronTest: 18 1,7,13,19 * * *
   cronProd: 47 3,9,15,21 * * *
   affCronTest: 11 2 6 * *
-  affCronProd: 32 2 18 * *
+  affCronProd: 55 0 18 * *
   affSkipTemp: "1"
   disk: 4Gi
   domains: [0, 0, 1, 0]
   ga: ""
   i: 186
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -4242,15 +4242,15 @@ projects:
   org: Keycloak
   repo: keycloak/keycloak
   cronTest: 20 1,7,13,19 * * *
-  cronProd: 49 3,9,15,21 * * *
+  cronProd: 48 3,9,15,21 * * *
   affCronTest: 34 4 6 * *
-  affCronProd: 6 5 18 * *
+  affCronProd: 29 3 18 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 187
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -4262,15 +4262,15 @@ projects:
   org: SOPS
   repo: getsops/sops
   cronTest: 21 1,7,13,19 * * *
-  cronProd: 50 3,9,15,21 * * *
+  cronProd: 49 3,9,15,21 * * *
   affCronTest: 57 6 6 * *
-  affCronProd: 41 7 18 * *
+  affCronProd: 3 6 18 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 188
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -4282,15 +4282,15 @@ projects:
   org: Headlamp
   repo: kubernetes-sigs/headlamp
   cronTest: 22 1,7,13,19 * * *
-  cronProd: 52 3,9,15,21 * * *
+  cronProd: 51 3,9,15,21 * * *
   affCronTest: 20 9 6 * *
-  affCronProd: 15 10 18 * *
+  affCronProd: 36 8 18 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 189
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -4302,15 +4302,15 @@ projects:
   org: SlimToolkit
   repo: slimtoolkit/slim
   cronTest: 24 1,7,13,19 * * *
-  cronProd: 53 3,9,15,21 * * *
+  cronProd: 52 3,9,15,21 * * *
   affCronTest: 42 11 6 * *
-  affCronProd: 50 12 18 * *
+  affCronProd: 10 11 18 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 190
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -4322,15 +4322,15 @@ projects:
   org: Kepler
   repo: sustainable-computing-io/kepler
   cronTest: 25 1,7,13,19 * * *
-  cronProd: 55 3,9,15,21 * * *
+  cronProd: 54 3,9,15,21 * * *
   affCronTest: 5 14 6 * *
-  affCronProd: 24 15 18 * *
+  affCronProd: 44 13 18 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 191
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -4342,15 +4342,15 @@ projects:
   org: PipeCD
   repo: pipe-cd/pipecd
   cronTest: 26 1,7,13,19 * * *
-  cronProd: 56 3,9,15,21 * * *
+  cronProd: 55 3,9,15,21 * * *
   affCronTest: 28 16 6 * *
-  affCronProd: 59 17 18 * *
+  affCronProd: 18 16 18 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 192
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -4362,15 +4362,15 @@ projects:
   org: Eraser
   repo: eraser-dev/eraser
   cronTest: 28 1,7,13,19 * * *
-  cronProd: 58 3,9,15,21 * * *
+  cronProd: 57 3,9,15,21 * * *
   affCronTest: 51 18 6 * *
-  affCronProd: 33 20 18 * *
+  affCronProd: 52 18 18 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 193
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -4390,7 +4390,7 @@ projects:
   domains: [0, 0, 0, 0]
   ga: ""
   i: 194
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -4402,15 +4402,15 @@ projects:
   org: Hwameistor
   repo: hwameistor/hwameistor
   cronTest: 30 1,7,13,19 * * *
-  cronProd: 59 3,9,15,21 * * *
+  cronProd: 58 3,9,15,21 * * *
   affCronTest: 37 23 6 * *
-  affCronProd: 8 23 18 * *
+  affCronProd: 26 21 18 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 195
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -4424,13 +4424,13 @@ projects:
   cronTest: 32 1,7,13,19 * * *
   cronProd: 4 4,10,16,22 * * *
   affCronTest: 0 2 7 * *
-  affCronProd: 43 1 19 * *
+  affCronProd: 0 0 19 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 196
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -4442,15 +4442,15 @@ projects:
   org: Microcks
   repo: microcks/microcks
   cronTest: 33 1,7,13,19 * * *
-  cronProd: 6 4,10,16,22 * * *
+  cronProd: 5 4,10,16,22 * * *
   affCronTest: 22 4 7 * *
-  affCronProd: 17 4 19 * *
+  affCronProd: 33 2 19 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 197
-  # certNum: 2
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -4462,15 +4462,15 @@ projects:
   org: Kubeclipper
   repo: kubeclipper/kubeclipper
   cronTest: 34 1,7,13,19 * * *
-  cronProd: 7 4,10,16,22 * * *
+  cronProd: 6 4,10,16,22 * * *
   affCronTest: 45 6 7 * *
-  affCronProd: 52 6 19 * *
+  affCronProd: 7 5 19 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 198
-  # certNum: 3
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -4482,15 +4482,15 @@ projects:
   org: Kubeflow
   repo: kubeflow/kubeflow
   cronTest: 36 1,7,13,19 * * *
-  cronProd: 9 4,10,16,22 * * *
+  cronProd: 8 4,10,16,22 * * *
   affCronTest: 8 9 7 * *
-  affCronProd: 26 9 19 * *
+  affCronProd: 41 7 19 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 199
-  # certNum: 3
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -4502,15 +4502,15 @@ projects:
   org: Copa
   repo: project-copacetic/copacetic
   cronTest: 37 1,7,13,19 * * *
-  cronProd: 10 4,10,16,22 * * *
+  cronProd: 9 4,10,16,22 * * *
   affCronTest: 31 11 7 * *
-  affCronProd: 1 12 19 * *
+  affCronProd: 15 10 19 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 200
-  # certNum: 3
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -4522,15 +4522,15 @@ projects:
   org: Logging Operator
   repo: kube-logging/logging-operator
   cronTest: 38 1,7,13,19 * * *
-  cronProd: 12 4,10,16,22 * * *
+  cronProd: 11 4,10,16,22 * * *
   affCronTest: 54 13 7 * *
-  affCronProd: 35 14 19 * *
+  affCronProd: 49 12 19 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 201
-  # certNum: 3
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -4542,15 +4542,15 @@ projects:
   org: Kanister
   repo: kanisterio/kanister
   cronTest: 40 1,7,13,19 * * *
-  cronProd: 13 4,10,16,22 * * *
+  cronProd: 12 4,10,16,22 * * *
   affCronTest: 17 16 7 * *
-  affCronProd: 10 17 19 * *
+  affCronProd: 23 15 19 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 202
-  # certNum: 3
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -4562,15 +4562,15 @@ projects:
   org: kcp
   repo: kcp-dev/kcp
   cronTest: 41 1,7,13,19 * * *
-  cronProd: 15 4,10,16,22 * * *
+  cronProd: 14 4,10,16,22 * * *
   affCronTest: 40 18 7 * *
-  affCronProd: 44 19 19 * *
+  affCronProd: 56 17 19 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 203
-  # certNum: 3
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -4582,15 +4582,15 @@ projects:
   org: KCL
   repo: kcl-lang/kcl
   cronTest: 42 1,7,13,19 * * *
-  cronProd: 16 4,10,16,22 * * *
+  cronProd: 15 4,10,16,22 * * *
   affCronTest: 2 21 7 * *
-  affCronProd: 19 22 19 * *
+  affCronProd: 30 20 19 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 204
-  # certNum: 3
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -4602,15 +4602,15 @@ projects:
   org: kube-burner
   repo: kube-burner/kube-burner
   cronTest: 44 1,7,13,19 * * *
-  cronProd: 17 4,10,16,22 * * *
+  cronProd: 16 4,10,16,22 * * *
   affCronTest: 25 23 7 * *
-  affCronProd: 53 0 20 * *
+  affCronProd: 4 23 19 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 205
-  # certNum: 3
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -4622,15 +4622,15 @@ projects:
   org: Kuasar
   repo: kuasar-io/kuasar
   cronTest: 45 1,7,13,19 * * *
-  cronProd: 19 4,10,16,22 * * *
+  cronProd: 18 4,10,16,22 * * *
   affCronTest: 48 1 8 * *
-  affCronProd: 28 3 20 * *
+  affCronProd: 38 1 20 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 206
-  # certNum: 3
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -4642,15 +4642,15 @@ projects:
   org: krkn
   repo: krkn-chaos/krkn
   cronTest: 46 1,7,13,19 * * *
-  cronProd: 20 4,10,16,22 * * *
+  cronProd: 19 4,10,16,22 * * *
   affCronTest: 11 4 8 * *
-  affCronProd: 2 6 20 * *
+  affCronProd: 12 4 20 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 207
-  # certNum: 3
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -4662,15 +4662,15 @@ projects:
   org: Kubestellar
   repo: kubestellar/kubestellar
   cronTest: 48 1,7,13,19 * * *
-  cronProd: 22 4,10,16,22 * * *
+  cronProd: 21 4,10,16,22 * * *
   affCronTest: 34 6 8 * *
-  affCronProd: 37 8 20 * *
+  affCronProd: 46 6 20 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 208
-  # certNum: 3
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -4682,15 +4682,15 @@ projects:
   org: easegress
   repo: easegress-io/easegress
   cronTest: 49 1,7,13,19 * * *
-  cronProd: 23 4,10,16,22 * * *
+  cronProd: 22 4,10,16,22 * * *
   affCronTest: 57 8 8 * *
-  affCronProd: 11 11 20 * *
+  affCronProd: 20 9 20 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 209
-  # certNum: 3
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -4702,15 +4702,15 @@ projects:
   org: Spiderpool
   repo: spidernet-io/spiderpool
   cronTest: 50 1,7,13,19 * * *
-  cronProd: 25 4,10,16,22 * * *
+  cronProd: 24 4,10,16,22 * * *
   affCronTest: 19 11 8 * *
-  affCronProd: 46 13 20 * *
+  affCronProd: 53 11 20 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 210
-  # certNum: 3
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -4722,15 +4722,15 @@ projects:
   org: K8sGPT
   repo: k8sgpt-ai/k8sgpt
   cronTest: 52 1,7,13,19 * * *
-  cronProd: 26 4,10,16,22 * * *
+  cronProd: 25 4,10,16,22 * * *
   affCronTest: 42 13 8 * *
-  affCronProd: 20 16 20 * *
+  affCronProd: 27 14 20 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 211
-  # certNum: 3
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -4742,15 +4742,15 @@ projects:
   org: Kubeslice
   repo: kubeslice/kubeslice
   cronTest: 53 1,7,13,19 * * *
-  cronProd: 28 4,10,16,22 * * *
+  cronProd: 26 4,10,16,22 * * *
   affCronTest: 5 16 8 * *
-  affCronProd: 55 18 20 * *
+  affCronProd: 1 17 20 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 212
-  # certNum: 3
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -4762,15 +4762,15 @@ projects:
   org: Connect RPC
   repo: connectrpc/connect-go
   cronTest: 54 1,7,13,19 * * *
-  cronProd: 29 4,10,16,22 * * *
+  cronProd: 28 4,10,16,22 * * *
   affCronTest: 28 18 8 * *
-  affCronProd: 29 21 20 * *
+  affCronProd: 35 19 20 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 213
-  # certNum: 3
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -4782,15 +4782,15 @@ projects:
   org: Kairos
   repo: kairos-io/kairos
   cronTest: 56 1,7,13,19 * * *
-  cronProd: 30 4,10,16,22 * * *
+  cronProd: 29 4,10,16,22 * * *
   affCronTest: 51 20 8 * *
-  affCronProd: 4 0 21 * *
+  affCronProd: 9 22 20 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 214
-  # certNum: 3
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -4802,15 +4802,15 @@ projects:
   org: Kubean
   repo: kubean-io/kubean
   cronTest: 57 1,7,13,19 * * *
-  cronProd: 32 4,10,16,22 * * *
+  cronProd: 31 4,10,16,22 * * *
   affCronTest: 14 23 8 * *
-  affCronProd: 38 2 21 * *
+  affCronProd: 43 0 21 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 215
-  # certNum: 3
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -4822,15 +4822,15 @@ projects:
   org: Koordinator
   repo: koordinator-sh/koordinator
   cronTest: 58 1,7,13,19 * * *
-  cronProd: 33 4,10,16,22 * * *
+  cronProd: 32 4,10,16,22 * * *
   affCronTest: 37 1 9 * *
-  affCronProd: 13 5 21 * *
+  affCronProd: 16 3 21 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 216
-  # certNum: 3
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -4842,15 +4842,15 @@ projects:
   org: Radius
   repo: radius-project/radius
   cronTest: 4 2,8,14,20 * * *
-  cronProd: 35 4,10,16,22 * * *
+  cronProd: 34 4,10,16,22 * * *
   affCronTest: 0 4 9 * *
-  affCronProd: 47 7 21 * *
+  affCronProd: 50 5 21 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 217
-  # certNum: 3
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -4862,15 +4862,15 @@ projects:
   org: Bank-Vaults
   repo: bank-vaults/bank-vaults
   cronTest: 5 2,8,14,20 * * *
-  cronProd: 36 4,10,16,22 * * *
+  cronProd: 35 4,10,16,22 * * *
   affCronTest: 22 6 9 * *
-  affCronProd: 22 10 21 * *
+  affCronProd: 24 8 21 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 218
-  # certNum: 3
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -4882,15 +4882,15 @@ projects:
   org: Atlantis
   repo: runatlantis/atlantis
   cronTest: 6 2,8,14,20 * * *
-  cronProd: 38 4,10,16,22 * * *
+  cronProd: 37 4,10,16,22 * * *
   affCronTest: 45 8 9 * *
-  affCronProd: 56 12 21 * *
+  affCronProd: 58 10 21 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 219
-  # certNum: 3
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -4902,15 +4902,15 @@ projects:
   org: Stacker
   repo: project-stacker/stacker
   cronTest: 8 2,8,14,20 * * *
-  cronProd: 39 4,10,16,22 * * *
+  cronProd: 38 4,10,16,22 * * *
   affCronTest: 8 11 9 * *
-  affCronProd: 31 15 21 * *
+  affCronProd: 32 13 21 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 220
-  # certNum: 3
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -4922,15 +4922,15 @@ projects:
   org: TrestleGRC
   repo: oscal-compass/compliance-trestle
   cronTest: 9 2,8,14,20 * * *
-  cronProd: 41 4,10,16,22 * * *
+  cronProd: 39 4,10,16,22 * * *
   affCronTest: 31 13 9 * *
-  affCronProd: 5 18 21 * *
+  affCronProd: 6 16 21 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 221
-  # certNum: 3
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -4942,15 +4942,15 @@ projects:
   org: Kuadrant
   repo: Kuadrant/authorino
   cronTest: 10 2,8,14,20 * * *
-  cronProd: 42 4,10,16,22 * * *
+  cronProd: 41 4,10,16,22 * * *
   affCronTest: 54 15 9 * *
-  affCronProd: 40 20 21 * *
+  affCronProd: 40 18 21 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 222
-  # certNum: 3
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -4962,15 +4962,15 @@ projects:
   org: openGemini
   repo: openGemini/openGemini
   cronTest: 12 2,8,14,20 * * *
-  cronProd: 43 4,10,16,22 * * *
+  cronProd: 42 4,10,16,22 * * *
   affCronTest: 17 18 9 * *
-  affCronProd: 14 23 21 * *
+  affCronProd: 13 21 21 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 223
-  # certNum: 3
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -4982,15 +4982,15 @@ projects:
   org: Score
   repo: score-spec/score-go
   cronTest: 13 2,8,14,20 * * *
-  cronProd: 45 4,10,16,22 * * *
+  cronProd: 44 4,10,16,22 * * *
   affCronTest: 40 20 9 * *
-  affCronProd: 49 1 22 * *
+  affCronProd: 47 23 21 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 224
-  # certNum: 3
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -5002,15 +5002,15 @@ projects:
   org: bpfman
   repo: bpfman/bpfman
   cronTest: 14 2,8,14,20 * * *
-  cronProd: 46 4,10,16,22 * * *
+  cronProd: 45 4,10,16,22 * * *
   affCronTest: 2 23 9 * *
-  affCronProd: 23 4 22 * *
+  affCronProd: 21 2 22 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 225
-  # certNum: 3
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -5022,15 +5022,15 @@ projects:
   org: LoxiLB
   repo: loxilb-io/loxilb
   cronTest: 16 2,8,14,20 * * *
-  cronProd: 48 4,10,16,22 * * *
+  cronProd: 47 4,10,16,22 * * *
   affCronTest: 25 1 10 * *
-  affCronProd: 58 6 22 * *
+  affCronProd: 55 4 22 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 226
-  # certNum: 3
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -5042,15 +5042,15 @@ projects:
   org: Cartography
   repo: cartography-cncf/cartography
   cronTest: 17 2,8,14,20 * * *
-  cronProd: 49 4,10,16,22 * * *
+  cronProd: 48 4,10,16,22 * * *
   affCronTest: 48 3 10 * *
-  affCronProd: 32 9 22 * *
+  affCronProd: 29 7 22 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 227
-  # certNum: 3
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -5062,15 +5062,15 @@ projects:
   org: Perses
   repo: perses/perses
   cronTest: 18 2,8,14,20 * * *
-  cronProd: 51 4,10,16,22 * * *
+  cronProd: 49 4,10,16,22 * * *
   affCronTest: 11 6 10 * *
-  affCronProd: 7 12 22 * *
+  affCronProd: 3 10 22 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 228
-  # certNum: 3
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -5082,15 +5082,15 @@ projects:
   org: Ratify
   repo: ratify-project/ratify
   cronTest: 20 2,8,14,20 * * *
-  cronProd: 52 4,10,16,22 * * *
+  cronProd: 51 4,10,16,22 * * *
   affCronTest: 34 8 10 * *
-  affCronProd: 41 14 22 * *
+  affCronProd: 36 12 22 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 229
-  # certNum: 3
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -5102,15 +5102,15 @@ projects:
   org: HAMi
   repo: Project-HAMi/HAMi
   cronTest: 21 2,8,14,20 * * *
-  cronProd: 53 4,10,16,22 * * *
+  cronProd: 52 4,10,16,22 * * *
   affCronTest: 57 10 10 * *
-  affCronProd: 16 17 22 * *
+  affCronProd: 10 15 22 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 230
-  # certNum: 3
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -5122,15 +5122,15 @@ projects:
   org: Shipwright
   repo: shipwright-io/build
   cronTest: 22 2,8,14,20 * * *
-  cronProd: 55 4,10,16,22 * * *
+  cronProd: 54 4,10,16,22 * * *
   affCronTest: 20 13 10 * *
-  affCronProd: 50 19 22 * *
+  affCronProd: 44 17 22 * *
   affSkipTemp: "1"
   disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 231
-  # certNum: 3
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -5142,15 +5142,15 @@ projects:
   org: Flatcar
   repo: flatcar/mantle
   cronTest: 24 2,8,14,20 * * *
-  cronProd: 56 4,10,16,22 * * *
+  cronProd: 55 4,10,16,22 * * *
   affCronTest: 42 15 10 * *
-  affCronProd: 25 22 22 * *
+  affCronProd: 18 20 22 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 232
-  # certNum: 3
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -5162,15 +5162,15 @@ projects:
   org: KusionStack
   repo: KusionStack/kusion
   cronTest: 25 2,8,14,20 * * *
-  cronProd: 58 4,10,16,22 * * *
+  cronProd: 57 4,10,16,22 * * *
   affCronTest: 5 18 10 * *
-  affCronProd: 59 0 23 * *
+  affCronProd: 52 22 22 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 233
-  # certNum: 3
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -5182,15 +5182,15 @@ projects:
   org: Youki
   repo: youki-dev/youki
   cronTest: 26 2,8,14,20 * * *
-  cronProd: 59 4,10,16,22 * * *
+  cronProd: 58 4,10,16,22 * * *
   affCronTest: 28 20 10 * *
-  affCronProd: 34 3 23 * *
+  affCronProd: 26 1 23 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 234
-  # certNum: 3
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -5202,15 +5202,15 @@ projects:
   org: kaito-project/kaito
   repo: kaito-project/kaito
   cronTest: 28 2,8,14,20 * * *
-  cronProd: 5 5,11,17,23 * * *
+  cronProd: 4 5,11,17,23 * * *
   affCronTest: 51 22 10 * *
-  affCronProd: 8 6 23 * *
+  affCronProd: 0 4 23 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 235
-  # certNum: 4
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -5222,15 +5222,15 @@ projects:
   org: Sermant
   repo: sermant-io/Sermant
   cronTest: 29 2,8,14,20 * * *
-  cronProd: 6 5,11,17,23 * * *
+  cronProd: 5 5,11,17,23 * * *
   affCronTest: 14 1 11 * *
-  affCronProd: 43 8 23 * *
+  affCronProd: 33 6 23 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 236
-  # certNum: 4
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -5242,15 +5242,15 @@ projects:
   org: Kmesh
   repo: kmesh-net/kmesh
   cronTest: 30 2,8,14,20 * * *
-  cronProd: 8 5,11,17,23 * * *
+  cronProd: 6 5,11,17,23 * * *
   affCronTest: 37 3 11 * *
-  affCronProd: 17 11 23 * *
+  affCronProd: 7 9 23 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 237
-  # certNum: 4
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -5262,15 +5262,15 @@ projects:
   org: OVN-Kubernetes
   repo: ovn-kubernetes/ovn-kubernetes
   cronTest: 32 2,8,14,20 * * *
-  cronProd: 9 5,11,17,23 * * *
+  cronProd: 8 5,11,17,23 * * *
   affCronTest: 0 6 11 * *
-  affCronProd: 52 13 23 * *
+  affCronProd: 41 11 23 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 238
-  # certNum: 4
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -5282,15 +5282,15 @@ projects:
   org: Tokenetes
   repo: tokenetes/tokenetes
   cronTest: 33 2,8,14,20 * * *
-  cronProd: 10 5,11,17,23 * * *
+  cronProd: 9 5,11,17,23 * * *
   affCronTest: 22 8 11 * *
-  affCronProd: 26 16 23 * *
+  affCronProd: 15 14 23 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 239
-  # certNum: 4
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -5302,15 +5302,15 @@ projects:
   org: Spin
   repo: spinframework/spin
   cronTest: 34 2,8,14,20 * * *
-  cronProd: 12 5,11,17,23 * * *
+  cronProd: 11 5,11,17,23 * * *
   affCronTest: 45 10 11 * *
-  affCronProd: 1 19 23 * *
+  affCronProd: 49 16 23 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 240
-  # certNum: 4
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -5322,15 +5322,15 @@ projects:
   org: SpinKube
   repo: spinframework/spin-operator
   cronTest: 36 2,8,14,20 * * *
-  cronProd: 13 5,11,17,23 * * *
+  cronProd: 12 5,11,17,23 * * *
   affCronTest: 8 13 11 * *
-  affCronProd: 35 21 23 * *
+  affCronProd: 23 19 23 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 241
-  # certNum: 4
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -5342,15 +5342,15 @@ projects:
   org: SlimFaaS
   repo: SlimPlanet/SlimFaas
   cronTest: 37 2,8,14,20 * * *
-  cronProd: 15 5,11,17,23 * * *
+  cronProd: 14 5,11,17,23 * * *
   affCronTest: 31 15 11 * *
-  affCronProd: 10 0 24 * *
+  affCronProd: 56 21 23 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 242
-  # certNum: 4
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -5362,15 +5362,15 @@ projects:
   org: container2wasm
   repo: container2wasm/container2wasm
   cronTest: 38 2,8,14,20 * * *
-  cronProd: 16 5,11,17,23 * * *
+  cronProd: 15 5,11,17,23 * * *
   affCronTest: 54 17 11 * *
-  affCronProd: 44 2 24 * *
+  affCronProd: 30 0 24 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 243
-  # certNum: 4
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -5382,15 +5382,15 @@ projects:
   org: k0s
   repo: k0sproject/k0s
   cronTest: 40 2,8,14,20 * * *
-  cronProd: 18 5,11,17,23 * * *
+  cronProd: 16 5,11,17,23 * * *
   affCronTest: 17 20 11 * *
-  affCronProd: 19 5 24 * *
+  affCronProd: 4 3 24 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 244
-  # certNum: 4
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -5402,15 +5402,15 @@ projects:
   org: Runme Notebooks
   repo: runmedev/runme
   cronTest: 41 2,8,14,20 * * *
-  cronProd: 19 5,11,17,23 * * *
+  cronProd: 18 5,11,17,23 * * *
   affCronTest: 40 22 11 * *
-  affCronProd: 53 7 24 * *
+  affCronProd: 38 5 24 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 245
-  # certNum: 4
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -5422,15 +5422,15 @@ projects:
   org: CloudNativePG
   repo: cloudnative-pg/cloudnative-pg
   cronTest: 42 2,8,14,20 * * *
-  cronProd: 21 5,11,17,23 * * *
+  cronProd: 19 5,11,17,23 * * *
   affCronTest: 2 1 12 * *
-  affCronProd: 28 10 24 * *
+  affCronProd: 12 8 24 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 246
-  # certNum: 4
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -5442,15 +5442,15 @@ projects:
   org: KubeFleet
   repo: Azure/fleet
   cronTest: 44 2,8,14,20 * * *
-  cronProd: 22 5,11,17,23 * * *
+  cronProd: 21 5,11,17,23 * * *
   affCronTest: 25 3 12 * *
-  affCronProd: 2 13 24 * *
+  affCronProd: 46 10 24 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 247
-  # certNum: 4
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -5462,15 +5462,15 @@ projects:
   org: Podman Desktop
   repo: podman-desktop/podman-desktop
   cronTest: 45 2,8,14,20 * * *
-  cronProd: 23 5,11,17,23 * * *
+  cronProd: 22 5,11,17,23 * * *
   affCronTest: 48 5 12 * *
-  affCronProd: 37 15 24 * *
+  affCronProd: 20 13 24 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 248
-  # certNum: 4
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -5482,15 +5482,15 @@ projects:
   org: Podman Container Tools
   repo: containers/podman
   cronTest: 46 2,8,14,20 * * *
-  cronProd: 25 5,11,17,23 * * *
+  cronProd: 24 5,11,17,23 * * *
   affCronTest: 11 8 12 * *
-  affCronProd: 11 18 24 * *
+  affCronProd: 53 15 24 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 249
-  # certNum: 4
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -5502,15 +5502,15 @@ projects:
   org: bootc
   repo: bootc-dev/bootc
   cronTest: 48 2,8,14,20 * * *
-  cronProd: 26 5,11,17,23 * * *
+  cronProd: 25 5,11,17,23 * * *
   affCronTest: 34 10 12 * *
-  affCronProd: 46 20 24 * *
+  affCronProd: 27 18 24 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 250
-  # certNum: 4
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -5522,15 +5522,15 @@ projects:
   org: composefs
   repo: composefs/composefs
   cronTest: 49 2,8,14,20 * * *
-  cronProd: 28 5,11,17,23 * * *
+  cronProd: 26 5,11,17,23 * * *
   affCronTest: 57 12 12 * *
-  affCronProd: 20 23 24 * *
+  affCronProd: 1 21 24 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 251
-  # certNum: 4
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -5542,15 +5542,15 @@ projects:
   org: Drasi
   repo: drasi-project/drasi-platform
   cronTest: 50 2,8,14,20 * * *
-  cronProd: 29 5,11,17,23 * * *
+  cronProd: 28 5,11,17,23 * * *
   affCronTest: 20 15 12 * *
-  affCronProd: 55 1 25 * *
+  affCronProd: 35 23 24 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 252
-  # certNum: 4
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -5562,15 +5562,15 @@ projects:
   org: Interlink
   repo: interlink-hq/interLink
   cronTest: 52 2,8,14,20 * * *
-  cronProd: 31 5,11,17,23 * * *
+  cronProd: 29 5,11,17,23 * * *
   affCronTest: 42 17 12 * *
-  affCronProd: 29 4 25 * *
+  affCronProd: 9 2 25 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 253
-  # certNum: 4
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -5582,15 +5582,15 @@ projects:
   org: CozyStack
   repo: cozystack/cozystack
   cronTest: 53 2,8,14,20 * * *
-  cronProd: 32 5,11,17,23 * * *
+  cronProd: 31 5,11,17,23 * * *
   affCronTest: 5 20 12 * *
-  affCronProd: 4 7 25 * *
+  affCronProd: 43 4 25 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 254
-  # certNum: 4
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -5602,15 +5602,15 @@ projects:
   org: kgateway
   repo: kgateway-dev/kgateway
   cronTest: 54 2,8,14,20 * * *
-  cronProd: 34 5,11,17,23 * * *
+  cronProd: 32 5,11,17,23 * * *
   affCronTest: 28 22 12 * *
-  affCronProd: 38 9 25 * *
+  affCronProd: 16 7 25 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 255
-  # certNum: 4
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -5622,15 +5622,15 @@ projects:
   org: KitOps
   repo: kitops-ml/kitops
   cronTest: 56 2,8,14,20 * * *
-  cronProd: 35 5,11,17,23 * * *
+  cronProd: 34 5,11,17,23 * * *
   affCronTest: 51 0 13 * *
-  affCronProd: 13 12 25 * *
+  affCronProd: 50 9 25 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 256
-  # certNum: 4
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -5642,15 +5642,15 @@ projects:
   org: Hyperlight
   repo: hyperlight-dev/hyperlight
   cronTest: 57 2,8,14,20 * * *
-  cronProd: 36 5,11,17,23 * * *
+  cronProd: 35 5,11,17,23 * * *
   affCronTest: 14 3 13 * *
-  affCronProd: 47 14 25 * *
+  affCronProd: 24 12 25 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 257
-  # certNum: 4
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -5662,15 +5662,15 @@ projects:
   org: OpenTofu
   repo: opentofu/opentofu
   cronTest: 58 2,8,14,20 * * *
-  cronProd: 38 5,11,17,23 * * *
+  cronProd: 37 5,11,17,23 * * *
   affCronTest: 37 5 13 * *
-  affCronProd: 22 17 25 * *
+  affCronProd: 58 14 25 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 258
-  # certNum: 4
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -5682,15 +5682,15 @@ projects:
   org: Cadence
   repo: cadence-workflow/cadence
   cronTest: 58 2,8,14,20 * * *
-  cronProd: 39 5,11,17,23 * * *
+  cronProd: 38 5,11,17,23 * * *
   affCronTest: 37 5 13 * *
-  affCronProd: 56 19 25 * *
+  affCronProd: 32 17 25 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 259
-  # certNum: 4
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -5702,15 +5702,15 @@ projects:
   org: kagent
   repo: kagent-dev/kagent
   cronTest: 58 2,8,14,20 * * *
-  cronProd: 41 5,11,17,23 * * *
+  cronProd: 39 5,11,17,23 * * *
   affCronTest: 37 5 13 * *
-  affCronProd: 31 22 25 * *
+  affCronProd: 6 20 25 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 260
-  # certNum: 4
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -5722,15 +5722,15 @@ projects:
   org: urunc
   repo: urunc-dev/urunc
   cronTest: 58 2,8,14,20 * * *
-  cronProd: 42 5,11,17,23 * * *
+  cronProd: 41 5,11,17,23 * * *
   affCronTest: 37 5 13 * *
-  affCronProd: 5 1 26 * *
+  affCronProd: 40 22 25 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 261
-  # certNum: 4
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -5742,15 +5742,15 @@ projects:
   org: xRegistry
   repo: xregistry/server
   cronTest: 58 2,8,14,20 * * *
-  cronProd: 44 5,11,17,23 * * *
+  cronProd: 42 5,11,17,23 * * *
   affCronTest: 37 5 13 * *
-  affCronProd: 40 3 26 * *
+  affCronProd: 13 1 26 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 262
-  # certNum: 4
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -5762,15 +5762,15 @@ projects:
   org: ModelPack
   repo: modelpack/model-spec
   cronTest: 58 2,8,14,20 * * *
-  cronProd: 45 5,11,17,23 * * *
+  cronProd: 44 5,11,17,23 * * *
   affCronTest: 37 5 13 * *
-  affCronProd: 14 6 26 * *
+  affCronProd: 47 3 26 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 263
-  # certNum: 4
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -5782,15 +5782,15 @@ projects:
   org: KServe
   repo: kserve/kserve
   cronTest: 58 2,8,14,20 * * *
-  cronProd: 47 5,11,17,23 * * *
+  cronProd: 45 5,11,17,23 * * *
   affCronTest: 37 5 13 * *
-  affCronProd: 49 8 26 * *
+  affCronProd: 21 6 26 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 264
-  # certNum: 4
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -5802,15 +5802,15 @@ projects:
   org: OAuth2-Proxy
   repo: oauth2-proxy/oauth2-proxy
   cronTest: 58 2,8,14,20 * * *
-  cronProd: 48 5,11,17,23 * * *
+  cronProd: 47 5,11,17,23 * * *
   affCronTest: 37 5 13 * *
-  affCronProd: 23 11 26 * *
+  affCronProd: 55 8 26 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 265
-  # certNum: 4
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -5822,15 +5822,15 @@ projects:
   org: Oxia
   repo: oxia-db/osia
   cronTest: 58 2,8,14,20 * * *
-  cronProd: 49 5,11,17,23 * * *
+  cronProd: 48 5,11,17,23 * * *
   affCronTest: 37 5 13 * *
-  affCronProd: 58 13 26 * *
+  affCronProd: 29 11 26 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 266
-  # certNum: 4
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -5842,15 +5842,15 @@ projects:
   org: HolmesGPT
   repo: HolmesGPT/holmesgpt
   cronTest: 58 2,8,14,20 * * *
-  cronProd: 51 5,11,17,23 * * *
+  cronProd: 49 5,11,17,23 * * *
   affCronTest: 37 5 13 * *
-  affCronProd: 32 16 26 * *
+  affCronProd: 3 14 26 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 267
-  # certNum: 4
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -5862,15 +5862,15 @@ projects:
   org: Cedar Policy
   repo: cedar-policy/cedar
   cronTest: 58 2,8,14,20 * * *
-  cronProd: 52 5,11,17,23 * * *
+  cronProd: 51 5,11,17,23 * * *
   affCronTest: 37 5 13 * *
-  affCronProd: 7 19 26 * *
+  affCronProd: 36 16 26 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 268
-  # certNum: 4
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -5882,15 +5882,15 @@ projects:
   org: Dalec
   repo: project-dalec/dalec
   cronTest: 58 2,8,14,20 * * *
-  cronProd: 54 5,11,17,23 * * *
+  cronProd: 52 5,11,17,23 * * *
   affCronTest: 37 5 13 * *
-  affCronProd: 41 21 26 * *
+  affCronProd: 10 19 26 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 269
-  # certNum: 4
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -5902,15 +5902,15 @@ projects:
   org: OpenChoreo
   repo: openchoreo/openchoreo
   cronTest: 58 2,8,14,20 * * *
-  cronProd: 55 5,11,17,23 * * *
+  cronProd: 54 5,11,17,23 * * *
   affCronTest: 37 5 13 * *
-  affCronProd: 16 0 27 * *
+  affCronProd: 44 21 26 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 270
-  # certNum: 4
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -5922,15 +5922,15 @@ projects:
   org: CoHDI
   repo: CoHDI/composable-dra-driver
   cronTest: 58 2,8,14,20 * * *
-  cronProd: 57 5,11,17,23 * * *
+  cronProd: 55 5,11,17,23 * * *
   affCronTest: 37 5 13 * *
-  affCronProd: 50 2 27 * *
+  affCronProd: 18 0 27 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 271
-  # certNum: 4
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -5942,15 +5942,15 @@ projects:
   org: KubeElasti
   repo: truefoundry/KubeElasti
   cronTest: 58 2,8,14,20 * * *
-  cronProd: 58 5,11,17,23 * * *
+  cronProd: 57 5,11,17,23 * * *
   affCronTest: 37 5 13 * *
-  affCronProd: 25 5 27 * *
+  affCronProd: 52 2 27 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 272
-  # certNum: 4
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
@@ -5964,13 +5964,13 @@ projects:
   cronTest: 58 2,8,14,20 * * *
   cronProd: 58 5,11,17,23 * * *
   affCronTest: 37 5 13 * *
-  affCronProd: 25 5 27 * *
+  affCronProd: 26 5 27 * *
   affSkipTemp: "1"
   disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 273
-  # certNum: 4
+  certNum: 0
   maxHist: 8
   durablePQ: 1
   skipGHAPI: 1
