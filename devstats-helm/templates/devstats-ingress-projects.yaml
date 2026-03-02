@@ -73,12 +73,12 @@
 
 {{- /* Emit one Ingress per bucket: devstats-ingress-2..N with devstats-tls-2..N */ -}}
 {{- if ge $maxBucket $start -}}
-  {{- $numBuckets := add 1 (sub $maxBucket $start) -}}
+  {{- $numBuckets := (add 1 (sub $maxBucket $start) | int) -}}
   {{- range $x := until $numBuckets -}}
     {{- $i := add $start $x -}}
     {{- $key := printf "%d" $i -}}
     {{- $items := get $buckets $key -}}
-    {{- if $items -}}
+    {{- if $items }}
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -112,9 +112,8 @@ spec:
             port:
               number: 80
 {{- end }}
-    {{- end -}}
-  {{- end -}}
+    {{- end }}
+  {{- end }}
 {{- end -}}
 
 {{- end -}}
-
