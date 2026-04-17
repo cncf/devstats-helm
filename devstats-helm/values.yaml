@@ -6055,3 +6055,23 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+- proj: higress
+  url: higress
+  db: higress
+  icon: higress
+  org: Higress
+  repo: alibaba/higress
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 37 5 13 * *
+  affCronProd: 28 5 27 * *
+  affSkipTemp: "1"
+  disk: 5Gi
+  domains: [0, 1, 0, 0]
+  ga: ""
+  i: 278
+  certNum: 0
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
