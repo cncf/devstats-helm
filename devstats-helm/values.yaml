@@ -122,6 +122,7 @@
 # provisionCommand: './devstats-helm/annotations.sh'
 # provisionCommand: './devstats-helm/vars.sh'
 # provisionCommand: './devstats-helm/licenses_langs.sh'
+# provisionCommand: './devstats-helm/ghapi.sh'
 # provisionCommand: './devstats-helm/health.sh'
 # provisionCommand: './devstats-helm/clear_devstats_running_flag.sh'
 # provisionCommand: './devstats-helm/set_provisioned_flag.sh'
@@ -135,6 +136,10 @@
 # provisionCommandArgs:
 # - "36000"
 # queryOut: 1
+# ghapiDtFrom: '2025-10-08'
+# ghapiDtTo: '2026-04-21'
+# ghapiRecentRange: '220 days'
+# ghapiRecentReposRange: '220 days'
 # reinitDropDB: 1
 # tsdbDrop: 1
 # reposDir: "/root/devstats_repos/"
@@ -237,6 +242,10 @@ fetchCommitsMode: 1
 forceAddAll: ''
 fullnameOverride: devstats
 ghaAPISkip: ''
+ghapiDtFrom: ''
+ghapiDtTo: ''
+ghapiRecentRange: ''
+ghapiRecentReposRange: ''
 giantAffs: 'wait'
 giantBackups: 'wait'
 giantBoot: 'lock'

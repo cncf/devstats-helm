@@ -73,6 +73,14 @@ spec:
       value: '{{ $root.Values.ghaAPISkip }}'
     - name: GHA2DB_NCPUS
       value: '{{ $root.Values.nCPUs }}'
+    - name: DTFROM
+      value: '{{ $root.Values.ghapiDtFrom }}'
+    - name: DTTO
+      value: '{{ $root.Values.ghapiDtTo }}'
+    - name: GHA2DB_RECENT_RANGE
+      value: '{{ $root.Values.ghapiRecentRange }}'
+    - name: GHA2DB_RECENT_REPOS_RANGE
+      value: '{{ $root.Values.ghapiRecentReposRange }}'
     - name: GHA2DB_ALLOW_METRIC_FAIL
       value: '{{ $root.Values.allowMetricFail }}'
     - name: GHA2DB_RECALC_RECIPROCAL
