@@ -73,6 +73,10 @@ spec:
       value: '{{ $root.Values.ghaAPISkip }}'
     - name: GHA2DB_NCPUS
       value: '{{ $root.Values.nCPUs }}'
+    - name: GHA2DB_GHAPISKIPISSUES
+      value: '{{ $root.Values.ghapiSkipIssues }}'
+    - name: GHA2DB_GHAPISKIPPRS
+      value: '{{ $root.Values.ghapiSkipPRs }}'
     - name: DTFROM
       value: '{{ $root.Values.ghapiDtFrom }}'
     - name: DTTO

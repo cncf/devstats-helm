@@ -140,6 +140,8 @@
 # ghapiDtTo: '2026-04-21'
 # ghapiRecentRange: '220 days'
 # ghapiRecentReposRange: '220 days'
+# ghapiSkipIssues: '1'
+# ghapiSkipPRs: '1'
 # reinitDropDB: 1
 # tsdbDrop: 1
 # reposDir: "/root/devstats_repos/"
@@ -246,6 +248,8 @@ ghapiDtFrom: ''
 ghapiDtTo: ''
 ghapiRecentRange: ''
 ghapiRecentReposRange: ''
+ghapiSkipIssues: ''
+ghapiSkipPRs: ''
 giantAffs: 'wait'
 giantBackups: 'wait'
 giantBoot: 'lock'
