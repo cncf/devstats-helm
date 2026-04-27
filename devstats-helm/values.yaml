@@ -2538,7 +2538,7 @@ projects:
   db: tinkerbell
   icon: tinkerbell
   org: Tinkerbell
-  repo: tinkerbell/tink
+  repo: tinkerbell/tinkerbell
   cronTest: 24 5,11,17,23 * * *
   cronProd: 4 2,8,14,20 * * *
   affCronTest: 42 3 26 * *
