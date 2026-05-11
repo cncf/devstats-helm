@@ -6073,7 +6073,7 @@ projects:
   db: higress
   icon: higress
   org: Higress
-  repo: alibaba/higress
+  repo: higress-group/higress
   cronTest: 58 2,8,14,20 * * *
   cronProd: 58 5,11,17,23 * * *
   affCronTest: 37 5 13 * *
