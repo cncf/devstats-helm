@@ -141,6 +141,7 @@
 # skipDBs: 'smi,keptn'
 # ignoreNoDB: '1'
 # gha2dbLocal: '1'
+# mergeDtFrom: '2026-06-01'
 # provisionCommand: 'sleep'
 # provisionCommandArgs:
 # - "36000"
@@ -395,6 +396,7 @@ onlyTables: ''
 skipTables: ''
 ignoreNoDB: ''
 skipDBs: ''
+mergeDtFrom: ''
 reportsPod: ''
 reportsPodName: 'devstats-reports'
 reportsCommand: '/bin/sleep'

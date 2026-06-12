@@ -127,6 +127,8 @@ spec:
       value: '{{ $root.Values.ignoreNoDB }}'
     - name: SKIP_DBS
       value: '{{ $root.Values.skipDBs }}'
+    - name: MERGE_DT_FROM
+      value: '{{ .Values.mergeDtFrom }}'
     - name: GHA2DB_AFFILIATIONS_JSON
       value: '{{ $root.Values.affiliations }}'
     - name: GHA2DB_COMPUTE_ALL
