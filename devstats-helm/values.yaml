@@ -6013,7 +6013,7 @@ projects:
   db: velero
   icon: velero
   org: Velero
-  repo: vmware-tanzu/velero
+  repo: velero-io/velero
   cronTest: 58 2,8,14,20 * * *
   cronProd: 53 5,11,17,23 * * *
   affCronTest: 37 5 13 * *
