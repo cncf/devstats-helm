@@ -86,6 +86,20 @@ spec:
       value: {{ .Values.projectsFile }}
     - name: GHA2DB_PROJECTS_OVERRIDE
       value: {{ .Values.projectsOverride }}
+    - name: GHA2DB_LOCAL
+      value: '{{ .Values.gha2dbLocal }}'
+    - name: GHA2DB_INPUT_DBS
+      value: '{{ .Values.inputDBs }}'
+    - name: GHA2DB_OUTPUT_DB
+      value: '{{ .Values.outputDB }}'
+    - name: ONLY_TABLES
+      value: '{{ .Values.onlyTables }}'
+    - name: SKIP_TABLES
+      value: '{{ .Values.skipTables }}'
+    - name: IGNORE_NO_DB
+      value: '{{ .Values.ignoreNoDB }}'
+    - name: SKIP_DBS
+      value: '{{ .Values.skipDBs }}'
     - name: GHA2DB_AFFILIATIONS_JSON
       value: '{{ .Values.affiliations }}'
     - name: GHA2DB_COMPUTE_ALL
