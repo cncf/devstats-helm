@@ -1260,14 +1260,14 @@ projects:
   db: tekton
   icon: tekton
   org: Tekton
-  repo: knative/build
+  repo: tektoncd/pipeline
   cronTest: 53 3,9,15,21 * * *
   cronProd: 51 0,6,12,18 * * *
   affCronTest: 5 0 20 * *
   affCronProd: 0 21 5 * *
   affSkipTemp: "1"
-  disk: 3Gi
-  domains: [0, 0, 1, 0]
+  disk: 6Gi
+  domains: [0, 1, 1, 0]
   ga: ""
   i: 39
   certNum: 0
@@ -6103,6 +6103,26 @@ projects:
   domains: [0, 1, 0, 0]
   ga: ""
   i: 279
+  certNum: 0
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: apicurioregistry
+  url: apicurioregistry
+  db: apicurioregistry
+  icon: apicurioregistry
+  org: "Apicurio Registry"
+  repo: "Apicurio/apicurio-registry"
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 58 5,11,17,23 * * *
+  affCronTest: 37 5 13 * *
+  affCronProd: 30 5 27 * *
+  affSkipTemp: "1"
+  disk: 5Gi
+  domains: [0, 1, 0, 0]
+  ga: ""
+  i: 280
   certNum: 0
   maxHist: 8
   durablePQ: 1

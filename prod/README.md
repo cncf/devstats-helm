@@ -98,14 +98,15 @@
 - Re-merge some project's DBs into "All CNCF" due to some missing commits, issues, PRs, events: Execute from within a debug or reports pod: `` ONLY_TABLES="gha_reviews,gha_commits,gha_commits_files,gha_commits_roles,gha_events,gha_issues,gha_issues_assignees,gha_issues_events_labels,gha_issues_labels,gha_issues_pull_requests,gha_payloads,gha_pull_requests,gha_pull_requests_assignees,gha_pull_requests_requested_reviewers" GHA2DB_INPUT_DBS="hami,kagent,helm,opentelemetry,prometheus" GHA2DB_OUTPUT_DB="allprj" merge_dbs ``.
 
 Projects that should be skipped on prod cluster: `azf cncf fn linux opencontainers openfaas openwhisk riff rkt sam zephyr opentracing`, `azf\|cncf\|fn\|linux\|opencontainers\|openfaas\|openwhisk\|riff\|rkt\|sam\|zephyr\|cii\|prestodb\|godotengine\|opentracing`.
-Prod provision ranges: [0, 8), [9, 49), [55, 59), [65, 97), [98, 182), [182, 187), [187, 279]
+Prod provision ranges: [0, 8), [9, 49), [55, 59), [65, 97), [98, 182), [182, 187), [187, 280]
 Test-only projects: 8, 49, 50, 52, 53, 54, 59, 60, 61, 62, 63, 64, 67, 68, 97, 153, 154, 155, 156, 157, 158, 159
-Prod-only projects: [153, 279]
+Prod-only projects: [153, 280]
 Archived: [2, 8, 33, 71, 95, 107, 110, 112, 129, 130]
 Merged: [23]
 CDF projects [39, 44), [182, 187)
 Go dot: [97]
 GraphQL: [44, 49)
+Tekton: [39] on both prod and cd.foundation
 Serverless: [59, 64]
 CII/PrestoDB: [67, 68]
 Various projects (LF): [49, 54]
