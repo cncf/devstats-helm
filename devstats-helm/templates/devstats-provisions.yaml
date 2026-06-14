@@ -129,6 +129,12 @@ spec:
       value: '{{ $root.Values.skipDBs }}'
     - name: MERGE_DT_FROM
       value: '{{ .Values.mergeDtFrom }}'
+    - name: USE_BATCH
+      value: '{{ .Values.useBatch }}'
+    - name: BATCH_SIZE
+      value: '{{ .Values.batchSize }}'
+    - name: PARALLEL
+      value: '{{ .Values.parallel }}'
     - name: GHA2DB_AFFILIATIONS_JSON
       value: '{{ $root.Values.affiliations }}'
     - name: GHA2DB_COMPUTE_ALL
