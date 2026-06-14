@@ -110,9 +110,9 @@ spec:
     - name: GHA2DB_COMPANY_ACQ_YAML
       value: '{{ $root.Values.companyAcq }}'
     - name: GHA2DB_PROJECTS_YAML
-      value: {{ $root.Values.projectsFile }}
+      value: '{{ $root.Values.projectsFile }}'
     - name: GHA2DB_PROJECTS_OVERRIDE
-      value: {{ $root.Values.projectsOverride }}
+      value: '{{ $root.Values.projectsOverride }}'
     - name: GHA2DB_LOCAL
       value: '{{ $root.Values.gha2dbLocal }}'
     - name: GHA2DB_INPUT_DBS
@@ -128,13 +128,13 @@ spec:
     - name: SKIP_DBS
       value: '{{ $root.Values.skipDBs }}'
     - name: MERGE_DT_FROM
-      value: '{{ .Values.mergeDtFrom }}'
+      value: '{{ $root.Values.mergeDtFrom }}'
     - name: USE_BATCH
-      value: '{{ .Values.useBatch }}'
+      value: '{{ $root.Values.useBatch }}'
     - name: BATCH_SIZE
-      value: '{{ .Values.batchSize }}'
+      value: '{{ $root.Values.batchSize }}'
     - name: PARALLEL
-      value: '{{ .Values.parallel }}'
+      value: '{{ $root.Values.parallel }}'
     - name: GHA2DB_AFFILIATIONS_JSON
       value: '{{ $root.Values.affiliations }}'
     - name: GHA2DB_COMPUTE_ALL
