@@ -3743,7 +3743,7 @@ projects:
   affCronProd: 44 23 14 * *
   affSkipTemp: "1"
   disk: 3Gi
-  domains: [0, 1, 0, 0]
+  domains: [0, 0, 0, 0]
   ga: ""
   i: 160
   certNum: 0
