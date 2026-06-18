@@ -47,6 +47,6 @@ While on the `devstats-prod` namespace: `git pull`, then:
 5. Go to `cncf/velocity` (optional, we usually keep archived projects configuration):
 
 - Update `reports/cncf_projects_config.csv`.
-- Update `BigQuery/velocity_lf.sql BigQuery/velocity_cncf.sql`.
+- Update `BigQuery/velocity_lf.sql BigQuery/velocity_cncf.sql BigQuery/velocity_condition_cncf.sql BigQuery/velocity_condition_lf.sql`.
 
 
