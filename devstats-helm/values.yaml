@@ -6152,3 +6152,23 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+- proj: kbind
+  url: kbind
+  db: kbind
+  icon: kbind
+  org: kbind
+  repo: kube-bind/kube-bind
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 59 5,11,17,23 * * *
+  affCronTest: 37 5 13 * *
+  affCronProd: 31 5 27 * *
+  affSkipTemp: "1"
+  disk: 5Gi
+  domains: [0, 1, 0, 0]
+  ga: ""
+  i: 281
+  certNum: 0
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
