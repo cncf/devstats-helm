@@ -155,6 +155,7 @@
 # ghapiRecentReposRange: '220 days'
 # ghapiSkipIssues: '1'
 # ghapiSkipPRs: '1'
+# ghapiAllowInsertFail: '1'
 # reinitDropDB: 1
 # tsdbDrop: 1
 # reposDir: "/root/devstats_repos/"
@@ -264,6 +265,7 @@ ghapiRecentRange: ''
 ghapiRecentReposRange: ''
 ghapiSkipIssues: ''
 ghapiSkipPRs: ''
+ghapiAllowInsertFail: ''
 giantAffs: 'wait'
 giantBackups: 'wait'
 giantBoot: 'lock'

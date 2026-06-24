@@ -77,6 +77,8 @@ spec:
       value: '{{ $root.Values.ghapiSkipIssues }}'
     - name: GHA2DB_GHAPISKIPPRS
       value: '{{ $root.Values.ghapiSkipPRs }}'
+    - name: GHA2DB_GHAPIALLOWINSERTFAIL
+      value: '{{ $root.Values.ghapiAllowInsertFail }}'
     - name: DTFROM
       value: '{{ $root.Values.ghapiDtFrom }}'
     - name: DTTO

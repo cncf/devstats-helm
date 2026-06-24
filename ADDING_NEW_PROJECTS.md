@@ -20,6 +20,7 @@
 - Update `projects.yaml` file, also update `all:`.
 - Copy setup scripts and then adjust them: `cp -R oldproject/ projectname/`, `vim projectname/*`. Most them can be shared for all projects in `./shared/`, usually only `psql.sh` is project specific.
 - Update `devel/all_*.txt all/psql.sh grafana/dashboards/all/dashboards.json scripts/all/repo_groups.sql devel/get_icon_type.sh devel/get_icon_source.sh devel/add_single_metric.sh` files.
+- Review the icon-placeholder ARTWORK scripts and add the new project to the `[ "$icon" = "newproject" ] || ...` condition (new Sandbox projects start without real artwork, so they fall back to the placeholder/color icon): `vim grafana/copy_artwork_icons.sh apache/www/copy_icons.sh grafana/create_images.sh grafana/change_title_and_icons_all.sh` (these are marked 'ARTWORK'; `change_title_and_icons_all.sh` is generic and usually needs no change). See also `cncf/devstats:ADDING_NEW_PROJECTS.md`.
 - Add new project repo REGEXP in `util_data/project_re.txt` and command lines in `util_data/project_cmdline.txt`. `all` means `All CNCF`, everything means `All CNCF` + non-standard test projects.
 - Update `all` and `everything` REGEXPs. Run `` ONLY=`cat devel/all_prod_projects.txt` SKIP=all ./util_sh/all_cncf_re.sh > out `` to get `all` value for all CNCF projects.
 - Then run `SKIP=all ./util_sh/all_cncf_re.sh > out` to get everything value, replace `all,` with `everything,` and save as `util_data/project_re.txt`.
