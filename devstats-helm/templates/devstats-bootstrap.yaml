@@ -108,6 +108,8 @@ spec:
       value: '{{ .Values.batchSize }}'
     - name: PARALLEL
       value: '{{ .Values.parallel }}'
+    - name: GHA2DB_GHAPIALLOWINSERTFAIL
+      value: '{{ .Values.ghapiAllowInsertFail }}'
     - name: GHA2DB_AFFILIATIONS_JSON
       value: '{{ .Values.affiliations }}'
     - name: GHA2DB_COMPUTE_ALL
