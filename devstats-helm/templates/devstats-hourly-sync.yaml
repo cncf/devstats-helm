@@ -89,6 +89,18 @@ spec:
               value: '{{ $root.Values.allowMetricFail }}'
             - name: GHA2DB_GHAPISKIP
               value: '{{ $root.Values.ghaAPISkip }}'
+            - name: GHA2DB_GHAPISKIPCOMMENTS
+              value: '{{ $root.Values.ghapiSkipComments }}'
+            - name: GHA2DB_GHAPISKIPREVIEWS
+              value: '{{ $root.Values.ghapiSkipReviews }}'
+            - name: GHA2DB_GHAPISKIPFORKS
+              value: '{{ $root.Values.ghapiSkipForks }}'
+            - name: GHA2DB_GHAPISKIPRELEASES
+              value: '{{ $root.Values.ghapiSkipReleases }}'
+            - name: GHA2DB_GHAPISKIPSTARS
+              value: '{{ $root.Values.ghapiSkipStars }}'
+            - name: GHA2DB_RESTORE_ORPHAN_COMMITS
+              value: '{{ $root.Values.ghapiRestoreOrphanCommits }}'
             - name: GHA2DB_RECALC_RECIPROCAL
               value: '{{ $root.Values.recalcReciprocal }}'
             - name: GHA2DB_DEBUG

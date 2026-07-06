@@ -64,6 +64,18 @@ spec:
       value: '{{ .Values.allowMetricFail }}'
     - name: GHA2DB_GHAPISKIP
       value: '{{ .Values.ghaAPISkip }}'
+    - name: GHA2DB_GHAPISKIPCOMMENTS
+      value: '{{ .Values.ghapiSkipComments }}'
+    - name: GHA2DB_GHAPISKIPREVIEWS
+      value: '{{ .Values.ghapiSkipReviews }}'
+    - name: GHA2DB_GHAPISKIPFORKS
+      value: '{{ .Values.ghapiSkipForks }}'
+    - name: GHA2DB_GHAPISKIPRELEASES
+      value: '{{ .Values.ghapiSkipReleases }}'
+    - name: GHA2DB_GHAPISKIPSTARS
+      value: '{{ .Values.ghapiSkipStars }}'
+    - name: GHA2DB_RESTORE_ORPHAN_COMMITS
+      value: '{{ .Values.ghapiRestoreOrphanCommits }}'
     - name: GHA2DB_RECALC_RECIPROCAL
       value: '{{ .Values.recalcReciprocal }}'
     - name: GHA2DB_DEBUG
