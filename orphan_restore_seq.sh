@@ -2,7 +2,8 @@
 # Sequential deep orphan-commits restore: one provision pod per project (git clones are on
 # per-project PVCs), waits for each pod to finish before starting the next.
 # Archived projects (their DB no longer exists) are skipped; Ctrl+C/TERM uninstalls the current release.
-# Usage: [NS=devstats-prod] [RANGE='9 months'] [FROM=0] [TO=<n>] ./orphan_restore_seq.sh
+# Usage: [NS=devstats-prod] [RANGE='9 months'] [FROM=0] [TO=<n>] [NCPUS=<n>] ./orphan_restore_seq.sh
+# NCPUS limits get_repos threads (GHA2DB_NCPUS) - use e.g. NCPUS=32 for huge projects like 'all'.
 exec 9< "$0"
 if ! flock -n 9
 then
@@ -15,6 +16,11 @@ FROM="${FROM:-0}"
 if [ -z "$TO" ]
 then
   TO=$(grep -c '^- proj: ' ./devstats-helm/values.yaml)
+fi
+extra=''
+if [ ! -z "$NCPUS" ]
+then
+  extra=",nCPUs=$NCPUS"
 fi
 rel=''
 trap 'echo; echo "interrupted, cleaning up"; [ -n "$rel" ] && helm uninstall "$rel" > /dev/null 2>&1; exit 1' INT TERM
@@ -35,7 +41,7 @@ do
   fi
   rel="orphan-restore-$i"
   helm uninstall "$rel" > /dev/null 2>&1
-  helm install "$rel" ./devstats-helm --set namespace="$NS",skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,testServer='',prodServer='1',provisionImage='lukaszgryglicki/devstats-prod',provisionPodName='orphan-restore',indexProvisionsFrom=$i,indexProvisionsTo=$((i+1)),provisionCommand='devstats-helm/repos.sh',ghapiOrphanCommitsRange="$RANGE",maxRunDuration='get_repos:72h:102' > /dev/null || exit 2
+  helm install "$rel" ./devstats-helm --set namespace="$NS",skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,testServer='',prodServer='1',provisionImage='lukaszgryglicki/devstats-prod',provisionPodName='orphan-restore',indexProvisionsFrom=$i,indexProvisionsTo=$((i+1)),provisionCommand='devstats-helm/repos.sh',ghapiOrphanCommitsRange="$RANGE",maxRunDuration='get_repos:72h:102'"$extra" > /dev/null || exit 2
   pod="orphan-restore-$proj"
   ok=''
   for ((j=0; j<24; j++))
