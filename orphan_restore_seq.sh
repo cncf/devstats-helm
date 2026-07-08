@@ -1,9 +1,5 @@
 #!/bin/bash
-# Sequential deep orphan-commits restore: one provision pod per project (git clones are on
-# per-project PVCs), waits for each pod to finish before starting the next.
-# Archived projects (their DB no longer exists) are skipped; Ctrl+C/TERM uninstalls the current release.
 # Usage: [NS=devstats-prod] [RANGE='9 months'] [FROM=0] [TO=<n>] [NCPUS=<n>] ./orphan_restore_seq.sh
-# NCPUS limits get_repos threads (GHA2DB_NCPUS) - use e.g. NCPUS=32 for huge projects like 'all'.
 exec 9< "$0"
 if ! flock -n 9
 then
@@ -61,7 +57,10 @@ do
   for ((j=0; j<25920; j++))
   do
     phase=$(kubectl -n "$NS" get po "$pod" -o jsonpath='{.status.phase}' 2>/dev/null)
-    [ "$phase" = "Succeeded" ] || [ "$phase" = "Failed" ] && break
+    if [ "$phase" = "Succeeded" ] || [ "$phase" = "Failed" ]
+    then
+      break
+    fi
     sleep 10
   done
   if [ "$phase" != "Succeeded" ]

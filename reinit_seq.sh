@@ -1,12 +1,5 @@
 #!/bin/bash
-# Sequential TSDB reinit: one provision pod per project running reinit.sh, waits for each pod
-# to finish before starting the next. Archived projects (their DB no longer exists) are skipped;
-# Ctrl+C/TERM uninstalls the current release; a Failed pod aborts the whole run (reinit failures
-# are usually systemic). Always sets allowMetricFail=1 and (like the batch reinit example in
-# prod/README.md): ghaAPISkip=1, giantProv='', skipECFRGReset=1, skipGetRepos=1.
 # Usage: [NS=devstats-prod] [FROM=0] [TO=<n>] [NCPUS=8] [MAXRUN='calc_metric:72h:102'] [TSDBDROP=1] [EXTRA=',key=val,...'] ./reinit_seq.sh
-# TSDBDROP is off by default; EXTRA is appended last so it can override any --set value.
-# Note: flock allows one instance only - for parallel batches use the helm one-liner from prod/README.md.
 exec 9< "$0"
 if ! flock -n 9
 then
@@ -51,29 +44,29 @@ do
   done
   if [ -z "$ok" ]
   then
-    echo "index $i ($proj): pod $pod not created, skipping"
-    helm -n "$NS" uninstall "$rel" > /dev/null 2>&1 || echo "index $i ($proj): helm uninstall $rel failed (ignored)"
-    rel=''
-    continue
+    echo "index $i ($proj): pod $pod not created, aborting"
+    kubectl -n "$NS" get pods | grep reinit || true
+    helm -n "$NS" uninstall "$rel" > /dev/null 2>&1 || true
+    exit 3
   fi
   echo "index $i ($proj): waiting for $pod"
   phase=''
   for ((j=0; j<25920; j++))
   do
     phase=$(kubectl -n "$NS" get po "$pod" -o jsonpath='{.status.phase}' 2>/dev/null)
-    [ "$phase" = "Succeeded" ] || [ "$phase" = "Failed" ] && break
+    if [ "$phase" = "Succeeded" ] || [ "$phase" = "Failed" ]
+    then
+      break
+    fi
     sleep 10
   done
-  if [ "$phase" = "Failed" ]
-  then
-    echo "index $i ($proj): pod $pod failed, aborting - last log lines:"
-    kubectl -n "$NS" logs "$pod" --tail=100 2>/dev/null | sed 's/^/  /'
-    helm -n "$NS" uninstall "$rel" > /dev/null 2>&1
-    exit 3
-  fi
   if [ "$phase" != "Succeeded" ]
   then
-    echo "index $i ($proj): $pod phase '$phase' (timeout), check: kubectl -n $NS logs $pod"
+    echo "index $i ($proj): pod $pod phase '$phase' (did not succeed), aborting - last log lines:"
+    kubectl -n "$NS" logs "$pod" --tail=100 2>/dev/null | sed 's/^/  /'
+    kubectl -n "$NS" describe pod "$pod" 2>/dev/null | tail -80 | sed 's/^/  /'
+    helm -n "$NS" uninstall "$rel" > /dev/null 2>&1 || true
+    exit 3
   fi
   kubectl -n "$NS" logs "$pod" --tail=3 2>/dev/null | sed 's/^/  /'
   helm -n "$NS" uninstall "$rel" > /dev/null 2>&1 || echo "index $i ($proj): helm uninstall $rel failed (ignored)"
