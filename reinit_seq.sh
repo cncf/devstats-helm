@@ -1,8 +1,9 @@
 #!/bin/bash
 # Sequential TSDB reinit: one provision pod per project running reinit.sh, waits for each pod
 # to finish before starting the next. Archived projects (their DB no longer exists) are skipped;
-# Ctrl+C/TERM uninstalls the current release. Always sets allowMetricFail=1 and (like the batch
-# reinit example in prod/README.md): ghaAPISkip=1, giantProv='', skipECFRGReset=1, skipGetRepos=1.
+# Ctrl+C/TERM uninstalls the current release; a Failed pod aborts the whole run (reinit failures
+# are usually systemic). Always sets allowMetricFail=1 and (like the batch reinit example in
+# prod/README.md): ghaAPISkip=1, giantProv='', skipECFRGReset=1, skipGetRepos=1.
 # Usage: [NS=devstats-prod] [FROM=0] [TO=<n>] [NCPUS=8] [MAXRUN='calc_metric:72h:102'] [TSDBDROP=1] [EXTRA=',key=val,...'] ./reinit_seq.sh
 # TSDBDROP is off by default; EXTRA is appended last so it can override any --set value.
 # Note: flock allows one instance only - for parallel batches use the helm one-liner from prod/README.md.
@@ -22,7 +23,7 @@ then
   TO=$(grep -c '^- proj: ' ./devstats-helm/values.yaml)
 fi
 rel=''
-trap 'echo; echo "interrupted, cleaning up"; [ -n "$rel" ] && helm uninstall "$rel" > /dev/null 2>&1; exit 1' INT TERM
+trap 'echo; echo "interrupted, cleaning up"; [ -n "$rel" ] && helm -n "$NS" uninstall "$rel" > /dev/null 2>&1; exit 1' INT TERM
 echo "TSDB reinit: projects [$FROM, $TO), nCPUs: $NCPUS, maxRunDuration: $MAXRUN, tsdbDrop: '$TSDBDROP', namespace: $NS"
 for ((i=FROM; i<TO; i++))
 do
@@ -39,8 +40,8 @@ do
     continue
   fi
   rel="reinit-$i"
-  helm uninstall "$rel" > /dev/null 2>&1
-  helm install "$rel" ./devstats-helm --set namespace="$NS",skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,testServer='',prodServer='1',provisionImage='lukaszgryglicki/devstats-prod',provisionPodName='reinit',indexProvisionsFrom=$i,indexProvisionsTo=$((i+1)),provisionCommand='./devstats-helm/reinit.sh',allowMetricFail=1,nCPUs="$NCPUS",maxRunDuration="$MAXRUN",tsdbDrop="$TSDBDROP",ghaAPISkip=1,giantProv='',skipECFRGReset=1,skipGetRepos=1"$EXTRA" > /dev/null || exit 2
+  helm -n "$NS" uninstall "$rel" > /dev/null 2>&1
+  helm -n "$NS" install "$rel" ./devstats-helm --set namespace="$NS",skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,testServer='',prodServer='1',provisionImage='lukaszgryglicki/devstats-prod',provisionPodName='reinit',indexProvisionsFrom=$i,indexProvisionsTo=$((i+1)),provisionCommand='./devstats-helm/reinit.sh',allowMetricFail=1,nCPUs="$NCPUS",maxRunDuration="$MAXRUN",tsdbDrop="$TSDBDROP",ghaAPISkip=1,giantProv='',skipECFRGReset=1,skipGetRepos=1"$EXTRA" > /dev/null || exit 2
   pod="reinit-$proj"
   ok=''
   for ((j=0; j<24; j++))
@@ -51,14 +52,31 @@ do
   if [ -z "$ok" ]
   then
     echo "index $i ($proj): pod $pod not created, skipping"
-    helm uninstall "$rel" > /dev/null 2>&1 || echo "index $i ($proj): helm uninstall $rel failed (ignored)"
+    helm -n "$NS" uninstall "$rel" > /dev/null 2>&1 || echo "index $i ($proj): helm uninstall $rel failed (ignored)"
     rel=''
     continue
   fi
   echo "index $i ($proj): waiting for $pod"
-  kubectl -n "$NS" wait --for=jsonpath='{.status.phase}'=Succeeded "pod/$pod" --timeout=72h > /dev/null || echo "index $i ($proj): $pod did not succeed, check: kubectl -n $NS logs $pod"
+  phase=''
+  for ((j=0; j<25920; j++))
+  do
+    phase=$(kubectl -n "$NS" get po "$pod" -o jsonpath='{.status.phase}' 2>/dev/null)
+    [ "$phase" = "Succeeded" ] || [ "$phase" = "Failed" ] && break
+    sleep 10
+  done
+  if [ "$phase" = "Failed" ]
+  then
+    echo "index $i ($proj): pod $pod failed, aborting - last log lines:"
+    kubectl -n "$NS" logs "$pod" --tail=100 2>/dev/null | sed 's/^/  /'
+    helm -n "$NS" uninstall "$rel" > /dev/null 2>&1
+    exit 3
+  fi
+  if [ "$phase" != "Succeeded" ]
+  then
+    echo "index $i ($proj): $pod phase '$phase' (timeout), check: kubectl -n $NS logs $pod"
+  fi
   kubectl -n "$NS" logs "$pod" --tail=3 2>/dev/null | sed 's/^/  /'
-  helm uninstall "$rel" > /dev/null 2>&1 || echo "index $i ($proj): helm uninstall $rel failed (ignored)"
+  helm -n "$NS" uninstall "$rel" > /dev/null 2>&1 || echo "index $i ($proj): helm uninstall $rel failed (ignored)"
   rel=''
 done
 echo 'OK'

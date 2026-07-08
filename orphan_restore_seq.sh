@@ -23,7 +23,7 @@ then
   extra=",nCPUs=$NCPUS"
 fi
 rel=''
-trap 'echo; echo "interrupted, cleaning up"; [ -n "$rel" ] && helm uninstall "$rel" > /dev/null 2>&1; exit 1' INT TERM
+trap 'echo; echo "interrupted, cleaning up"; [ -n "$rel" ] && helm -n "$NS" uninstall "$rel" > /dev/null 2>&1; exit 1' INT TERM
 echo "orphan commits restore: projects [$FROM, $TO), range: $RANGE, namespace: $NS"
 for ((i=FROM; i<TO; i++))
 do
@@ -40,8 +40,8 @@ do
     continue
   fi
   rel="orphan-restore-$i"
-  helm uninstall "$rel" > /dev/null 2>&1
-  helm install "$rel" ./devstats-helm --set namespace="$NS",skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,testServer='',prodServer='1',provisionImage='lukaszgryglicki/devstats-prod',provisionPodName='orphan-restore',indexProvisionsFrom=$i,indexProvisionsTo=$((i+1)),provisionCommand='devstats-helm/repos.sh',ghapiOrphanCommitsRange="$RANGE",maxRunDuration='get_repos:72h:102'"$extra" > /dev/null || exit 2
+  helm -n "$NS" uninstall "$rel" > /dev/null 2>&1
+  helm -n "$NS" install "$rel" ./devstats-helm --set namespace="$NS",skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,testServer='',prodServer='1',provisionImage='lukaszgryglicki/devstats-prod',provisionPodName='orphan-restore',indexProvisionsFrom=$i,indexProvisionsTo=$((i+1)),provisionCommand='devstats-helm/repos.sh',ghapiOrphanCommitsRange="$RANGE",maxRunDuration='get_repos:72h:102'"$extra" > /dev/null || exit 2
   pod="orphan-restore-$proj"
   ok=''
   for ((j=0; j<24; j++))
@@ -52,14 +52,24 @@ do
   if [ -z "$ok" ]
   then
     echo "index $i ($proj): pod $pod not created, skipping"
-    helm uninstall "$rel" > /dev/null 2>&1 || echo "index $i ($proj): helm uninstall $rel failed (ignored)"
+    helm -n "$NS" uninstall "$rel" > /dev/null 2>&1 || echo "index $i ($proj): helm uninstall $rel failed (ignored)"
     rel=''
     continue
   fi
   echo "index $i ($proj): waiting for $pod"
-  kubectl -n "$NS" wait --for=jsonpath='{.status.phase}'=Succeeded "pod/$pod" --timeout=72h > /dev/null || echo "index $i ($proj): $pod did not succeed, check: kubectl -n $NS logs $pod"
+  phase=''
+  for ((j=0; j<25920; j++))
+  do
+    phase=$(kubectl -n "$NS" get po "$pod" -o jsonpath='{.status.phase}' 2>/dev/null)
+    [ "$phase" = "Succeeded" ] || [ "$phase" = "Failed" ] && break
+    sleep 10
+  done
+  if [ "$phase" != "Succeeded" ]
+  then
+    echo "index $i ($proj): $pod phase '$phase' (did not succeed), check: kubectl -n $NS logs $pod"
+  fi
   kubectl -n "$NS" logs "$pod" --tail=3 2>/dev/null | sed 's/^/  /'
-  helm uninstall "$rel" > /dev/null 2>&1 || echo "index $i ($proj): helm uninstall $rel failed (ignored)"
+  helm -n "$NS" uninstall "$rel" > /dev/null 2>&1 || echo "index $i ($proj): helm uninstall $rel failed (ignored)"
   rel=''
 done
 echo 'OK'
