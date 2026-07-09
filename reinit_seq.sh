@@ -1,5 +1,6 @@
 #!/bin/bash
 # Usage: [NS=devstats-prod] [FROM=0] [TO=<n>] [NCPUS=8] [MAXRUN='calc_metric:72h:102'] [TSDBDROP=1] [EXTRA=',key=val,...'] ./reinit_seq.sh
+# Example: FROM=1 TO=38 NCPUS=6 nohup ./reinit_seq.sh 1>reinit.log 2>reinit.err < /dev/null &
 exec 9< "$0"
 if ! flock -n 9
 then

@@ -38,6 +38,7 @@ jsons/*.yaml
 errors.txt
 run.log
 *.log
+*.err
 out
 .DS_Store
 temp.sql
