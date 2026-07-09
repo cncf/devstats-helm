@@ -1,5 +1,5 @@
 #!/bin/bash
-# Usage: [NS=devstats-prod] [FROM=<n>] [TO=<m>] [NCPUS=8] [MAXRUN='calc_metric:72h:102'] [TSDBDROP=1] [GHAAPISKIP=''] [SKIPGETREPOS=''] [SKIPECFRGRESET=''] [EXTRA=',key=val,...'] ./reinit_seq.sh
+# Usage: [NS=devstats-prod] [FROM=<n>] [TO=<m>] [NCPUS=8] [MAXRUN='calc_metric:72h:102'] [TSDBDROP=1] [GIANT=lock|wait|''] [GHAAPISKIP=''] [SKIPGETREPOS=''] [SKIPECFRGRESET=''] [EXTRA=',key=val,...'] ./reinit_seq.sh
 # Example: FROM=1 TO=38 NCPUS=6 nohup ./reinit_seq.sh 1>reinit.log 2>reinit.err < /dev/null &
 # ${VAR-1}    # use 1 only if VAR is unset
 # ${VAR:-1}   # use 1 if VAR is unset OR empty
@@ -14,16 +14,30 @@ FROM="${FROM:-0}"
 NCPUS="${NCPUS:-8}"
 MAXRUN="${MAXRUN:-calc_metric:72h:102}"
 TSDBDROP="${TSDBDROP:-}"
+GIANT="${GIANT:-}"
 GHAAPISKIP="${GHAAPISKIP-1}"
 SKIPGETREPOS="${SKIPGETREPOS-1}"
 SKIPECFRGRESET="${SKIPECFRGRESET-1}"
+if [ -n "$EXTRA" ] && [[ "$EXTRA" != ,* ]]
+then
+  echo "EXTRA must start with a comma, for example: EXTRA=',key=val'" >&2
+  exit 1
+fi
+case "$GIANT" in
+  ''|lock|wait)
+    ;;
+  *)
+    echo "GIANT must be empty, lock, or wait" >&2
+    exit 1
+    ;;
+esac
 if [ -z "$TO" ]
 then
   TO=$(grep -c '^- proj: ' ./devstats-helm/values.yaml)
 fi
 rel=''
 trap 'echo; echo "interrupted, cleaning up"; [ -n "$rel" ] && helm -n "$NS" uninstall "$rel" > /dev/null 2>&1; exit 1' INT TERM
-echo "TSDB reinit: projects [$FROM, $TO), nCPUs: $NCPUS, maxRunDuration: $MAXRUN, tsdbDrop: '$TSDBDROP', namespace: $NS"
+echo "TSDB reinit: projects [$FROM, $TO), nCPUs: $NCPUS, giantProv: '$GIANT', maxRunDuration: $MAXRUN, tsdbDrop: '$TSDBDROP', ghaAPISkip: '$GHAAPISKIP', skipGetRepos: '$SKIPGETREPOS', skipECFRGReset: '$SKIPECFRGRESET', namespace: $NS"
 for ((i=FROM; i<TO; i++))
 do
   read -r proj db < <(awk -v n=$((i+1)) '/^- proj: /{c++; if(c==n)p=$3} c==n && /^  db: /{print p, $2; exit}' ./devstats-helm/values.yaml)
@@ -40,7 +54,7 @@ do
   fi
   rel="reinit-$i"
   helm -n "$NS" uninstall "$rel" > /dev/null 2>&1
-  helm -n "$NS" install "$rel" ./devstats-helm --set namespace="$NS",skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,testServer='',prodServer='1',provisionImage='lukaszgryglicki/devstats-prod',provisionPodName='reinit',indexProvisionsFrom=$i,indexProvisionsTo=$((i+1)),provisionCommand='./devstats-helm/reinit.sh',allowMetricFail=1,nCPUs="$NCPUS",maxRunDuration="$MAXRUN",tsdbDrop="$TSDBDROP",ghaAPISkip="$GHAAPISKIP",giantProv='',skipECFRGReset="$SKIPECFRGRESET",skipGetRepos="$SKIPGETREPOS""$EXTRA" > /dev/null || exit 2
+  helm -n "$NS" install "$rel" ./devstats-helm --set namespace="$NS",skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,testServer='',prodServer='1',provisionImage='lukaszgryglicki/devstats-prod',provisionPodName='reinit',indexProvisionsFrom=$i,indexProvisionsTo=$((i+1)),provisionCommand='./devstats-helm/reinit.sh',allowMetricFail=1,nCPUs="$NCPUS",maxRunDuration="$MAXRUN",tsdbDrop="$TSDBDROP",ghaAPISkip="$GHAAPISKIP",giantProv="$GIANT",skipECFRGReset="$SKIPECFRGRESET",skipGetRepos="$SKIPGETREPOS""$EXTRA" > /dev/null || exit 2
   pod="reinit-$proj"
   ok=''
   for ((j=0; j<24; j++))
