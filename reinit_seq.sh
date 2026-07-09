@@ -1,6 +1,8 @@
 #!/bin/bash
-# Usage: [NS=devstats-prod] [FROM=0] [TO=<n>] [NCPUS=8] [MAXRUN='calc_metric:72h:102'] [TSDBDROP=1] [EXTRA=',key=val,...'] ./reinit_seq.sh
+# Usage: [NS=devstats-prod] [FROM=<n>] [TO=<m>] [NCPUS=8] [MAXRUN='calc_metric:72h:102'] [TSDBDROP=1] [GHAAPISKIP=''] [SKIPGETREPOS=''] [SKIPECFRGRESET=''] [EXTRA=',key=val,...'] ./reinit_seq.sh
 # Example: FROM=1 TO=38 NCPUS=6 nohup ./reinit_seq.sh 1>reinit.log 2>reinit.err < /dev/null &
+# ${VAR-1}    # use 1 only if VAR is unset
+# ${VAR:-1}   # use 1 if VAR is unset OR empty
 exec 9< "$0"
 if ! flock -n 9
 then
@@ -12,6 +14,9 @@ FROM="${FROM:-0}"
 NCPUS="${NCPUS:-8}"
 MAXRUN="${MAXRUN:-calc_metric:72h:102}"
 TSDBDROP="${TSDBDROP:-}"
+GHAAPISKIP="${GHAAPISKIP-1}"
+SKIPGETREPOS="${SKIPGETREPOS-1}"
+SKIPECFRGRESET="${SKIPECFRGRESET-1}"
 if [ -z "$TO" ]
 then
   TO=$(grep -c '^- proj: ' ./devstats-helm/values.yaml)
@@ -35,7 +40,7 @@ do
   fi
   rel="reinit-$i"
   helm -n "$NS" uninstall "$rel" > /dev/null 2>&1
-  helm -n "$NS" install "$rel" ./devstats-helm --set namespace="$NS",skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,testServer='',prodServer='1',provisionImage='lukaszgryglicki/devstats-prod',provisionPodName='reinit',indexProvisionsFrom=$i,indexProvisionsTo=$((i+1)),provisionCommand='./devstats-helm/reinit.sh',allowMetricFail=1,nCPUs="$NCPUS",maxRunDuration="$MAXRUN",tsdbDrop="$TSDBDROP",ghaAPISkip=1,giantProv='',skipECFRGReset=1,skipGetRepos=1"$EXTRA" > /dev/null || exit 2
+  helm -n "$NS" install "$rel" ./devstats-helm --set namespace="$NS",skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,testServer='',prodServer='1',provisionImage='lukaszgryglicki/devstats-prod',provisionPodName='reinit',indexProvisionsFrom=$i,indexProvisionsTo=$((i+1)),provisionCommand='./devstats-helm/reinit.sh',allowMetricFail=1,nCPUs="$NCPUS",maxRunDuration="$MAXRUN",tsdbDrop="$TSDBDROP",ghaAPISkip="$GHAAPISKIP",giantProv='',skipECFRGReset="$SKIPECFRGRESET",skipGetRepos="$SKIPGETREPOS""$EXTRA" > /dev/null || exit 2
   pod="reinit-$proj"
   ok=''
   for ((j=0; j<24; j++))
