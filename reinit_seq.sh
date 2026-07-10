@@ -3,12 +3,54 @@
 # Example: FROM=1 TO=38 NCPUS=6 nohup ./reinit_seq.sh 1>reinit.log 2>reinit.err < /dev/null &
 # ${VAR-1}    # use 1 only if VAR is unset
 # ${VAR:-1}   # use 1 if VAR is unset OR empty
+
+now_seconds() {
+  if [ -n "${EPOCHREALTIME:-}" ]
+  then
+    printf '%s\n' "$EPOCHREALTIME"
+  else
+    # Fallback for Bash versions older than 5.0; resolution is one second.
+    date '+%s'
+  fi
+}
+
+format_elapsed_since() {
+  local started="$1"
+  local ended
+  ended=$(now_seconds)
+
+  LC_ALL=C awk -v start="$started" -v end="$ended" '
+    BEGIN {
+      # Round once, to tenths of a second, before splitting the duration.
+      tenths = int(((end - start) * 10) + 0.5)
+      if (tenths < 0) {
+        tenths = 0
+      }
+
+      hours = int(tenths / 36000)
+      tenths %= 36000
+      minutes = int(tenths / 600)
+      tenths %= 600
+      seconds = tenths / 10.0
+
+      if (hours > 0) {
+        printf "%dh%dm%.1fs", hours, minutes, seconds
+      } else if (minutes > 0) {
+        printf "%dm%.1fs", minutes, seconds
+      } else {
+        printf "%.1fs", seconds
+      }
+    }
+  '
+}
+
 exec 9< "$0"
 if ! flock -n 9
 then
   echo "another reinit_seq.sh instance is already running, exiting"
   exit 1
 fi
+
 NS="${NS:-devstats-prod}"
 FROM="${FROM:-0}"
 NCPUS="${NCPUS:-8}"
@@ -18,11 +60,13 @@ GIANT="${GIANT:-}"
 GHAAPISKIP="${GHAAPISKIP-1}"
 SKIPGETREPOS="${SKIPGETREPOS-1}"
 SKIPECFRGRESET="${SKIPECFRGRESET-1}"
+
 if [ -n "$EXTRA" ] && [[ "$EXTRA" != ,* ]]
 then
   echo "EXTRA must start with a comma, for example: EXTRA=',key=val'" >&2
   exit 1
 fi
+
 case "$GIANT" in
   ''|lock|wait)
     ;;
@@ -31,37 +75,73 @@ case "$GIANT" in
     exit 1
     ;;
 esac
+
 if [ -z "$TO" ]
 then
   TO=$(grep -c '^- proj: ' ./devstats-helm/values.yaml)
 fi
+
 rel=''
+
 trap 'echo; echo "interrupted, cleaning up"; [ -n "$rel" ] && helm -n "$NS" uninstall "$rel" > /dev/null 2>&1; exit 1' INT TERM
+
 echo "TSDB reinit: projects [$FROM, $TO), nCPUs: $NCPUS, giantProv: '$GIANT', maxRunDuration: $MAXRUN, tsdbDrop: '$TSDBDROP', ghaAPISkip: '$GHAAPISKIP', skipGetRepos: '$SKIPGETREPOS', skipECFRGReset: '$SKIPECFRGRESET', namespace: $NS"
+
 for ((i=FROM; i<TO; i++))
 do
-  read -r proj db < <(awk -v n=$((i+1)) '/^- proj: /{c++; if(c==n)p=$3} c==n && /^  db: /{print p, $2; exit}' ./devstats-helm/values.yaml)
+  read -r proj db < <(
+    awk -v n=$((i+1)) '
+      /^- proj: / {
+        c++
+        if (c == n) {
+          p = $3
+        }
+      }
+      c == n && /^  db: / {
+        print p, $2
+        exit
+      }
+    ' ./devstats-helm/values.yaml
+  )
+
   if [ -z "$db" ]
   then
     echo "index $i: cannot read project/db from ./devstats-helm/values.yaml, skipping"
     continue
   fi
-  present=$(kubectl -n "$NS" exec devstats-postgres-0 -c devstats-postgres -- psql -tAc "select 1 from pg_database where datname = '$db'" 2>/dev/null)
+
+  present=$(
+    kubectl -n "$NS" exec devstats-postgres-0 \
+      -c devstats-postgres -- \
+      psql -tAc "select 1 from pg_database where datname = '$db'" \
+      2>/dev/null
+  )
+
   if [ "$present" != "1" ]
   then
     echo "index $i ($proj): database '$db' does not exist (archived project), skipping"
     continue
   fi
+
+  index_started=$(now_seconds)
+
   rel="reinit-$i"
+
   helm -n "$NS" uninstall "$rel" > /dev/null 2>&1
-  helm -n "$NS" install "$rel" ./devstats-helm --set namespace="$NS",skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,testServer='',prodServer='1',provisionImage='lukaszgryglicki/devstats-prod',provisionPodName='reinit',indexProvisionsFrom=$i,indexProvisionsTo=$((i+1)),provisionCommand='./devstats-helm/reinit.sh',allowMetricFail=1,nCPUs="$NCPUS",maxRunDuration="$MAXRUN",tsdbDrop="$TSDBDROP",ghaAPISkip="$GHAAPISKIP",giantProv="$GIANT",skipECFRGReset="$SKIPECFRGRESET",skipGetRepos="$SKIPGETREPOS""$EXTRA" > /dev/null || exit 2
+
+  helm -n "$NS" install "$rel" ./devstats-helm \
+    --set namespace="$NS",skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,testServer='',prodServer='1',provisionImage='lukaszgryglicki/devstats-prod',provisionPodName='reinit',indexProvisionsFrom=$i,indexProvisionsTo=$((i+1)),provisionCommand='./devstats-helm/reinit.sh',allowMetricFail=1,nCPUs="$NCPUS",maxRunDuration="$MAXRUN",tsdbDrop="$TSDBDROP",ghaAPISkip="$GHAAPISKIP",giantProv="$GIANT",skipECFRGReset="$SKIPECFRGRESET",skipGetRepos="$SKIPGETREPOS""$EXTRA" \
+    > /dev/null || exit 2
+
   pod="reinit-$proj"
   ok=''
+
   for ((j=0; j<24; j++))
   do
     kubectl -n "$NS" get po "$pod" > /dev/null 2>&1 && ok=1 && break
     sleep 5
   done
+
   if [ -z "$ok" ]
   then
     echo "index $i ($proj): pod $pod not created, aborting"
@@ -69,17 +149,27 @@ do
     helm -n "$NS" uninstall "$rel" > /dev/null 2>&1 || true
     exit 3
   fi
+
   echo "index $i ($proj): waiting for $pod"
+
   phase=''
+
   for ((j=0; j<25920; j++))
   do
-    phase=$(kubectl -n "$NS" get po "$pod" -o jsonpath='{.status.phase}' 2>/dev/null)
+    phase=$(
+      kubectl -n "$NS" get po "$pod" \
+        -o jsonpath='{.status.phase}' \
+        2>/dev/null
+    )
+
     if [ "$phase" = "Succeeded" ] || [ "$phase" = "Failed" ]
     then
       break
     fi
+
     sleep 10
   done
+
   if [ "$phase" != "Succeeded" ]
   then
     echo "index $i ($proj): pod $pod phase '$phase' (did not succeed), aborting - last log lines:"
@@ -88,8 +178,16 @@ do
     helm -n "$NS" uninstall "$rel" > /dev/null 2>&1 || true
     exit 3
   fi
+
   kubectl -n "$NS" logs "$pod" --tail=3 2>/dev/null | sed 's/^/  /'
-  helm -n "$NS" uninstall "$rel" > /dev/null 2>&1 || echo "index $i ($proj): helm uninstall $rel failed (ignored)"
+
+  helm -n "$NS" uninstall "$rel" > /dev/null 2>&1 ||
+    echo "index $i ($proj): helm uninstall $rel failed (ignored)"
+
   rel=''
+
+  echo "index $i ($proj): took $(format_elapsed_since "$index_started")"
 done
+
 echo 'OK'
+
