@@ -3,6 +3,7 @@
 1. Go to `cncf/devstats-docker-images`:
 
 - Update status to `Archived` in `devstats-helm/projects.yaml`. Remove its orgs/repos from `All CNCF`.
+- Update `devstats-helm/all_*.txt` files - remove archived project. Currently we keep them, so skip this step.
 - Add `archived_date`.
 - Refer to issues/PRs on [cncf/toc](https://github.com/cncf/toc) repo.
 
