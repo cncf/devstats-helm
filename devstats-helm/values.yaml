@@ -2606,6 +2606,7 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+  archived: true
 - proj: kyverno
   url: kyverno
   db: kyverno
@@ -2921,7 +2922,7 @@ projects:
   affCronProd: 32 23 11 * *
   affSkipTemp: "1"
   disk: 3Gi
-  domains: [0, 1, 0, 0]
+  domains: [0, 0, 0, 0]
   ga: ""
   i: 119
   certNum: 0
@@ -2929,6 +2930,7 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+  archived: true
 - proj: antrea
   url: antrea
   db: antrea
@@ -3049,6 +3051,7 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+  archived: true
 - proj: kubevela
   url: kubevela
   db: kubevela
@@ -3760,6 +3763,7 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+  archived: true
 - proj: konveyor
   url: konveyor
   db: konveyor
@@ -4441,6 +4445,7 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+  archived: true
 - proj: hwameistor
   url: hwameistor
   db: hwameistor
