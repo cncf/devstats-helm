@@ -1,0 +1,80 @@
+{{- $skipAffiliationsImport := .Values.skipAffiliationsImport -}}
+{{ if not $skipAffiliationsImport }}
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  namespace: '{{ .Values.namespace }}'
+  name: '{{ .Values.affiliationsImportPodName }}'
+  labels:
+    name: devstats
+    type: 'affiliations-import-cron'
+spec:
+{{ if and (.Values.testServer) (not .Values.prodServer) }}
+  schedule: '{{ .Values.affiliationsImportCronTest }}'
+{{ else }}
+  schedule: '{{ .Values.affiliationsImportCron }}'
+{{ end }}
+  successfulJobsHistoryLimit: {{ .Values.affiliationsCronHistoryLimit }}
+  failedJobsHistoryLimit: {{ .Values.affiliationsCronFailedHistoryLimit }}
+  startingDeadlineSeconds: {{ .Values.affiliationsCronStartingDeadlineSeconds }}
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          namespace: '{{ .Values.namespace }}'
+          name: '{{ .Values.affiliationsImportPodName }}'
+          labels:
+            name: devstats
+            type: 'affiliations-import'
+        spec:
+          containers:
+          - command:
+            - {{ .Values.affiliationsImportCommand }}
+            env:
+            - name: GHA2DB_AFFILIATIONS_DB
+              value: '{{ .Values.affiliationsDB }}'
+            - name: GIANT
+              value: '{{ .Values.giantAffs }}'
+            - name: GET_AFFS_FILES
+              value: '{{ .Values.affiliationsImportGetAffsFiles }}'
+            - name: GHA2DB_CHECK_IMPORTED_SHA
+              value: '{{ .Values.affiliationsImportCheckSHA }}'
+            - name: TEST_SERVER
+              value: '{{ .Values.testServer }}'
+            - name: PROD_SERVER
+              value: '{{ .Values.prodServer }}'
+            - name: GHA2DB_DEBUG
+              value: '{{ .Values.debug }}'
+            - name: GHA2DB_CMDDEBUG
+              value: '{{ .Values.cmdDebug }}'
+            - name: PG_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.pgSecret }}
+                  key: PG_HOST.secret
+            - name: PG_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.pgSecret }}
+                  key: PG_PORT.secret
+            - name: PG_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.pgSecret }}
+                  key: PG_PASS.secret
+            - name: PG_ADMIN_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.pgSecret }}
+                  key: PG_ADMIN_USER.secret
+            image: {{ .Values.affiliationsImage }}
+            imagePullPolicy: {{ .Values.imagePullPolicy }}
+            name: '{{ .Values.affiliationsImportPodName }}'
+          restartPolicy: {{ .Values.affiliationsRestartPolicy }}
+          nodeSelector:
+{{- with .Values.appNodeSelector -}}
+{{ toYaml . | nindent 12 }}
+{{ end }}
+{{ end }}

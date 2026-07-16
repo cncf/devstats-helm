@@ -94,6 +94,12 @@ spec:
       value: '{{ .Values.checkImportedSHA }}'
     - name: GHA2DB_COMPANY_ACQ_YAML
       value: '{{ .Values.companyAcq }}'
+{{ if .Values.affiliationsDB }}
+    - name: GHA2DB_AFFILIATIONS_DB
+      value: '{{ .Values.affiliationsDB }}'
+    - name: AFFS_FDW_USE_PASSWORD
+      value: '{{ .Values.affsFdwUsePassword }}'
+{{ end }}
     - name: GHA2DB_PROJECTS_YAML
       value: '{{ .Values.projectsFile }}'
     - name: GHA2DB_PROJECTS_OVERRIDE

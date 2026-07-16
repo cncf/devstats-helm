@@ -125,6 +125,12 @@ spec:
       value: '{{ $root.Values.skipUpdAffs }}'
     - name: GHA2DB_COMPANY_ACQ_YAML
       value: '{{ $root.Values.companyAcq }}'
+{{ if $root.Values.affiliationsDB }}
+    - name: GHA2DB_AFFILIATIONS_DB
+      value: '{{ $root.Values.affiliationsDB }}'
+    - name: AFFS_FDW_USE_PASSWORD
+      value: '{{ $root.Values.affsFdwUsePassword }}'
+{{ end }}
     - name: GHA2DB_PROJECTS_YAML
       value: '{{ $root.Values.projectsFile }}'
     - name: GHA2DB_PROJECTS_OVERRIDE

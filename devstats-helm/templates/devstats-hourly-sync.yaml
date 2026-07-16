@@ -131,6 +131,10 @@ spec:
               value: '{{ $root.Values.onlyMetrics }}'
             - name: GHA2DB_FORCE_PERIODS
               value: '{{ $root.Values.periods }}'
+{{ if $root.Values.affiliationsDB }}
+            - name: GHA2DB_AFFILIATIONS_DB
+              value: '{{ $root.Values.affiliationsDB }}'
+{{ end }}
             - name: GHA2DB_PROJECTS_YAML
               value: {{ $root.Values.projectsFile }}
             - name: GHA2DB_PROJECTS_OVERRIDE
