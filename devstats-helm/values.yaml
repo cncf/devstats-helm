@@ -198,15 +198,8 @@ affiliationsCommand: './devstats-helm/affs.sh'
 affiliationsCronHistoryLimit: 2
 affiliationsCronFailedHistoryLimit: 1
 affiliationsCronStartingDeadlineSeconds: 300
-affiliationsGetAffsFiles: '1'
-# affiliationsDB: shared affiliations DB name (gha_actors* & related tables kept once,
-# mapped into every project DB via postgres_fdw). Empty = legacy per-project tables.
-# Cutover: set to 'affiliations', set skipAffiliationsImport: '', set checkImportedSHA: ''
-# and affiliationsGetAffsFiles: '' (project CJs must not touch gha_imported_shas - it only
-# exists in the shared DB - and no longer need the source files). In shared mode the scripts
-# force SKIP_IMP_AFFS=100, SKIP_UPD_AFFS=0 and AFFS_LOCK_DB=devstats for all project
-# affiliations jobs, ignoring per-project overrides.
-affiliationsDB: ''
+affiliationsGetAffsFiles: ''
+affiliationsDB: 'affiliations'
 affiliationsImage: 'lukaszgryglicki/devstats-prod'
 affiliationsImportCheckSHA: '1'
 affiliationsImportCommand: './devstats-helm/import_affs_shared.sh'
@@ -215,11 +208,8 @@ affiliationsImportCronTest: '10 1 * * *'
 affiliationsImportGetAffsFiles: '1'
 affiliationsImportPodName: 'devstats-affiliations-import'
 affiliationsPodName: 'devstats-affiliations'
-# affsFdwUsePassword: '1' makes setup_shared_fdw.sh use 127.0.0.1 + gha_admin/PG_PASS mappings
-# instead of the default local socket + password_required=false
 affsFdwUsePassword: ''
 affiliationsRestartPolicy: Never
-# skipAffiliationsImport: '1' disables the shared affiliations import cronjob, '' enables it
 skipAffiliationsImport: '1'
 appNodeSelector:
   node: devstats-app
@@ -256,7 +246,7 @@ bootstrapNoCreate: ''
 bootstrapPodName: devstats-provision-bootstrap
 bootstrapRestartPolicy: Never
 bootstrapUDrop: ''
-checkImportedSHA: '1'
+checkImportedSHA: ''
 companyAcq: "companies.yaml"
 concurrencyPolicy: Forbid
 columnsYAML: ''
