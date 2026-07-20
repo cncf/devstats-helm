@@ -6000,7 +6000,7 @@ projects:
   db: kubeelasti
   icon: kubeelasti
   org: KubeElasti
-  repo: truefoundry/KubeElasti
+  repo: KubeElasti/KubeElasti
   cronTest: 58 2,8,14,20 * * *
   cronProd: 46 5,11,17,23 * * *
   affCronTest: 37 5 13 * *
