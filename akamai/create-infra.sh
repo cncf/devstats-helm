@@ -1,13 +1,13 @@
 #!/bin/bash
 # Creates the Akamai/Linode infrastructure for DevStats:
-#   VPC + subnet, 2 strict anti-affinity placement groups, 7 G7 Linodes
+#   VPC + subnet, 2 strict anti-affinity placement groups, 7-8 G7 Linodes (per TOPOLOGY)
 #   with manual VPC IPv4 addresses and public IPv4 via 1:1 NAT.
 # Replaces the OCI instance/VCN/NSG setup. Idempotent-ish: skips existing objects by label.
 #
 # Usage:
 #   source akamai/linode-env.sh
 #   ./akamai/create-infra.sh pilot    # only devstats-prod-db-01 + devstats-compute-01 (benchmark first!)
-#   ./akamai/create-infra.sh rest     # the remaining 5 nodes
+#   ./akamai/create-infra.sh rest     # the remaining nodes (5 or 6, per TOPOLOGY)
 #   ./akamai/create-infra.sh all      # everything at once
 set -euo pipefail
 
@@ -22,7 +22,8 @@ command -v jq >/dev/null || { echo "jq not found"; exit 1; }
 SSH_KEY="$(cat "${SSH_PUB_KEY_FILE}")"
 
 # --- 0) Discover G7 plan type IDs unless pinned in linode-env.sh -------------------------
-# Live API 2026-08-18: 256GB G7 = "g7-premium-56" (class "premium", 56 vCPU, 5000GB disk).
+# Live API 2026-08-18: 256GB G7 = "g7-dedicated-256-56" (class "dedicated", 56 vCPU, 5000GB
+# disk; "g7-premium-56" is the identically-specced premium twin - either works).
 # 512GB G7 is LIMITED AVAILABILITY and absent from the public type list - pin TYPE_512 after
 # Akamai confirms the ID (fallback: g8-dedicated-512-256, class "dedicated", 256 vCPU).
 # Prefer g7-* ids: g8 types have price.monthly=null which jq sorts FIRST - do not sort by price.

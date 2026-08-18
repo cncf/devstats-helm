@@ -1,7 +1,8 @@
 #!/bin/bash
 # DevStats PROD deployment sequence on the Akamai cluster.
 # Wraps the README.md prod Helm commands with Linode sizing overrides (plan section 14.1):
-#   postgresNodes=3 on 3 x G7-512 (node2=devstats-db-prod), PVC 6000Gi, right-sized resources.
+#   postgresNodes=3 (node2=devstats-db-prod); PVC/resources are topology-aware via
+#   akamai/linode-env.sh: 6000Gi on 3 x G7-512 (mixed) or 4500Gi on G7-256 (8x256/7x256).
 # Run phases IN ORDER from the repo root on the master (context: prod - ./switch_context.sh prod):
 #   ./akamai/deploy-devstats-prod.sh secrets
 #   ./akamai/deploy-devstats-prod.sh backups-pv
@@ -79,7 +80,8 @@ case "${PHASE}" in
     # sets limitsBackupsCPU=4000m,limitsBackupsMemory=64Gi (README line 425) - run that there.
     helm install devstats-prod-debug "${CHART}" --set "namespace=${NS},$(skips_except Bootstrap),bootstrapPodName=debug,bootstrapCommand=sleep,bootstrapCommandArgs={360000s},bootstrapMountBackups=1"
     echo "Shell:  ../devstats-k8s-lf/util/pod_shell.sh debug"
-    echo "Inside: RESTORE_FROM='https://devstats.cncf.io' NOBACKUP='' ./devstats-helm/restore_artificial_all.sh"
+    echo "Inside (explicit ONLY - pod defaults to testServer=1, empty/unset ONLY would pick the TEST db list):"
+    echo "  ONLY=\"\$(cat ./devstats-helm/all_prod_dbs.txt)\" RESTORE_FROM='https://devstats.cncf.io' NOBACKUP='' ./devstats-helm/restore_artificial_all.sh"
     echo "After:  helm delete devstats-prod-debug"
     ;;
   affs-import)

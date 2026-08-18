@@ -299,8 +299,9 @@ Also refresh artificial-events backups (used by `restore_artificial.sh` later):
 # debug pod on OCI prod (sleep pod with backups PV mounted) - README "backups pod" recipe:
 helm install devstats-prod-debug ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,bootstrapPodName=debug,bootstrapCommand=sleep,bootstrapCommandArgs={360000s},bootstrapMountBackups=1,limitsBackupsCPU=4000m,limitsBackupsMemory=64Gi
 ../devstats-k8s-lf/util/pod_shell.sh debug
-# inside:
-ONLY='' FASTXZ=1 NOBACKUP='' ./devstats-helm/backup_artificial_all.sh
+# inside (explicit ONLY - the debug pod defaults to testServer=1, so an empty ONLY would
+# silently select devel/all_test_dbs.txt; the prod list file ships in the image):
+ONLY="$(cat ./devel/all_prod_dbs.txt)" FASTXZ=1 NOBACKUP='' ./devstats-helm/backup_artificial_all.sh
 exit
 helm delete devstats-prod-debug
 ```
@@ -520,8 +521,8 @@ users on all nodes (README habit - every node is an admin box).
 
 ## 6. Phase D - storage (day 3)
 
-Newest OpenEBS (4.5.1 umbrella chart - localpv hostpath only, replicated/LVM/ZFS engines off;
-see §15 note) + the same dynamic-nfs provisioner as OCI:
+Newest OpenEBS (4.5.1 umbrella chart - localpv hostpath only; replicated/LVM/ZFS engines
+AND bundled Loki/Alloy observability off - see §15 note) + the same dynamic-nfs provisioner as OCI:
 
 ```bash
 helm repo add openebs https://openebs.github.io/openebs && helm repo update
@@ -529,6 +530,8 @@ helm install openebs openebs/openebs -n openebs --create-namespace \
   --set engines.replicated.mayastor.enabled=false \
   --set engines.local.lvm.enabled=false \
   --set engines.local.zfs.enabled=false \
+  --set loki.enabled=false \
+  --set alloy.enabled=false \
   --set localpv-provisioner.hostpathClass.isDefaultClass=true
 kubectl -n openebs get pods -w   # wait Ready
 kubectl get sc                   # openebs-hostpath must exist and be (default)
@@ -689,9 +692,10 @@ FDW - restore it early like on prod (`./scripts/deploy_backup_to_test.sh affilia
 test data is rebuildable from prod backups + git in hours, dumps eat NFS space and I/O on a
 much smaller cluster, and nothing external depends on fresh `teststats.cncf.io/backups/*`
 dumps (velocity/gitdm read the PROD backups page). The script leaves the cronjob installed
-but `suspend: true`; flip to monthly (`45 2 28 * *`, unsuspend) later if ever wanted. Keep
-the old OCI-era dumps already sitting in the 2Ti backups PV - they serve as restore sources
-during the migration itself.
+but `suspend: true`; flip to monthly (`45 2 28 * *`, unsuspend) later if ever wanted. NOTE:
+the new cluster's 2Ti backups PV starts **empty** - restores do NOT read it; they pull dumps
+over HTTPS from `https://teststats.cncf.io/backups/`, which resolves to **OCI** until the DNS
+cutover. That is exactly why every restore (and re-restore) must happen before §11 step 3.
 
 Keep all test cronjobs suspended until validation (the restore scripts install crons; suspend:
 `k -n devstats-test get cj -o name | xargs -I{} kubectl -n devstats-test patch {} -p '{"spec":{"suspend":true}}'`).
@@ -719,7 +723,9 @@ k exec -itn devstats-prod devstats-postgres-0 -c devstats-postgres -- patronictl
 # grafana shared data tar into devstats-static-prod pod (same recipe as test)
 ```
 
-Bulk restore of ~240 prod projects from `https://devstats.cncf.io/backups/`:
+Bulk restore of ~240 prod projects from `https://devstats.cncf.io/backups/` (resolves to
+**OCI** until the §11 DNS flip - ALL restores must finish before then; afterwards that URL
+points at the new cluster's initially-empty backups PV):
 
 - `scripts/deploy_prod.sh` is the full ordered list of `./scripts/deploy_backup_to_prod.sh <proj> <i> <i+1>`
   calls (kubernetes 0 1 → ... → all 38 39 (the `allprj` DB) → CDF/GraphQL → ... ). Run it in slices so the
@@ -746,7 +752,10 @@ Artificial rows for all prod projects (debug pod):
 ```bash
 ./akamai/deploy-devstats-prod.sh debug
 ../devstats-k8s-lf/util/pod_shell.sh debug
-RESTORE_FROM='https://devstats.cncf.io' NOBACKUP='' ./devstats-helm/restore_artificial_all.sh
+# explicit ONLY - the debug pod defaults to testServer=1, so unset ONLY would silently
+# pick the TEST db list (devstats-helm/all_test_dbs.txt) instead of the ~240 prod DBs:
+ONLY="$(cat ./devstats-helm/all_prod_dbs.txt)" \
+  RESTORE_FROM='https://devstats.cncf.io' NOBACKUP='' ./devstats-helm/restore_artificial_all.sh
 exit; helm delete devstats-prod-debug
 ```
 
@@ -835,6 +844,14 @@ Order matters; total DevStats "stale window" is a few hours, no visible downtime
    ```
    (Re-apply the intentional suspends afterwards if any cron is meant to stay off - check OCI's
    previous suspend state captured in phase A.)
+   Then **populate `/backups` immediately** - the new 2Ti PV starts empty, but velocity/gitdm
+   and any future restore read `https://devstats.cncf.io/backups/`, which now resolves to
+   Linode (OCI's 792 dump files became unreachable at the DNS flip):
+   ```bash
+   k -n devstats-prod create job --from=cronjob/devstats-backups devstats-backups-manual
+   # ~hours for the full set; alternatively pre-seed by curl-ing the newest OCI dumps into
+   # the backups debug pod BEFORE the flip (only needed if something reads dumps on day 1)
+   ```
 6. Monitor for 24 h: `patronictl list` lag, `df -h /data`, `k top nodes` (install metrics-server
    if wanted), failing cronjob pods (`k get po | grep -E 'Error|CrashLoop'`), ingress 5xx.
 7. `devstats-landscape-sync` cron: re-point/reinstall its crontab on the new environment
@@ -1046,8 +1063,9 @@ Install the newest stable of each at execution time. Column 3 = newest as of 202
 | PostgreSQL / Patroni | 18.1 / 4.1.0 (`devstats-patroni-18-hll`, hll 2.19, postgres_fdw local-socket) | same image family; newest = **PG 18.6 / patroni 4.1.5** - rebuild `devstats-docker-images/images/Dockerfile.patroni.18` right before migration, or reuse the exact current image (restores are pg_dump-based, minor-version mismatch is a non-issue) |
 | Grafana | 8.5.27 (custom image) | unchanged (do not upgrade during migration) |
 
-**OpenEBS 4.x note**: the 4.x umbrella chart bundles Mayastor/replicated storage which we do
-NOT want. Install with replicated + LVM + ZFS engines disabled so only `localpv-provisioner`
+**OpenEBS 4.x note**: the 4.x umbrella chart bundles Mayastor/replicated storage AND a
+Loki+Alloy observability stack (both `enabled: true` by default - verified in chart 4.5.1
+values) which we do NOT want. Install with those disabled so only `localpv-provisioner`
 (hostpath) is active, then install `dynamic-nfs-provisioner` 0.11.0 exactly as on OCI:
 
 ```bash
@@ -1055,6 +1073,8 @@ helm install openebs openebs/openebs -n openebs --create-namespace \
   --set engines.replicated.mayastor.enabled=false \
   --set engines.local.lvm.enabled=false \
   --set engines.local.zfs.enabled=false \
+  --set loki.enabled=false \
+  --set alloy.enabled=false \
   --set localpv-provisioner.hostpathClass.isDefaultClass=true
 kubectl get sc   # must show openebs-hostpath (default)
 # then dynamic-nfs (unchanged vs OCI, creates nfs-openebs-localstorage SC via k8s/ manifests)

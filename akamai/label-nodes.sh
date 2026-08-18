@@ -1,7 +1,7 @@
 #!/bin/bash
 # Applies DevStats node labels on the new Akamai cluster (plan section 1.1).
 #   node=devstats-app            - every node (app/backup workloads)
-#   node2=devstats-db-prod       - prod Patroni pool (3 x G7-512)
+#   node2=devstats-db-prod       - prod Patroni pool (3 nodes: G7-512 mixed / G7-256 otherwise)
 #   node2=devstats-db-test       - test Patroni pool (2 x G7-256)
 #   ingress=prod|test            - ingress-nginx DaemonSet + NodeBalancer backends
 # Run from any node with kubectl admin access (context: any).
