@@ -93,14 +93,39 @@ export ADMIN_CIDRS="${ADMIN_CIDRS:-0.0.0.0/0}"   # comma-separated CIDRs allowed
 # --- Disk layout (MiB): root shrunk to 150 GB, remainder -> ext4 "data" disk at /data ---
 export ROOT_DISK_MB=153600
 
-# --- Kubernetes ---
-export K8S_STREAM="${K8S_STREAM:-v1.36}"   # newest stable pkgs.k8s.io stream (v1.36.3 as of 2026-08); OCI ran v1.35.0
+# --- Kubernetes: FROZEN migration baseline (do NOT bump on install day) ---
+# v1.36.3 is deliberately pinned to the exact patch: ingress-nginx (retired upstream
+# 2026-03-24) was last certified on k8s 1.31-1.35, so running its final release on 1.36.3
+# is a locally-validated compatibility exception - the exact combination below MUST pass
+# akamai/test-ingresses.sh before Patroni/restores/any stateful workload (plan §7.1).
+export K8S_STREAM="${K8S_STREAM:-v1.36}"   # pkgs.k8s.io apt stream; OCI ran v1.35.0
+export K8S_PATCH="${K8S_PATCH:-1.36.3}"    # exact patch - node-setup.sh fails if absent from the stream
 export POD_CIDR="10.244.0.0/16"
 export SVC_CIDR="10.96.0.0/12"
 
-# --- containerd/crictl versions (bump to newest at install time) ---
+# --- helm (pinned tarball install, sha256-verified by node-setup.sh) ---
+# Re-verify sha256 against https://get.helm.sh/helm-${HELM_VERSION}-linux-amd64.tar.gz.sha256sum on install day.
+export HELM_VERSION="${HELM_VERSION:-v4.2.4}"
+export HELM_SHA256="${HELM_SHA256:-c306b46f719b0a4da32d0f78ee21bf90ce8d602f15b22ab753f0674d1670a7f3}"
+
+# --- containerd/crictl versions (frozen baseline) ---
 export CONTAINERD_VERSION="${CONTAINERD_VERSION:-2.3.4}"
 export CRICTL_VERSION="${CRICTL_VERSION:-v1.36.0}"
+
+# --- ingress-nginx: FINAL upstream release (project retired 2026-03-24 - no further releases,
+# bug fixes or security fixes; images/charts remain published). Chart 4.15.1 = controller
+# v1.15.1; its certified matrix ends at k8s 1.35 - see the K8S_PATCH note above.
+# Digests are from the official v1.15.1 release notes - re-verify there on install day;
+# set to "" to fall back to tag-only pulls if a digest ever fails validation.
+export INGRESS_NGINX_CHART_VERSION="${INGRESS_NGINX_CHART_VERSION:-4.15.1}"
+export INGRESS_NGINX_CONTROLLER_VERSION="${INGRESS_NGINX_CONTROLLER_VERSION:-v1.15.1}"
+export INGRESS_NGINX_CONTROLLER_DIGEST="${INGRESS_NGINX_CONTROLLER_DIGEST:-sha256:594ceea76b01c592858f803f9ff4d2cb40542cae2060410b2c95f75907d659e1}"
+export INGRESS_NGINX_WEBHOOK_VERSION="${INGRESS_NGINX_WEBHOOK_VERSION:-v1.6.9}"
+export INGRESS_NGINX_WEBHOOK_DIGEST="${INGRESS_NGINX_WEBHOOK_DIGEST:-sha256:01038e7de14b78d702d2849c3aad72fd25903c4765af63cf16aa3398f5d5f2dd}"
+# Distinct controller identities so the two controllers can never claim each other's
+# IngressClass (upstream multi-controller guidance: unique controllerValue + ingressClassByName).
+export PROD_INGRESS_CONTROLLER_VALUE="${PROD_INGRESS_CONTROLLER_VALUE:-devstats.cncf.io/ingress-nginx-prod}"
+export TEST_INGRESS_CONTROLLER_VALUE="${TEST_INGRESS_CONTROLLER_VALUE:-devstats.cncf.io/ingress-nginx-test}"
 
 # --- Ingress NodePorts (identical to OCI) ---
 export PROD_HTTP_NODEPORT=30080

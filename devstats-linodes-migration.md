@@ -3,7 +3,9 @@
 Status: EXECUTION PLAN (final approved hardware: `3 × G7 Dedicated 512 GB` + `4 × G7 Dedicated 256 GB`).
 
 Deadline: OCI must be off in September. This plan is designed to complete in 14 calendar days,
-with DNS cutover around day 10-11 and OCI teardown as the last step.
+with DNS cutover around day 10-11 and OCI teardown as the last step. **The operative calendar
+is §13.2** (Mon/Fri-only operator availability, revised 2026-08-20 after OpenAI Pro review):
+cutover Fri Aug 28, teardown Mon Aug 31 only after a clean 72 h soak; fallback Sep 4/7.
 
 Related material:
 
@@ -20,12 +22,12 @@ Related material:
 |---|---|---|
 | Nodes | 6 × bare-metal (devstats-master, devstats-node-0..4) | 7 × G7 Dedicated VMs (`TOPOLOGY=mixed`; alternatives 8×256/7×256 - §1.4) |
 | OS | Ubuntu 24.04 LTS | Ubuntu 26.04 LTS |
-| Kubernetes | 1.35.0, kubeadm, 1 master, flannel /22, 1024 pods/node | same model, newest stable (1.36.x) at install time |
+| Kubernetes | 1.35.0, kubeadm, 1 master, flannel /22, 1024 pods/node | same model, **pinned v1.36.3 exactly** (`K8S_PATCH`, frozen baseline - §15) |
 | Prod Patroni | 6 members, PVC 23000Gi, on all nodes | **3 members** on 3 × G7 512 GB, PVC 6000Gi |
 | Test Patroni | 6 members (shared nodes) | **2 members** on 2 × G7 256 GB, PVC 3600Gi |
-| PostgreSQL | 18.x + HLL (`devstats-patroni-18-hll`), Patroni 4.x | same images, newest available |
+| PostgreSQL | 18.x + HLL (`devstats-patroni-18-hll`), Patroni 4.x | **exact same image - frozen; no PG/Patroni rebuild during migration (§15)** |
 | Storage | 8 × NVMe mdadm RAID-10 → /data, OpenEBS hostpath + NFS RWX | plan-included local SSD → /data, OpenEBS hostpath + NFS RWX |
-| Ingress | 2 × ingress-nginx NodePort (30080/30443, 31080/31443) | identical |
+| Ingress | 2 × ingress-nginx NodePort (30080/30443, 31080/31443) | identical model, **pinned final chart 4.15.1/controller v1.15.1 + mandatory 1.36 gate `test-ingresses.sh`** (§7.1) |
 | Public LB | 2 × OCI NLB (132.226.49.222 prod / 152.70.192.23 test) | 2 × Akamai NodeBalancer (TCP pass-through) |
 | TLS | cert-manager + Let's Encrypt HTTP-01 | identical |
 | Networking | OCI VCN 10.0.0.0/16, NSG allow-all-internal | Linode VPC 10.60.0.0/24, 1:1 NAT public IPv4 |
@@ -463,21 +465,30 @@ What it does (identical philosophy to the OCI runbook):
   `/var/log/pods`, `/var/log/containers` into `/data`;
 - kernel modules `overlay`,`br_netfilter`; sysctls (`ip_forward`, `rp_filter=0`, bridge-nf-call);
 - iptables FORWARD ACCEPT;
-- containerd (latest 2.x release binary) + `SystemdCgroup = true`, runc, crictl;
-- kubelet/kubeadm/kubectl from `pkgs.k8s.io` newest stable stream (`v1.36` - v1.36.3 - at
-  plan time; bump `K8S_STREAM` in `linode-env.sh` if newer exists on install day), `apt-mark hold`;
+- containerd (pinned 2.3.4 release binary) + `SystemdCgroup = true`, runc, crictl;
+- kubelet/kubeadm/kubectl from `pkgs.k8s.io` stream `v1.36`, **pinned to exactly
+  `K8S_PATCH=1.36.3`** (deterministic `apt-cache madison` version resolution, fails loudly
+  if the patch is absent, `apt-mark hold`, post-install check that all three binaries report
+  v1.36.3). Do NOT bump on install day - 1.36.3 is the frozen baseline the ingress-nginx
+  compatibility exception (§7.1) was decided against;
 - scale sysctls (`gc_thresh*`, inotify, conntrack 2621440, somaxconn 4096);
-- helm (latest), nfs-common, mc/btop/jq QoL.
+- helm **pinned `HELM_VERSION=v4.2.4`** (tarball from get.helm.sh, sha256-verified), nfs-common, mc/btop/jq QoL.
 
 ### 5.2 Master init (on devstats-compute-01)
 
 ```bash
-kubeadm init --apiserver-advertise-address=10.60.0.31 --pod-network-cidr=10.244.0.0/16
+# pre-pull + init against the EXACT pinned patch (never "whatever kubeadm defaults to")
+kubeadm config images pull --kubernetes-version v1.36.3
+kubeadm init --kubernetes-version v1.36.3 \
+  --apiserver-advertise-address=10.60.0.31 --pod-network-cidr=10.244.0.0/16
 mkdir -p $HOME/.kube && cp /etc/kubernetes/admin.conf $HOME/.kube/config
 # pinned flannel release (v0.28.9, §15) - not the moving master-branch manifest
 kubectl apply -f https://github.com/flannel-io/flannel/releases/download/v0.28.9/kube-flannel.yml
 kubectl taint nodes devstats-compute-01 node-role.kubernetes.io/control-plane:NoSchedule-
 ```
+
+Record in the migration log: the resolved Debian package version printed by `node-setup.sh`
+and `kubeadm version -o short` / `kubectl version` / `kubelet --version` from every node.
 
 Join the remaining nodes with the printed `kubeadm join` (or `kubeadm token create --print-join-command`).
 Join via `10.60.0.31` (VPC address), never the public IP. Verify `kubectl get nodes -o wide`
@@ -558,17 +569,61 @@ Quick storage gate: create/delete a 1Gi PVC+pod in both classes (RWO hostpath, R
 
 ## 7. Phase E - ingress, NodeBalancers, cert-manager (day 3-4)
 
-### 7.1 ingress-nginx × 2
+### 7.1 ingress-nginx × 2 (pinned FINAL release + mandatory 1.36 qualification gate)
+
+**Compatibility decision (2026-08-20, after OpenAI Pro review).** ingress-nginx was retired
+upstream on 2026-03-24: chart **4.15.1** / controller **v1.15.1** is the FINAL release, and
+its published support matrix ends at Kubernetes **1.35** - 1.36 was never certified and never
+will be. There is no known 1.36 blocker (the chart declares `kubeVersion: ">=1.21.0-0"`, the
+controller/webhook use only stable `networking.k8s.io/v1` + `admissionregistration.k8s.io/v1`
+APIs, and k8s 1.36 removes nothing we use - `gitRepo` volumes and `Service.spec.externalIPs`
+deprecation don't touch a NodePort+Ingress setup). So we keep ingress-nginx on our pinned
+k8s 1.36.3 as a **locally-validated exception**: absence of certification, not evidence of
+incompatibility - proven on OUR cluster by `test-ingresses.sh` below, which MUST pass before
+any stateful workload lands. If it fails, the cluster holds no state yet: investigate or
+rebuild with k8s 1.35.7 (in-place k8s downgrade is unsupported - that is exactly why this
+gate runs before Patroni). Post-migration TODO: replace ingress-nginx with a maintained
+controller/Gateway API implementation - it receives no further bug/security fixes.
 
 ```bash
-./akamai/install-ingresses.sh
+./akamai/install-ingresses.sh                        # pinned + verified install (below)
+ULIMIT_N=65535 ./k8s/update_ingress_limits.sh
+./akamai/test-ingresses.sh                           # MANDATORY gate - NodePort level
+# after §7.2 + NB IPs recorded in linode-env.sh:
+REQUIRE_NODEBALANCERS=1 ./akamai/test-ingresses.sh   # MANDATORY gate - full NB path
 ```
 
 Identical to OCI (DaemonSet, NodePort, scoped per namespace, `externalTrafficPolicy=Local`):
 
 - `nginx-ingress-prod` → class `nginx-prod`, ns `devstats-prod`, nodeSelector `ingress=prod`, NodePorts 30080/30443;
-- `nginx-ingress-test` → class `nginx-test`, ns `devstats-test`, nodeSelector `ingress=test`, NodePorts 31080/31443;
-- then `ULIMIT_N=65535 ./k8s/update_ingress_limits.sh` (avoids "too many open files").
+- `nginx-ingress-test` → class `nginx-test`, ns `devstats-test`, nodeSelector `ingress=test`, NodePorts 31080/31443.
+
+Hardened vs the plain OCI install (all in `install-ingresses.sh`, versions in `linode-env.sh`):
+
+- chart pinned `--version 4.15.1`; resolved chart `version`/`appVersion` verified pre-install;
+  controller + webhook-certgen images pinned **by digest** (from the official v1.15.1 release
+  notes - re-verify there on install day); `--atomic` installs;
+- distinct controller identities so neither controller can claim the other's class (upstream
+  multi-controller guidance): `nginx-prod` → `devstats.cncf.io/ingress-nginx-prod`,
+  `nginx-test` → `devstats.cncf.io/ingress-nginx-test`, election IDs `nginx-{prod,test}-leader`,
+  `ingressClassByName=true`, `watchIngressWithoutClass=false`;
+- each admission webhook restricted to its own namespace (`namespaceSelector` on
+  `kubernetes.io/metadata.name`) - no cross-validation of the other env's Ingresses;
+- `allowSnippetAnnotations=false` (repo-audited: no DevStats ingress uses snippets) +
+  `enableAnnotationValidations=true`.
+
+`test-ingresses.sh` (run from a node that reaches the VPC IPs, e.g. devstats-master) proves:
+exact server version v1.36.3; both admission webhooks admit plain v1 Ingresses; EndpointSlices
+populate; HTTP+HTTPS routing works through EVERY labeled NodePort backend of both classes;
+classes cannot route each other's hostnames; (with `REQUIRE_NODEBALANCERS=1`) both NBs work
+on 80/443; controller pods survive untouched with no panic/fatal in logs. It uses the
+controllers' own `/healthz` (port 10254) as backend - no external image needed - and cleans up
+after itself.
+
+**Pre-Friday OCI audit** (workstation, current cluster): every live Ingress must resolve to
+class `nginx-prod` or `nginx-test` and none may use snippet annotations:
+`kubectl get ingress -A -o jsonpath='{range .items[*]}{.metadata.namespace}{" "}{.metadata.name}{" "}{.spec.ingressClassName}{"\n"}{end}'`
+plus `kubectl get ingress -A -o yaml | grep -c snippet` (must be 0).
 
 ### 7.2 NodeBalancers (replaces `oci/oci-create-nlbs.sh`)
 
@@ -891,6 +946,9 @@ GHA-backfill, so rollback is cheap in the first days.
 
 ## 13. Day-by-day schedule (2 weeks)
 
+**Superseded for execution by §13.2** (Mon/Fri-only operator availability). The table below
+remains the logical phase ordering; the dates come from §13.2.
+
 | Day | Work |
 |---|---|
 | 0 | DNS TTL → 300 s; Akamai ticket (account limits + G7-512 type ID/stock, §4.1); measure DB sizes on OCI (gate); fresh OCI backups |
@@ -912,10 +970,12 @@ slips, run EVERYTHING on the 4 × 256 first (test env + infra), attach prod node
 
 ### 13.1 Friday fast-track: reserve + full platform install in ONE day (no DevStats yet)
 
-Goal for Friday: all Linodes reserved, Kubernetes + helm + OpenEBS/NFS storage + ingresses +
-NodeBalancers + cert-manager + BOTH Patroni clusters (tuned, empty) running. DevStats itself
-(bootstrap, projects, restores, crons, grafanas) starts afterwards. This compresses plan
-days 1-4 into one; it works because every step is scripted and none of them wait on data.
+**Hard target for Friday**: all Linodes reserved, Kubernetes 1.36.3 + helm + OpenEBS/NFS
+storage + ingresses **qualified by `test-ingresses.sh`** + NodeBalancers + cert-manager.
+**Both Patroni clusters (tuned, empty) are a STRETCH goal** - they slip to Monday without
+consequence (§13.2); do not rush stateful components to satisfy a schedule line. DevStats
+itself (bootstrap, projects, restores, crons, grafanas) starts afterwards. This compresses
+plan days 1-4 into one; it works because every step is scripted and none of them wait on data.
 
 **Prerequisites - MUST be done Mon-Thu (blocking):**
 
@@ -925,7 +985,7 @@ days 1-4 into one; it works because every step is scripted and none of them wait
 - [ ] `linode-cli configure` with a full-scope token; `pip install linode-cli`; jq present.
 - [ ] SSH key pair created + `SSH_PUB_KEY_FILE` set (§4.2); `ROOT_PASS` chosen.
 - [ ] `linode-env.sh` reviewed: `REGION`, `TOPOLOGY`, `FW_MODE` (recommend `open` for now).
-- [ ] Workstation: kubectl v1.36.x + helm 4.2.4 installed (§15).
+- [ ] Workstation: kubectl v1.36.3 + helm v4.2.4 installed (§15).
 - [ ] DNS TTL of devstats.cncf.io/teststats.cncf.io/devstats.cd.foundation/devstats.graphql.org
       lowered to 300 s (cutover is later, but do it now).
 
@@ -937,25 +997,59 @@ days 1-4 into one; it works because every step is scripted and none of them wait
 | 08:30 | quick benchmark on pilots (§4: ping/iperf3/fio one-liners) | <1 ms VPC RTT, NVMe-class IOPS |
 | 09:00 | `./akamai/create-infra.sh rest` | all nodes `running`; `is_compliant: true` on both placement groups |
 | 09:30 | `./akamai/resize-node-disks.sh all` (sequential ~15 min/node; to parallelize run one `./akamai/resize-node-disks.sh <name>` per terminal) | every node boots, `lsblk` shows sdc |
-| 11:00 | `akamai/node-setup.sh` on ALL nodes in parallel (`for h in ...; do ssh root@$h 'bash -s' < akamai/node-setup.sh & done; wait`) | `/data` mounted; containerd running; kubeadm/kubelet v1.36 installed |
-| 12:00 | kubeadm init on devstats-compute-01 + join all workers (§5.2) | `kubectl get nodes` - all Ready |
+| 11:00 | `akamai/node-setup.sh` on ALL nodes in parallel (`for h in ...; do ssh root@$h 'bash -s' < akamai/node-setup.sh & done; wait`) | `/data` mounted; containerd running; kubeadm/kubelet/kubectl report exactly v1.36.3 on every node |
+| 12:00 | kubeadm init (`--kubernetes-version v1.36.3`) on devstats-compute-01 + join all workers (§5.2) | `kubectl get nodes` - all Ready; server version v1.36.3 |
 | 12:30 | 1024-pods dance: flannel SubnetLen 22 + controller-manager mask 22 + kubelet maxPods (§5.3) | every node `capacity.pods: 1024` + /22 podCIDR |
 | 13:00 | `./akamai/label-nodes.sh`; create namespaces; merge kubeconfig contexts prod/test/shared | labels match §1.1; `switch_context.sh` works |
 | 13:15 | OpenEBS 4.5.1 + dynamic-nfs + default SC (§6) | `kubectl get sc` shows openebs-hostpath (default) + nfs-openebs-localstorage |
-| 13:45 | `./akamai/install-ingresses.sh` (both classes) + `./akamai/create-nodebalancers.sh` + cert-manager + issuers (§7) | 2 ingress DaemonSets on right nodes; NB backends healthy (3/3 per NB); `curl --resolve` via NB IPs answers |
+| 13:45 | `./akamai/install-ingresses.sh` (pinned 4.15.1, both classes) + `ULIMIT_N=65535 ./k8s/update_ingress_limits.sh` + `./akamai/create-nodebalancers.sh` + cert-manager + issuers (§7) | 2 ingress DaemonSets on right nodes; NB backends healthy (3/3 per NB) |
+| 14:15 | **MANDATORY 1.36 gate**: `./akamai/test-ingresses.sh`, then `REQUIRE_NODEBALANCERS=1 ./akamai/test-ingresses.sh` (§7.1) | ALL GATES PASSED - only then is anything stateful allowed on the cluster |
 | 14:30 | secrets + PVs: `./akamai/deploy-devstats-{test,prod}.sh secrets`, `... backups-pv`, `... pvcs` (§8/§9 phase 1) | PVCs Bound |
-| 15:00 | Patroni TEST: `./akamai/deploy-devstats-test.sh patroni` then `ENV=test ./akamai/patroni-tune.sh` + member restart | `patronictl list`: 1 leader + 1 replica, streaming |
-| 15:30 | Patroni PROD: `./akamai/deploy-devstats-prod.sh patroni` then `ENV=prod ./akamai/patroni-tune.sh` + restart | `patronictl list`: leader + 2 replicas; `psql -c 'show shared_buffers'` = 128GB (512-node) / 64GB (256-node) |
+| 15:00 | STRETCH - Patroni TEST: `./akamai/deploy-devstats-test.sh patroni` then `ENV=test ./akamai/patroni-tune.sh` + member restart | `patronictl list`: 1 leader + 1 replica, streaming |
+| 15:30 | STRETCH - Patroni PROD: `./akamai/deploy-devstats-prod.sh patroni` then `ENV=prod ./akamai/patroni-tune.sh` + restart | `patronictl list`: leader + 2 replicas; `psql -c 'show shared_buffers'` = 128GB (512-node) / 64GB (256-node) |
 | 16:00 | done - platform complete, empty | snapshot `kubectl get all -A | wc -l`; write down NB IPs |
 
-Slippable to Saturday without consequence: NodeBalancers + cert-manager (nothing needs
-public traffic until restores are served), and the prod patroni tune restart. NOT slippable:
-disk resize before any PVC exists (§4), maxPods/flannel /22 before any workload lands.
+Slippable to Monday without consequence (§13.2): secrets/PVCs and both Patroni installs.
+Slippable to Saturday: cert-manager issuers (nothing needs public traffic until restores are
+served). NOT slippable: disk resize before any PVC exists (§4), maxPods/flannel /22 before any
+workload lands, and the `test-ingresses.sh` gate before anything stateful.
 
 Common Friday failure modes: G7 capacity error on create (→ ticket escalation, §4.1);
 `linode-cli` action-name drift (every call is also a 1-liner in Cloud Manager UI - §4.1
 step 5 documents the exact UI path); flannel pods crash-looping after SubnetLen edit
 (delete the flannel DS pods + cni0/flannel.1 on each node exactly as §5.3, order matters).
+
+### 13.2 Operative calendar: Mon/Fri-only availability (revised 2026-08-20)
+
+Operator constraint: CNCF work only on **Mondays and Fridays**; Sat/Sun available for
+passive monitoring and minor fixes only; **Tue-Wed-Thu strictly unavailable** (LF/EasyCLA).
+The calendar therefore plans NO migration work on Tue-Thu - those days carry only unattended,
+durable workloads (Kubernetes `Jobs`, tmux/systemd/nohup runners with logs + status files -
+never an interactive SSH loop that dies with the session).
+
+| Date | Work |
+|---|---|
+| Thu Aug 20 | Prep only (no Linodes): DNS TTL → 300 s; Akamai capacity/limits confirmed; token/SSH keys/secrets staged; fresh OCI backups; pre-Friday OCI Ingress audit (§7.1); version pins reviewed |
+| **Fri Aug 21** | Reserve ALL nodes (no waiting for scarce 512s - `TOPOLOGY=8x256` if unconfirmed by morning, §4.1); resize disks; `node-setup.sh`; **k8s 1.36.3 exact**; flannel /22 + maxPods 1024; OpenEBS/NFS smoke; pinned ingress-nginx; NodeBalancers; **`test-ingresses.sh` gates MUST pass** (§13.1) |
+| Sat-Sun Aug 22-23 | Passive monitoring + bounded deterministic fixes only; no DNS, no OCI cron changes, no bulk migration |
+| **Mon Aug 24** | Finish platform stragglers; test+prod Patroni (exact OCI image) + tune + failover check; restore affiliations first, then 12 test DBs; deploy prod bootstrap; **start `gha` + `allprj`**, launch ALL remaining restores as durable Jobs (~6-10 concurrent); start backups-PV pre-seed; all Linode crons stay suspended |
+| Tue-Thu Aug 25-27 | Unattended restore Jobs + backup copy only; OCI remains authoritative; failures wait for Friday unless safely self-retrying |
+| **Fri Aug 28** | Reconcile restore inventory, re-run failures; full validation (§10): Patroni switchover/leader-kill, FDW, Grafana/API/statics, one manual sync, Linode-native backup + `pg_restore --list`; final OCI delta (measured, NOT a full 240-DB re-restore); flip `FW_MODE=allowlist` + verify (§16); **go/no-go 13:00, DNS cutover by 15:00 Europe/Warsaw** - else fall back to Sep 4 |
+| Sat-Sun Aug 29-30 | Soak: syncs, affiliations, Patroni lag, certs/ingress, disk growth, backups; major failure ⇒ DNS rollback to OCI (crons re-enabled there) |
+| **Mon Aug 31** | OCI teardown ONLY after 15:00, ONLY with: clean 72 h soak, no unexplained sync failures, negligible replica lag, proven failover, inspected Linode backup, stable certs, sign-off (§12). Otherwise keep OCI |
+| Fri Sep 4 | Fallback cutover window if Aug 28 missed its gate |
+| Mon Sep 7 | Earliest teardown after the fallback cutover |
+
+Hard rules derived from the availability constraint:
+
+- **Never cut DNS on a Monday** - the new production would face its first critical days
+  (Tue-Thu) unattended. Cutover happens Friday morning/early-afternoon or not at all that week.
+- If the Fri Aug 28 gate is missed, do NOT delete OCI on Aug 31 to satisfy the calendar - the
+  overlap cost of keeping OCI into September is smaller than losing the only rollback path.
+- Pre-seed the new backups PVC (copy the OCI dump tree) BEFORE the DNS flip, so
+  `devstats.cncf.io/backups/` never resolves to an empty volume after cutover.
+- Friday Aug 21's only non-negotiable outcome is the qualified stateless platform (through the
+  `test-ingresses.sh` gates); Patroni is Monday's job if Friday runs long.
 
 ---
 
@@ -1044,23 +1138,26 @@ Linode our PATCH + rolling restart applies 48GB for real), `work_mem 4GB → 1GB
 
 ---
 
-## 15. Version matrix ("newest" policy)
+## 15. Version matrix (FROZEN migration baseline)
 
-Install the newest stable of each at execution time. Column 3 = newest as of 2026-08-18
-(re-check on install day); column 2 = live-verified on the OCI cluster:
+**Policy revised 2026-08-20** (was "newest at execution time"): the baseline below is now
+**FROZEN** - install exactly these versions on install day, do not bump. Reasons: (a) the
+ingress-nginx compatibility exception (§7.1) was decided against exactly k8s 1.36.3; (b) a
+provider+OS+storage+network migration should not also absorb surprise version drift between
+plan review and execution. Column 2 = live-verified on the OCI cluster:
 
-| Component | OCI today (live-verified) | Linode target (newest, 2026-08-18) |
+| Component | OCI today (live-verified) | Linode target (FROZEN 2026-08-20) |
 |---|---|---|
 | Ubuntu | 24.04.3 LTS | **26.04 LTS** (mandatory; custom image upload if not in catalog) |
-| Kubernetes | v1.35.0 | **v1.36.3** (`pkgs.k8s.io` stream `v1.36`, `K8S_STREAM` in linode-env.sh) |
+| Kubernetes | v1.35.0 | **v1.36.3 exactly** (`K8S_STREAM=v1.36` + `K8S_PATCH=1.36.3`; deterministic apt pin + hold + verify in `node-setup.sh`) |
 | containerd / runc / crictl | 2.1.4 / 1.3.0 / 1.34.0 | **2.3.4 / 1.5.1 (distro pkg ok) / v1.36.0** |
 | flannel | v0.27.4 | **v0.28.9** (pinned release manifest URL, §5.2) |
-| helm | 4.0.4 | **4.2.4** |
-| OpenEBS | 3.10.0 | **4.5.1** (umbrella chart; enable only localpv hostpath - see §6 note) |
+| helm | 4.0.4 | **v4.2.4** (pinned tarball, sha256-verified - `HELM_VERSION`/`HELM_SHA256`) |
+| OpenEBS | 3.10.0 | **4.5.1** (umbrella chart; enable only localpv hostpath - see §6 note; strict troubleshooting time-box: if RWO/RWX smoke tests aren't immediately clean → OCI-proven 3.10.0 fallback) |
 | OpenEBS dynamic-nfs | 0.11.0 | **0.11.0** (still the latest release; unchanged) |
-| ingress-nginx chart | 4.13.3 (controller v1.13.3) | **4.15.1** |
-| cert-manager | v1.19.2 | **v1.21.1** |
-| PostgreSQL / Patroni | 18.1 / 4.1.0 (`devstats-patroni-18-hll`, hll 2.19, postgres_fdw local-socket) | same image family; newest = **PG 18.6 / patroni 4.1.5** - rebuild `devstats-docker-images/images/Dockerfile.patroni.18` right before migration, or reuse the exact current image (restores are pg_dump-based, minor-version mismatch is a non-issue) |
+| ingress-nginx chart | 4.13.3 (controller v1.13.3) | **4.15.1 (controller v1.15.1) - FINAL upstream release** (project retired 2026-03-24; certified matrix ends at k8s 1.35 → running on 1.36.3 is a locally-validated exception, mandatory gate `akamai/test-ingresses.sh`, §7.1; images pinned by digest; replace controller post-migration) |
+| cert-manager | v1.19.2 | **v1.21.1** (supported/tested on k8s 1.36) |
+| PostgreSQL / Patroni | 18.1 / 4.1.0 (`devstats-patroni-18-hll`, hll 2.19, postgres_fdw local-socket) | **exact same image - DECIDED: do NOT rebuild to PG 18.6/patroni 4.1.5 during the migration** (one variable less; restores are pg_dump-based so nothing is lost; rebuild via `devstats-docker-images/images/Dockerfile.patroni.18` as a post-migration task) |
 | Grafana | 8.5.27 (custom image) | unchanged (do not upgrade during migration) |
 
 **OpenEBS 4.x note**: the 4.x umbrella chart bundles Mayastor/replicated storage AND a
@@ -1154,10 +1251,16 @@ export FW_MODE=allowlist ADMIN_CIDRS="203.0.113.7/32"   # your IPs
 ./akamai/create-firewall.sh detach   # instant rollback to Option A
 ```
 
-**Recommendation**: migrate with Option A (identical-to-OCI behavior removes one variable);
-flip to Option B in the soak week (day 12-13) once NodeBalancer/VPC paths are proven - test
-on ONE node first (`linode-cli firewalls device-create <fw> --id <one-node> --type linode`),
-verify SSH/kubectl/NB, then attach the rest.
+**Recommendation (revised 2026-08-20, OpenAI Pro review)**: provision with Option A
+(identical-to-OCI behavior removes one variable while building), but do NOT stay open through
+cutover. Safer low-risk sequence: (1) build the platform open; (2) prove VPC NodeBalancer
+connectivity - all NB backends healthy + §7.1 gates passed; (3) flip to Option B **before
+exposing production workloads / before the DNS cutover** - even with the default
+`ADMIN_CIDRS=0.0.0.0/0` this closes public kubelet, etcd and NodePorts while leaving only
+SSH + kube-apiserver reachable, and the vpc-* rules preserve all cluster-internal traffic.
+Test on ONE node first (`linode-cli firewalls device-create <fw> --id <one-node> --type
+linode`), verify SSH/kubectl/NB, then attach the rest; `./akamai/create-firewall.sh detach`
+is the instant rollback.
 
 ### Other post-migration hardening (optional)
 
@@ -1172,6 +1275,7 @@ verify SSH/kubectl/NB, then attach the rest.
 
 | Risk | Mitigation |
 |---|---|
+| ingress-nginx (retired, final release) never certified on k8s 1.36 | pinned final chart 4.15.1/controller v1.15.1 by digest; mandatory `test-ingresses.sh` runtime gate BEFORE any stateful workload (§7.1) - failure leaves a stateless cluster that can be rebuilt with k8s 1.35.7; post-migration: replace with a maintained controller/Gateway API |
 | G7-512 limited availability (not in public catalog) | Akamai ticket day 0; **primary fallback: `TOPOLOGY=8x256` (§1.4) - orderable today, prod DB (1.77 TB, gate-verified) fits 256 GB nodes' 4500Gi PVC with 2× headroom**; last resort 7x256 or g8-dedicated-512-256 |
 | Post-shrink prod DB > 5.5 TB | gate 3.1 fails → renegotiate (4th 512 node changes nothing - capacity is per-node; need bigger plan or split DBs) |
 | Local-disk perf worse than OCI NVMe RAID-10 | pilot fio/pgbench gate (phase B); Patroni params already downsized; if unacceptable → escalate to Akamai before building everything |
@@ -1205,7 +1309,8 @@ unchanged). Passwords: reuse existing (same DB contents) - rotation optional pos
 | `resize-node-disks.sh [node\|all]` | shrink root→150 GB, drop swap, create+attach ext4 `data` disk | `mdadm` RAID-10 section |
 | `node-setup.sh` | full per-node OS + containerd + kubeadm/kubelet/kubectl + sysctls + /data layout | README "Shared steps" |
 | `label-nodes.sh` | apply node/node2/ingress labels per section 1.1 (auto-detects compute-03) | README label loop |
-| `install-ingresses.sh` | both ingress-nginx releases with exact OCI flags/NodePorts | README nginx-ingress section |
+| `install-ingresses.sh` | both ingress-nginx releases with exact OCI flags/NodePorts, PINNED final chart 4.15.1 + digest-pinned images + distinct controller identities + webhook namespace isolation (§7.1) | README nginx-ingress section |
+| `test-ingresses.sh` | MANDATORY k8s 1.36.3 ↔ ingress-nginx v1.15.1 runtime qualification gate: webhook admission, EndpointSlices, HTTP/HTTPS via every NodePort backend, class isolation, NB path (`REQUIRE_NODEBALANCERS=1`), pod stability + log scan (§7.1) | new (OpenAI Pro review, 2026-08-20) |
 | `create-firewall.sh [apply\|detach]` | firewall Option A/B per §16 (`FW_MODE=open\|allowlist`), attach/detach all nodes | OCI NSGs (allow-all) |
 | `create-nodebalancers.sh` | 2 NodeBalancers, TCP 80/443 → NodePorts, ingress-node backends | `oci/nlb-setup.sh`, `oci/oci-create-nlbs.sh` |
 | `patroni-tune.sh` (`ENV=prod\|test`) | PATCH Patroni /config with Linode-sized parameters (baseline = live OCI config captured 2026-08-18; honors `PROD_DB_NODE_GB`) | README curl PATCH blocks |

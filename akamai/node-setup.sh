@@ -4,7 +4,7 @@
 #   - /data on the plan-local "data" disk (created by resize-node-disks.sh, attached as /dev/sdc)
 #   - /etc/hosts for all VPC addresses incl. compute-03 (+ devstats-master alias)
 #   - containerd + runc + crictl, SystemdCgroup
-#   - kubelet/kubeadm/kubectl from pkgs.k8s.io ${K8S_STREAM}, held
+#   - kubelet/kubeadm/kubectl from pkgs.k8s.io ${K8S_STREAM}, pinned to exact ${K8S_PATCH}, held
 #   - swap off, bridge/netfilter modules, forwarding, scale sysctls
 #   - helm, nfs-common, QoL packages
 # Run as root on EVERY node:
@@ -16,6 +16,9 @@ set -euo pipefail
 # shellcheck disable=SC1091
 [ -f ./linode-env.sh ] && source ./linode-env.sh
 K8S_STREAM="${K8S_STREAM:-v1.36}"
+K8S_PATCH="${K8S_PATCH:-1.36.3}"
+HELM_VERSION="${HELM_VERSION:-v4.2.4}"
+HELM_SHA256="${HELM_SHA256:-c306b46f719b0a4da32d0f78ee21bf90ce8d602f15b22ab753f0674d1670a7f3}"
 CONTAINERD_VERSION="${CONTAINERD_VERSION:-2.3.4}"
 CRICTL_VERSION="${CRICTL_VERSION:-v1.36.0}"
 DATA_DEV="${DATA_DEV:-/dev/sdc}"
@@ -134,18 +137,49 @@ debug: false
 YAML
 crictl info >/dev/null && echo "crictl wired to containerd"
 
-echo "=== [8] kubelet/kubeadm/kubectl (${K8S_STREAM}) ==="
+echo "=== [8] kubelet/kubeadm/kubectl (${K8S_STREAM} stream, pinned to exactly ${K8S_PATCH}) ==="
 mkdir -p -m 755 /etc/apt/keyrings
 if [ ! -f "/etc/apt/keyrings/kubernetes-${K8S_STREAM}.gpg" ]; then
   curl -fsSL "https://pkgs.k8s.io/core:/stable:/${K8S_STREAM}/deb/Release.key" | gpg --dearmor -o "/etc/apt/keyrings/kubernetes-${K8S_STREAM}.gpg"
   echo "deb [signed-by=/etc/apt/keyrings/kubernetes-${K8S_STREAM}.gpg] https://pkgs.k8s.io/core:/stable:/${K8S_STREAM}/deb/ /" > "/etc/apt/sources.list.d/kubernetes-${K8S_STREAM/v/}.list"
 fi
 apt-get update
-apt-get install -y kubelet kubeadm kubectl
+# deterministic install: resolve the exact Debian package version for K8S_PATCH and fail
+# loudly if it is missing - never let "whatever is newest today" onto a node
+K8S_PACKAGE_VERSION="$(
+  apt-cache madison kubeadm |
+    awk -v prefix="${K8S_PATCH}-" 'index($3, prefix) == 1 { print $3; exit }'
+)"
+if [ -z "${K8S_PACKAGE_VERSION}" ]; then
+  echo "Kubernetes package ${K8S_PATCH} not found in the ${K8S_STREAM} apt stream:"
+  apt-cache madison kubeadm || true
+  exit 1
+fi
+echo "resolved apt package version: ${K8S_PACKAGE_VERSION}"
+apt-get install -y --allow-change-held-packages \
+  kubelet="${K8S_PACKAGE_VERSION}" kubeadm="${K8S_PACKAGE_VERSION}" kubectl="${K8S_PACKAGE_VERSION}"
 apt-mark hold kubelet kubeadm kubectl
+# verify all three report exactly v${K8S_PATCH}
+KUBEADM_V="$(kubeadm version -o short)"
+KUBECTL_V="$(kubectl version --client 2>/dev/null | awk '/Client Version/{print $NF; exit}')"
+KUBELET_V="$(kubelet --version | awk '{print $2}')"
+for v in "kubeadm:${KUBEADM_V}" "kubectl:${KUBECTL_V}" "kubelet:${KUBELET_V}"; do
+  case "${v}" in
+    *":v${K8S_PATCH}") echo "${v} OK" ;;
+    *) echo "VERSION MISMATCH: ${v}, expected v${K8S_PATCH}"; exit 1 ;;
+  esac
+done
 
-echo "=== [9] helm (latest) ==="
-command -v helm >/dev/null || curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-4 | bash
+echo "=== [9] helm ${HELM_VERSION} (pinned, sha256-verified) ==="
+if [ "$(helm version --template '{{.Version}}' 2>/dev/null || true)" != "${HELM_VERSION}" ]; then
+  curl -fsSL -o /tmp/helm.tgz "https://get.helm.sh/helm-${HELM_VERSION}-linux-amd64.tar.gz"
+  if [ -n "${HELM_SHA256}" ]; then
+    echo "${HELM_SHA256}  /tmp/helm.tgz" | sha256sum -c - || { echo "helm tarball sha256 mismatch - re-verify HELM_SHA256 in linode-env.sh against get.helm.sh"; exit 1; }
+  fi
+  tar -C /tmp -xzf /tmp/helm.tgz linux-amd64/helm
+  install -m 0755 /tmp/linux-amd64/helm /usr/local/bin/helm
+  rm -rf /tmp/helm.tgz /tmp/linux-amd64
+fi
 helm version || true
 
 echo
@@ -153,6 +187,7 @@ echo "Node prepared. Versions:"
 containerd --version; crictl --version; kubeadm version -o short; kubectl version --client 2>/dev/null | head -1
 echo
 echo "Next:"
-echo "  - on devstats-compute-01 only:  kubeadm init --apiserver-advertise-address=10.60.0.31 --pod-network-cidr=10.244.0.0/16"
+echo "  - on devstats-compute-01 only:  kubeadm config images pull --kubernetes-version v${K8S_PATCH}"
+echo "                                  kubeadm init --kubernetes-version v${K8S_PATCH} --apiserver-advertise-address=10.60.0.31 --pod-network-cidr=10.244.0.0/16"
 echo "  - on the others:                kubeadm join 10.60.0.31:6443 ... (from 'kubeadm token create --print-join-command')"
 echo "  - then flannel /22 + maxPods 1024 + labels (plan sections 5.3-5.4)"
