@@ -673,7 +673,10 @@ populate; HTTP+HTTPS routing works through EVERY labeled NodePort backend of bot
 classes cannot route each other's hostnames; (with `REQUIRE_NODEBALANCERS=1`) both NBs work
 on 80/443; controller pods survive untouched with no panic/fatal in logs. It uses the
 controllers' own `/healthz` (port 10254) as backend - no external image needed - and cleans up
-after itself.
+after itself. All data-plane probes go through path `/gate` (rewrite-target `/healthz`), never
+`/healthz` directly: the controller's catch-all server special-cases `location /healthz` and
+returns 200 for ANY Host even with zero Ingresses (cloud-LB health checks), which would make
+routing and isolation checks pass vacuously (found live on 2026-08-21).
 
 **Pre-Friday OCI audit** (workstation, current cluster): every live Ingress must resolve to
 class `nginx-prod` or `nginx-test` and none may use snippet annotations:

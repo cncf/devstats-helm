@@ -15,8 +15,13 @@
 set -uo pipefail
 
 AKAMAI_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# secret-bearing env lives as linode-env.sh.secret (repo rule: sensitive files end in .secret)
 # shellcheck disable=SC1091
-source "${AKAMAI_DIR}/linode-env.sh"
+if [ -f "${AKAMAI_DIR}/linode-env.sh.secret" ]; then
+  source "${AKAMAI_DIR}/linode-env.sh.secret"
+else
+  source "${AKAMAI_DIR}/linode-env.sh"
+fi
 
 REQUIRE_NODEBALANCERS="${REQUIRE_NODEBALANCERS:-0}"
 CURL_TIMEOUT="${CURL_TIMEOUT:-10}"
@@ -72,20 +77,26 @@ spec:
   ports:
   - { name: healthz, port: 10254, targetPort: 10254 }
 EOF
-  # creating this v1 Ingress IS the admission-webhook acceptance test on k8s 1.36
+  # creating this v1 Ingress IS the admission-webhook acceptance test on k8s 1.36.
+  # Expose /gate (rewritten to the backend's /healthz), NEVER /healthz itself: the
+  # controller's catch-all server special-cases 'location /healthz' and returns 200
+  # for ANY Host even with zero Ingresses (cloud-LB health checks), which would make
+  # every routing and isolation probe below pass vacuously.
   kubectl -n "${ns}" apply -f - <<EOF
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ${SMOKE}
   labels: { app: ${SMOKE} }
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /healthz
 spec:
   ingressClassName: ${class}
   rules:
   - host: ${host}
     http:
       paths:
-      - path: /healthz
+      - path: /gate
         pathType: Prefix
         backend:
           service:
@@ -131,7 +142,7 @@ check_env() { # name ns class release host http_port https_port backends...
   deadline=$((SECONDS + READY_TIMEOUT))
   code="000"
   while [ ${SECONDS} -lt ${deadline} ]; do
-    code="$(http_code "${host}" "${http_port}" "${backends[0]}" /healthz)"
+    code="$(http_code "${host}" "${http_port}" "${backends[0]}" /gate)"
     [ "${code}" = "200" ] && break
     sleep 3
   done
@@ -144,10 +155,10 @@ check_env() { # name ns class release host http_port https_port backends...
 
   echo "=== [${name}] every NodePort backend, HTTP ${http_port} + HTTPS ${https_port} ==="
   for ip in "${backends[@]}"; do
-    code="$(http_code "${host}" "${http_port}" "${ip}" /healthz)"
+    code="$(http_code "${host}" "${http_port}" "${ip}" /gate)"
     if [ "${code}" = "200" ]; then pass "[${name}] http://${ip}:${http_port} -> 200"
     else fail "[${name}] http://${ip}:${http_port} -> ${code}"; fi
-    code="$(https_code "${host}" "${https_port}" "${ip}" /healthz)"
+    code="$(https_code "${host}" "${https_port}" "${ip}" /gate)"
     if [ "${code}" = "200" ]; then pass "[${name}] https://${ip}:${https_port} -> 200"
     else fail "[${name}] https://${ip}:${https_port} -> ${code}"; fi
   done
@@ -155,7 +166,8 @@ check_env() { # name ns class release host http_port https_port backends...
 
 check_isolation() { # name host other_name other_http_port other_backend
   local name="$1" host="$2" other="$3" port="$4" ip="$5" code
-  code="$(http_code "${host}" "${port}" "${ip}" /healthz)"
+  # /gate, never /healthz: /healthz is answered 200 by every controller for any Host
+  code="$(http_code "${host}" "${port}" "${ip}" /gate)"
   if [ "${code}" = "200" ]; then
     fail "[isolation] ${other} controller served ${name}'s host ${host} - class separation broken"
   else
@@ -165,10 +177,10 @@ check_isolation() { # name host other_name other_http_port other_backend
 
 check_nodebalancer() { # name nb_ip host
   local name="$1" nb_ip="$2" host="$3" code
-  code="$(http_code "${host}" 80 "${nb_ip}" /healthz)"
+  code="$(http_code "${host}" 80 "${nb_ip}" /gate)"
   if [ "${code}" = "200" ]; then pass "[${name}] NB http://${nb_ip}:80 -> 200"
   else fail "[${name}] NB http://${nb_ip}:80 -> ${code}"; fi
-  code="$(https_code "${host}" 443 "${nb_ip}" /healthz)"
+  code="$(https_code "${host}" 443 "${nb_ip}" /gate)"
   if [ "${code}" = "200" ]; then pass "[${name}] NB https://${nb_ip}:443 -> 200"
   else fail "[${name}] NB https://${nb_ip}:443 -> ${code}"; fi
 }

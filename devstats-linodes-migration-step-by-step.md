@@ -1009,8 +1009,11 @@ investigate, or rebuild the control plane with k8s 1.35.7 (in-place downgrade is
 cd /root/devstats-helm && source linodes.env.secret
 kubectl version | grep Server        # must report exactly v${K8S_PATCH}
 
-# per env: temp Service -> the controller's own /healthz (10254), temp Ingress, curl through
-# EVERY NodePort backend over HTTP and HTTPS, then prove class isolation, then clean up.
+# per env: temp Service -> the controller's own /healthz (10254), temp Ingress on /gate with a
+# rewrite to /healthz, curl through EVERY NodePort backend (HTTP+HTTPS), isolation, clean up.
+# NEVER probe /healthz through the data plane: the controller's catch-all server special-cases
+# 'location /healthz' and answers 200 for ANY Host even with ZERO Ingresses (LB health checks).
+# Only /gate proves real Ingress routing: wrong host/class falls to the catch-all -> 404.
 gate_env () { # ctx ns class host httpport httpsport backends...
   local ctx="$1" ns="$2" class="$3" host="$4" hp="$5" sp="$6"; shift 6
   kubectl config use-context "$ctx"
@@ -1022,14 +1025,16 @@ spec:
   selector: {app.kubernetes.io/name: ingress-nginx, app.kubernetes.io/component: controller}
   ports: [{port: 80, targetPort: 10254}]
 SVC
-  kubectl -n "$ns" create ingress ingress-smoke --class="$class" --rule="${host}/*=ingress-smoke:80" \
+  kubectl -n "$ns" create ingress ingress-smoke --class="$class" \
+    --annotation nginx.ingress.kubernetes.io/rewrite-target=/healthz \
+    --rule="${host}/gate*=ingress-smoke:80" \
     || { echo "ADMISSION WEBHOOK FAILED in $ns - GATE FAILED"; return 1; }
   sleep 15
   local ip rc
   for ip in "$@"; do
-    rc="$(curl -s -o /dev/null -w '%{http_code}' -H "Host: ${host}" "http://${ip}:${hp}/healthz")"
+    rc="$(curl -s -o /dev/null -w '%{http_code}' -H "Host: ${host}" "http://${ip}:${hp}/gate")"
     echo "HTTP  ${ip}:${hp} -> ${rc}";  [ "$rc" = "200" ] || { echo GATE FAILED; return 1; }
-    rc="$(curl -sk -o /dev/null -w '%{http_code}' -H "Host: ${host}" "https://${ip}:${sp}/healthz")"
+    rc="$(curl -sk -o /dev/null -w '%{http_code}' -H "Host: ${host}" "https://${ip}:${sp}/gate")"
     echo "HTTPS ${ip}:${sp} -> ${rc}"; [ "$rc" = "200" ] || { echo GATE FAILED; return 1; }
   done
 }
@@ -1037,8 +1042,9 @@ gate_env test devstats-test nginx-test smoke.test.local 31080 31443 $TEST_INGRES
 gate_env prod devstats-prod nginx-prod smoke.prod.local 30080 30443 $PROD_INGRESS_BACKEND_VPC_IPS
 
 # class isolation: the OTHER env's host must NOT be served (expect 404, never 200)
-curl -s -o /dev/null -w 'isolation prod-host-via-test: %{http_code}\n' -H 'Host: smoke.prod.local' http://10.60.0.32:31080/healthz
-curl -s -o /dev/null -w 'isolation test-host-via-prod: %{http_code}\n' -H 'Host: smoke.test.local' http://10.60.0.31:30080/healthz
+# probe /gate, NOT /healthz - /healthz is answered 200 by every controller for any Host
+curl -s -o /dev/null -w 'isolation prod-host-via-test: %{http_code}\n' -H 'Host: smoke.prod.local' http://10.60.0.32:31080/gate
+curl -s -o /dev/null -w 'isolation test-host-via-prod: %{http_code}\n' -H 'Host: smoke.test.local' http://10.60.0.31:30080/gate
 
 # NodeBalancer path (from the workstation OR master - NBs are public):
 curl -sI "http://$PROD_NB_IP/" | head -1   # any nginx answer (404) = NB->NodePort->controller OK
