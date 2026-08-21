@@ -1221,6 +1221,7 @@ S+=",postgresStorageSize=${PROD_POSTGRES_STORAGE},dbNodeSelector.node2=devstats-
 S+=",requestsPostgresCPU=${PROD_PG_REQ_CPU},requestsPostgresMemory=${PROD_PG_REQ_MEM}"
 S+=",limitsPostgresCPU=${PROD_PG_LIM_CPU},limitsPostgresMemory=${PROD_PG_LIM_MEM}"
 S+=",${PROD_PG_TUNE}"
+echo $S
 helm install devstats-prod-patroni ./devstats-helm -n devstats-prod --set "$S"
 kubectl -n devstats-prod get po -o wide -w | grep postgres   # Ctrl-C when 3/3 Running
 kubectl exec -itn devstats-prod devstats-postgres-0 -c devstats-postgres -- patronictl list   # 1 leader + 2 replicas
@@ -1231,6 +1232,7 @@ PARAMS+='"postgresql":{"use_pg_rewind":true,"use_slots":true,"parameters":{'
 PARAMS+='"max_connections":1024,"max_worker_processes":32,"max_wal_senders":10,'
 PARAMS+='"max_replication_slots":10,"wal_level":"replica","wal_log_hints":"on","hot_standby":"on",'
 PARAMS+='"wal_keep_size":"100GB","password_encryption":"scram-sha-256","checkpoint_timeout":"15min"}}}'
+echo $PARAMS
 echo "$PARAMS" | jq . >/dev/null && echo "PARAMS JSON OK"
 kubectl exec -n devstats-prod devstats-postgres-0 -c devstats-postgres -- \
   curl -s -X PATCH -H 'Content-Type: application/json' -d "$PARAMS" http://localhost:8008/config
@@ -1255,6 +1257,7 @@ until kubectl exec -n devstats-prod devstats-postgres-0 -c devstats-postgres -- 
 kubectl exec -itn devstats-prod devstats-postgres-0 -c devstats-postgres -- patronictl list
 kubectl exec -itn devstats-prod devstats-postgres-0 -c devstats-postgres -- patronictl switchover devstats-postgres --candidate devstats-postgres-0 --force
 kubectl exec -itn devstats-prod devstats-postgres-0 -c devstats-postgres -- patronictl list    # leader = devstats-postgres-0
+echo 'done'
 ```
 
 **Part 1 done** - full platform is up (nodes, k8s, storage, ingress+NB, certs pending DNS,
