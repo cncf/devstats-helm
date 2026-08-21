@@ -309,6 +309,7 @@ while read -r label id pub; do
 done < <(linode-cli linodes list --json | jq -r '.[] | select(.tags | index("devstats")) | "\(.label) \(.id) \(.ipv4[0])"')
 sv MASTER_IP "$PUB_DEVSTATS_COMPUTE_01"
 sv NODE_PUB_IPS "$PUB_DEVSTATS_PROD_DB_01 $PUB_DEVSTATS_PROD_DB_02 $PUB_DEVSTATS_PROD_DB_03 $PUB_DEVSTATS_TEST_DB_01 $PUB_DEVSTATS_TEST_DB_02 $PUB_DEVSTATS_COMPUTE_01 $PUB_DEVSTATS_COMPUTE_02 $PUB_DEVSTATS_COMPUTE_03"
+sv ALL_VPC_IPS "10.60.0.11 10.60.0.12 10.60.0.13 10.60.0.21 10.60.0.22 10.60.0.31 10.60.0.32 10.60.0.33"
 ```
 
 ### 1.5 Disk re-layout on every node (BEFORE installing anything) [workstation]
@@ -1176,7 +1177,8 @@ PARAMS+='"maximum_lag_on_failover":53687091200,'
 PARAMS+='"postgresql":{"use_pg_rewind":true,"use_slots":true,"parameters":{'
 PARAMS+='"max_connections":1024,"max_worker_processes":16,"max_wal_senders":10,'
 PARAMS+='"max_replication_slots":10,"wal_level":"replica","wal_log_hints":"on",'
-PARAMS+='"hot_standby":"on","wal_keep_size":"50GB","password_encryption":"scram-sha-256"}}}'
+PARAMS+='"hot_standby":"on","wal_keep_size":"50GB","max_slot_wal_keep_size":"100GB",'
+PARAMS+='"password_encryption":"scram-sha-256"}}}'
 echo "$PARAMS" | jq . >/dev/null && echo "PARAMS JSON OK"
 kubectl exec -n devstats-test devstats-postgres-0 -c devstats-postgres -- \
   curl -s -X PATCH -H 'Content-Type: application/json' -d "$PARAMS" http://localhost:8008/config
@@ -1231,7 +1233,8 @@ PARAMS+='"maximum_lag_on_failover":53687091200,'
 PARAMS+='"postgresql":{"use_pg_rewind":true,"use_slots":true,"parameters":{'
 PARAMS+='"max_connections":1024,"max_worker_processes":32,"max_wal_senders":10,'
 PARAMS+='"max_replication_slots":10,"wal_level":"replica","wal_log_hints":"on","hot_standby":"on",'
-PARAMS+='"wal_keep_size":"100GB","password_encryption":"scram-sha-256","checkpoint_timeout":"15min"}}}'
+PARAMS+='"wal_keep_size":"100GB","max_slot_wal_keep_size":"200GB",'
+PARAMS+='"password_encryption":"scram-sha-256","checkpoint_timeout":"15min"}}}'
 echo $PARAMS
 echo "$PARAMS" | jq . >/dev/null && echo "PARAMS JSON OK"
 kubectl exec -n devstats-prod devstats-postgres-0 -c devstats-postgres -- \
@@ -1260,8 +1263,35 @@ kubectl exec -itn devstats-prod devstats-postgres-0 -c devstats-postgres -- patr
 echo 'done'
 ```
 
+### 1.22 Log/WAL retention caps - nothing may grow unbounded [master]
+
+Already-bounded by design (verify, don't change): container logs incl. PostgreSQL/Patroni
+(image logs to stderr, `logging_collector=off` -> kubelet caps at 10Mi x 5 files per
+container), etcd (2GB backend quota, lives on /data), `temp_file_limit` (§1.20/§1.21),
+`archive_mode=off` (no WAL archive pile-up). The DCS PATCHes above already include
+`max_slot_wal_keep_size` (100GB test / 200GB prod) - WITHOUT it a dead replica pins WAL
+via its replication slot (`use_slots=true`) until the LEADER's disk fills = full outage;
+PG default is -1 = unlimited. Reloadable, no restart. What remains is OS log caps, on ALL 8:
+
+```bash
+cd /root/devstats-helm && source linodes.env.secret
+for ip in $ALL_VPC_IPS; do ssh root@$ip '
+mkdir -p /etc/systemd/journald.conf.d
+printf "[Journal]\nSystemMaxUse=2G\nRuntimeMaxUse=512M\nMaxRetentionSec=2week\nSystemKeepFree=5%%\n" > /etc/systemd/journald.conf.d/00-devstats.conf
+systemctl restart systemd-journald
+sed -i "s/^\tweekly$/\tdaily/; s/^\trotate 4$/\trotate 7/" /etc/logrotate.d/rsyslog
+grep -q maxsize /etc/logrotate.d/rsyslog || sed -i "/^\tdaily$/a\\\tmaxsize 500M" /etc/logrotate.d/rsyslog
+echo "$(hostname): $(grep -cE "daily|rotate 7|maxsize 500M" /etc/logrotate.d/rsyslog)/3 journald=$(systemctl is-active systemd-journald)"
+'; done
+# expect from every node: 3/3 journald=active
+# verify slot cap runtime (every member, both envs):
+for ns in devstats-test devstats-prod; do kubectl exec -n $ns devstats-postgres-0 -c devstats-postgres -- psql -U postgres -tAc "show max_slot_wal_keep_size"; done
+# expect: 100GB then 200GB
+```
+
 **Part 1 done** - full platform is up (nodes, k8s, storage, ingress+NB, certs pending DNS,
-both Patroni clusters tuned and failover-tested). No DevStats data anywhere yet.
+both Patroni clusters tuned and failover-tested, all log/WAL growth capped). No DevStats
+data anywhere yet.
 
 ---
 

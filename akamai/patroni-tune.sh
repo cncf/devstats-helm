@@ -47,6 +47,7 @@ case "${ENV}" in
             "wal_log_hints": "on",
             "hot_standby": "on",
             "wal_keep_size": "100GB",
+            "max_slot_wal_keep_size": "200GB",
             "checkpoint_timeout": "15min",
             "password_encryption": "scram-sha-256"
           } } }' ;;
@@ -63,6 +64,7 @@ case "${ENV}" in
             "wal_log_hints": "on",
             "hot_standby": "on",
             "wal_keep_size": "50GB",
+            "max_slot_wal_keep_size": "100GB",
             "password_encryption": "scram-sha-256"
           } } }' ;;
   *) echo "usage: ENV=prod|test $0"; exit 1 ;;

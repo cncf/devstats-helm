@@ -1226,6 +1226,25 @@ Linode goes through helm values), `work_mem 4GB → 512MB`,
   → on 7 Linode nodes the same workload minus 9 patroni members fits: ≈150 CPU /
   ≈600Gi total requests vs 416 vCPU / 2.5 TiB capacity.
 
+### 14.4 Log/WAL retention caps (nothing may grow unbounded)
+
+Every log/WAL producer is capped by size AND (where possible) time - see runbook §1.22:
+
+- **WAL vs replication slots**: `max_slot_wal_keep_size` **100GB test / 200GB prod** via
+  DCS (PG default `-1` = unlimited!). With `use_slots: true` a dead replica pins WAL on
+  the leader forever - the #1 self-inflicted Postgres outage. If the cap trips, the stale
+  replica needs a reinit (small price vs leader disk-full). Reloadable, no restart.
+  `wal_keep_size` 50/100GB + `max_wal_size` 32/128GB were already bounded; `archive_mode`
+  stays `off` (no archive pile-up).
+- **PostgreSQL/Patroni logs**: image logs to stderr (`logging_collector=off`) → container
+  stdout → kubelet default caps `containerLogMaxSize 10Mi × containerLogMaxFiles 5` per
+  container. Applies to ALL pods, not just Patroni.
+- **journald** (all 8 nodes): `SystemMaxUse=2G`, `RuntimeMaxUse=512M`,
+  `MaxRetentionSec=2week`, `SystemKeepFree=5%` (drop-in `00-devstats.conf`).
+- **rsyslog logrotate** (all 8 nodes): `daily`, `rotate 7`, `maxsize 500M` (Ubuntu default
+  was weekly/4 with no size cap).
+- **etcd**: 2GB backend quota (kubeadm default), data on `/data`; auto-compaction on.
+
 ---
 
 ## 15. Version matrix (FROZEN migration baseline)
