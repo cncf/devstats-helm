@@ -832,6 +832,9 @@ Context: `./switch_context.sh prod`. Same sequence, prod sizing:
 ./akamai/deploy-devstats-prod.sh secrets
 ./akamai/deploy-devstats-prod.sh backups-pv
 ./akamai/deploy-devstats-prod.sh pvcs
+# prune PVCs the chart has but OCI prod does not serve (archived projects + test-only
+# godotengine; keptn/smi/sealer/teller/cnigenie stay - archived but still on OCI):
+echo "$PROD_ARCHIVED_PVCS" | tr ' ' '\n' | xargs -r kubectl -n devstats-prod delete pvc  # 262 left
 ./akamai/deploy-devstats-prod.sh patroni     # postgresNodes=3, 6000Gi, node2=devstats-db-prod
 k exec -itn devstats-prod devstats-postgres-0 -- patronictl list
 ENV=prod ./akamai/patroni-tune.sh            # 512GB-node parameters (section 14.1)

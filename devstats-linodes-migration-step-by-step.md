@@ -171,10 +171,11 @@ skips_except () {
 # restore_prod <proj> <indexFrom> <indexTo>: restores one PROD project from the OCI backups
 # page (kubectl context MUST be `prod` on the master). Installs release devstats-prod-<proj>
 # (provision pod running devstats-helm/restore.sh + the project crons/grafanas/services).
+# skipPVs=1: project PVCs already exist (owned by the devstats-*-pvcs release from 1.19).
 restore_prod () {
   local s='namespace=devstats-prod,skipSecrets=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1'
-  s+=',skipBootstrap=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1'
-  s+=",indexPVsFrom=$2,indexPVsTo=$3,indexProvisionsFrom=$2,indexProvisionsTo=$3"
+  s+=',skipBootstrap=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,skipPVs=1'
+  s+=",indexProvisionsFrom=$2,indexProvisionsTo=$3"
   s+=",indexCronsFrom=$2,indexCronsTo=$3,indexGrafanasFrom=$2,indexGrafanasTo=$3"
   s+=",indexServicesFrom=$2,indexServicesTo=$3,indexAffiliationsFrom=$2,indexAffiliationsTo=$3"
   s+=',provisionImage=lukaszgryglicki/devstats-prod,provisionCommand=devstats-helm/restore.sh'
@@ -186,8 +187,8 @@ restore_prod () {
 # restore_test <proj> <indexFrom> <indexTo>: same for TEST (context `test`; teststats source)
 restore_test () {
   local s='skipSecrets=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1'
-  s+=',skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,skipAddAll=1'
-  s+=",indexPVsFrom=$2,indexPVsTo=$3,indexProvisionsFrom=$2,indexProvisionsTo=$3"
+  s+=',skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,skipAddAll=1,skipPVs=1'
+  s+=",indexProvisionsFrom=$2,indexProvisionsTo=$3"
   s+=",indexCronsFrom=$2,indexCronsTo=$3,indexGrafanasFrom=$2,indexGrafanasTo=$3"
   s+=",indexServicesFrom=$2,indexServicesTo=$3,indexAffiliationsFrom=$2,indexAffiliationsTo=$3"
   s+=',provisionCommand=devstats-helm/restore.sh,restoreFrom=https://teststats.cncf.io/backups/'
@@ -1112,6 +1113,14 @@ kubectl config use-context prod
 helm install devstats-prod-secrets    ./devstats-helm -n devstats-prod --set "namespace=devstats-prod,$(skips_except Secrets)"
 helm install devstats-prod-backups-pv ./devstats-helm -n devstats-prod --set "namespace=devstats-prod,$(skips_except BackupsPV)"
 helm install devstats-prod-pvcs       ./devstats-helm -n devstats-prod --set "namespace=devstats-prod,$(skips_except PVs)"
+
+# PROD prune: the chart is a superset of what OCI prod actually serves - drop PVCs for
+# archived projects (rkt, opentracing, brigade, ...) + test-only godotengine. The list below
+# was derived by diffing live PVC sets (workstation, where both OCI+Linode contexts exist):
+#   comm -13 <(kubectl --context <oci-prod> get pvc ... | sort) <(linode prod pvc list | sort)
+# NOTE: keptn/smi/sealer/teller/cnigenie are archived but STILL deployed on OCI - kept.
+echo "$PROD_ARCHIVED_PVCS" | tr ' ' '\n' | xargs -r kubectl -n devstats-prod delete pvc
+kubectl -n devstats-prod get pvc --no-headers | wc -l   # exactly 262 (261 projects + backups)
 
 # gate: releases live in their own namespaces, backups PVCs Bound 2Ti RWX in both envs
 helm ls -n devstats-test    # devstats-test-{secrets,backups-pv,pvcs} + nginx-ingress-test
