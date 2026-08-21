@@ -110,18 +110,18 @@ disappears entirely in both.
 | `devstats-prod-db-01` | G7 Dedicated 512 GB | 64 / 512 GB / 7,200 GB | `10.60.0.11` | worker | prod Patroni | `node2=devstats-db-prod` |
 | `devstats-prod-db-02` | G7 Dedicated 512 GB | 64 / 512 GB / 7,200 GB | `10.60.0.12` | worker | prod Patroni | `node2=devstats-db-prod`, `ingress=prod` |
 | `devstats-prod-db-03` | G7 Dedicated 512 GB | 64 / 512 GB / 7,200 GB | `10.60.0.13` | worker | prod Patroni | `node2=devstats-db-prod`, `ingress=prod` |
-| `devstats-test-db-01` | G7 Dedicated 256 GB | 56 / 256 GB / 5,000 GB | `10.60.0.21` | worker | test Patroni | `node2=devstats-db-test`, `ingress=test` |
-| `devstats-test-db-02` | G7 Dedicated 256 GB | 56 / 256 GB / 5,000 GB | `10.60.0.22` | worker | test Patroni | `node2=devstats-db-test`, `ingress=test` |
+| `devstats-test-db-01` | G7 Dedicated 256 GB | 56 / 256 GB / 5,000 GB | `10.60.0.21` | worker | test Patroni | `node2=devstats-db-test`, `node=devstats-app`, `ingress=test` |
+| `devstats-test-db-02` | G7 Dedicated 256 GB | 56 / 256 GB / 5,000 GB | `10.60.0.22` | worker | test Patroni | `node2=devstats-db-test`, `node=devstats-app`, `ingress=test` |
 | `devstats-compute-01` | G7 Dedicated 256 GB | 56 / 256 GB / 5,000 GB | `10.60.0.31` | **master** + worker | none | `node=devstats-app`, `ingress=prod` |
 | `devstats-compute-02` | G7 Dedicated 256 GB | 56 / 256 GB / 5,000 GB | `10.60.0.32` | worker | none | `node=devstats-app`, `ingress=test` |
 
-Storage-placement policy: `node=devstats-app` goes on the COMPUTE nodes ONLY. Every chart
-pod that writes bulk data to `openebs-hostpath` (provisions/git clones, hourly syncs,
+Storage-placement policy: `node=devstats-app` goes on the compute nodes AND the test-db
+nodes (test DBs are small - those nodes have plenty of room for apps). Every chart pod
+that writes bulk data to `openebs-hostpath` (provisions/git clones, hourly syncs,
 grafanas, bootstrap, affs-sync, backups) schedules via `appNodeSelector`/
 `backupsNodeSelector` (= `node: devstats-app`), and hostpath PVCs bind to the first
-consumer's node - so Patroni nodes' disks hold ONLY their databases. Prod-db nodes must
-NEVER get the label; test-db nodes may be added as overflow (test DBs are small) if the
-compute nodes run short.
+consumer's node. Only the PROD-db nodes are tight: they must NEVER get the label - their
+disks hold ONLY the prod databases.
 
 Totals: 416 dedicated vCPUs, 2,560 GB RAM, 41.6 TB local SSD.
 Public list price: 3 × $5,530 + 4 × $2,765 = **$27,650/month before CNCF credits** (+ 2 NodeBalancers, ~$10 each).
@@ -218,7 +218,7 @@ Feasibility of prod Patroni on 256 GB nodes (live-measured, §0.1): prod PGDATA 
 fits the 4,880 GiB btrfs-zstd `/data` (PVC 4500Gi) with 2× headroom; post-shrink PostgreSQL needs
 sb 64 GB + workers ≈ 100-140 GiB, apps ≈ 100 GiB → ~240 GiB worst case vs 256 GiB node -
 tight but real usage is far below worst case (live prod pg anon memory is <1 GiB + shmem);
-with the §1.1 placement policy (no `node=devstats-app` on Patroni nodes) the "apps" share
+with the §1.1 placement policy (no `node=devstats-app` on PROD Patroni nodes) the "apps" share
 disappears from DB nodes entirely - only the ingress DaemonSet + system pods remain there;
 the page cache shrinks further vs `mixed`, so heavy dashboards (allprj/gha) get slower disk-
 bound tails - acceptable, NVMe-backed. CPU: 39 cores avg cluster-wide vs 448/392 - non-issue.
@@ -592,15 +592,18 @@ helm install openebs openebs/openebs -n openebs --create-namespace \
   --set engines.local.zfs.enabled=false \
   --set loki.enabled=false \
   --set alloy.enabled=false \
-  --set localpv-provisioner.hostpathClass.isDefaultClass=true
+  --set localpv-provisioner.hostpathClass.isDefaultClass=true \
+  --set localpv-provisioner.localpv.nodeSelector.node=devstats-app
 kubectl -n openebs get pods -w   # wait Ready
 kubectl get sc                   # openebs-hostpath must exist and be (default)
 helm repo add openebs-dynamic-nfs https://openebs-archive.github.io/dynamic-nfs-provisioner/ && helm repo update
 # nfsServerNodeAffinity: the per-PVC NFS server pods physically hold the (RWX) backups-PV
-# data on their node's hostpath - pin them to the compute nodes (§1.1 placement policy):
+# data on their node's hostpath - pin them to devstats-app nodes (§1.1 placement policy);
+# nfsProvisioner.nodeSelector pins the stateless controller deployment (separate knob):
 helm install openebs-nfs openebs-dynamic-nfs/nfs-provisioner --namespace openebs-nfs --create-namespace \
   --set nfsStorageClass.name=nfs-openebs-localstorage --set-string nfsStorageClass.backendStorageClass=openebs-hostpath \
-  --set-string 'nfsProvisioner.nfsServerNodeAffinity=node:[devstats-app]'
+  --set-string 'nfsProvisioner.nfsServerNodeAffinity=node:[devstats-app]' \
+  --set nfsProvisioner.nodeSelector.node=devstats-app
 ```
 
 Fallback (zero-risk, OCI-proven exact pair: openebs 3.10.0): `helm repo add openebs
@@ -1365,7 +1368,7 @@ unchanged). Passwords: reuse existing (same DB contents) - rotation optional pos
 | `create-infra.sh [pilot\|rest\|all]` | VPC, subnet, placement groups, 7-8 Linodes (manual VPC IPs, 1:1 NAT, PGs; topology-aware) | OCI instance/console setup |
 | `resize-node-disks.sh [node\|all]` | shrink root→120 GB, drop swap, create+attach raw `data` disk (btrfs+zstd via `node-setup.sh`) | `mdadm` RAID-10 section |
 | `node-setup.sh` | full per-node OS + containerd + kubeadm/kubelet/kubectl + sysctls + /data layout | README "Shared steps" |
-| `label-nodes.sh` | apply node/node2/ingress labels per section 1.1 (auto-detects compute-03); `node=devstats-app` on compute nodes ONLY - Patroni node disks hold only DBs | README label loop |
+| `label-nodes.sh` | apply node/node2/ingress labels per section 1.1 (auto-detects compute-03); `node=devstats-app` on compute + test-db nodes - PROD Patroni node disks hold only DBs | README label loop |
 | `install-ingresses.sh` | both ingress-nginx releases with exact OCI flags/NodePorts, PINNED final chart 4.15.1 + digest-pinned images + distinct controller identities + webhook namespace isolation (§7.1) | README nginx-ingress section |
 | `test-ingresses.sh` | MANDATORY k8s 1.36.3 ↔ ingress-nginx v1.15.1 runtime qualification gate: webhook admission, EndpointSlices, HTTP/HTTPS via every NodePort backend, class isolation, NB path (`REQUIRE_NODEBALANCERS=1`), pod stability + log scan (§7.1) | new (OpenAI Pro review, 2026-08-20) |
 | `create-firewall.sh [apply\|detach]` | firewall Option A/B per §16 (`FW_MODE=open\|allowlist`), attach/detach all nodes | OCI NSGs (allow-all) |

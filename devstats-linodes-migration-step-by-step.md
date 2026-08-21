@@ -786,17 +786,17 @@ kubectl config use-context shared
 
 ### 1.12 Node labels + namespaces [master]
 
-Storage-placement policy (we are tight on disk): the 5 Patroni nodes store ONLY their
-databases; ALL other data - git clones, backups PV, grafana/provision workdirs - goes to
-the 3 compute nodes. The chart enforces this via `appNodeSelector`/`backupsNodeSelector`
+Storage-placement policy (only PROD-db disks are tight): the 3 PROD Patroni nodes store
+ONLY their databases; ALL other data - git clones, backups PV, grafana/provision workdirs -
+goes to the 3 compute nodes + the 2 test-db nodes (test DBs are small, plenty of room).
+The chart enforces this via `appNodeSelector`/`backupsNodeSelector`
 (= `node: devstats-app`) on every pod that writes to `openebs-hostpath` (provisions,
 hourly syncs, grafanas, bootstrap, affs-sync, backups), and hostpath PVCs bind to the
-node of their first consumer - so `node=devstats-app` goes on the COMPUTE nodes ONLY:
+node of their first consumer - so `node=devstats-app` goes everywhere EXCEPT prod-db nodes:
 
 ```bash
-# app/backup/git-clone label - the 3 compute nodes ONLY (NEVER the prod-db nodes;
-# test-db nodes may be added later as overflow if compute disks get tight - test DBs are small):
-for n in devstats-compute-01 devstats-compute-02 devstats-compute-03; do
+# app/backup/git-clone label - computes + test-db nodes (NEVER the prod-db nodes):
+for n in devstats-compute-01 devstats-compute-02 devstats-compute-03 devstats-test-db-01 devstats-test-db-02; do
   kubectl label node "$n" node=devstats-app --overwrite
 done
 for n in devstats-prod-db-01 devstats-prod-db-02 devstats-prod-db-03; do kubectl label node "$n" node2=devstats-db-prod --overwrite; done
@@ -822,15 +822,19 @@ helm install openebs openebs/openebs -n openebs --create-namespace --version "$O
   --set engines.local.zfs.enabled=false \
   --set loki.enabled=false \
   --set alloy.enabled=false \
-  --set localpv-provisioner.hostpathClass.isDefaultClass=true
+  --set localpv-provisioner.hostpathClass.isDefaultClass=true \
+  --set localpv-provisioner.localpv.nodeSelector.node=devstats-app
 kubectl -n openebs get pods -w        # Ctrl-C when all Ready
 kubectl get sc                        # openebs-hostpath must exist and be (default)
 helm repo add openebs-dynamic-nfs https://openebs-archive.github.io/dynamic-nfs-provisioner/ && helm repo update
-# nfsServerNodeAffinity pins the NFS server pods (which PHYSICALLY hold the backups-PV
-# data on their hostpath) to the compute nodes - never on Patroni nodes:
+# nfsServerNodeAffinity pins the per-PVC NFS SERVER pods (which PHYSICALLY hold the
+# backups-PV data on their hostpath) to devstats-app nodes - never on prod Patroni nodes.
+# nfsProvisioner.nodeSelector pins the CONTROLLER deployment (stateless, but keep it off
+# prod-db nodes too) - these are two different knobs for two different pods:
 helm install openebs-nfs openebs-dynamic-nfs/nfs-provisioner --namespace openebs-nfs --create-namespace \
   --set nfsStorageClass.name=nfs-openebs-localstorage --set-string nfsStorageClass.backendStorageClass=openebs-hostpath \
-  --set-string 'nfsProvisioner.nfsServerNodeAffinity=node:[devstats-app]'
+  --set-string 'nfsProvisioner.nfsServerNodeAffinity=node:[devstats-app]' \
+  --set nfsProvisioner.nodeSelector.node=devstats-app
 # gate: 1Gi PVC + pod in BOTH classes
 for sc in openebs-hostpath nfs-openebs-localstorage; do
   kubectl apply -f - <<GATE
@@ -847,15 +851,21 @@ GATE
   ov+='"volumeMounts":[{"name":"v","mountPath":"/mnt"}]}],'
   ov+='"volumes":[{"name":"v","persistentVolumeClaim":{"claimName":"gate-'$sc'"}}]}}'
   kubectl run "gate-$sc" --image=busybox --restart=Never --overrides="$ov"
-  sleep 25; kubectl logs "gate-$sc"   # must print: ok
+  # NFS first-PVC spin-up (image pull + server pod) can take >1 min - wait properly:
+  for i in $(seq 1 24); do
+    [ "$(kubectl get po gate-$sc -o jsonpath='{.status.phase}' 2>/dev/null)" = "Succeeded" ] && break; sleep 5
+  done
+  kubectl logs "gate-$sc"   # must print: ok
   kubectl delete po "gate-$sc"; kubectl delete pvc "gate-$sc"
 done
 # fallback if OpenEBS 4.5.1 misbehaves: OCI-proven 3.10.0 from https://openebs.github.io/charts
 ```
 
-Verify NFS server placement - the backups-PV data lives on the NFS server pod's node, so
-it MUST be a compute node (NFS servers are created per-PVC, so check again after 1.19):
-`kubectl -n openebs-nfs get po -o wide` → only `devstats-compute-*` in the NODE column.
+Verify placement - the backups-PV data lives on the NFS server pod's node, so every pod in
+`kubectl -n openebs-nfs get po -o wide` must sit on a devstats-app node (compute-* or
+test-db-*; NFS server pods are created per-PVC, so check again after 1.19). The controller
+pod (`openebs-nfs-nfs-provisioner-*`) is covered by the nodeSelector; the per-PVC
+`nfs-pvc-*` pods by nfsServerNodeAffinity.
 
 ### 1.14 ingress-nginx × 2 - pinned FINAL release [master]
 
