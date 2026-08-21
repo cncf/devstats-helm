@@ -524,6 +524,9 @@ kubectl taint nodes devstats-compute-01 node-role.kubernetes.io/control-plane:No
 # control-plane labels are LOST - restore them (kubeadm upgrade finds masters by label):
 #   kubectl label node devstats-compute-01 node-role.kubernetes.io/control-plane= \
 #     node.kubernetes.io/exclude-from-external-load-balancers=
+# NOTE: coredns pods created BEFORE the dance keep sandboxes on the old cni0 and
+# CrashLoop with "dial tcp 10.96.0.1:443: no route to host" - fix is simply:
+#   kubectl -n kube-system delete po -l k8s-app=kube-dns
 ```
 
 Record in the migration log: the resolved Debian package version printed by `node-setup.sh`
@@ -566,6 +569,13 @@ kubectl create ns devstats-test; kubectl create ns devstats-prod
 Add the three contexts to `~/.kube/config` exactly as in README (`prod` → devstats-prod,
 `test` → devstats-test, `shared` → default). Copy admin.conf to `root` and `ubuntu`(-equivalent)
 users on all nodes (README habit - every node is an admin box).
+
+Workstation access (done live, runbook §1.9b): a `linode` context sits next to the OCI
+`prod`/`test`/`shared` ones - server `https://$MASTER_IP:6443` with `tls-server-name: kubernetes`
+(the apiserver cert has no public-IP SAN) + admin.conf client cert. No tunnel needed, unlike
+OCI which goes through the FreeBSD `kube_tunnel` rc.d service (lo0 alias 10.0.0.253 +
+`ssh -N -L 10.0.0.253:6443:10.0.0.253:6443 ubuntu@omaster`). After cutover, repoint
+`prod`/`test`/`shared` at the linode cluster entry and retire the tunnel.
 
 ---
 

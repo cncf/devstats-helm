@@ -653,6 +653,53 @@ kubectl taint nodes devstats-compute-01 node-role.kubernetes.io/control-plane:No
 # the delete/re-register above LOSES the kubeadm control-plane labels (added only at
 # init) - restore them; kubeadm upgrade tooling finds control-plane nodes by this label:
 kubectl label node devstats-compute-01 node-role.kubernetes.io/control-plane= node.kubernetes.io/exclude-from-external-load-balancers=
+# coredns pods still hold sandboxes wired to the PRE-dance cni0 - sooner or later they
+# CrashLoop with "dial tcp 10.96.0.1:443: connect: no route to host". Recreate them now:
+kubectl -n kube-system delete po -l k8s-app=kube-dns
+sleep 30; kubectl -n kube-system get po -l k8s-app=kube-dns    # both 1/1 Running
+```
+
+### 1.8b OPTIONAL: env file on every node + full root SSH mesh [workstation]
+
+Everything in this runbook runs from the workstation, so this step is optional - but handy:
+every node gets `/root/linodes.env.secret` (so `source linodes.env.secret` works right after
+ssh-ing anywhere) and every node can root-ssh to every other node without password prompts.
+Nodes already resolve each other by hostname over the VPC (`/etc/hosts`, set up in 1.7a).
+
+```bash
+source linodes.env.secret
+NODE_NAMES="devstats-prod-db-01 devstats-prod-db-02 devstats-prod-db-03 devstats-test-db-01 devstats-test-db-02 devstats-compute-01 devstats-compute-02 devstats-compute-03"
+
+# (a) workstation first: learn all public-IP host keys once (kills yes/no prompts), then push env:
+ssh-keyscan -T 5 $NODE_PUB_IPS 2>/dev/null >> ~/.ssh/known_hosts; sort -u ~/.ssh/known_hosts -o ~/.ssh/known_hosts
+for h in $NODE_PUB_IPS; do scp -q linodes.env.secret root@$h:/root/; done
+
+# (b) each node: root ed25519 key (generate if missing), then collect all 8 pubkeys:
+for h in $NODE_PUB_IPS; do
+  ssh root@$h "[ -f /root/.ssh/id_ed25519 ] || ssh-keygen -q -t ed25519 -N '' -f /root/.ssh/id_ed25519"
+done
+: > /tmp/mesh.pub
+for h in $NODE_PUB_IPS; do ssh root@$h 'cat /root/.ssh/id_ed25519.pub' >> /tmp/mesh.pub; done
+
+# (c) merge all 8 pubkeys into every node's authorized_keys (idempotent, keeps existing keys):
+for h in $NODE_PUB_IPS; do
+  scp -q /tmp/mesh.pub root@$h:/tmp/mesh.pub
+  ssh root@$h 'touch /root/.ssh/authorized_keys; sort -u /root/.ssh/authorized_keys /tmp/mesh.pub > /tmp/ak; mv /tmp/ak /root/.ssh/authorized_keys; chmod 600 /root/.ssh/authorized_keys; rm -f /tmp/mesh.pub'
+done
+rm -f /tmp/mesh.pub
+
+# (d) known_hosts: every node pre-learns every peer under hostname, master alias AND public IP
+#     (so no "authenticity of host" prompts ever; $NODE_NAMES/$NODE_PUB_IPS expand HERE):
+for h in $NODE_PUB_IPS; do
+  ssh root@$h "ssh-keyscan -T 5 $NODE_NAMES devstats-master $NODE_PUB_IPS 2>/dev/null >> /root/.ssh/known_hosts; sort -u /root/.ssh/known_hosts -o /root/.ssh/known_hosts"
+done
+
+# (e) verify all 64 hops non-interactively - silence means every hop works:
+for h in $NODE_PUB_IPS; do
+  for n in $NODE_NAMES; do
+    ssh root@$h "ssh -o BatchMode=yes -o ConnectTimeout=5 root@$n hostname" >/dev/null 2>&1 || echo "FAIL: $h -> $n"
+  done
+done; echo "mesh check done (no FAIL lines above = all 64 hops OK)"
 ```
 
 ### 1.9 Join the other 7 nodes [workstation]
@@ -669,6 +716,34 @@ for h in $NODE_PUB_IPS; do
 done
 ```
 
+### 1.9b kubectl from the workstation - "linode" context next to the OCI ones [workstation]
+
+Your existing `prod`/`test`/`shared` contexts reach OCI through the FreeBSD `kube_tunnel`
+rc.d service (lo0 alias 10.0.0.253 + `ssh -N -L 10.0.0.253:6443:10.0.0.253:6443 ubuntu@omaster`,
+auto-respawned by daemon(8); `service kube_tunnel status|start|stop`). The Linode apiserver
+needs NO tunnel - it is directly reachable on the master public IP. The apiserver cert has
+SANs [devstats-compute-01, kubernetes*, 10.96.0.1, 10.60.0.31] - the public IP is NOT there,
+so the cluster entry pins `tls-server-name: kubernetes` (alternative: add certSANs via the
+kubeadm-config CM + regen the apiserver cert - not worth it). When the firewall arrives
+(Part 6) remember to keep 6443/tcp open from your workstation IP.
+
+```bash
+source linodes.env.secret
+scp root@$MASTER_IP:/etc/kubernetes/admin.conf /tmp/linode-admin.conf
+cp -p ~/.kube/config ~/.kube/config.$(date +%Y-%m-%d)     # backup first
+CA=$(awk '/certificate-authority-data/{print $2}' /tmp/linode-admin.conf)
+CRT=$(awk '/client-certificate-data/{print $2}' /tmp/linode-admin.conf)
+KEY=$(awk '/client-key-data/{print $2}' /tmp/linode-admin.conf)
+kubectl config set-cluster linode --server="https://$MASTER_IP:6443"
+kubectl config set clusters.linode.certificate-authority-data "$CA"
+kubectl config set clusters.linode.tls-server-name kubernetes
+kubectl config set users.linode-admin.client-certificate-data "$CRT"
+kubectl config set users.linode-admin.client-key-data "$KEY"
+kubectl config set-context linode --cluster=linode --user=linode-admin --namespace=default
+rm /tmp/linode-admin.conf
+kubectl --context linode get nodes     # 8 Ready - without changing your current context
+```
+
 ### 1.10 Cluster gate [master]
 
 ```bash
@@ -682,6 +757,10 @@ kubectl run net-a --image=busybox --restart=Never --overrides='{"spec":{"nodeNam
 kubectl run net-b --image=busybox --restart=Never --overrides='{"spec":{"nodeName":"devstats-prod-db-01"}}' -- sleep 300
 sleep 20; kubectl exec net-a -- ping -c 3 "$(kubectl get po net-b -o jsonpath='{.status.podIP}')"
 kubectl delete po net-a net-b
+# every pod must be Running (catches the stale-sandbox coredns CrashLoop from 1.8):
+kubectl get po -A --no-headers | grep -v ' Running ' || echo 'ALL PODS RUNNING'
+# in-cluster DNS smoke - must print 10.96.0.1:
+kubectl run dnstest --image=busybox:1.36 --restart=Never --rm -i -- nslookup kubernetes.default.svc.cluster.local
 ```
 
 ### 1.11 Make the master the admin box: repo + secrets + contexts [workstation → master]
