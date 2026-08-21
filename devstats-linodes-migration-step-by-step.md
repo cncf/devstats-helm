@@ -740,8 +740,12 @@ kubectl config set clusters.linode.tls-server-name kubernetes
 kubectl config set users.linode-admin.client-certificate-data "$CRT"
 kubectl config set users.linode-admin.client-key-data "$KEY"
 kubectl config set-context linode --cluster=linode --user=linode-admin --namespace=default
+# namespaced twins of the OCI prod/test contexts (namespaces themselves come in 1.12):
+kubectl config set-context linode-prod --cluster=linode --user=linode-admin --namespace=devstats-prod
+kubectl config set-context linode-test --cluster=linode --user=linode-admin --namespace=devstats-test
 rm /tmp/linode-admin.conf
 kubectl --context linode get nodes     # 8 Ready - without changing your current context
+kubectl --context linode-prod get nodes && kubectl --context linode-test get nodes   # same
 ```
 
 ### 1.10 Cluster gate [master]
