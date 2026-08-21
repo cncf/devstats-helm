@@ -96,17 +96,29 @@ sed -i '/\sswap\s/d' /etc/fstab
 
 echo "=== [6] base packages ==="
 chmod -x /etc/update-motd.d/* 2>/dev/null || true
+# Linode's Ubuntu image ships a CORRUPTED debconf answer: grub-pc/install_devices is the
+# literal string "multiselect", so any grub-pc upgrade runs `grub-install /multiselect`
+# and dpkg dies mid-upgrade. Linodes boot via HOST-side GRUB and the root disk is
+# partitionless (no MBR gap), so grub-install must be SKIPPED entirely - empty the list:
+echo 'grub-pc grub-pc/install_devices multiselect ' | debconf-set-selections
+echo 'grub-pc grub-pc/install_devices_disks_changed multiselect ' | debconf-set-selections
+echo 'grub-pc grub-pc/install_devices_empty boolean true' | debconf-set-selections
+dpkg --configure -a    # heals a half-configured grub-pc left by an earlier failed run
 apt-get update -y && apt-get upgrade -y
 apt-get install -y apt-transport-https ca-certificates curl gnupg gpg nfs-common net-tools \
   iptables-persistent jq mc btop iperf3 fio btrfs-progs btrfs-compsize
 
 echo "=== [7] kernel modules + sysctls ==="
+# nf_conntrack must be loaded NOW or the net.netfilter.nf_conntrack_max sysctl silently
+# does not exist yet (the module would only autoload once kube-proxy adds NAT rules)
 cat > /etc/modules-load.d/containerd.conf <<'EOF'
 overlay
 br_netfilter
+nf_conntrack
 EOF
 modprobe overlay
 modprobe br_netfilter
+modprobe nf_conntrack
 cat > /etc/sysctl.d/99-kubernetes-cri.conf <<'EOF'
 net.bridge.bridge-nf-call-iptables = 1
 net.bridge.bridge-nf-call-ip6tables = 1

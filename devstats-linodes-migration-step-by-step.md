@@ -510,13 +510,23 @@ findmnt -no FSTYPE /data | grep -qx btrfs || { echo 'run step 1.7a on this node 
 
 # [6] base packages
 chmod -x /etc/update-motd.d/* 2>/dev/null || true
+# Linode's Ubuntu image ships a CORRUPTED debconf answer: grub-pc/install_devices is the
+# literal string "multiselect", so any grub-pc upgrade runs `grub-install /multiselect`
+# and dpkg dies mid-upgrade. Linodes boot via HOST-side GRUB and the root disk is
+# partitionless (no MBR gap), so grub-install must be SKIPPED entirely - empty the list:
+echo 'grub-pc grub-pc/install_devices multiselect ' | debconf-set-selections
+echo 'grub-pc grub-pc/install_devices_disks_changed multiselect ' | debconf-set-selections
+echo 'grub-pc grub-pc/install_devices_empty boolean true' | debconf-set-selections
+dpkg --configure -a    # heals a half-configured grub-pc left by an earlier failed run
 apt-get update -y && apt-get upgrade -y
 apt-get install -y apt-transport-https ca-certificates curl gnupg gpg nfs-common net-tools \
   iptables-persistent jq mc btop iperf3 fio btrfs-progs btrfs-compsize
 
 # [7] kernel modules, sysctls, forwarding
-printf 'overlay\nbr_netfilter\n' > /etc/modules-load.d/containerd.conf
-modprobe overlay; modprobe br_netfilter
+# nf_conntrack must be loaded NOW or the net.netfilter.nf_conntrack_max sysctl silently
+# does not exist yet (the module would only autoload once kube-proxy adds NAT rules)
+printf 'overlay\nbr_netfilter\nnf_conntrack\n' > /etc/modules-load.d/containerd.conf
+modprobe overlay; modprobe br_netfilter; modprobe nf_conntrack
 cat > /etc/sysctl.d/99-kubernetes-cri.conf <<'SYS'
 net.bridge.bridge-nf-call-iptables = 1
 net.bridge.bridge-nf-call-ip6tables = 1
@@ -586,6 +596,12 @@ done
 
 Gate: every node printed `NODE READY: devstats-... v${K8S_PATCH} ...` - the first field
 MUST be that node's own `devstats-*` name, NOT `localhost` (kubelet registers under it).
+
+Recovery if a run died in [6] with `grub-install /multiselect` / `dpkg: error processing
+package grub-pc` (nodes set up before the debconf preseed above existed): just re-run the
+whole NODESETUP on that node - the preseed + `dpkg --configure -a` heal the half-configured
+grub-pc, and everything after it is idempotent. Verify with: `dpkg --audit` (must print
+nothing) and `sysctl -n net.netfilter.nf_conntrack_max` (must print 2621440).
 
 ### 1.8 kubeadm init + flannel + /22 pod CIDRs + 1024 pods (master FIRST, before joins) [master]
 

@@ -385,6 +385,11 @@ Details / decisions encoded in the scripts:
      resize can corrupt `/boot/grub/grubenv` -> `grub2-common.service` fails -> systemd
      `degraded` (harmless, host-side GRUB boots fine; fix: `grub-editenv
      /boot/grub/grubenv create && systemctl restart grub2-common.service`).
+   - Linode image quirk: debconf ships `grub-pc/install_devices` = literal "multiselect",
+     so any grub-pc apt upgrade runs `grub-install /multiselect` and dpkg DIES mid-upgrade
+     (hit live on prod-db-02). node-setup / runbook 1.7c now preseed it EMPTY (+
+     `install_devices_empty=true`, `dpkg --configure -a`) before `apt-get upgrade` -
+     correct on Linode: host-side GRUB + partitionless root disk = never run grub-install.
 
 ### 4.1 How exactly to reserve the 7 Linodes "in vicinity to each other"
 
