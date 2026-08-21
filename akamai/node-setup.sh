@@ -1,7 +1,7 @@
 #!/bin/bash
 # DevStats common node preparation for Akamai Linode (Ubuntu 26.04 LTS).
 # Direct adaptation of README.md "Shared steps for all nodes" with OCI/mdadm parts removed:
-#   - /data on the plan-local "data" disk (created by resize-node-disks.sh, attached as /dev/sdc)
+#   - /data = btrfs + zstd on the raw "data" disk (created by resize-node-disks.sh, attached as /dev/sdc)
 #   - /etc/hosts for all VPC addresses incl. compute-03 (+ devstats-master alias)
 #   - containerd + runc + crictl, SystemdCgroup
 #   - kubelet/kubeadm/kubectl from pkgs.k8s.io ${K8S_STREAM}, pinned to exact ${K8S_PATCH}, held
@@ -43,30 +43,50 @@ cat >> /etc/hosts <<'EOF'
 EOF
 fi
 
+echo "=== [1b] hostname from VPC IP (image boots as 'localhost'; kubelet uses hostname as node name) ==="
+VPC_IP="$(ip -4 -o addr show scope global | awk '{print $4}' | cut -d/ -f1 | grep '^10\.60\.0\.' | head -1)"
+NODE_NAME="$(awk -v ip="$VPC_IP" '$1==ip && $2 ~ /^devstats-(prod|test|compute)/ {print $2; exit}' /etc/hosts)"
+[ -n "$NODE_NAME" ] || { echo "cannot map VPC IP '$VPC_IP' to a node name"; exit 1; }
+hostnamectl set-hostname "$NODE_NAME"
+if grep -q '^127\.0\.1\.1' /etc/hosts; then
+  sed -i "s/^127\.0\.1\.1.*/127.0.1.1 $NODE_NAME/" /etc/hosts
+else
+  echo "127.0.1.1 $NODE_NAME" >> /etc/hosts
+fi
+echo "hostname -> $NODE_NAME"
+
 echo "=== [2] base packages ==="
 chmod -x /etc/update-motd.d/* 2>/dev/null || true
 export DEBIAN_FRONTEND=noninteractive
 apt-get update -y && apt-get upgrade -y
 apt-get install -y apt-transport-https ca-certificates curl gnupg gpg nfs-common net-tools \
-  iptables-persistent jq mc btop iperf3 fio
+  iptables-persistent jq mc btop iperf3 fio btrfs-progs btrfs-compsize
 
-echo "=== [3] /data on the plan-local data disk (${DATA_DEV}) ==="
+echo "=== [3] /data = btrfs + transparent zstd on the raw data disk (${DATA_DEV}) ==="
 if ! mountpoint -q /data; then
   [ -b "${DATA_DEV}" ] || { echo "${DATA_DEV} missing - run resize-node-disks.sh for this node first"; exit 1; }
   mkdir -p /data
-  # resize-node-disks.sh already created an ext4 filesystem on the disk
+  # resize-node-disks.sh creates the disk as RAW (Linode can't create btrfs) - format it here.
+  # DUP metadata: two copies of fs metadata - survives single-sector corruption.
+  [ "$(blkid -s TYPE -o value "${DATA_DEV}")" = "btrfs" ] || mkfs.btrfs -f -L data -m dup -d single "${DATA_DEV}"
   UUID="$(blkid -s UUID -o value "${DATA_DEV}")"
-  [ -n "${UUID}" ] || { mkfs.ext4 -L data "${DATA_DEV}"; UUID="$(blkid -s UUID -o value "${DATA_DEV}")"; }
-  grep -q "${UUID}" /etc/fstab || echo "UUID=${UUID} /data ext4 defaults,noatime,x-systemd.before=local-fs.target,x-systemd.requires=local-fs-pre.target 0 2" >> /etc/fstab
+  OPTS="compress-force=zstd:3,noatime,discard=async"
+  OPTS+=",x-systemd.before=local-fs.target,x-systemd.requires=local-fs-pre.target"
+  grep -q "${UUID}" /etc/fstab || echo "UUID=${UUID} /data btrfs ${OPTS} 0 0" >> /etc/fstab
   systemctl daemon-reload
   mount -a
 fi
-# reclaim ext4's default 5% root reserve (~242 GiB on a 4,850 GiB data disk) - keep 1%
-tune2fs -m 1 "${DATA_DEV}" >/dev/null || true
+findmnt -no FSTYPE,OPTIONS /data | grep -q 'btrfs.*zstd' || { echo "/data is not btrfs+zstd"; exit 1; }
+# monthly scrub re-verifies every checksum on cold data too (idle io class; 1st, 04:30)
+echo '30 4 1 * * root /usr/bin/btrfs scrub start -c 3 /data >/dev/null 2>&1' > /etc/cron.d/btrfs-scrub-data
 df -h /data
 
-echo "=== [4] data directories + symlinks (openebs/containerd/kubelet/etcd/logs) ==="
-mkdir -p /data/openebs /data/containerd /data/kubelet /data/etcd /data/logs/containers /data/logs/pods
+echo "=== [4] SUBVOLUMES (snapshot/rollback units) + symlinks (openebs/containerd/kubelet/etcd/logs) ==="
+for sv in openebs containerd kubelet etcd logs; do
+  [ -d "/data/${sv}" ] || btrfs subvolume create "/data/${sv}"
+done
+mkdir -p /data/logs/containers /data/logs/pods
+chattr +C /data/etcd 2>/dev/null || true   # etcd: fsync-heavy+tiny -> no CoW (skips compression there only)
 chown -R root:root /data && chmod 755 /data
 [ -e /var/openebs ]        || ln -s /data/openebs /var/openebs
 [ -e /var/lib/containerd ] || ln -s /data/containerd /var/lib/containerd

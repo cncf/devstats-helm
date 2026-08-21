@@ -65,3 +65,4 @@ splitcrons
 splitcrons.old
 /new-values.yaml
 src.txt
+*.bak

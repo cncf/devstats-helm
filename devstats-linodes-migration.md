@@ -153,10 +153,14 @@ Notes:
 
 Every Patroni member holds a full copy, so the DB must fit on ONE node:
 
-| Cluster | Node /data (after 150 GB root) | PVC (`postgresStorageSize`) | Safe steady-state DB size |
+| Cluster | Node /data (after 120 GB root) | PVC (`postgresStorageSize`) | Safe steady-state DB size |
 |---|---|---|---|
-| prod | ~7,050 GiB (≈6.89 TiB) | `6000Gi` (≈6.44 TB) | ≤ 5.5 TB |
-| test | ~4,850 GiB (≈4.74 TiB) | `3600Gi` (≈3.86 TB) | ≤ 3.2 TB |
+| prod | ~7,080 GiB (≈6.91 TiB) | `6000Gi` (≈6.44 TB) | ≤ 5.5 TB |
+| test | ~4,880 GiB (≈4.77 TiB) | `3600Gi` (≈3.86 TB) | ≤ 3.2 TB |
+
+`/data` is btrfs with transparent `zstd:3` compression (§5.1): Postgres heap/WAL data
+(text/JSON-heavy) typically compresses ~2x on disk, so the PHYSICAL fill rate of `/data`
+is roughly half the logical DB size - the sizes above are conservative logical limits.
 
 OpenEBS hostpath does NOT enforce PVC size - these are accounting values. The real guard is
 `df -h /data` monitoring. Measure current sizes on OCI **before anything else** (section 3.1).
@@ -183,7 +187,7 @@ this plan is now validated against reality.
 | NSG / security lists (allow all internal) | Option A: nothing (VPC is isolated by design) or Option B: one allowlist Cloud Firewall - both in §16, `create-firewall.sh` |
 | VNIC `--skip-source-dest-check` | not needed (no equivalent required for flannel vxlan in VPC) |
 | Public NLB + reserved IP (`oci/nlb-setup.sh`, `oci/oci-create-nlbs.sh`) | 2 × NodeBalancer (TCP 80/443 → NodePorts) — `akamai/create-nodebalancers.sh` |
-| Bare-metal 8×NVMe + `mdadm` RAID-10 | plan-included SSD re-partitioned into root(150GB)+`/data` — `akamai/resize-node-disks.sh` |
+| Bare-metal 8×NVMe + `mdadm` RAID-10 | plan-included SSD re-partitioned into root(120GB)+btrfs-zstd `/data` — `akamai/resize-node-disks.sh` |
 | Fault domains | strict anti-affinity Placement Groups (max 5 Linodes each) |
 | Instance public IP | public IPv4 via VPC 1:1 NAT |
 | OCIDs / compartments / `oci-env.sh` | `akamai/linode-env.sh` + `linode-cli` |
@@ -211,7 +215,7 @@ downstream (placement groups, disks, labels, patroni sizing, tuning) adapts auto
 | Placement groups | prod=3, test/compute=4 (strict, max 5 ✓) | prod=3, test/compute=**5** (exactly at the strict max ✓) | prod=3, test/compute=4 ✓ |
 
 Feasibility of prod Patroni on 256 GB nodes (live-measured, §0.1): prod PGDATA 1.9-2.4 TiB
-fits the 4,850 GiB `/data` (PVC 4500Gi) with 2× headroom; post-shrink PostgreSQL needs
+fits the 4,880 GiB btrfs-zstd `/data` (PVC 4500Gi) with 2× headroom; post-shrink PostgreSQL needs
 sb 64 GB + workers ≈ 100-140 GiB, apps ≈ 100 GiB → ~240 GiB worst case vs 256 GiB node -
 tight but real usage is far below worst case (live prod pg anon memory is <1 GiB + shmem);
 with the §1.1 placement policy (no `node=devstats-app` on Patroni nodes) the "apps" share
@@ -334,7 +338,7 @@ cd akamai
 vim linode-env.sh              # set REGION (from Akamai confirmation), SSH key, root pass
 source linode-env.sh
 ./create-infra.sh              # VPC + subnet + 2 placement groups + 7-8 Linodes per TOPOLOGY (pilot mode available)
-./resize-node-disks.sh all     # per node: shrink root to 150GB, drop swap, create ext4 "data" disk
+./resize-node-disks.sh all     # per node: shrink root to 120GB, drop swap, create raw "data" disk (btrfs later)
 ```
 
 Details / decisions encoded in the scripts:
@@ -363,9 +367,18 @@ Details / decisions encoded in the scripts:
 5. **No Cloud Firewall attached at creation** (avoids provider-filter debugging during the
    migration); pick Option A or B afterwards per §16 - `create-firewall.sh` applies either.
 6. **Disk layout** (replaces OCI `mdadm` RAID-10 - Linode exposes one plan-storage pool, not 8 NVMe devices):
-   - root disk resized to 150 GB, swap deleted;
-   - one ext4 disk `data` using the full remainder (~7,050 GiB on 512s / ~4,850 GiB on 256s);
-   - attached as `sdc` in the config profile; mounted `/data` by `node-setup.sh`.
+   - root disk resized to 120 GB (ext4 - required by Linode's boot/resize tooling), swap deleted;
+   - one RAW disk `data` using the full remainder (~7,080 GiB on 512s / ~4,880 GiB on 256s),
+     formatted by `node-setup.sh` as **btrfs `compress-force=zstd:3`** - transparent ~2x
+     compression on Postgres data for a few % CPU; ext4 has no compression, and a single
+     shared root would let a runaway DB take down SSH/apt/kubelet, so we split;
+   - attached as `sdc` in the config profile; mounted `/data` by `node-setup.sh`
+     (etcd dir gets `chattr +C` - no CoW for its fsync-heavy tiny files);
+   - btrfs extras used because they fit the k8s+DB purpose exactly: DUP metadata,
+     data checksums + monthly scrub cron (bit-rot detection), and per-dir SUBVOLUMES
+     (`openebs/containerd/kubelet/etcd/logs`) so the Postgres hostpath gets an instant
+     crash-consistent read-only snapshot before delta-restore/cutover (local rollback
+     point; deleted after the soak). `btrfs-compsize` installed to inspect real ratios.
 
 ### 4.1 How exactly to reserve the 7 Linodes "in vicinity to each other"
 
@@ -1112,7 +1125,7 @@ limit). The box must also host ingress + some app pods.
 
 | Helm value | mixed (512 GB nodes) | 8x256/7x256 (256 GB nodes) |
 |---|---|---|
-| `postgresStorageSize` | 6000Gi | **4500Gi** (/data ≈ 4,850 GiB after 150 GB root) |
+| `postgresStorageSize` | 6000Gi | **4500Gi** (/data ≈ 4,880 GiB after 120 GB root; btrfs-zstd ~2x on disk) |
 | `requestsPostgresCPU` / `limitsPostgresCPU` | 24000m / 56000m | **16000m / 48000m** |
 | `requestsPostgresMemory` / `limitsPostgresMemory` | 96Gi / 400Gi | **64Gi / 180Gi** |
 
@@ -1319,7 +1332,7 @@ unchanged). Passwords: reuse existing (same DB contents) - rotation optional pos
 |---|---|---|
 | `linode-env.sh` | single source of truth: region, plans, **`TOPOLOGY=mixed\|8x256\|7x256`**, names, IPs, **`FW_MODE`**, NB ports, topology-aware patroni sizing | `oci/oci-env.sh`, `*.secret` env files |
 | `create-infra.sh [pilot\|rest\|all]` | VPC, subnet, placement groups, 7-8 Linodes (manual VPC IPs, 1:1 NAT, PGs; topology-aware) | OCI instance/console setup |
-| `resize-node-disks.sh [node\|all]` | shrink root→150 GB, drop swap, create+attach ext4 `data` disk | `mdadm` RAID-10 section |
+| `resize-node-disks.sh [node\|all]` | shrink root→120 GB, drop swap, create+attach raw `data` disk (btrfs+zstd via `node-setup.sh`) | `mdadm` RAID-10 section |
 | `node-setup.sh` | full per-node OS + containerd + kubeadm/kubelet/kubectl + sysctls + /data layout | README "Shared steps" |
 | `label-nodes.sh` | apply node/node2/ingress labels per section 1.1 (auto-detects compute-03); `node=devstats-app` on compute nodes ONLY - Patroni node disks hold only DBs | README label loop |
 | `install-ingresses.sh` | both ingress-nginx releases with exact OCI flags/NodePorts, PINNED final chart 4.15.1 + digest-pinned images + distinct controller identities + webhook namespace isolation (§7.1) | README nginx-ingress section |

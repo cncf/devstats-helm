@@ -1,9 +1,10 @@
 #!/bin/bash
 # Re-allocates each Linode's plan-included local SSD (replaces the OCI 8xNVMe mdadm RAID-10):
 #   - shut down
-#   - resize root disk to ROOT_DISK_MB (150 GB)
+#   - resize root disk to ROOT_DISK_MB (120 GB)
 #   - delete swap disk (swap must stay off for kubelet anyway)
-#   - create one ext4 disk "data" from the full remaining plan allocation
+#   - create one RAW disk "data" from the full remaining plan allocation
+#     (RAW because Linode can't create btrfs; node-setup.sh formats it btrfs+zstd)
 #   - attach it as sdc in the config profile
 #   - boot
 # The disk is then mounted at /data by node-setup.sh (fstab UUID entry).
@@ -70,8 +71,8 @@ fix_node () {
   fi
 
   local data_size=$(( total - ROOT_DISK_MB ))
-  echo "  creating ext4 data disk (${data_size} MB)..."
-  data_id="$(linode-cli linodes disk-create "${id}" --label data --filesystem ext4 --size "${data_size}" --json | jq -r '.[0].id')"
+  echo "  creating raw data disk (${data_size} MB)..."
+  data_id="$(linode-cli linodes disk-create "${id}" --label data --filesystem raw --size "${data_size}" --json | jq -r '.[0].id')"
   wait_disks_ready "${id}"
 
   cfg_id="$(linode-cli linodes configs-list "${id}" --json | jq -r '.[0].id')"

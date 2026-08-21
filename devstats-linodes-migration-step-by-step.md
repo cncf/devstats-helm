@@ -92,11 +92,15 @@ export SUBNET_LABEL='devstats-nodes'
 export SUBNET_CIDR='10.60.0.0/24'
 export PG_PROD_LABEL='devstats-prod-pg'
 export PG_TC_LABEL='devstats-test-compute-pg'
-export SSH_PUB_KEY_FILE="$HOME/.ssh/id_rsa.pub"
-export ROOT_DISK_MB=153600          # root shrunk to 150 GB; rest -> ext4 "data" disk at /data
+export SSH_PUB_KEY_FILE="$HOME/.ssh/id_ed25519.pub"
+export ROOT_DISK_MB=122880          # root 120 GB (ext4); rest -> raw disk, btrfs+zstd at /data
 
 # --- node inventory: name:vpc-ip:placement-group (prod group=3, test/compute group=5, max 5/group) ---
-export NODE_INVENTORY='devstats-prod-db-01:10.60.0.11:prod devstats-prod-db-02:10.60.0.12:prod devstats-prod-db-03:10.60.0.13:prod devstats-test-db-01:10.60.0.21:tc devstats-test-db-02:10.60.0.22:tc devstats-compute-01:10.60.0.31:tc devstats-compute-02:10.60.0.32:tc devstats-compute-03:10.60.0.33:tc'
+NODE_INVENTORY='devstats-prod-db-01:10.60.0.11:prod devstats-prod-db-02:10.60.0.12:prod'
+NODE_INVENTORY+=' devstats-prod-db-03:10.60.0.13:prod devstats-test-db-01:10.60.0.21:tc'
+NODE_INVENTORY+=' devstats-test-db-02:10.60.0.22:tc devstats-compute-01:10.60.0.31:tc'
+NODE_INVENTORY+=' devstats-compute-02:10.60.0.32:tc devstats-compute-03:10.60.0.33:tc'
+export NODE_INVENTORY
 export MASTER_VPC_IP='10.60.0.31'
 
 # --- FROZEN version baseline (main plan section 15 - do NOT bump on install day) ---
@@ -157,14 +161,28 @@ skips_except () {
 # page (kubectl context MUST be `prod` on the master). Installs release devstats-prod-<proj>
 # (provision pod running devstats-helm/restore.sh + the project crons/grafanas/services).
 restore_prod () {
-  helm install "devstats-prod-${1}" ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,indexPVsFrom=$2,indexPVsTo=$3,indexProvisionsFrom=$2,indexProvisionsTo=$3,indexCronsFrom=$2,indexCronsTo=$3,indexGrafanasFrom=$2,indexGrafanasTo=$3,indexServicesFrom=$2,indexServicesTo=$3,indexAffiliationsFrom=$2,indexAffiliationsTo=$3,provisionImage='lukaszgryglicki/devstats-prod',provisionCommand='devstats-helm/restore.sh',restoreFrom='https://devstats.cncf.io/backups/',testServer='',prodServer='1' \
-  && echo "watch: kubectl -n devstats-prod logs -f devstats-provision-${1}"
+  local s='namespace=devstats-prod,skipSecrets=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1'
+  s+=',skipBootstrap=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1'
+  s+=",indexPVsFrom=$2,indexPVsTo=$3,indexProvisionsFrom=$2,indexProvisionsTo=$3"
+  s+=",indexCronsFrom=$2,indexCronsTo=$3,indexGrafanasFrom=$2,indexGrafanasTo=$3"
+  s+=",indexServicesFrom=$2,indexServicesTo=$3,indexAffiliationsFrom=$2,indexAffiliationsTo=$3"
+  s+=',provisionImage=lukaszgryglicki/devstats-prod,provisionCommand=devstats-helm/restore.sh'
+  s+=',restoreFrom=https://devstats.cncf.io/backups/,testServer=,prodServer=1'
+  helm install "devstats-prod-${1}" ./devstats-helm --set "${s}" \
+    && echo "watch: kubectl -n devstats-prod logs -f devstats-provision-${1}"
 }
 
 # restore_test <proj> <indexFrom> <indexTo>: same for TEST (context `test`; teststats source)
 restore_test () {
-  helm install "devstats-test-${1}" ./devstats-helm --set skipSecrets=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,indexPVsFrom=$2,indexPVsTo=$3,indexProvisionsFrom=$2,indexProvisionsTo=$3,indexCronsFrom=$2,indexCronsTo=$3,indexGrafanasFrom=$2,indexGrafanasTo=$3,indexServicesFrom=$2,indexServicesTo=$3,indexAffiliationsFrom=$2,indexAffiliationsTo=$3,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,skikAddAll=1,provisionCommand='devstats-helm/restore.sh',restoreFrom='https://teststats.cncf.io/backups/',projectsOverride="+${1}" \
-  && echo "watch: kubectl -n devstats-test logs -f devstats-provision-${1}"
+  local s='skipSecrets=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1'
+  s+=',skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,skikAddAll=1'
+  s+=",indexPVsFrom=$2,indexPVsTo=$3,indexProvisionsFrom=$2,indexProvisionsTo=$3"
+  s+=",indexCronsFrom=$2,indexCronsTo=$3,indexGrafanasFrom=$2,indexGrafanasTo=$3"
+  s+=",indexServicesFrom=$2,indexServicesTo=$3,indexAffiliationsFrom=$2,indexAffiliationsTo=$3"
+  s+=',provisionCommand=devstats-helm/restore.sh,restoreFrom=https://teststats.cncf.io/backups/'
+  s+=",projectsOverride=+${1}"
+  helm install "devstats-test-${1}" ./devstats-helm --set "${s}" \
+    && echo "watch: kubectl -n devstats-test logs -f devstats-provision-${1}"
 }
 
 # wait_provisions [N]: block while N or more provision pods are still running (default 6)
@@ -283,10 +301,25 @@ sv NODE_PUB_IPS "$PUB_DEVSTATS_PROD_DB_01 $PUB_DEVSTATS_PROD_DB_02 $PUB_DEVSTATS
 
 ### 1.5 Disk re-layout on every node (BEFORE installing anything) [workstation]
 
-Each node: shut down → delete swap disk → shrink root to 150 GB → create one big ext4
-`data` disk from the rest (~4,850 GB) → attach as `/dev/sdc` → boot.
+Each node: shut down → delete swap disk → shrink root to 120 GB → create one big RAW
+`data` disk from the rest (~5,000 GB) → attach as `/dev/sdc` → boot. Step 1.7 then
+formats `/dev/sdc` as **btrfs with transparent zstd compression** and mounts it at `/data`.
 
-150 GB root is comfortably enough: it holds ONLY the OS + apt packages (~10-15 GB).
+WHY split + btrfs (vs one big root):
+- ext4 (the root fs, and the only thing Linode's image/resize tooling supports for boot)
+  has NO transparent compression - so "one big root" also means "no compression, ever".
+- btrfs `compress-force=zstd:3` typically shrinks DevStats Postgres data (text/JSON-heavy)
+  ~2x on disk for a few % CPU on these 56-core nodes - effectively doubling DB headroom.
+- btrfs is also SPECIFICALLY good for this k8s+DB purpose beyond compression:
+  data checksums verified on every read + a monthly scrub (bit-rot detection ext4 never
+  had), DUP metadata (fs survives single-sector metadata corruption), and SUBVOLUMES -
+  instant crash-consistent snapshots of the Postgres hostpath taken before risky steps
+  (delta re-restore, DNS cutover) = free local rollback points (§4.3, cleaned up in §5.1).
+- isolation: a runaway DB/backup can only fill `/data` (pods degrade); it can never fill
+  `/` and take down SSH/apt/kubelet on the node.
+- the data disk is created `raw` because Linode can't create btrfs; we mkfs it ourselves.
+
+120 GB root is comfortably enough: it holds ONLY the OS + apt packages (~10-15 GB).
 Everything space-hungry is symlinked onto `/data` in step 1.7 - container images
 (`/var/lib/containerd`), kubelet volumes (`/var/lib/kubelet`), etcd (`/var/lib/etcd`),
 pod/container logs, and OpenEBS hostpath data (`/var/openebs`) - so kubernetes/containerd
@@ -301,17 +334,23 @@ for e in $NODE_INVENTORY; do
   id="$(linode-cli linodes list --json | jq -r --arg l "$name" '.[] | select(.label==$l) | .id')"
   total="$(linode-cli linodes view "$id" --json | jq -r '.[0].specs.disk')"
   echo "== $name (id $id, plan disk ${total} MB) =="
+  if linode-cli linodes disks-list "$id" --json | jq -e '.[] | select(.label=="data")' >/dev/null; then
+    echo "  data disk already exists - skipping (re-run safe)"; continue
+  fi
   linode-cli linodes shutdown "$id" >/dev/null || true; wait_status "$id" offline
   root_id="$(linode-cli linodes disks-list "$id" --json | jq -r '[.[] | select(.filesystem=="ext4")][0].id')"
   swap_id="$(linode-cli linodes disks-list "$id" --json | jq -r '.[] | select(.filesystem=="swap") | .id' | head -1)"
   [ -n "$swap_id" ] && [ "$swap_id" != "null" ] && { linode-cli linodes disk-delete "$id" "$swap_id" >/dev/null; wait_disks "$id"; }
-  linode-cli linodes disk-resize "$id" "$root_id" --size "$ROOT_DISK_MB" >/dev/null; wait_disks "$id"
-  data_id="$(linode-cli linodes disk-create "$id" --label data --filesystem ext4 --size "$(( total - ROOT_DISK_MB ))" --json | jq -r '.[0].id')"
+  root_size="$(linode-cli linodes disks-list "$id" --json | jq -r --arg i "$root_id" '.[] | select((.id|tostring)==$i) | .size')"
+  if [ "$root_size" -gt "$ROOT_DISK_MB" ]; then
+    linode-cli linodes disk-resize "$id" "$root_id" --size "$ROOT_DISK_MB" >/dev/null; wait_disks "$id"
+  fi
+  data_id="$(linode-cli linodes disk-create "$id" --label data --filesystem raw --size "$(( total - ROOT_DISK_MB ))" --json | jq -r '.[0].id')"
   wait_disks "$id"
   cfg_id="$(linode-cli linodes configs-list "$id" --json | jq -r '.[0].id')"
   linode-cli linodes config-update "$id" "$cfg_id" --devices.sdc.disk_id "$data_id" >/dev/null
   linode-cli linodes boot "$id" >/dev/null; wait_status "$id" running
-  echo "  done: root ${ROOT_DISK_MB} MB + data $(( total - ROOT_DISK_MB )) MB as /dev/sdc"
+  echo "  done: root ${ROOT_DISK_MB} MB + raw data $(( total - ROOT_DISK_MB )) MB as /dev/sdc"
 done
 ```
 
@@ -354,25 +393,47 @@ cat >> /etc/hosts <<'HOSTS'
 HOSTS
 fi
 
+# [1b] hostname from VPC IP (Linode images boot as "localhost"; kubelet uses the
+# hostname as the k8s node NAME - joins would collide without unique hostnames)
+VPC_IP="$(ip -4 -o addr show scope global | awk '{print $4}' | cut -d/ -f1 | grep '^10\.60\.0\.' | head -1)"
+NODE_NAME="$(awk -v ip="$VPC_IP" '$1==ip && $2 ~ /^devstats-(prod|test|compute)/ {print $2; exit}' /etc/hosts)"
+[ -n "$NODE_NAME" ] || { echo "cannot map VPC IP '$VPC_IP' to a node name"; exit 1; }
+hostnamectl set-hostname "$NODE_NAME"
+if grep -q '^127\.0\.1\.1' /etc/hosts; then
+  sed -i "s/^127\.0\.1\.1.*/127.0.1.1 $NODE_NAME/" /etc/hosts
+else
+  echo "127.0.1.1 $NODE_NAME" >> /etc/hosts
+fi
+echo "hostname -> $NODE_NAME"
+
 # [2] base packages
 chmod -x /etc/update-motd.d/* 2>/dev/null || true
 apt-get update -y && apt-get upgrade -y
 apt-get install -y apt-transport-https ca-certificates curl gnupg gpg nfs-common net-tools \
-  iptables-persistent jq mc btop iperf3 fio
+  iptables-persistent jq mc btop iperf3 fio btrfs-progs btrfs-compsize
 
-# [3] /data on the plan-local data disk (/dev/sdc from step 1.5)
+# [3] /data = btrfs + transparent zstd on the raw data disk (/dev/sdc from step 1.5)
 if ! mountpoint -q /data; then
   [ -b /dev/sdc ] || { echo '/dev/sdc missing - re-run step 1.5 for this node'; exit 1; }
   mkdir -p /data
+  # DUP metadata: two copies of fs metadata - survives single-sector corruption
+  [ "$(blkid -s TYPE -o value /dev/sdc)" = "btrfs" ] || mkfs.btrfs -f -L data -m dup -d single /dev/sdc
   UUID="$(blkid -s UUID -o value /dev/sdc)"
-  [ -n "$UUID" ] || { mkfs.ext4 -L data /dev/sdc; UUID="$(blkid -s UUID -o value /dev/sdc)"; }
-  grep -q "$UUID" /etc/fstab || echo "UUID=$UUID /data ext4 defaults,noatime,x-systemd.before=local-fs.target,x-systemd.requires=local-fs-pre.target 0 2" >> /etc/fstab
+  OPTS="compress-force=zstd:3,noatime,discard=async"
+  OPTS+=",x-systemd.before=local-fs.target,x-systemd.requires=local-fs-pre.target"
+  grep -q "$UUID" /etc/fstab || echo "UUID=$UUID /data btrfs $OPTS 0 0" >> /etc/fstab
   systemctl daemon-reload && mount -a
 fi
-tune2fs -m 1 /dev/sdc >/dev/null || true   # reclaim ext4 root-reserve: 5% -> 1%
+findmnt -no FSTYPE,OPTIONS /data | grep -q 'btrfs.*zstd' || { echo '/data is not btrfs+zstd'; exit 1; }
+# monthly scrub re-verifies every checksum on cold data too (idle io class; 1st, 04:30)
+echo '30 4 1 * * root /usr/bin/btrfs scrub start -c 3 /data >/dev/null 2>&1' > /etc/cron.d/btrfs-scrub-data
 
-# [4] fat-disk symlinks for k8s/openebs/etcd/logs
-mkdir -p /data/openebs /data/containerd /data/kubelet /data/etcd /data/logs/containers /data/logs/pods
+# [4] SUBVOLUMES (independent snapshot/rollback units) + fat-disk symlinks
+for sv in openebs containerd kubelet etcd logs; do
+  [ -d "/data/$sv" ] || btrfs subvolume create "/data/$sv"
+done
+mkdir -p /data/logs/containers /data/logs/pods
+chattr +C /data/etcd 2>/dev/null || true   # etcd: fsync-heavy+tiny -> no CoW (skips compression there only)
 chown -R root:root /data && chmod 755 /data
 [ -e /var/openebs ]        || ln -s /data/openebs /var/openebs
 [ -e /var/lib/containerd ] || ln -s /data/containerd /var/lib/containerd
@@ -452,7 +513,8 @@ NODESETUP
 done
 ```
 
-Gate: every node printed `NODE READY: ... v${K8S_PATCH} ...`.
+Gate: every node printed `NODE READY: devstats-... v${K8S_PATCH} ...` - the first field
+MUST be that node's own `devstats-*` name, NOT `localhost` (kubelet registers under it).
 
 ### 1.8 kubeadm init + flannel + /22 pod CIDRs + 1024 pods (master FIRST, before joins) [master]
 
@@ -605,8 +667,11 @@ spec:
   accessModes: [$( [ "$sc" = "openebs-hostpath" ] && echo ReadWriteOnce || echo ReadWriteMany )]
   resources: {requests: {storage: 1Gi}}
 GATE
-  kubectl run "gate-$sc" --image=busybox --restart=Never \
-    --overrides='{"spec":{"containers":[{"name":"gate-'$sc'","image":"busybox","command":["sh","-c","echo ok > /mnt/ok && cat /mnt/ok"],"volumeMounts":[{"name":"v","mountPath":"/mnt"}]}],"volumes":[{"name":"v","persistentVolumeClaim":{"claimName":"gate-'$sc'"}}]}}'
+  ov='{"spec":{"containers":[{"name":"g","image":"busybox",'
+  ov+='"command":["sh","-c","echo ok > /mnt/ok && cat /mnt/ok"],'
+  ov+='"volumeMounts":[{"name":"v","mountPath":"/mnt"}]}],'
+  ov+='"volumes":[{"name":"v","persistentVolumeClaim":{"claimName":"gate-'$sc'"}}]}}'
+  kubectl run "gate-$sc" --image=busybox --restart=Never --overrides="$ov"
   sleep 25; kubectl logs "gate-$sc"   # must print: ok
   kubectl delete po "gate-$sc"; kubectl delete pvc "gate-$sc"
 done
@@ -846,12 +911,32 @@ kubectl get pv -o custom-columns=NAME:.metadata.name,CLAIM:.spec.claimRef.name,N
 
 ```bash
 kubectl config use-context test
-helm install devstats-test-patroni ./devstats-helm --set "$(skips_except Postgres),postgresNodes=${TEST_POSTGRES_NODES},postgresStorageSize=${TEST_POSTGRES_STORAGE},dbNodeSelector.node2=devstats-db-test,requestsPostgresCPU=${TEST_PG_REQ_CPU},requestsPostgresMemory=${TEST_PG_REQ_MEM},limitsPostgresCPU=${TEST_PG_LIM_CPU},limitsPostgresMemory=${TEST_PG_LIM_MEM}"
+S="$(skips_except Postgres),postgresNodes=${TEST_POSTGRES_NODES}"
+S+=",postgresStorageSize=${TEST_POSTGRES_STORAGE},dbNodeSelector.node2=devstats-db-test"
+S+=",requestsPostgresCPU=${TEST_PG_REQ_CPU},requestsPostgresMemory=${TEST_PG_REQ_MEM}"
+S+=",limitsPostgresCPU=${TEST_PG_LIM_CPU},limitsPostgresMemory=${TEST_PG_LIM_MEM}"
+helm install devstats-test-patroni ./devstats-helm --set "$S"
 kubectl -n devstats-test get po -o wide -w | grep postgres   # Ctrl-C when 2/2 Running
 kubectl exec -itn devstats-test devstats-postgres-0 -c devstats-postgres -- patronictl list   # 1 leader + 1 replica
 
 # tune (PATCH persists to the k8s DCS - any member works):
-PARAMS='{"loop_wait":15,"ttl":60,"retry_timeout":60,"primary_start_timeout":600,"maximum_lag_on_failover":53687091200,"postgresql":{"use_pg_rewind":true,"use_slots":true,"parameters":{"shared_buffers":"48GB","max_connections":1024,"max_worker_processes":16,"max_parallel_workers":16,"max_parallel_workers_per_gather":8,"work_mem":"1GB","wal_buffers":"1GB","temp_file_limit":"200GB","wal_keep_size":"100GB","max_wal_senders":10,"max_replication_slots":10,"maintenance_work_mem":"2GB","idle_in_transaction_session_timeout":"30min","wal_level":"replica","wal_log_hints":"on","hot_standby":"on","hot_standby_feedback":"on","max_wal_size":"128GB","min_wal_size":"4GB","checkpoint_completion_target":0.9,"default_statistics_target":1000,"effective_cache_size":"128GB","effective_io_concurrency":8,"random_page_cost":1.1,"autovacuum_max_workers":1,"autovacuum_naptime":"120s","autovacuum_vacuum_cost_limit":100,"autovacuum_vacuum_threshold":150,"autovacuum_vacuum_scale_factor":0.25,"autovacuum_analyze_threshold":100,"autovacuum_analyze_scale_factor":0.2,"password_encryption":"scram-sha-256"}}}'
+PARAMS='{"loop_wait":15,"ttl":60,"retry_timeout":60,"primary_start_timeout":600,'
+PARAMS+='"maximum_lag_on_failover":53687091200,'
+PARAMS+='"postgresql":{"use_pg_rewind":true,"use_slots":true,"parameters":{'
+PARAMS+='"shared_buffers":"48GB","max_connections":1024,"max_worker_processes":16,'
+PARAMS+='"max_parallel_workers":16,"max_parallel_workers_per_gather":8,"work_mem":"1GB",'
+PARAMS+='"wal_buffers":"1GB","temp_file_limit":"200GB","wal_keep_size":"100GB",'
+PARAMS+='"max_wal_senders":10,"max_replication_slots":10,"maintenance_work_mem":"2GB",'
+PARAMS+='"idle_in_transaction_session_timeout":"30min","wal_level":"replica",'
+PARAMS+='"wal_log_hints":"on","hot_standby":"on","hot_standby_feedback":"on",'
+PARAMS+='"max_wal_size":"128GB","min_wal_size":"4GB","checkpoint_completion_target":0.9,'
+PARAMS+='"default_statistics_target":1000,"effective_cache_size":"128GB",'
+PARAMS+='"effective_io_concurrency":8,"random_page_cost":1.1,"autovacuum_max_workers":1,'
+PARAMS+='"autovacuum_naptime":"120s","autovacuum_vacuum_cost_limit":100,'
+PARAMS+='"autovacuum_vacuum_threshold":150,"autovacuum_vacuum_scale_factor":0.25,'
+PARAMS+='"autovacuum_analyze_threshold":100,"autovacuum_analyze_scale_factor":0.2,'
+PARAMS+='"password_encryption":"scram-sha-256"}}}'
+echo "$PARAMS" | jq . >/dev/null && echo "PARAMS JSON OK"
 kubectl exec -n devstats-test devstats-postgres-0 -c devstats-postgres -- \
   curl -s -X PATCH -H 'Content-Type: application/json' -d "$PARAMS" http://localhost:8008/config
 kubectl exec -itn devstats-test devstats-postgres-0 -c devstats-postgres -- patronictl show-config
@@ -867,12 +952,32 @@ kubectl exec -itn devstats-test devstats-postgres-0 -c devstats-postgres -- patr
 
 ```bash
 kubectl config use-context prod
-helm install devstats-prod-patroni ./devstats-helm --set "namespace=devstats-prod,$(skips_except Postgres),postgresNodes=${PROD_POSTGRES_NODES},postgresStorageSize=${PROD_POSTGRES_STORAGE},dbNodeSelector.node2=devstats-db-prod,requestsPostgresCPU=${PROD_PG_REQ_CPU},requestsPostgresMemory=${PROD_PG_REQ_MEM},limitsPostgresCPU=${PROD_PG_LIM_CPU},limitsPostgresMemory=${PROD_PG_LIM_MEM}"
+S="namespace=devstats-prod,$(skips_except Postgres),postgresNodes=${PROD_POSTGRES_NODES}"
+S+=",postgresStorageSize=${PROD_POSTGRES_STORAGE},dbNodeSelector.node2=devstats-db-prod"
+S+=",requestsPostgresCPU=${PROD_PG_REQ_CPU},requestsPostgresMemory=${PROD_PG_REQ_MEM}"
+S+=",limitsPostgresCPU=${PROD_PG_LIM_CPU},limitsPostgresMemory=${PROD_PG_LIM_MEM}"
+helm install devstats-prod-patroni ./devstats-helm --set "$S"
 kubectl -n devstats-prod get po -o wide -w | grep postgres   # Ctrl-C when 3/3 Running
 kubectl exec -itn devstats-prod devstats-postgres-0 -c devstats-postgres -- patronictl list   # 1 leader + 2 replicas
 
 # tune for 256 GB nodes (sb 64GB / ecs 128GB / wm 1GB / temp 100GB):
-PARAMS='{"loop_wait":15,"ttl":60,"retry_timeout":60,"primary_start_timeout":600,"maximum_lag_on_failover":53687091200,"postgresql":{"use_pg_rewind":true,"use_slots":true,"parameters":{"shared_buffers":"64GB","max_connections":1024,"max_worker_processes":32,"max_parallel_workers":32,"max_parallel_workers_per_gather":16,"work_mem":"1GB","wal_buffers":"1GB","temp_file_limit":"100GB","wal_keep_size":"100GB","max_wal_senders":10,"max_replication_slots":10,"maintenance_work_mem":"2GB","idle_in_transaction_session_timeout":"30min","wal_level":"replica","wal_log_hints":"on","hot_standby":"on","hot_standby_feedback":"on","max_wal_size":"128GB","min_wal_size":"4GB","checkpoint_completion_target":0.9,"default_statistics_target":1000,"effective_cache_size":"128GB","effective_io_concurrency":8,"random_page_cost":1.1,"autovacuum_max_workers":1,"autovacuum_naptime":"120s","autovacuum_vacuum_cost_limit":100,"autovacuum_vacuum_threshold":150,"autovacuum_vacuum_scale_factor":0.25,"autovacuum_analyze_threshold":100,"autovacuum_analyze_scale_factor":0.2,"password_encryption":"scram-sha-256"}}}'
+PARAMS='{"loop_wait":15,"ttl":60,"retry_timeout":60,"primary_start_timeout":600,'
+PARAMS+='"maximum_lag_on_failover":53687091200,'
+PARAMS+='"postgresql":{"use_pg_rewind":true,"use_slots":true,"parameters":{'
+PARAMS+='"shared_buffers":"64GB","max_connections":1024,"max_worker_processes":32,'
+PARAMS+='"max_parallel_workers":32,"max_parallel_workers_per_gather":16,"work_mem":"1GB",'
+PARAMS+='"wal_buffers":"1GB","temp_file_limit":"100GB","wal_keep_size":"100GB",'
+PARAMS+='"max_wal_senders":10,"max_replication_slots":10,"maintenance_work_mem":"2GB",'
+PARAMS+='"idle_in_transaction_session_timeout":"30min","wal_level":"replica",'
+PARAMS+='"wal_log_hints":"on","hot_standby":"on","hot_standby_feedback":"on",'
+PARAMS+='"max_wal_size":"128GB","min_wal_size":"4GB","checkpoint_completion_target":0.9,'
+PARAMS+='"default_statistics_target":1000,"effective_cache_size":"128GB",'
+PARAMS+='"effective_io_concurrency":8,"random_page_cost":1.1,"autovacuum_max_workers":1,'
+PARAMS+='"autovacuum_naptime":"120s","autovacuum_vacuum_cost_limit":100,'
+PARAMS+='"autovacuum_vacuum_threshold":150,"autovacuum_vacuum_scale_factor":0.25,'
+PARAMS+='"autovacuum_analyze_threshold":100,"autovacuum_analyze_scale_factor":0.2,'
+PARAMS+='"password_encryption":"scram-sha-256"}}}'
+echo "$PARAMS" | jq . >/dev/null && echo "PARAMS JSON OK"
 kubectl exec -n devstats-prod devstats-postgres-0 -c devstats-postgres -- \
   curl -s -X PATCH -H 'Content-Type: application/json' -d "$PARAMS" http://localhost:8008/config
 kubectl exec -itn devstats-prod devstats-postgres-0 -c devstats-postgres -- patronictl show-config
@@ -905,7 +1010,12 @@ kubectl -n devstats-test create job --from=cronjob/devstats-backups devstats-bac
 
 ```bash
 kubectl config use-context prod
-helm install devstats-prod-debug ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,bootstrapPodName=debug,bootstrapCommand=sleep,bootstrapCommandArgs={360000s},bootstrapMountBackups=1,limitsBackupsCPU=4000m,limitsBackupsMemory=64Gi
+S='namespace=devstats-prod,skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1'
+S+=',skipBackups=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1'
+S+=',skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1'
+S+=',bootstrapPodName=debug,bootstrapCommand=sleep,bootstrapCommandArgs={360000s}'
+S+=',bootstrapMountBackups=1,limitsBackupsCPU=4000m,limitsBackupsMemory=64Gi'
+helm install devstats-prod-debug ./devstats-helm --set "$S"
 kubectl -n devstats-prod exec -it debug -- bash
 # inside the pod (ONLY must be EXPLICIT - the pod defaults to the TEST db list):
 ONLY="$(cat ./devel/all_prod_dbs.txt)" FASTXZ=1 NOBACKUP='' ./devstats-helm/backup_artificial_all.sh
@@ -1236,13 +1346,33 @@ Linode from GH Archive within the hour):
 kubectl -n devstats-prod create job --from=cronjob/devstats-backups devstats-backups-final
 kubectl -n devstats-prod logs -f job/devstats-backups-final    # wait - this gates everything
 # refresh artificial + affiliations dumps too (debug pod, as in 2.2):
-helm install devstats-prod-debug ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,bootstrapPodName=debug,bootstrapCommand=sleep,bootstrapCommandArgs={360000s},bootstrapMountBackups=1,limitsBackupsCPU=4000m,limitsBackupsMemory=64Gi
+S='namespace=devstats-prod,skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1'
+S+=',skipBackups=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1'
+S+=',skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1'
+S+=',bootstrapPodName=debug,bootstrapCommand=sleep,bootstrapCommandArgs={360000s}'
+S+=',bootstrapMountBackups=1,limitsBackupsCPU=4000m,limitsBackupsMemory=64Gi'
+helm install devstats-prod-debug ./devstats-helm --set "$S"
 kubectl -n devstats-prod exec -it debug -- bash -c "ONLY=\"\$(cat ./devel/all_prod_dbs.txt)\" FASTXZ=1 NOBACKUP='' ./devstats-helm/backup_artificial_all.sh"
 helm delete devstats-prod-debug
 curl -s https://devstats.cncf.io/backups/ | grep -o 'gha.dump[^<]*'   # timestamp = today
 ```
 
 ### 4.3 Delta re-restore of the big DBs on Linode [master]
+
+FIRST: instant crash-consistent btrfs snapshots of the prod Postgres hostpaths = free
+rollback point (Postgres recovers from a snapshot exactly like from a power loss):
+
+```bash
+# [workstation]
+source linodes.env.secret
+for h in $PUB_DEVSTATS_PROD_DB_01 $PUB_DEVSTATS_PROD_DB_02 $PUB_DEVSTATS_PROD_DB_03; do
+  ssh root@$h 'btrfs subvolume snapshot -r /data/openebs /data/.snap-openebs-pre-delta; btrfs subvolume list /data'
+  ssh root@$h 'compsize /data/openebs | tail -3'    # bonus: see the real zstd ratio
+done
+# rollback (only if delta-restore goes wrong): on the affected node:
+#   systemctl stop kubelet; btrfs subvolume delete /data/openebs
+#   btrfs subvolume snapshot /data/.snap-openebs-pre-delta /data/openebs; systemctl start kubelet
+```
 
 ```bash
 cd /root/devstats-helm && source linodes.env.secret
@@ -1354,6 +1484,16 @@ kubectl config use-context prod
 kubectl exec -it debug -- bash -c 'cd /tmp && curl -fsSL -o t.dump https://devstats.cncf.io/backups/homebrew.dump && pg_restore --list t.dump | head && rm t.dump'
 # certificates all READY, no pending challenges:
 kubectl get certificate -A | grep -v True    # empty
+```
+
+Soak green → drop the pre-cutover btrfs snapshots (they pin deleted data = grow over time):
+
+```bash
+# [workstation]
+source linodes.env.secret
+for h in $PUB_DEVSTATS_PROD_DB_01 $PUB_DEVSTATS_PROD_DB_02 $PUB_DEVSTATS_PROD_DB_03; do
+  ssh root@$h 'btrfs subvolume delete /data/.snap-openebs-pre-delta; btrfs filesystem usage -T /data | head -12'
+done
 ```
 
 ### 5.2 Final state snapshot (goes into the repo/docs) [master]
