@@ -9,6 +9,17 @@
 #   - boot
 # The disk is then mounted at /data by node-setup.sh (fstab UUID entry).
 #
+# KNOWN QUIRKS (hit during the live 2026-08-21 run):
+#   - reboot nodes via `linode-cli linodes reboot <id>` ONLY - an in-guest `reboot` can
+#     land the node in `offline` until the watchdog kicks in (or forever); rescue with
+#     `linode-cli linodes boot <id>`.
+#   - node status `running` != sshd up: SSH can refuse connections for ~1 min after the
+#     first boot post-resize - retry, don't re-boot.
+#   - the offline root resize can corrupt /boot/grub/grubenv -> grub2-common.service
+#     fails -> `systemctl is-system-running` reports `degraded` after the next boot.
+#     Harmless (Linodes boot via host-side GRUB); fix per node:
+#     grub-editenv /boot/grub/grubenv create && systemctl restart grub2-common.service
+#
 # Usage:
 #   source akamai/linode-env.sh
 #   ./akamai/resize-node-disks.sh all              # every node from $NODES

@@ -379,6 +379,12 @@ Details / decisions encoded in the scripts:
      (`openebs/containerd/kubelet/etcd/logs`) so the Postgres hostpath gets an instant
      crash-consistent read-only snapshot before delta-restore/cutover (local rollback
      point; deleted after the soak). `btrfs-compsize` installed to inspect real ratios.
+   - reboot quirks (all hit live 2026-08-21): reboot via `linode-cli linodes reboot`
+     ONLY (in-guest `reboot` can strand the node `offline`; rescue: `linodes boot`);
+     status `running` != sshd up (retry SSH ~1 min, don't re-boot); the offline root
+     resize can corrupt `/boot/grub/grubenv` -> `grub2-common.service` fails -> systemd
+     `degraded` (harmless, host-side GRUB boots fine; fix: `grub-editenv
+     /boot/grub/grubenv create && systemctl restart grub2-common.service`).
 
 ### 4.1 How exactly to reserve the 7 Linodes "in vicinity to each other"
 

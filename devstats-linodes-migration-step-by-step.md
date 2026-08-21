@@ -472,15 +472,28 @@ sleep 90    # nodes take ~1-2 min to come back; re-run the loop below until all 
 for h in $NODE_PUB_IPS; do
   echo "===== verifying: $h ====="
   ssh -o ConnectTimeout=10 root@$h 'echo "host: $(hostname)"; df -h / /data | tail -2; \
-    findmnt -no FSTYPE,OPTIONS /data; swapon --show | grep -q . && echo SWAP-ON || echo no-swap'
+    findmnt -no FSTYPE,OPTIONS /data; swapon --show | grep -q . && echo SWAP-ON || echo no-swap; \
+    echo "systemd: $(systemctl is-system-running)"'
 done
 ```
+
+Known reboot quirks (all hit during the live run - none is fatal):
+
+- `ssh: connect to host ... port 22: Connection refused` right after the node shows
+  `running`: Linode `running` means the VM booted, NOT that sshd is up yet - it can lag
+  by ~1 min on first boot after a resize. Just re-run the verify loop; do NOT panic-boot.
+- `systemd: degraded` with `grub2-common.service` failed (`grub-editenv: error: invalid
+  environment block`): the offline root resize in 1.5 can corrupt `/boot/grub/grubenv`.
+  Harmless (Linodes boot via host-side GRUB), but fix it so `degraded` never masks a REAL
+  failure later: `ssh root@$h 'grub-editenv /boot/grub/grubenv create && systemctl restart
+  grub2-common.service && systemctl is-system-running'` - must print `running`.
 
 If a node stays unreachable: `linode-cli linodes view "$ID_..." --json | jq -r '.[0].status'`
 - when it reports `offline`, start it with `linode-cli linodes boot "$ID_..."`.
 
 Gate, on EVERY node: its own `devstats-*` hostname, `/` ~119G on /dev/sda, `/data` ~4.8T
-btrfs with `compress-force=zstd:3`, and `no-swap`. Only then continue to 1.7c.
+btrfs with `compress-force=zstd:3`, `no-swap`, and `systemd: running`. Only then continue
+to 1.7c.
 
 ### 1.7c OS packages + k8s prerequisites on ALL 8 nodes [workstation → each node]
 
