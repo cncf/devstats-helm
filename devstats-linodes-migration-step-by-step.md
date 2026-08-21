@@ -302,7 +302,7 @@ sv NODE_PUB_IPS "$PUB_DEVSTATS_PROD_DB_01 $PUB_DEVSTATS_PROD_DB_02 $PUB_DEVSTATS
 ### 1.5 Disk re-layout on every node (BEFORE installing anything) [workstation]
 
 Each node: shut down → delete swap disk → shrink root to 120 GB → create one big RAW
-`data` disk from the rest (~5,000 GB) → attach as `/dev/sdc` → boot. Step 1.7 then
+`data` disk from the rest (~5,000 GB) → attach as `/dev/sdc` → boot. Step 1.7a then
 formats `/dev/sdc` as **btrfs with transparent zstd compression** and mounts it at `/data`.
 
 WHY split + btrfs (vs one big root):
@@ -320,7 +320,7 @@ WHY split + btrfs (vs one big root):
 - the data disk is created `raw` because Linode can't create btrfs; we mkfs it ourselves.
 
 120 GB root is comfortably enough: it holds ONLY the OS + apt packages (~10-15 GB).
-Everything space-hungry is symlinked onto `/data` in step 1.7 - container images
+Everything space-hungry is symlinked onto `/data` in step 1.7a - container images
 (`/var/lib/containerd`), kubelet volumes (`/var/lib/kubelet`), etcd (`/var/lib/etcd`),
 pod/container logs, and OpenEBS hostpath data (`/var/openebs`) - so kubernetes/containerd
 image pulls never fill the root filesystem.
@@ -328,6 +328,11 @@ image pulls never fill the root filesystem.
 ```bash
 wait_status () { while [ "$(linode-cli linodes view "$1" --json | jq -r '.[0].status')" != "$2" ]; do sleep 10; done; }
 wait_disks  () { while linode-cli linodes disks-list "$1" --json | jq -e '.[] | select(.status!="ready")' >/dev/null 2>&1; do sleep 10; done; }
+# wait_disk ID DISK_ID: waits until that SPECIFIC disk exists AND is ready (a freshly
+# created disk is NOT instantly visible in disks-list - waiting on "all ready" races)
+wait_disk () {
+  while [ "$(linode-cli linodes disks-list "$1" --json | jq -r --arg d "$2" '.[] | select((.id|tostring)==$d) | .status')" != "ready" ]; do sleep 10; done
+}
 
 for e in $NODE_INVENTORY; do
   name="${e%%:*}"
@@ -346,9 +351,11 @@ for e in $NODE_INVENTORY; do
     linode-cli linodes disk-resize "$id" "$root_id" --size "$ROOT_DISK_MB" >/dev/null; wait_disks "$id"
   fi
   data_id="$(linode-cli linodes disk-create "$id" --label data --filesystem raw --size "$(( total - ROOT_DISK_MB ))" --json | jq -r '.[0].id')"
-  wait_disks "$id"
+  wait_disk "$id" "$data_id"
   cfg_id="$(linode-cli linodes configs-list "$id" --json | jq -r '.[0].id')"
-  linode-cli linodes config-update "$id" "$cfg_id" --devices.sdc.disk_id "$data_id" >/dev/null
+  # config-update REPLACES the whole devices map - always pass sda (root) AND sdc (data)!
+  linode-cli linodes config-update "$id" "$cfg_id" \
+    --devices.sda.disk_id "$root_id" --devices.sdc.disk_id "$data_id" >/dev/null
   linode-cli linodes boot "$id" >/dev/null; wait_status "$id" running
   echo "  done: root ${ROOT_DISK_MB} MB + raw data $(( total - ROOT_DISK_MB )) MB as /dev/sdc"
 done
@@ -364,15 +371,15 @@ sv HELM_SHA256 "$(curl -fsSL "https://get.helm.sh/helm-${HELM_VERSION}-linux-amd
 echo "HELM_SHA256=$HELM_SHA256"  # expected (v4.2.4): c306b46f719b0a4da32d0f78ee21bf90ce8d602f15b22ab753f0674d1670a7f3
 ```
 
-### 1.7 OS + k8s prerequisites on ALL 8 nodes [workstation → each node]
+### 1.7a Filesystem & identity on ALL 8 nodes - NO installs yet [workstation → each node]
 
-One big remote block per node (idempotent; ~5 min/node; run sequentially so failures are obvious):
+Hostname + /etc/hosts + btrfs `/data` only (idempotent; ~1 min/node). Nothing is installed
+here, so you can stop after this step and inspect `/data` before any software lands:
 
 ```bash
 for h in $NODE_PUB_IPS; do
-  echo "===== preparing $h ====="
-  ssh -o StrictHostKeyChecking=accept-new root@$h \
-    "K8S_STREAM='$K8S_STREAM' K8S_PATCH='$K8S_PATCH' HELM_VERSION='$HELM_VERSION' HELM_SHA256='$HELM_SHA256' CONTAINERD_VERSION='$CONTAINERD_VERSION' CRICTL_VERSION='$CRICTL_VERSION' bash -s" <<'NODESETUP'
+  echo "===== filesystem: $h ====="
+  ssh -o StrictHostKeyChecking=accept-new root@$h bash -s <<'FSSETUP'
 set -euo pipefail
 export DEBIAN_FRONTEND=noninteractive
 
@@ -393,7 +400,7 @@ cat >> /etc/hosts <<'HOSTS'
 HOSTS
 fi
 
-# [1b] hostname from VPC IP (Linode images boot as "localhost"; kubelet uses the
+# [2] hostname from VPC IP (Linode images boot as "localhost"; kubelet uses the
 # hostname as the k8s node NAME - joins would collide without unique hostnames)
 VPC_IP="$(ip -4 -o addr show scope global | awk '{print $4}' | cut -d/ -f1 | grep '^10\.60\.0\.' | head -1)"
 NODE_NAME="$(awk -v ip="$VPC_IP" '$1==ip && $2 ~ /^devstats-(prod|test|compute)/ {print $2; exit}' /etc/hosts)"
@@ -406,13 +413,8 @@ else
 fi
 echo "hostname -> $NODE_NAME"
 
-# [2] base packages
-chmod -x /etc/update-motd.d/* 2>/dev/null || true
-apt-get update -y && apt-get upgrade -y
-apt-get install -y apt-transport-https ca-certificates curl gnupg gpg nfs-common net-tools \
-  iptables-persistent jq mc btop iperf3 fio btrfs-progs btrfs-compsize
-
 # [3] /data = btrfs + transparent zstd on the raw data disk (/dev/sdc from step 1.5)
+command -v mkfs.btrfs >/dev/null || apt-get install -y btrfs-progs  # preinstalled on 26.04
 if ! mountpoint -q /data; then
   [ -b /dev/sdc ] || { echo '/dev/sdc missing - re-run step 1.5 for this node'; exit 1; }
   mkdir -p /data
@@ -434,7 +436,7 @@ for sv in openebs containerd kubelet etcd logs; do
 done
 mkdir -p /data/logs/containers /data/logs/pods
 chattr +C /data/etcd 2>/dev/null || true   # etcd: fsync-heavy+tiny -> no CoW (skips compression there only)
-chown -R root:root /data && chmod 755 /data
+chown root:root /data && chmod 755 /data   # NEVER -R: re-runs must not chown Postgres PVC data
 [ -e /var/openebs ]        || ln -s /data/openebs /var/openebs
 [ -e /var/lib/containerd ] || ln -s /data/containerd /var/lib/containerd
 [ -e /var/lib/kubelet ]    || ln -s /data/kubelet /var/lib/kubelet
@@ -442,8 +444,53 @@ chown -R root:root /data && chmod 755 /data
 [ -e /var/log/pods ]       || ln -s /data/logs/pods /var/log/pods
 [ -e /var/log/containers ] || ln -s /data/logs/containers /var/log/containers
 
-# [5] swap off, kernel modules, sysctls, forwarding
+# [5] swap off now and at every boot (the swap DISK itself was already deleted in step 1.5)
 swapoff -a; sed -i '/\sswap\s/d' /etc/fstab
+echo "FS READY: $(hostname) $(findmnt -no FSTYPE /data) $(findmnt -no OPTIONS /data)"
+FSSETUP
+done
+```
+
+Gate: every node printed `FS READY: devstats-... btrfs ...zstd:3...` - the first field MUST
+be that node's own `devstats-*` name (NOT `localhost`), /data MUST be btrfs with zstd.
+
+### 1.7b Reboot ALL 8 nodes + verify automount survives boot [workstation]
+
+Prove the fs layout is boot-persistent BEFORE anything is installed on top of it:
+
+```bash
+for h in $NODE_PUB_IPS; do echo "rebooting $h"; ssh root@$h reboot || true; done
+sleep 90    # nodes take ~1 min to come back; re-run the loop below until all 8 answer
+for h in $NODE_PUB_IPS; do
+  echo "===== verifying: $h ====="
+  ssh -o ConnectTimeout=10 root@$h 'echo "host: $(hostname)"; df -h / /data | tail -2; \
+    findmnt -no FSTYPE,OPTIONS /data; swapon --show | grep -q . && echo SWAP-ON || echo no-swap'
+done
+```
+
+Gate, on EVERY node: its own `devstats-*` hostname, `/` ~119G on /dev/sda, `/data` ~4.8T
+btrfs with `compress-force=zstd:3`, and `no-swap`. Only then continue to 1.7c.
+
+### 1.7c OS packages + k8s prerequisites on ALL 8 nodes [workstation → each node]
+
+Installs everything (idempotent; ~5 min/node; run sequentially so failures are obvious):
+
+```bash
+for h in $NODE_PUB_IPS; do
+  echo "===== installing: $h ====="
+  ssh root@$h \
+    "K8S_STREAM='$K8S_STREAM' K8S_PATCH='$K8S_PATCH' HELM_VERSION='$HELM_VERSION' HELM_SHA256='$HELM_SHA256' CONTAINERD_VERSION='$CONTAINERD_VERSION' CRICTL_VERSION='$CRICTL_VERSION' bash -s" <<'NODESETUP'
+set -euo pipefail
+export DEBIAN_FRONTEND=noninteractive
+findmnt -no FSTYPE /data | grep -qx btrfs || { echo 'run step 1.7a on this node first'; exit 1; }
+
+# [6] base packages
+chmod -x /etc/update-motd.d/* 2>/dev/null || true
+apt-get update -y && apt-get upgrade -y
+apt-get install -y apt-transport-https ca-certificates curl gnupg gpg nfs-common net-tools \
+  iptables-persistent jq mc btop iperf3 fio btrfs-progs btrfs-compsize
+
+# [7] kernel modules, sysctls, forwarding
 printf 'overlay\nbr_netfilter\n' > /etc/modules-load.d/containerd.conf
 modprobe overlay; modprobe br_netfilter
 cat > /etc/sysctl.d/99-kubernetes-cri.conf <<'SYS'
@@ -466,11 +513,11 @@ sysctl --system >/dev/null
 iptables -P FORWARD ACCEPT
 iptables-save > /etc/iptables/rules.v4
 
-# [6] containerd (pinned) + runc + crictl (pinned), systemd cgroups
+# [8] containerd (pinned) + runc + crictl (pinned), systemd cgroups
 if ! command -v containerd >/dev/null; then
   curl -fsSL -o /tmp/containerd.tgz "https://github.com/containerd/containerd/releases/download/v${CONTAINERD_VERSION}/containerd-${CONTAINERD_VERSION}-linux-amd64.tar.gz"
   tar -C /usr/local -xzf /tmp/containerd.tgz && rm /tmp/containerd.tgz
-  curl -fsSL -o /etc/systemd/system/containerd.service https://raw.githubusercontent.com/containerd/containerd/main/containerd.service
+  curl -fsSL -o /etc/systemd/system/containerd.service "https://raw.githubusercontent.com/containerd/containerd/v${CONTAINERD_VERSION}/containerd.service"
   systemctl daemon-reload
 fi
 apt-get install -y runc
@@ -487,7 +534,7 @@ fi
 printf 'runtime-endpoint: unix:///run/containerd/containerd.sock\nimage-endpoint: unix:///run/containerd/containerd.sock\ntimeout: 10\ndebug: false\n' > /etc/crictl.yaml
 crictl info >/dev/null
 
-# [7] kubelet/kubeadm/kubectl pinned to EXACTLY ${K8S_PATCH}, held
+# [9] kubelet/kubeadm/kubectl pinned to EXACTLY ${K8S_PATCH}, held
 mkdir -p -m 755 /etc/apt/keyrings
 if [ ! -f "/etc/apt/keyrings/kubernetes-${K8S_STREAM}.gpg" ]; then
   curl -fsSL "https://pkgs.k8s.io/core:/stable:/${K8S_STREAM}/deb/Release.key" | gpg --dearmor -o "/etc/apt/keyrings/kubernetes-${K8S_STREAM}.gpg"
@@ -500,7 +547,7 @@ apt-get install -y --allow-change-held-packages kubelet="$PKG" kubeadm="$PKG" ku
 apt-mark hold kubelet kubeadm kubectl
 kubeadm version -o short | grep -qx "v${K8S_PATCH}" || { echo "kubeadm version mismatch"; exit 1; }
 
-# [8] helm pinned + sha256-verified
+# [10] helm pinned + sha256-verified
 if [ "$(helm version --template '{{.Version}}' 2>/dev/null || true)" != "${HELM_VERSION}" ]; then
   curl -fsSL -o /tmp/helm.tgz "https://get.helm.sh/helm-${HELM_VERSION}-linux-amd64.tar.gz"
   echo "${HELM_SHA256}  /tmp/helm.tgz" | sha256sum -c -

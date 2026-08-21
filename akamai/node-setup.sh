@@ -22,6 +22,7 @@ HELM_SHA256="${HELM_SHA256:-c306b46f719b0a4da32d0f78ee21bf90ce8d602f15b22ab753f0
 CONTAINERD_VERSION="${CONTAINERD_VERSION:-2.3.4}"
 CRICTL_VERSION="${CRICTL_VERSION:-v1.36.0}"
 DATA_DEV="${DATA_DEV:-/dev/sdc}"
+export DEBIAN_FRONTEND=noninteractive
 
 echo "=== [0] sanity: Ubuntu 26.04 ==="
 grep -q 'VERSION_ID="26.04"' /etc/os-release || { echo "WARNING: not Ubuntu 26.04 LTS:"; grep PRETTY /etc/os-release; }
@@ -43,7 +44,7 @@ cat >> /etc/hosts <<'EOF'
 EOF
 fi
 
-echo "=== [1b] hostname from VPC IP (image boots as 'localhost'; kubelet uses hostname as node name) ==="
+echo "=== [2] hostname from VPC IP (image boots as 'localhost'; kubelet uses hostname as node name) ==="
 VPC_IP="$(ip -4 -o addr show scope global | awk '{print $4}' | cut -d/ -f1 | grep '^10\.60\.0\.' | head -1)"
 NODE_NAME="$(awk -v ip="$VPC_IP" '$1==ip && $2 ~ /^devstats-(prod|test|compute)/ {print $2; exit}' /etc/hosts)"
 [ -n "$NODE_NAME" ] || { echo "cannot map VPC IP '$VPC_IP' to a node name"; exit 1; }
@@ -55,14 +56,8 @@ else
 fi
 echo "hostname -> $NODE_NAME"
 
-echo "=== [2] base packages ==="
-chmod -x /etc/update-motd.d/* 2>/dev/null || true
-export DEBIAN_FRONTEND=noninteractive
-apt-get update -y && apt-get upgrade -y
-apt-get install -y apt-transport-https ca-certificates curl gnupg gpg nfs-common net-tools \
-  iptables-persistent jq mc btop iperf3 fio btrfs-progs btrfs-compsize
-
 echo "=== [3] /data = btrfs + transparent zstd on the raw data disk (${DATA_DEV}) ==="
+command -v mkfs.btrfs >/dev/null || apt-get install -y btrfs-progs  # preinstalled on 26.04
 if ! mountpoint -q /data; then
   [ -b "${DATA_DEV}" ] || { echo "${DATA_DEV} missing - run resize-node-disks.sh for this node first"; exit 1; }
   mkdir -p /data
@@ -87,7 +82,7 @@ for sv in openebs containerd kubelet etcd logs; do
 done
 mkdir -p /data/logs/containers /data/logs/pods
 chattr +C /data/etcd 2>/dev/null || true   # etcd: fsync-heavy+tiny -> no CoW (skips compression there only)
-chown -R root:root /data && chmod 755 /data
+chown root:root /data && chmod 755 /data   # NEVER -R: re-runs must not chown Postgres PVC data
 [ -e /var/openebs ]        || ln -s /data/openebs /var/openebs
 [ -e /var/lib/containerd ] || ln -s /data/containerd /var/lib/containerd
 [ -e /var/lib/kubelet ]    || ln -s /data/kubelet /var/lib/kubelet
@@ -99,7 +94,13 @@ echo "=== [5] swap off (permanent) ==="
 swapoff -a
 sed -i '/\sswap\s/d' /etc/fstab
 
-echo "=== [6] kernel modules + sysctls ==="
+echo "=== [6] base packages ==="
+chmod -x /etc/update-motd.d/* 2>/dev/null || true
+apt-get update -y && apt-get upgrade -y
+apt-get install -y apt-transport-https ca-certificates curl gnupg gpg nfs-common net-tools \
+  iptables-persistent jq mc btop iperf3 fio btrfs-progs btrfs-compsize
+
+echo "=== [7] kernel modules + sysctls ==="
 cat > /etc/modules-load.d/containerd.conf <<'EOF'
 overlay
 br_netfilter
@@ -128,11 +129,11 @@ iptables -D FORWARD -j REJECT --reject-with icmp-host-prohibited 2>/dev/null || 
 iptables -D INPUT -j REJECT --reject-with icmp-host-prohibited 2>/dev/null || true
 iptables-save > /etc/iptables/rules.v4
 
-echo "=== [7] containerd ${CONTAINERD_VERSION} + runc + crictl ${CRICTL_VERSION} ==="
+echo "=== [8] containerd ${CONTAINERD_VERSION} + runc + crictl ${CRICTL_VERSION} ==="
 if ! command -v containerd >/dev/null; then
   curl -fsSL -o /tmp/containerd.tgz "https://github.com/containerd/containerd/releases/download/v${CONTAINERD_VERSION}/containerd-${CONTAINERD_VERSION}-linux-amd64.tar.gz"
   tar -C /usr/local -xzf /tmp/containerd.tgz && rm /tmp/containerd.tgz
-  curl -fsSL -o /etc/systemd/system/containerd.service https://raw.githubusercontent.com/containerd/containerd/main/containerd.service
+  curl -fsSL -o /etc/systemd/system/containerd.service "https://raw.githubusercontent.com/containerd/containerd/v${CONTAINERD_VERSION}/containerd.service"
   systemctl daemon-reload
 fi
 apt-get install -y runc
@@ -157,7 +158,7 @@ debug: false
 YAML
 crictl info >/dev/null && echo "crictl wired to containerd"
 
-echo "=== [8] kubelet/kubeadm/kubectl (${K8S_STREAM} stream, pinned to exactly ${K8S_PATCH}) ==="
+echo "=== [9] kubelet/kubeadm/kubectl (${K8S_STREAM} stream, pinned to exactly ${K8S_PATCH}) ==="
 mkdir -p -m 755 /etc/apt/keyrings
 if [ ! -f "/etc/apt/keyrings/kubernetes-${K8S_STREAM}.gpg" ]; then
   curl -fsSL "https://pkgs.k8s.io/core:/stable:/${K8S_STREAM}/deb/Release.key" | gpg --dearmor -o "/etc/apt/keyrings/kubernetes-${K8S_STREAM}.gpg"
@@ -190,7 +191,7 @@ for v in "kubeadm:${KUBEADM_V}" "kubectl:${KUBECTL_V}" "kubelet:${KUBELET_V}"; d
   esac
 done
 
-echo "=== [9] helm ${HELM_VERSION} (pinned, sha256-verified) ==="
+echo "=== [10] helm ${HELM_VERSION} (pinned, sha256-verified) ==="
 if [ "$(helm version --template '{{.Version}}' 2>/dev/null || true)" != "${HELM_VERSION}" ]; then
   curl -fsSL -o /tmp/helm.tgz "https://get.helm.sh/helm-${HELM_VERSION}-linux-amd64.tar.gz"
   if [ -n "${HELM_SHA256}" ]; then

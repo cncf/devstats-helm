@@ -38,6 +38,14 @@ wait_disks_ready () { # id
   done
 }
 
+wait_disk_ready () { # id disk_id - a freshly created disk is NOT instantly visible in
+  # disks-list, so waiting for "all listed disks ready" races; wait for THIS disk instead
+  local id="$1" disk_id="$2"
+  while [ "$(linode-cli linodes disks-list "${id}" --json | jq -r --arg d "${disk_id}" '.[] | select((.id|tostring)==$d) | .status')" != "ready" ]; do
+    echo "    disk ${disk_id} not ready yet..."; sleep 10
+  done
+}
+
 fix_node () {
   local name="$1"
   local id total root_id root_size swap_id data_id cfg_id
@@ -73,11 +81,12 @@ fix_node () {
   local data_size=$(( total - ROOT_DISK_MB ))
   echo "  creating raw data disk (${data_size} MB)..."
   data_id="$(linode-cli linodes disk-create "${id}" --label data --filesystem raw --size "${data_size}" --json | jq -r '.[0].id')"
-  wait_disks_ready "${id}"
+  wait_disk_ready "${id}" "${data_id}"
 
   cfg_id="$(linode-cli linodes configs-list "${id}" --json | jq -r '.[0].id')"
-  echo "  attaching data disk ${data_id} as sdc in config ${cfg_id}..."
-  linode-cli linodes config-update "${id}" "${cfg_id}" --devices.sdc.disk_id "${data_id}" >/dev/null
+  echo "  attaching data disk ${data_id} as sdc in config ${cfg_id} (sda passed too - config-update REPLACES the devices map)..."
+  linode-cli linodes config-update "${id}" "${cfg_id}" \
+    --devices.sda.disk_id "${root_id}" --devices.sdc.disk_id "${data_id}" >/dev/null
 
   echo "  booting..."
   linode-cli linodes boot "${id}" >/dev/null
