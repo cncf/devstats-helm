@@ -1196,7 +1196,10 @@ for m in 0 1; do echo "== member $m =="; kubectl exec -n devstats-test devstats-
 
 # failover sanity (empty cluster - free to test), then put the leader back on postgres-0:
 kubectl exec -itn devstats-test devstats-postgres-0 -c devstats-postgres -- patronictl switchover devstats-postgres --force
-kubectl exec -itn devstats-test devstats-postgres-0 -c devstats-postgres -- patronictl list    # new leader, old rejoined
+# WAIT for postgres-0 to REJOIN as a streaming replica before switching back - right after
+# the switchover it shows State=stopped and the switchback fails with "no good candidates":
+until kubectl exec -n devstats-test devstats-postgres-0 -c devstats-postgres -- patronictl list 2>/dev/null | grep 'devstats-postgres-0' | grep -q streaming; do sleep 5; done
+kubectl exec -itn devstats-test devstats-postgres-0 -c devstats-postgres -- patronictl list    # new leader, old rejoined+streaming
 kubectl exec -itn devstats-test devstats-postgres-0 -c devstats-postgres -- patronictl switchover devstats-postgres --candidate devstats-postgres-0 --force
 kubectl exec -itn devstats-test devstats-postgres-0 -c devstats-postgres -- patronictl list    # leader = devstats-postgres-0
 ```
@@ -1247,6 +1250,8 @@ for m in 0 1 2; do echo "== member $m =="; kubectl exec -n devstats-prod devstat
 
 # failover sanity, then put the leader back on postgres-0:
 kubectl exec -itn devstats-prod devstats-postgres-0 -c devstats-postgres -- patronictl switchover devstats-postgres --force
+# WAIT for postgres-0 to rejoin as streaming (else switchback fails: "no good candidates"):
+until kubectl exec -n devstats-prod devstats-postgres-0 -c devstats-postgres -- patronictl list 2>/dev/null | grep 'devstats-postgres-0' | grep -q streaming; do sleep 5; done
 kubectl exec -itn devstats-prod devstats-postgres-0 -c devstats-postgres -- patronictl list
 kubectl exec -itn devstats-prod devstats-postgres-0 -c devstats-postgres -- patronictl switchover devstats-postgres --candidate devstats-postgres-0 --force
 kubectl exec -itn devstats-prod devstats-postgres-0 -c devstats-postgres -- patronictl list    # leader = devstats-postgres-0
