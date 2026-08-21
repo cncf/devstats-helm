@@ -69,10 +69,12 @@ psql, kubectl) - not estimated:
 | K8s objects | 486 cronjobs, 247 deploys, 242 grafanas | same cluster software, same limits | proven at this scale on 6-7 nodes already |
 
 Why the huge OCI boxes look "used": ~800 GiB/node consumed is almost entirely PostgreSQL
-shared_buffers (500 GB runtime on BOTH prod and test - test's DCS config says 250 GB but was
-never restart-applied, verified via `SHOW shared_buffers` vs `patronictl show-config`
+shared_buffers (500 GB runtime on BOTH prod and test - test's DCS config says 250 GB but
+the local patroni.yml, rendered from pod envs, overrides the DCS; verified via
+`SHOW shared_buffers` vs `patronictl show-config`
 2026-08-18) plus page cache - exactly the knobs
-`patroni-tune.sh` shrinks. iowait today is ≈0.0%, so the DB is nowhere near disk-bound even
+the `TEST_PG_TUNE`/`PROD_PG_TUNE` helm values shrink. iowait today is ≈0.0%, so the DB is
+nowhere near disk-bound even
 with all that cache; losing most of it costs some query latency, not correctness.
 
 The 5 real risks (all mitigated in this plan):
@@ -1131,6 +1133,19 @@ anon 0.5 GiB + shmem 510 GiB (≈ shared_buffers 500GB) + page cache; test leade
 shmem 200 GiB. Those values MUST NOT be copied. The deploy scripts pass the following
 as `--set` overrides (values.yaml stays untouched):
 
+**HOW tuning is applied (live-verified 2026-08-21 on the Linode test cluster):** the patroni
+image renders the `PATRONI_POSTGRES_*` pod envs (helm values) into the LOCAL
+`/home/postgres/patroni.yml`, and local `postgresql.parameters` OVERRIDE the DCS
+(`patronictl edit-config` / REST `/config` PATCH) for every regular parameter - PATCHing
+sizing into the DCS is silently ignored at runtime (`show-config` lies; only `psql SHOW`
+tells the truth). So ALL sizing goes through helm values (`TEST_PG_TUNE`/`PROD_PG_TUNE`),
+and `patroni-tune.sh` PATCHes only what the DCS alone controls: Patroni-controlled params
+(`max_connections`, `max_worker_processes`, `max_wal_senders`, `max_replication_slots`,
+`wal_level`, `wal_log_hints`, `hot_standby`, `wal_keep_size` - Patroni defaults 128MB,
+local file ignored) + params absent from the local file (`password_encryption`,
+`checkpoint_timeout`). Patroni also enforces `loop_wait + 2*retry_timeout <= ttl` and
+otherwise SILENTLY degrades to `loop_wait=1s` (K8s API hammering) - use retry_timeout 20.
+
 ### 14.1 Prod Patroni (3 × G7-512: 64 vCPU, 512 GB, /data ≈ 7 TB)
 
 | Helm value | OCI (live) | Linode |
@@ -1141,8 +1156,9 @@ as `--set` overrides (values.yaml stays untouched):
 | `requestsPostgresCPU` / `limitsPostgresCPU` | 32000m / 160000m | **24000m / 56000m** |
 | `requestsPostgresMemory` / `limitsPostgresMemory` | 128Gi / 1Ti | **96Gi / 400Gi** |
 
-Patroni REST `/config` PATCH (applied by `ENV=prod ./akamai/patroni-tune.sh`); changes vs
-the LIVE config (captured 2026-08-18, identical to README except where noted):
+Target parameters (sizing via `PROD_PG_TUNE` helm values at install; Patroni-controlled
+ones via `ENV=prod ./akamai/patroni-tune.sh` DCS PATCH - see the HOW note above); changes
+vs the LIVE config (captured 2026-08-18, identical to README except where noted):
 
 ```
 shared_buffers: 500GB → 128GB          effective_cache_size: 256GB (keep live value)
@@ -1184,10 +1200,12 @@ everything else identical to the 512 profile. Same ratios as live OCI, one binar
 | `requestsPostgresCPU` / `limitsPostgresCPU` | 32000m / 160000m | **4000m / 32000m** |
 | `requestsPostgresMemory` / `limitsPostgresMemory` | 128Gi / 1Ti | **40Gi / 128Gi** |
 
-Patroni PATCH vs LIVE test config (downsized to MEASURED test reality 2026-08-21: 16 DBs,
-170 GB total, biggest cii 85 GB, ~34 conns): `shared_buffers 250GB → 32GB` (250GB is the
-live DCS value; runtime still shows 500GB because the patch was never restart-applied on
-OCI - on Linode our PATCH + rolling restart applies 32GB for real), `work_mem 4GB → 512MB`,
+Target vs LIVE test config (downsized to MEASURED test reality 2026-08-21: 16 DBs,
+170 GB total, biggest cii 85 GB, ~34 conns; sizing via `TEST_PG_TUNE` helm values at
+install, Patroni-controlled ones via `ENV=test ./akamai/patroni-tune.sh` - see HOW note
+above): `shared_buffers 250GB → 32GB` (250GB is the live DCS value; runtime still shows
+500GB on OCI because the local patroni.yml overrides the DCS - the same reason sizing on
+Linode goes through helm values), `work_mem 4GB → 512MB`,
 `max_worker_processes 16 (keep live)`, `max_parallel_workers 16 → 8`,
 `max_parallel_workers_per_gather 28 → 4`, `effective_cache_size 128GB → 64GB`,
 `temp_file_limit 200GB → 50GB`, `wal_keep_size 100GB → 50GB`, `max_wal_size 128GB → 32GB`.

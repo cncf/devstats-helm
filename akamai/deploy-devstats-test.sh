@@ -26,13 +26,24 @@ TEST_PROJECTS='+azf\,+cii\,+cncf\,+fn\,+godotengine\,+linux\,+opencontainers\,+o
 
 # Pick up TOPOLOGY-dependent sizing automatically - self-source the env file.
 AKAMAI_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "${AKAMAI_DIR}/linode-env.sh"
+# secret-bearing env lives as linode-env.sh.secret (repo rule: sensitive files end in .secret)
+if [ -f "${AKAMAI_DIR}/linode-env.sh.secret" ]; then
+  source "${AKAMAI_DIR}/linode-env.sh.secret"
+else
+  source "${AKAMAI_DIR}/linode-env.sh"
+fi
 
 TEST_POSTGRES_NODES="${TEST_POSTGRES_NODES:-2}"
 TEST_POSTGRES_STORAGE="${TEST_POSTGRES_STORAGE:-3600Gi}"
 # TEST sizing from MEASURED reality (2026-08-21): 16 DBs, 170 GB total, cii 85 GB max
 TEST_PG_REQ_CPU="${TEST_PG_REQ_CPU:-4000m}";  TEST_PG_LIM_CPU="${TEST_PG_LIM_CPU:-32000m}"
 TEST_PG_REQ_MEM="${TEST_PG_REQ_MEM:-40Gi}";   TEST_PG_LIM_MEM="${TEST_PG_LIM_MEM:-128Gi}"
+# PG sizing MUST be helm values: the image renders PATRONI_POSTGRES_* envs into the LOCAL
+# patroni.yml whose postgresql.parameters OVERRIDE the DCS (patronictl edit-config/PATCH)
+# for everything except Patroni-controlled params. patroni-tune.sh handles the DCS side.
+PG_TUNE_DEFAULT='postgresSharedBuffers=32GB,postgresMaxWorkerProcesses=16,postgresMaxParallelWorkers=8,postgresMaxParallelWorkersPerGather=4,postgresWorkMem=512MB,postgresMaxTempFile=50GB,postgresWalKeepSize=50GB,postgresMaintenanceWorkMem=1GB'
+PG_TUNE_DEFAULT+=',postgresMaxWalSize=32GB,postgresMinWalSize=2GB,postgresCacheSize=64GB,postgresAutovacuumVacuumCostLimit=200,postgresAutovacuumVacuumScaleFactor=0.1,postgresAutovacuumAnalyzeScaleFactor=0.05,patroniRetryTimeout=20'
+TEST_PG_TUNE="${TEST_PG_TUNE:-${PG_TUNE_DEFAULT}}"
 
 CTX="$(kubectl config current-context)"
 if [ "${CTX}" != "test" ]; then
@@ -63,7 +74,7 @@ case "${PHASE}" in
     echo "  kubectl -n ${NS} get pvc | grep Pending    # then kubectl -n ${NS} delete pvc <name> for non-test projects"
     ;;
   patroni)
-    helm install devstats-test-patroni "${CHART}" -n devstats-test --set "$(skips_except Postgres),postgresNodes=${TEST_POSTGRES_NODES},postgresStorageSize=${TEST_POSTGRES_STORAGE},dbNodeSelector.node2=devstats-db-test,requestsPostgresCPU=${TEST_PG_REQ_CPU},requestsPostgresMemory=${TEST_PG_REQ_MEM},limitsPostgresCPU=${TEST_PG_LIM_CPU},limitsPostgresMemory=${TEST_PG_LIM_MEM}"
+    helm install devstats-test-patroni "${CHART}" -n devstats-test --set "$(skips_except Postgres),postgresNodes=${TEST_POSTGRES_NODES},postgresStorageSize=${TEST_POSTGRES_STORAGE},dbNodeSelector.node2=devstats-db-test,requestsPostgresCPU=${TEST_PG_REQ_CPU},requestsPostgresMemory=${TEST_PG_REQ_MEM},limitsPostgresCPU=${TEST_PG_LIM_CPU},limitsPostgresMemory=${TEST_PG_LIM_MEM},${TEST_PG_TUNE}"
     echo "Watch: kubectl -n ${NS} get po -o wide -w | grep postgres"
     echo "Then:  kubectl exec -itn ${NS} devstats-postgres-0 -- patronictl list   # leader + 1 replica"
     echo "Then:  ENV=test ./akamai/patroni-tune.sh"

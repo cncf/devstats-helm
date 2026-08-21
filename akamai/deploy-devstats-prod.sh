@@ -24,13 +24,28 @@ CHART="./devstats-helm"
 
 # Pick up TOPOLOGY-dependent sizing automatically - self-source the env file.
 AKAMAI_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "${AKAMAI_DIR}/linode-env.sh"
+# secret-bearing env lives as linode-env.sh.secret (repo rule: sensitive files end in .secret)
+if [ -f "${AKAMAI_DIR}/linode-env.sh.secret" ]; then
+  source "${AKAMAI_DIR}/linode-env.sh.secret"
+else
+  source "${AKAMAI_DIR}/linode-env.sh"
+fi
 
 # Linode sizing (set by akamai/linode-env.sh above; export before running to override)
 PROD_POSTGRES_NODES="${PROD_POSTGRES_NODES:-3}"
 PROD_POSTGRES_STORAGE="${PROD_POSTGRES_STORAGE:-6000Gi}"
 PROD_PG_REQ_CPU="${PROD_PG_REQ_CPU:-24000m}"; PROD_PG_LIM_CPU="${PROD_PG_LIM_CPU:-56000m}"
 PROD_PG_REQ_MEM="${PROD_PG_REQ_MEM:-96Gi}";   PROD_PG_LIM_MEM="${PROD_PG_LIM_MEM:-400Gi}"
+# PG sizing MUST be helm values: the image renders PATRONI_POSTGRES_* envs into the LOCAL
+# patroni.yml whose postgresql.parameters OVERRIDE the DCS (patronictl edit-config/PATCH)
+# for everything except Patroni-controlled params. patroni-tune.sh handles the DCS side.
+if [ "${PROD_DB_NODE_GB:-512}" = "256" ]; then
+  PG_TUNE_DEFAULT='postgresSharedBuffers=64GB,postgresMaxParallelWorkersPerGather=16,postgresWorkMem=1GB,postgresMaxTempFile=100GB,postgresMaintenanceWorkMem=4GB,postgresCacheSize=128GB'
+else
+  PG_TUNE_DEFAULT='postgresSharedBuffers=128GB,postgresMaxParallelWorkersPerGather=16,postgresWorkMem=2GB,postgresMaxTempFile=200GB,postgresMaintenanceWorkMem=4GB,postgresCacheSize=256GB'
+fi
+PG_TUNE_DEFAULT+=',postgresAutovacuumMaxWorkers=4,postgresAutovacuumNaptime=30s,postgresAutovacuumVacuumCostLimit=1000,postgresAutovacuumVacuumScaleFactor=0.05,postgresAutovacuumAnalyzeScaleFactor=0.02,patroniRetryTimeout=20'
+PROD_PG_TUNE="${PROD_PG_TUNE:-${PG_TUNE_DEFAULT}}"
 
 CTX="$(kubectl config current-context)"
 if [ "${CTX}" != "prod" ]; then
@@ -60,7 +75,7 @@ case "${PHASE}" in
     helm install devstats-prod-pvcs "${CHART}" -n "${NS}" --set "namespace=${NS},$(skips_except PVs)"
     ;;
   patroni)
-    helm install devstats-prod-patroni "${CHART}" -n "${NS}" --set "namespace=${NS},$(skips_except Postgres),postgresNodes=${PROD_POSTGRES_NODES},postgresStorageSize=${PROD_POSTGRES_STORAGE},dbNodeSelector.node2=devstats-db-prod,requestsPostgresCPU=${PROD_PG_REQ_CPU},requestsPostgresMemory=${PROD_PG_REQ_MEM},limitsPostgresCPU=${PROD_PG_LIM_CPU},limitsPostgresMemory=${PROD_PG_LIM_MEM}"
+    helm install devstats-prod-patroni "${CHART}" -n "${NS}" --set "namespace=${NS},$(skips_except Postgres),postgresNodes=${PROD_POSTGRES_NODES},postgresStorageSize=${PROD_POSTGRES_STORAGE},dbNodeSelector.node2=devstats-db-prod,requestsPostgresCPU=${PROD_PG_REQ_CPU},requestsPostgresMemory=${PROD_PG_REQ_MEM},limitsPostgresCPU=${PROD_PG_LIM_CPU},limitsPostgresMemory=${PROD_PG_LIM_MEM},${PROD_PG_TUNE}"
     echo "Watch: kubectl -n ${NS} get po -o wide -w | grep postgres"
     echo "Then:  kubectl exec -itn ${NS} devstats-postgres-0 -- patronictl list"
     echo "Then:  ENV=prod ./akamai/patroni-tune.sh"

@@ -1142,34 +1142,41 @@ kubectl get pv -o custom-columns=NAME:.metadata.name,CLAIM:.spec.claimRef.name,N
 
 ### 1.20 Patroni TEST (2 nodes, empty) + tune + restart + failover check [master]
 
+Sizing MUST be passed as helm values: the patroni image renders `PATRONI_POSTGRES_*` envs
+into the LOCAL `/home/postgres/patroni.yml`, and local `postgresql.parameters` OVERRIDE the
+DCS (`patronictl edit-config` / REST PATCH) for everything except the Patroni-controlled
+params. The DCS PATCH below only carries what ONLY the DCS can set: the Patroni-controlled
+params (`max_connections`, `max_worker_processes`, `max_wal_senders`, `max_replication_slots`,
+`wal_level`, `wal_log_hints`, `hot_standby`, `wal_keep_size` - Patroni defaults it to 128MB
+and ignores the local file for it) + params the local file does not define
+(`password_encryption`). To START OVER from scratch: `helm delete -n devstats-test
+devstats-test-patroni`, then delete the `pgdata-devstats-postgres-*` PVCs and the leftover
+`devstats-postgres-config` endpoints+service in the namespace (they hold the Patroni DCS
+state - a fresh cluster must not inherit it), wait until pods are gone.
+
 ```bash
+cd /root/devstats-helm && source linodes.env.secret
 kubectl config use-context test
 # chart default is postgresNodes=6 - ALWAYS pass it explicitly (2 for test, 3 for prod)
 S="$(skips_except Postgres),postgresNodes=${TEST_POSTGRES_NODES}"
 S+=",postgresStorageSize=${TEST_POSTGRES_STORAGE},dbNodeSelector.node2=devstats-db-test"
 S+=",requestsPostgresCPU=${TEST_PG_REQ_CPU},requestsPostgresMemory=${TEST_PG_REQ_MEM}"
 S+=",limitsPostgresCPU=${TEST_PG_LIM_CPU},limitsPostgresMemory=${TEST_PG_LIM_MEM}"
+# measured test reality (16 DBs / 170 GB, cii 85 GB, ~34 conns): sb 32GB, ecs 64GB, wm 512MB
+S+=",${TEST_PG_TUNE}"
 helm install devstats-test-patroni ./devstats-helm -n devstats-test --set "$S"
 kubectl -n devstats-test get po -o wide -w | grep postgres   # Ctrl-C when 2/2 Running
 kubectl exec -itn devstats-test devstats-postgres-0 -c devstats-postgres -- patronictl list   # 1 leader + 1 replica
 
-# tune for MEASURED test reality (16 DBs / 170 GB, cii 85 GB, ~34 conns - way below prod):
-PARAMS='{"loop_wait":15,"ttl":60,"retry_timeout":60,"primary_start_timeout":600,'
+# DCS-only params (see intro; all sizing already lives in the local patroni.yml via helm).
+# retry_timeout=20 NOT 60: Patroni enforces loop_wait+2*retry_timeout<=ttl and otherwise
+# SILENTLY degrades to loop_wait=1s (K8s-API hammering) - 15+2*20=55<=60 is valid:
+PARAMS='{"loop_wait":15,"ttl":60,"retry_timeout":20,"primary_start_timeout":600,'
 PARAMS+='"maximum_lag_on_failover":53687091200,'
 PARAMS+='"postgresql":{"use_pg_rewind":true,"use_slots":true,"parameters":{'
-PARAMS+='"shared_buffers":"32GB","max_connections":1024,"max_worker_processes":16,'
-PARAMS+='"max_parallel_workers":8,"max_parallel_workers_per_gather":4,"work_mem":"512MB",'
-PARAMS+='"wal_buffers":"1GB","temp_file_limit":"50GB","wal_keep_size":"50GB",'
-PARAMS+='"max_wal_senders":10,"max_replication_slots":10,"maintenance_work_mem":"1GB",'
-PARAMS+='"idle_in_transaction_session_timeout":"30min","wal_level":"replica",'
-PARAMS+='"wal_log_hints":"on","hot_standby":"on","hot_standby_feedback":"on",'
-PARAMS+='"max_wal_size":"32GB","min_wal_size":"2GB","checkpoint_completion_target":0.9,'
-PARAMS+='"default_statistics_target":1000,"effective_cache_size":"64GB",'
-PARAMS+='"effective_io_concurrency":8,"random_page_cost":1.1,"autovacuum_max_workers":1,'
-PARAMS+='"autovacuum_naptime":"120s","autovacuum_vacuum_cost_limit":200,'
-PARAMS+='"autovacuum_vacuum_threshold":150,"autovacuum_vacuum_scale_factor":0.1,'
-PARAMS+='"autovacuum_analyze_threshold":100,"autovacuum_analyze_scale_factor":0.05,'
-PARAMS+='"password_encryption":"scram-sha-256"}}}'
+PARAMS+='"max_connections":1024,"max_worker_processes":16,"max_wal_senders":10,'
+PARAMS+='"max_replication_slots":10,"wal_level":"replica","wal_log_hints":"on",'
+PARAMS+='"hot_standby":"on","wal_keep_size":"50GB","password_encryption":"scram-sha-256"}}}'
 echo "$PARAMS" | jq . >/dev/null && echo "PARAMS JSON OK"
 kubectl exec -n devstats-test devstats-postgres-0 -c devstats-postgres -- \
   curl -s -X PATCH -H 'Content-Type: application/json' -d "$PARAMS" http://localhost:8008/config
@@ -1177,44 +1184,50 @@ kubectl exec -itn devstats-test devstats-postgres-0 -c devstats-postgres -- patr
 kubectl exec -itn devstats-test devstats-postgres-0 -c devstats-postgres -- patronictl restart devstats-postgres
 kubectl exec -itn devstats-test devstats-postgres-0 -c devstats-postgres -- patronictl list
 
-# failover sanity (empty cluster - free to test):
+# RUNTIME verification gate - SHOW on EVERY member must match the intended values below
+# (show-config is NOT enough: it prints the DCS, which the local file can override):
+for m in 0 1; do echo "== member $m =="; kubectl exec -n devstats-test devstats-postgres-$m -c devstats-postgres -- \
+  psql -U postgres -tAc "show shared_buffers; show work_mem; show effective_cache_size; show temp_file_limit; show wal_keep_size; show maintenance_work_mem; show max_wal_size; show min_wal_size"; done
+# expect per member: 32GB 512MB 64GB 50GB 50GB 1GB 32GB 2GB
+for m in 0 1; do echo "== member $m =="; kubectl exec -n devstats-test devstats-postgres-$m -c devstats-postgres -- \
+  psql -U postgres -tAc "show max_connections; show max_worker_processes; show max_parallel_workers; show max_parallel_workers_per_gather" \
+  -c "show autovacuum_vacuum_cost_limit; show autovacuum_vacuum_scale_factor; show autovacuum_analyze_scale_factor; show password_encryption"; done
+# expect per member: 1024 16 8 4 then 200 0.1 0.05 scram-sha-256
+
+# failover sanity (empty cluster - free to test), then put the leader back on postgres-0:
 kubectl exec -itn devstats-test devstats-postgres-0 -c devstats-postgres -- patronictl switchover devstats-postgres --force
 kubectl exec -itn devstats-test devstats-postgres-0 -c devstats-postgres -- patronictl list    # new leader, old rejoined
+kubectl exec -itn devstats-test devstats-postgres-0 -c devstats-postgres -- patronictl switchover devstats-postgres --candidate devstats-postgres-0 --force
+kubectl exec -itn devstats-test devstats-postgres-0 -c devstats-postgres -- patronictl list    # leader = devstats-postgres-0
 ```
 
 ### 1.21 Patroni PROD (3 nodes, empty) + tune + restart + failover check [master]
 
+Same local-file-beats-DCS rule as 1.20: sizing via `${PROD_PG_TUNE}` helm values, DCS PATCH
+only for Patroni-controlled params + `password_encryption` + `checkpoint_timeout` (not in
+the local file, so the DCS value is effective). Sized for 256 GB nodes + MEASURED prod
+(245 DBs / 1793 GB, allprj 521 GB, gha 214 GB): sb 64GB / ecs 128GB / wm 1GB / temp 100GB,
+autovacuum much more aggressive than live OCI (1 worker @ cost_limit 100 cannot keep up).
+
 ```bash
+cd /root/devstats-helm && source linodes.env.secret
 kubectl config use-context prod
 # chart default is postgresNodes=6 - ALWAYS pass it explicitly (3 for prod, 2 for test)
 S="namespace=devstats-prod,$(skips_except Postgres),postgresNodes=${PROD_POSTGRES_NODES}"
 S+=",postgresStorageSize=${PROD_POSTGRES_STORAGE},dbNodeSelector.node2=devstats-db-prod"
 S+=",requestsPostgresCPU=${PROD_PG_REQ_CPU},requestsPostgresMemory=${PROD_PG_REQ_MEM}"
 S+=",limitsPostgresCPU=${PROD_PG_LIM_CPU},limitsPostgresMemory=${PROD_PG_LIM_MEM}"
+S+=",${PROD_PG_TUNE}"
 helm install devstats-prod-patroni ./devstats-helm -n devstats-prod --set "$S"
 kubectl -n devstats-prod get po -o wide -w | grep postgres   # Ctrl-C when 3/3 Running
 kubectl exec -itn devstats-prod devstats-postgres-0 -c devstats-postgres -- patronictl list   # 1 leader + 2 replicas
 
-# tune for 256 GB nodes + MEASURED prod reality (245 DBs / 1793 GB, allprj 521 GB,
-# gha 214 GB): sb 64GB / ecs 128GB / wm 1GB / temp 100GB, and much more aggressive
-# autovacuum than live OCI (1 worker @ cost_limit 100 cannot keep up with 245 DBs)
-PARAMS='{"loop_wait":15,"ttl":60,"retry_timeout":60,"primary_start_timeout":600,'
+PARAMS='{"loop_wait":15,"ttl":60,"retry_timeout":20,"primary_start_timeout":600,'
 PARAMS+='"maximum_lag_on_failover":53687091200,'
 PARAMS+='"postgresql":{"use_pg_rewind":true,"use_slots":true,"parameters":{'
-PARAMS+='"shared_buffers":"64GB","max_connections":1024,"max_worker_processes":32,'
-PARAMS+='"max_parallel_workers":32,"max_parallel_workers_per_gather":16,"work_mem":"1GB",'
-PARAMS+='"wal_buffers":"1GB","temp_file_limit":"100GB","wal_keep_size":"100GB",'
-PARAMS+='"max_wal_senders":10,"max_replication_slots":10,"maintenance_work_mem":"4GB",'
-PARAMS+='"idle_in_transaction_session_timeout":"30min","wal_level":"replica",'
-PARAMS+='"wal_log_hints":"on","hot_standby":"on","hot_standby_feedback":"on",'
-PARAMS+='"max_wal_size":"128GB","min_wal_size":"4GB","checkpoint_completion_target":0.9,'
-PARAMS+='"checkpoint_timeout":"15min",'
-PARAMS+='"default_statistics_target":1000,"effective_cache_size":"128GB",'
-PARAMS+='"effective_io_concurrency":8,"random_page_cost":1.1,"autovacuum_max_workers":4,'
-PARAMS+='"autovacuum_naptime":"30s","autovacuum_vacuum_cost_limit":1000,'
-PARAMS+='"autovacuum_vacuum_threshold":150,"autovacuum_vacuum_scale_factor":0.05,'
-PARAMS+='"autovacuum_analyze_threshold":100,"autovacuum_analyze_scale_factor":0.02,'
-PARAMS+='"password_encryption":"scram-sha-256"}}}'
+PARAMS+='"max_connections":1024,"max_worker_processes":32,"max_wal_senders":10,'
+PARAMS+='"max_replication_slots":10,"wal_level":"replica","wal_log_hints":"on","hot_standby":"on",'
+PARAMS+='"wal_keep_size":"100GB","password_encryption":"scram-sha-256","checkpoint_timeout":"15min"}}}'
 echo "$PARAMS" | jq . >/dev/null && echo "PARAMS JSON OK"
 kubectl exec -n devstats-prod devstats-postgres-0 -c devstats-postgres -- \
   curl -s -X PATCH -H 'Content-Type: application/json' -d "$PARAMS" http://localhost:8008/config
@@ -1222,9 +1235,21 @@ kubectl exec -itn devstats-prod devstats-postgres-0 -c devstats-postgres -- patr
 kubectl exec -itn devstats-prod devstats-postgres-0 -c devstats-postgres -- patronictl restart devstats-postgres
 kubectl exec -itn devstats-prod devstats-postgres-0 -c devstats-postgres -- patronictl list
 
-# failover sanity:
+# RUNTIME verification gate - SHOW on EVERY member (0 1 2) must match:
+for m in 0 1 2; do echo "== member $m =="; kubectl exec -n devstats-prod devstats-postgres-$m -c devstats-postgres -- \
+  psql -U postgres -tAc "show shared_buffers; show work_mem; show effective_cache_size; show temp_file_limit; show wal_keep_size; show maintenance_work_mem; show max_wal_size; show min_wal_size; show checkpoint_timeout"; done
+# expect per member: 64GB 1GB 128GB 100GB 100GB 4GB 128GB 4GB 15min
+for m in 0 1 2; do echo "== member $m =="; kubectl exec -n devstats-prod devstats-postgres-$m -c devstats-postgres -- \
+  psql -U postgres -tAc "show max_connections; show max_worker_processes; show max_parallel_workers; show max_parallel_workers_per_gather" \
+  -c "show autovacuum_max_workers; show autovacuum_naptime; show autovacuum_vacuum_cost_limit; show autovacuum_vacuum_scale_factor" \
+  -c "show autovacuum_analyze_scale_factor; show password_encryption"; done
+# expect per member: 1024 32 32 16 then 4 30s 1000 0.05 then 0.02 scram-sha-256
+
+# failover sanity, then put the leader back on postgres-0:
 kubectl exec -itn devstats-prod devstats-postgres-0 -c devstats-postgres -- patronictl switchover devstats-postgres --force
 kubectl exec -itn devstats-prod devstats-postgres-0 -c devstats-postgres -- patronictl list
+kubectl exec -itn devstats-prod devstats-postgres-0 -c devstats-postgres -- patronictl switchover devstats-postgres --candidate devstats-postgres-0 --force
+kubectl exec -itn devstats-prod devstats-postgres-0 -c devstats-postgres -- patronictl list    # leader = devstats-postgres-0
 ```
 
 **Part 1 done** - full platform is up (nodes, k8s, storage, ingress+NB, certs pending DNS,
