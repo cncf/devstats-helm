@@ -139,8 +139,10 @@ export TEST_POSTGRES_NODES=2
 # but while one member is down TEST has NO remaining replica (no further failover) until
 # it recovers. Acceptable for TEST; PROD keeps 3 members and full redundancy.
 export TEST_POSTGRES_STORAGE='3600Gi'
-export TEST_PG_REQ_CPU='8000m';   export TEST_PG_LIM_CPU='40000m'
-export TEST_PG_REQ_MEM='48Gi';    export TEST_PG_LIM_MEM='160Gi'
+# TEST sizing from MEASURED reality (2026-08-21 live OCI): only 16 DBs, 170 GB total,
+# biggest = cii 85 GB, ~34 connections - test needs far less than prod (245 DBs, 1793 GB)
+export TEST_PG_REQ_CPU='4000m';   export TEST_PG_LIM_CPU='32000m'
+export TEST_PG_REQ_MEM='40Gi';    export TEST_PG_LIM_MEM='128Gi'
 
 # --- old OCI public endpoints (rollback + restore sources) ---
 export OCI_PROD_NLB_IP='132.226.49.222'
@@ -967,6 +969,7 @@ kubectl get pv -o custom-columns=NAME:.metadata.name,CLAIM:.spec.claimRef.name,N
 
 ```bash
 kubectl config use-context test
+# chart default is postgresNodes=6 - ALWAYS pass it explicitly (2 for test, 3 for prod)
 S="$(skips_except Postgres),postgresNodes=${TEST_POSTGRES_NODES}"
 S+=",postgresStorageSize=${TEST_POSTGRES_STORAGE},dbNodeSelector.node2=devstats-db-test"
 S+=",requestsPostgresCPU=${TEST_PG_REQ_CPU},requestsPostgresMemory=${TEST_PG_REQ_MEM}"
@@ -975,22 +978,22 @@ helm install devstats-test-patroni ./devstats-helm --set "$S"
 kubectl -n devstats-test get po -o wide -w | grep postgres   # Ctrl-C when 2/2 Running
 kubectl exec -itn devstats-test devstats-postgres-0 -c devstats-postgres -- patronictl list   # 1 leader + 1 replica
 
-# tune (PATCH persists to the k8s DCS - any member works):
+# tune for MEASURED test reality (16 DBs / 170 GB, cii 85 GB, ~34 conns - way below prod):
 PARAMS='{"loop_wait":15,"ttl":60,"retry_timeout":60,"primary_start_timeout":600,'
 PARAMS+='"maximum_lag_on_failover":53687091200,'
 PARAMS+='"postgresql":{"use_pg_rewind":true,"use_slots":true,"parameters":{'
-PARAMS+='"shared_buffers":"48GB","max_connections":1024,"max_worker_processes":16,'
-PARAMS+='"max_parallel_workers":16,"max_parallel_workers_per_gather":8,"work_mem":"1GB",'
-PARAMS+='"wal_buffers":"1GB","temp_file_limit":"200GB","wal_keep_size":"100GB",'
-PARAMS+='"max_wal_senders":10,"max_replication_slots":10,"maintenance_work_mem":"2GB",'
+PARAMS+='"shared_buffers":"32GB","max_connections":1024,"max_worker_processes":16,'
+PARAMS+='"max_parallel_workers":8,"max_parallel_workers_per_gather":4,"work_mem":"512MB",'
+PARAMS+='"wal_buffers":"1GB","temp_file_limit":"50GB","wal_keep_size":"50GB",'
+PARAMS+='"max_wal_senders":10,"max_replication_slots":10,"maintenance_work_mem":"1GB",'
 PARAMS+='"idle_in_transaction_session_timeout":"30min","wal_level":"replica",'
 PARAMS+='"wal_log_hints":"on","hot_standby":"on","hot_standby_feedback":"on",'
-PARAMS+='"max_wal_size":"128GB","min_wal_size":"4GB","checkpoint_completion_target":0.9,'
-PARAMS+='"default_statistics_target":1000,"effective_cache_size":"128GB",'
+PARAMS+='"max_wal_size":"32GB","min_wal_size":"2GB","checkpoint_completion_target":0.9,'
+PARAMS+='"default_statistics_target":1000,"effective_cache_size":"64GB",'
 PARAMS+='"effective_io_concurrency":8,"random_page_cost":1.1,"autovacuum_max_workers":1,'
-PARAMS+='"autovacuum_naptime":"120s","autovacuum_vacuum_cost_limit":100,'
-PARAMS+='"autovacuum_vacuum_threshold":150,"autovacuum_vacuum_scale_factor":0.25,'
-PARAMS+='"autovacuum_analyze_threshold":100,"autovacuum_analyze_scale_factor":0.2,'
+PARAMS+='"autovacuum_naptime":"120s","autovacuum_vacuum_cost_limit":200,'
+PARAMS+='"autovacuum_vacuum_threshold":150,"autovacuum_vacuum_scale_factor":0.1,'
+PARAMS+='"autovacuum_analyze_threshold":100,"autovacuum_analyze_scale_factor":0.05,'
 PARAMS+='"password_encryption":"scram-sha-256"}}}'
 echo "$PARAMS" | jq . >/dev/null && echo "PARAMS JSON OK"
 kubectl exec -n devstats-test devstats-postgres-0 -c devstats-postgres -- \
@@ -1008,6 +1011,7 @@ kubectl exec -itn devstats-test devstats-postgres-0 -c devstats-postgres -- patr
 
 ```bash
 kubectl config use-context prod
+# chart default is postgresNodes=6 - ALWAYS pass it explicitly (3 for prod, 2 for test)
 S="namespace=devstats-prod,$(skips_except Postgres),postgresNodes=${PROD_POSTGRES_NODES}"
 S+=",postgresStorageSize=${PROD_POSTGRES_STORAGE},dbNodeSelector.node2=devstats-db-prod"
 S+=",requestsPostgresCPU=${PROD_PG_REQ_CPU},requestsPostgresMemory=${PROD_PG_REQ_MEM}"
@@ -1016,22 +1020,25 @@ helm install devstats-prod-patroni ./devstats-helm --set "$S"
 kubectl -n devstats-prod get po -o wide -w | grep postgres   # Ctrl-C when 3/3 Running
 kubectl exec -itn devstats-prod devstats-postgres-0 -c devstats-postgres -- patronictl list   # 1 leader + 2 replicas
 
-# tune for 256 GB nodes (sb 64GB / ecs 128GB / wm 1GB / temp 100GB):
+# tune for 256 GB nodes + MEASURED prod reality (245 DBs / 1793 GB, allprj 521 GB,
+# gha 214 GB): sb 64GB / ecs 128GB / wm 1GB / temp 100GB, and much more aggressive
+# autovacuum than live OCI (1 worker @ cost_limit 100 cannot keep up with 245 DBs)
 PARAMS='{"loop_wait":15,"ttl":60,"retry_timeout":60,"primary_start_timeout":600,'
 PARAMS+='"maximum_lag_on_failover":53687091200,'
 PARAMS+='"postgresql":{"use_pg_rewind":true,"use_slots":true,"parameters":{'
 PARAMS+='"shared_buffers":"64GB","max_connections":1024,"max_worker_processes":32,'
 PARAMS+='"max_parallel_workers":32,"max_parallel_workers_per_gather":16,"work_mem":"1GB",'
 PARAMS+='"wal_buffers":"1GB","temp_file_limit":"100GB","wal_keep_size":"100GB",'
-PARAMS+='"max_wal_senders":10,"max_replication_slots":10,"maintenance_work_mem":"2GB",'
+PARAMS+='"max_wal_senders":10,"max_replication_slots":10,"maintenance_work_mem":"4GB",'
 PARAMS+='"idle_in_transaction_session_timeout":"30min","wal_level":"replica",'
 PARAMS+='"wal_log_hints":"on","hot_standby":"on","hot_standby_feedback":"on",'
 PARAMS+='"max_wal_size":"128GB","min_wal_size":"4GB","checkpoint_completion_target":0.9,'
+PARAMS+='"checkpoint_timeout":"15min",'
 PARAMS+='"default_statistics_target":1000,"effective_cache_size":"128GB",'
-PARAMS+='"effective_io_concurrency":8,"random_page_cost":1.1,"autovacuum_max_workers":1,'
-PARAMS+='"autovacuum_naptime":"120s","autovacuum_vacuum_cost_limit":100,'
-PARAMS+='"autovacuum_vacuum_threshold":150,"autovacuum_vacuum_scale_factor":0.25,'
-PARAMS+='"autovacuum_analyze_threshold":100,"autovacuum_analyze_scale_factor":0.2,'
+PARAMS+='"effective_io_concurrency":8,"random_page_cost":1.1,"autovacuum_max_workers":4,'
+PARAMS+='"autovacuum_naptime":"30s","autovacuum_vacuum_cost_limit":1000,'
+PARAMS+='"autovacuum_vacuum_threshold":150,"autovacuum_vacuum_scale_factor":0.05,'
+PARAMS+='"autovacuum_analyze_threshold":100,"autovacuum_analyze_scale_factor":0.02,'
 PARAMS+='"password_encryption":"scram-sha-256"}}}'
 echo "$PARAMS" | jq . >/dev/null && echo "PARAMS JSON OK"
 kubectl exec -n devstats-prod devstats-postgres-0 -c devstats-postgres -- \
@@ -1106,6 +1113,13 @@ except the Grafana tar (3.3, workstation). Restores download dumps from
 `https://devstats.cncf.io/backups/` / `https://teststats.cncf.io/backups/` - these still
 resolve to OCI until Part 4, which is exactly what we want. ALL restores must be finished
 BEFORE the DNS switch.
+
+Grafana pods (the most numerous pod type: 242 on prod, 12 on test) are auto-sized by the
+chart, minimized to MEASURED live usage (2026-08-21 samples: 228Mi-1.35Gi RSS, ~idle CPU;
+their queries only load data from Postgres): `requestsGrafanas* 50m/256Mi`,
+`limitsGrafanas* 1000m/2Gi` - already the defaults in this repo's values.yaml, nothing
+to pass; if a big-project grafana ever OOMs, raise per release with
+`--set limitsGrafanasMemory=3Gi`.
 
 ### 3.1 TEST env: statics, ingress, bootstrap, debug pod
 

@@ -1140,15 +1140,16 @@ everything else identical to the 512 profile. Same ratios as live OCI, one binar
 | `postgresNodes` | 6 | **2** |
 | `postgresStorageSize` | 23000Gi | **3600Gi** (real data: 283G du - huge headroom) |
 | `dbNodeSelector.node2` | devstats-db | **devstats-db-test** |
-| `requestsPostgresCPU` / `limitsPostgresCPU` | 32000m / 160000m | **8000m / 40000m** |
-| `requestsPostgresMemory` / `limitsPostgresMemory` | 128Gi / 1Ti | **48Gi / 160Gi** |
+| `requestsPostgresCPU` / `limitsPostgresCPU` | 32000m / 160000m | **4000m / 32000m** |
+| `requestsPostgresMemory` / `limitsPostgresMemory` | 128Gi / 1Ti | **40Gi / 128Gi** |
 
-Patroni PATCH vs LIVE test config: `shared_buffers 250GB → 48GB` (250GB is the live DCS
-value; runtime still shows 500GB because the patch was never restart-applied on OCI - on
-Linode our PATCH + rolling restart applies 48GB for real), `work_mem 4GB → 1GB`,
-`max_worker_processes/max_parallel_workers 16 (keep live)`, `max_parallel_workers_per_gather
-28 → 8`, `effective_cache_size 128GB (keep live)`, `temp_file_limit 200GB (keep)`,
-`wal_keep_size 100GB (keep)`, `max_wal_size 128GB (keep)`.
+Patroni PATCH vs LIVE test config (downsized to MEASURED test reality 2026-08-21: 16 DBs,
+170 GB total, biggest cii 85 GB, ~34 conns): `shared_buffers 250GB → 32GB` (250GB is the
+live DCS value; runtime still shows 500GB because the patch was never restart-applied on
+OCI - on Linode our PATCH + rolling restart applies 32GB for real), `work_mem 4GB → 512MB`,
+`max_worker_processes 16 (keep live)`, `max_parallel_workers 16 → 8`,
+`max_parallel_workers_per_gather 28 → 4`, `effective_cache_size 128GB → 64GB`,
+`temp_file_limit 200GB → 50GB`, `wal_keep_size 100GB → 50GB`, `max_wal_size 128GB → 32GB`.
 
 ### 14.3 Job/pod caps (whole cluster)
 
@@ -1156,7 +1157,11 @@ Linode our PATCH + rolling restart applies 48GB for real), `work_mem 4GB → 1GB
   nodes) or ≤ **180Gi** (fits any node). The README's `640Gi`/`1Ti` examples are OCI-only.
 - `nCPUs` for provisioning: ≤ 32 on prod-db nodes, ≤ 16 elsewhere (56/64 vCPU nodes).
 - Backups PV: keep `2Ti` (live content is 149G in 792 files - fits compute-node disks fine).
-- Grafanas/API/statics/syncs: defaults are small; no change. Live prod runs 1235 pods
+- Grafanas dominate the pod count (242 on prod!) but only read from Postgres - chart
+  defaults are now minimized to measured usage (sampled live 2026-08-21: 228Mi-1.35Gi RSS,
+  ~idle CPU): `requestsGrafanas 50m/256Mi`, `limitsGrafanas 1000m/2Gi` (were 200m/512Mi and
+  2000m/6Gi - the old requests alone reserved ~48 CPU + 121Gi for grafanas).
+- API/statics/syncs: defaults are small; no change. Live prod runs 1235 pods
   (242 grafanas, 247 deployments, 252 services, 486 cronjobs, 8 ingresses), test runs
   76 pods / 26 cronjobs / 2 ingresses. Live per-node requests on OCI: ~66 CPU / ~260Gi
   → on 7 Linode nodes the same workload minus 9 patroni members fits: ≈150 CPU /
