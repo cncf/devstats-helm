@@ -456,17 +456,22 @@ be that node's own `devstats-*` name (NOT `localhost`), /data MUST be btrfs with
 
 ### 1.7b Reboot ALL 8 nodes + verify automount survives boot [workstation]
 
-Prove the fs layout is boot-persistent BEFORE anything is installed on top of it:
+Prove the fs layout is boot-persistent BEFORE anything is installed on top of it.
+Reboot via the Linode API, NOT in-guest `reboot` (a guest reboot can land the node in
+`offline` and stay there until the watchdog kicks in minutes later - or not at all):
 
 ```bash
-for h in $NODE_PUB_IPS; do echo "rebooting $h"; ssh root@$h reboot || true; done
-sleep 90    # nodes take ~1 min to come back; re-run the loop below until all 8 answer
+for v in ${!ID_DEVSTATS_*}; do echo "rebooting $v (${!v})"; linode-cli linodes reboot "${!v}" >/dev/null; done
+sleep 90    # nodes take ~1-2 min to come back; re-run the loop below until all 8 answer
 for h in $NODE_PUB_IPS; do
   echo "===== verifying: $h ====="
   ssh -o ConnectTimeout=10 root@$h 'echo "host: $(hostname)"; df -h / /data | tail -2; \
     findmnt -no FSTYPE,OPTIONS /data; swapon --show | grep -q . && echo SWAP-ON || echo no-swap'
 done
 ```
+
+If a node stays unreachable: `linode-cli linodes view "$ID_..." --json | jq -r '.[0].status'`
+- when it reports `offline`, start it with `linode-cli linodes boot "$ID_..."`.
 
 Gate, on EVERY node: its own `devstats-*` hostname, `/` ~119G on /dev/sda, `/data` ~4.8T
 btrfs with `compress-force=zstd:3`, and `no-swap`. Only then continue to 1.7c.
