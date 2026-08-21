@@ -512,13 +512,18 @@ What it does (identical philosophy to the OCI runbook):
 
 ```bash
 # pre-pull + init against the EXACT pinned patch (never "whatever kubeadm defaults to")
-kubeadm config images pull --kubernetes-version v1.36.3
-kubeadm init --kubernetes-version v1.36.3 \
+# (K8S_PATCH pin - 1.36.4 as of the live run; the runbook env block is the source of truth)
+kubeadm config images pull --kubernetes-version "v${K8S_PATCH}"
+kubeadm init --kubernetes-version "v${K8S_PATCH}" \
   --apiserver-advertise-address=10.60.0.31 --pod-network-cidr=10.244.0.0/16
 mkdir -p $HOME/.kube && cp /etc/kubernetes/admin.conf $HOME/.kube/config
 # pinned flannel release (v0.28.9, §15) - not the moving master-branch manifest
 kubectl apply -f https://github.com/flannel-io/flannel/releases/download/v0.28.9/kube-flannel.yml
 kubectl taint nodes devstats-compute-01 node-role.kubernetes.io/control-plane:NoSchedule-
+# NOTE: if the node is later deleted + re-registered (the /22+maxPods dance), the kubeadm
+# control-plane labels are LOST - restore them (kubeadm upgrade finds masters by label):
+#   kubectl label node devstats-compute-01 node-role.kubernetes.io/control-plane= \
+#     node.kubernetes.io/exclude-from-external-load-balancers=
 ```
 
 Record in the migration log: the resolved Debian package version printed by `node-setup.sh`

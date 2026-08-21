@@ -650,6 +650,9 @@ kubectl -n kube-flannel rollout restart ds kube-flannel-ds
 kubectl get node devstats-compute-01 -o custom-columns=NAME:.metadata.name,CAP:.status.capacity.pods,PODCIDR:.spec.podCIDR
 # MUST show 1024 and 10.244.x.y/22 - do NOT continue until it does
 kubectl taint nodes devstats-compute-01 node-role.kubernetes.io/control-plane:NoSchedule- 2>/dev/null || true
+# the delete/re-register above LOSES the kubeadm control-plane labels (added only at
+# init) - restore them; kubeadm upgrade tooling finds control-plane nodes by this label:
+kubectl label node devstats-compute-01 node-role.kubernetes.io/control-plane= node.kubernetes.io/exclude-from-external-load-balancers=
 ```
 
 ### 1.9 Join the other 7 nodes [workstation]
