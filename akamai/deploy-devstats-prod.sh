@@ -51,49 +51,49 @@ skips_except () {
 
 case "${PHASE}" in
   secrets)
-    helm install devstats-prod-secrets "${CHART}" --set "namespace=${NS},$(skips_except Secrets)"
+    helm install devstats-prod-secrets "${CHART}" -n "${NS}" --set "namespace=${NS},$(skips_except Secrets)"
     ;;
   backups-pv)
-    helm install devstats-prod-backups-pv "${CHART}" --set "namespace=${NS},$(skips_except BackupsPV)"
+    helm install devstats-prod-backups-pv "${CHART}" -n "${NS}" --set "namespace=${NS},$(skips_except BackupsPV)"
     ;;
   pvcs)
-    helm install devstats-prod-pvcs "${CHART}" --set "namespace=${NS},$(skips_except PVs)"
+    helm install devstats-prod-pvcs "${CHART}" -n "${NS}" --set "namespace=${NS},$(skips_except PVs)"
     ;;
   patroni)
-    helm install devstats-prod-patroni "${CHART}" --set "namespace=${NS},$(skips_except Postgres),postgresNodes=${PROD_POSTGRES_NODES},postgresStorageSize=${PROD_POSTGRES_STORAGE},dbNodeSelector.node2=devstats-db-prod,requestsPostgresCPU=${PROD_PG_REQ_CPU},requestsPostgresMemory=${PROD_PG_REQ_MEM},limitsPostgresCPU=${PROD_PG_LIM_CPU},limitsPostgresMemory=${PROD_PG_LIM_MEM}"
+    helm install devstats-prod-patroni "${CHART}" -n "${NS}" --set "namespace=${NS},$(skips_except Postgres),postgresNodes=${PROD_POSTGRES_NODES},postgresStorageSize=${PROD_POSTGRES_STORAGE},dbNodeSelector.node2=devstats-db-prod,requestsPostgresCPU=${PROD_PG_REQ_CPU},requestsPostgresMemory=${PROD_PG_REQ_MEM},limitsPostgresCPU=${PROD_PG_LIM_CPU},limitsPostgresMemory=${PROD_PG_LIM_MEM}"
     echo "Watch: kubectl -n ${NS} get po -o wide -w | grep postgres"
     echo "Then:  kubectl exec -itn ${NS} devstats-postgres-0 -- patronictl list"
     echo "Then:  ENV=prod ./akamai/patroni-tune.sh"
     ;;
   statics)
-    helm install devstats-prod-statics "${CHART}" --set "namespace=${NS},$(skips_except Static),indexStaticsFrom=1"
+    helm install devstats-prod-statics "${CHART}" -n "${NS}" --set "namespace=${NS},$(skips_except Static),indexStaticsFrom=1"
     ;;
   ingress)
-    helm install devstats-prod-ingress "${CHART}" --set "namespace=${NS},$(skips_except Ingress),skipAliases=1,indexDomainsFrom=1,ingressClass=nginx-prod,sslEnv=prod"
+    helm install devstats-prod-ingress "${CHART}" -n "${NS}" --set "namespace=${NS},$(skips_except Ingress),skipAliases=1,indexDomainsFrom=1,ingressClass=nginx-prod,sslEnv=prod"
     ;;
   bootstrap)
-    helm install devstats-prod-bootstrap "${CHART}" --set "namespace=${NS},$(skips_except Bootstrap)"
+    helm install devstats-prod-bootstrap "${CHART}" -n "${NS}" --set "namespace=${NS},$(skips_except Bootstrap)"
     echo "Watch: kubectl -n ${NS} logs -f devstats-provision-bootstrap ; then kubectl -n ${NS} delete po devstats-provision-bootstrap"
     ;;
   debug)
     # New-cluster restore pod (README line 427). The OLD-cluster backup pod additionally
     # sets limitsBackupsCPU=4000m,limitsBackupsMemory=64Gi (README line 425) - run that there.
-    helm install devstats-prod-debug "${CHART}" --set "namespace=${NS},$(skips_except Bootstrap),bootstrapPodName=debug,bootstrapCommand=sleep,bootstrapCommandArgs={360000s},bootstrapMountBackups=1"
+    helm install devstats-prod-debug "${CHART}" -n "${NS}" --set "namespace=${NS},$(skips_except Bootstrap),bootstrapPodName=debug,bootstrapCommand=sleep,bootstrapCommandArgs={360000s},bootstrapMountBackups=1"
     echo "Shell:  ../devstats-k8s-lf/util/pod_shell.sh debug"
     echo "Inside (explicit ONLY - pod defaults to testServer=1, empty/unset ONLY would pick the TEST db list):"
     echo "  ONLY=\"\$(cat ./devstats-helm/all_prod_dbs.txt)\" RESTORE_FROM='https://devstats.cncf.io' NOBACKUP='' ./devstats-helm/restore_artificial_all.sh"
-    echo "After:  helm delete devstats-prod-debug"
+    echo "After:  helm delete -n devstats-prod devstats-prod-debug"
     ;;
   affs-import)
     # Live-verified release devstats-prod-affs-import (helm get values 2026-08-18):
     # enables the daily devstats-affiliations-import cronjob (import_affs_shared.sh, 10 2 * * *)
-    helm install devstats-prod-affs-import "${CHART}" --set "namespace=${NS},$(skips_except),skipAffiliationsImport=,affiliationsDB=affiliations,prodServer=1,testServer="
+    helm install devstats-prod-affs-import "${CHART}" -n "${NS}" --set "namespace=${NS},$(skips_except),skipAffiliationsImport=,affiliationsDB=affiliations,prodServer=1,testServer="
     ;;
   api)
-    helm install devstats-prod-api "${CHART}" --set "namespace=${NS},$(skips_except API),apiImage=lukaszgryglicki/devstats-api-prod"
+    helm install devstats-prod-api "${CHART}" -n "${NS}" --set "namespace=${NS},$(skips_except API),apiImage=lukaszgryglicki/devstats-api-prod"
     ;;
   backups)
-    helm install devstats-prod-backups "${CHART}" --set "namespace=${NS},$(skips_except Backups),backupsTestServer=,backupsProdServer=1"
+    helm install devstats-prod-backups "${CHART}" -n "${NS}" --set "namespace=${NS},$(skips_except Backups),backupsTestServer=,backupsProdServer=1"
     echo "Now: kubectl -n ${NS} edit cj devstats-backups  -> schedule: '45 2 10,20 * *' (and keep suspended until cutover)"
     ;;
   *)

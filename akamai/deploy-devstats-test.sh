@@ -52,49 +52,49 @@ skips_except () {
 
 case "${PHASE}" in
   secrets)
-    helm install devstats-test-secrets "${CHART}" --set "$(skips_except Secrets)"
+    helm install devstats-test-secrets "${CHART}" -n devstats-test --set "$(skips_except Secrets)"
     ;;
   backups-pv)
-    helm install devstats-test-backups-pv "${CHART}" --set "$(skips_except BackupsPV)"
+    helm install devstats-test-backups-pv "${CHART}" -n devstats-test --set "$(skips_except BackupsPV)"
     ;;
   pvcs)
-    helm install devstats-test-pvcs "${CHART}" --set "$(skips_except PVs),projectsOverride=${TEST_PROJECTS}"
+    helm install devstats-test-pvcs "${CHART}" -n devstats-test --set "$(skips_except PVs),projectsOverride=${TEST_PROJECTS}"
     echo "Cleanup non-test PVCs after initialization:"
     echo "  kubectl -n ${NS} get pvc | grep Pending    # then kubectl -n ${NS} delete pvc <name> for non-test projects"
     ;;
   patroni)
-    helm install devstats-test-patroni "${CHART}" --set "$(skips_except Postgres),postgresNodes=${TEST_POSTGRES_NODES},postgresStorageSize=${TEST_POSTGRES_STORAGE},dbNodeSelector.node2=devstats-db-test,requestsPostgresCPU=${TEST_PG_REQ_CPU},requestsPostgresMemory=${TEST_PG_REQ_MEM},limitsPostgresCPU=${TEST_PG_LIM_CPU},limitsPostgresMemory=${TEST_PG_LIM_MEM}"
+    helm install devstats-test-patroni "${CHART}" -n devstats-test --set "$(skips_except Postgres),postgresNodes=${TEST_POSTGRES_NODES},postgresStorageSize=${TEST_POSTGRES_STORAGE},dbNodeSelector.node2=devstats-db-test,requestsPostgresCPU=${TEST_PG_REQ_CPU},requestsPostgresMemory=${TEST_PG_REQ_MEM},limitsPostgresCPU=${TEST_PG_LIM_CPU},limitsPostgresMemory=${TEST_PG_LIM_MEM}"
     echo "Watch: kubectl -n ${NS} get po -o wide -w | grep postgres"
     echo "Then:  kubectl exec -itn ${NS} devstats-postgres-0 -- patronictl list   # leader + 1 replica"
     echo "Then:  ENV=test ./akamai/patroni-tune.sh"
     ;;
   statics)
-    helm install devstats-test-statics "${CHART}" --set "$(skips_except Static),projectsOverride=${TEST_PROJECTS},indexStaticsFrom=0,indexStaticsTo=1"
+    helm install devstats-test-statics "${CHART}" -n devstats-test --set "$(skips_except Static),projectsOverride=${TEST_PROJECTS},indexStaticsFrom=0,indexStaticsTo=1"
     ;;
   ingress)
-    helm install devstats-test-ingress "${CHART}" --set "$(skips_except Ingress),indexDomainsFrom=0,indexDomainsTo=1,projectsOverride=${TEST_PROJECTS},ingressClass=nginx-test,sslEnv=test"
+    helm install devstats-test-ingress "${CHART}" -n devstats-test --set "$(skips_except Ingress),indexDomainsFrom=0,indexDomainsTo=1,projectsOverride=${TEST_PROJECTS},ingressClass=nginx-test,sslEnv=test"
     ;;
   bootstrap)
-    helm install devstats-test-bootstrap "${CHART}" --set "$(skips_except Bootstrap),projectsOverride=${TEST_PROJECTS}"
+    helm install devstats-test-bootstrap "${CHART}" -n devstats-test --set "$(skips_except Bootstrap),projectsOverride=${TEST_PROJECTS}"
     echo "Watch: kubectl -n ${NS} logs -f devstats-provision-bootstrap ; then kubectl -n ${NS} delete po devstats-provision-bootstrap"
     ;;
   debug)
-    helm install devstats-test-debug "${CHART}" --set "$(skips_except Bootstrap),bootstrapPodName=debug,bootstrapCommand=sleep,bootstrapCommandArgs={360000s},bootstrapMountBackups=1"
+    helm install devstats-test-debug "${CHART}" -n devstats-test --set "$(skips_except Bootstrap),bootstrapPodName=debug,bootstrapCommand=sleep,bootstrapCommandArgs={360000s},bootstrapMountBackups=1"
     echo "Shell:  kubectl exec -itn ${NS} debug -- bash"
     echo "Inside: ONLY='azf cii cncf fn godotengine linux opencontainers openfaas openwhisk riff sam zephyr' \\"
     echo "        RESTORE_FROM='https://teststats.cncf.io' NOBACKUP='' ./devstats-helm/restore_artificial_all.sh"
-    echo "After:  helm delete devstats-test-debug"
+    echo "After:  helm delete -n devstats-test devstats-test-debug"
     ;;
   affs-import)
     # Live-verified release devstats-test-affs-import (helm get values 2026-08-18):
     # enables the daily devstats-affiliations-import cronjob (import_affs_shared.sh, 10 1 * * *)
-    helm install devstats-test-affs-import "${CHART}" --set "$(skips_except),skipAffiliationsImport=,affiliationsDB=affiliations,prodServer=,testServer=1,backupsCronProd=45 2 16\,28 * *"
+    helm install devstats-test-affs-import "${CHART}" -n devstats-test --set "$(skips_except),skipAffiliationsImport=,affiliationsDB=affiliations,prodServer=,testServer=1,backupsCronProd=45 2 16\,28 * *"
     ;;
   api)
-    helm install devstats-test-api "${CHART}" --set "$(skips_except API),projectsOverride=${TEST_PROJECTS}"
+    helm install devstats-test-api "${CHART}" -n devstats-test --set "$(skips_except API),projectsOverride=${TEST_PROJECTS}"
     ;;
   backups)
-    helm install devstats-test-backups "${CHART}" --set "$(skips_except Backups)"
+    helm install devstats-test-backups "${CHART}" -n devstats-test --set "$(skips_except Backups)"
     # Test is deliberately tiny (12 projects, no gha/allprj) - backups are near-worthless there.
     # SIMPLEST: keep the cronjob suspended forever (restore source is prod + git).
     kubectl -n "${NS}" patch cj devstats-backups -p '{"spec":{"suspend":true}}' || true

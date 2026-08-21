@@ -179,7 +179,7 @@ restore_prod () {
   s+=",indexServicesFrom=$2,indexServicesTo=$3,indexAffiliationsFrom=$2,indexAffiliationsTo=$3"
   s+=',provisionImage=lukaszgryglicki/devstats-prod,provisionCommand=devstats-helm/restore.sh'
   s+=',restoreFrom=https://devstats.cncf.io/backups/,testServer=,prodServer=1'
-  helm install "devstats-prod-${1}" ./devstats-helm --set "${s}" \
+  helm install "devstats-prod-${1}" ./devstats-helm -n devstats-prod --set "${s}" \
     && echo "watch: kubectl -n devstats-prod logs -f devstats-provision-${1}"
 }
 
@@ -192,7 +192,7 @@ restore_test () {
   s+=",indexServicesFrom=$2,indexServicesTo=$3,indexAffiliationsFrom=$2,indexAffiliationsTo=$3"
   s+=',provisionCommand=devstats-helm/restore.sh,restoreFrom=https://teststats.cncf.io/backups/'
   s+=",projectsOverride=+${1}"
-  helm install "devstats-test-${1}" ./devstats-helm --set "${s}" \
+  helm install "devstats-test-${1}" ./devstats-helm -n devstats-test --set "${s}" \
     && echo "watch: kubectl -n devstats-test logs -f devstats-provision-${1}"
 }
 
@@ -1087,27 +1087,47 @@ kubectl get issuer -A                       # both letsencrypt-{prod,test} must 
 
 ### 1.19 DevStats secrets + backups PV + project PVCs (both envs) [master]
 
+Always pass `-n devstats-{test,prod}` to helm: without it the RELEASE metadata lands in the
+current context's namespace (the chart's objects go to `.Values.namespace` regardless - test
+is the chart default, prod needs `namespace=devstats-prod`), and a stale context would split
+them apart. `projectsOverride` only sets `GHA2DB_PROJECTS_OVERRIDE` inside future pods - it
+does NOT filter PVC creation, so ALL project PVCs appear in test and the non-test ones are
+pruned right after. `Pending` is EXPECTED for every project PVC (`WaitForFirstConsumer` -
+they bind when the first pod uses them); only `devstats-backups` (NFS) binds immediately.
+
 ```bash
 cd /root/devstats-helm && source linodes.env.secret
 kubectl config use-context test
-helm install devstats-test-secrets    ./devstats-helm --set "$(skips_except Secrets)"
-helm install devstats-test-backups-pv ./devstats-helm --set "$(skips_except BackupsPV)"
-helm install devstats-test-pvcs       ./devstats-helm --set "$(skips_except PVs),projectsOverride=${TEST_PROJECTS}"
-kubectl -n devstats-test get pvc | grep Pending   # delete any NON-test-project PVCs that appear:
-# kubectl -n devstats-test delete pvc <name>
+helm install devstats-test-secrets    ./devstats-helm -n devstats-test --set "$(skips_except Secrets)"
+helm install devstats-test-backups-pv ./devstats-helm -n devstats-test --set "$(skips_except BackupsPV)"
+helm install devstats-test-pvcs       ./devstats-helm -n devstats-test --set "$(skips_except PVs),projectsOverride=${TEST_PROJECTS}"
+# prune the NON-test-project PVCs (chart creates all ~283; test keeps its 12 + backups):
+keep_re="$(echo "$TEST_PROJECTS" | tr -d '+\\' | tr ',' '|')"
+kubectl -n devstats-test get pvc --no-headers | awk '{print $1}' \
+  | grep -Ev "^devstats-pvc-(${keep_re})$|^devstats-backups$" \
+  | xargs -r kubectl -n devstats-test delete pvc
+kubectl -n devstats-test get pvc --no-headers | wc -l   # exactly 13 (12 projects + backups)
 
 kubectl config use-context prod
-helm install devstats-prod-secrets    ./devstats-helm --set "namespace=devstats-prod,$(skips_except Secrets)"
-helm install devstats-prod-backups-pv ./devstats-helm --set "namespace=devstats-prod,$(skips_except BackupsPV)"
-helm install devstats-prod-pvcs       ./devstats-helm --set "namespace=devstats-prod,$(skips_except PVs)"
+helm install devstats-prod-secrets    ./devstats-helm -n devstats-prod --set "namespace=devstats-prod,$(skips_except Secrets)"
+helm install devstats-prod-backups-pv ./devstats-helm -n devstats-prod --set "namespace=devstats-prod,$(skips_except BackupsPV)"
+helm install devstats-prod-pvcs       ./devstats-helm -n devstats-prod --set "namespace=devstats-prod,$(skips_except PVs)"
+
+# gate: releases live in their own namespaces, backups PVCs Bound 2Ti RWX in both envs
+helm ls -n devstats-test    # devstats-test-{secrets,backups-pv,pvcs} + nginx-ingress-test
+helm ls -n devstats-prod    # devstats-prod-{secrets,backups-pv,pvcs} + nginx-ingress-prod
+kubectl -n devstats-test get pvc devstats-backups; kubectl -n devstats-prod get pvc devstats-backups
+kubectl -n devstats-test get secret | grep -E 'pg-db|github-oauth|grafana-secret'   # 3 secrets
+kubectl -n devstats-prod get secret | grep -E 'pg-db|github-oauth|grafana-secret'   # 3 secrets
 ```
 
-Storage-placement gate - backups-PV NFS servers (one per env appeared just now) and their
-backing hostpath data MUST sit on compute nodes, never on Patroni nodes:
+Storage-placement gate - the two backups-PV NFS server pods (one per env, appeared just now)
+and their backing hostpath data MUST sit on `node=devstats-app` nodes (computes + test-dbs),
+NEVER on the reserved PROD Patroni nodes:
 
 ```bash
-kubectl -n openebs-nfs get po -o wide                  # NODE column: devstats-compute-* only
-# hostpath PVs record their node in nodeAffinity - none may say prod-db/test-db:
+kubectl -n openebs-nfs get po -o wide     # NODE column: never devstats-prod-db-*
+# hostpath PVs record their node in nodeAffinity - none may say prod-db:
 kubectl get pv -o custom-columns=NAME:.metadata.name,CLAIM:.spec.claimRef.name,NODE:'.spec.nodeAffinity.required.nodeSelectorTerms[0].matchExpressions[0].values[0]'
 ```
 
@@ -1120,7 +1140,7 @@ S="$(skips_except Postgres),postgresNodes=${TEST_POSTGRES_NODES}"
 S+=",postgresStorageSize=${TEST_POSTGRES_STORAGE},dbNodeSelector.node2=devstats-db-test"
 S+=",requestsPostgresCPU=${TEST_PG_REQ_CPU},requestsPostgresMemory=${TEST_PG_REQ_MEM}"
 S+=",limitsPostgresCPU=${TEST_PG_LIM_CPU},limitsPostgresMemory=${TEST_PG_LIM_MEM}"
-helm install devstats-test-patroni ./devstats-helm --set "$S"
+helm install devstats-test-patroni ./devstats-helm -n devstats-test --set "$S"
 kubectl -n devstats-test get po -o wide -w | grep postgres   # Ctrl-C when 2/2 Running
 kubectl exec -itn devstats-test devstats-postgres-0 -c devstats-postgres -- patronictl list   # 1 leader + 1 replica
 
@@ -1162,7 +1182,7 @@ S="namespace=devstats-prod,$(skips_except Postgres),postgresNodes=${PROD_POSTGRE
 S+=",postgresStorageSize=${PROD_POSTGRES_STORAGE},dbNodeSelector.node2=devstats-db-prod"
 S+=",requestsPostgresCPU=${PROD_PG_REQ_CPU},requestsPostgresMemory=${PROD_PG_REQ_MEM}"
 S+=",limitsPostgresCPU=${PROD_PG_LIM_CPU},limitsPostgresMemory=${PROD_PG_LIM_MEM}"
-helm install devstats-prod-patroni ./devstats-helm --set "$S"
+helm install devstats-prod-patroni ./devstats-helm -n devstats-prod --set "$S"
 kubectl -n devstats-prod get po -o wide -w | grep postgres   # Ctrl-C when 3/3 Running
 kubectl exec -itn devstats-prod devstats-postgres-0 -c devstats-postgres -- patronictl list   # 1 leader + 2 replicas
 
@@ -1224,12 +1244,12 @@ S+=',skipBackups=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=
 S+=',skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1'
 S+=',bootstrapPodName=debug,bootstrapCommand=sleep,bootstrapCommandArgs={360000s}'
 S+=',bootstrapMountBackups=1,limitsBackupsCPU=4000m,limitsBackupsMemory=64Gi'
-helm install devstats-prod-debug ./devstats-helm --set "$S"
+helm install devstats-prod-debug ./devstats-helm -n devstats-prod --set "$S"
 kubectl -n devstats-prod exec -it debug -- bash
 # inside the pod (ONLY must be EXPLICIT - the pod defaults to the TEST db list):
 ONLY="$(cat ./devel/all_prod_dbs.txt)" FASTXZ=1 NOBACKUP='' ./devstats-helm/backup_artificial_all.sh
 exit
-helm delete devstats-prod-debug
+helm delete -n devstats-prod devstats-prod-debug
 ```
 
 ### 2.3 Verify dumps are fresh [workstation]
@@ -1272,11 +1292,11 @@ to pass; if a big-project grafana ever OOMs, raise per release with
 ```bash
 cd /root/devstats-helm && source linodes.env.secret
 kubectl config use-context test
-helm install devstats-test-statics   ./devstats-helm --set "$(skips_except Static),projectsOverride=${TEST_PROJECTS},indexStaticsFrom=0,indexStaticsTo=1"
-helm install devstats-test-ingress   ./devstats-helm --set "$(skips_except Ingress),indexDomainsFrom=0,indexDomainsTo=1,projectsOverride=${TEST_PROJECTS},ingressClass=nginx-test,sslEnv=test"
-helm install devstats-test-bootstrap ./devstats-helm --set "$(skips_except Bootstrap),projectsOverride=${TEST_PROJECTS}"
+helm install devstats-test-statics ./devstats-helm -n devstats-test --set "$(skips_except Static),projectsOverride=${TEST_PROJECTS},indexStaticsFrom=0,indexStaticsTo=1"
+helm install devstats-test-ingress ./devstats-helm -n devstats-test --set "$(skips_except Ingress),indexDomainsFrom=0,indexDomainsTo=1,projectsOverride=${TEST_PROJECTS},ingressClass=nginx-test,sslEnv=test"
+helm install devstats-test-bootstrap ./devstats-helm -n devstats-test --set "$(skips_except Bootstrap),projectsOverride=${TEST_PROJECTS}"
 kubectl get po -w    # Ctrl-C when bootstrap Completed and statics Running
-helm install devstats-test-debug     ./devstats-helm --set "$(skips_except Bootstrap),bootstrapPodName=debug,bootstrapCommand=sleep,bootstrapCommandArgs={360000s},bootstrapMountBackups=1"
+helm install devstats-test-debug ./devstats-helm -n devstats-test --set "$(skips_except Bootstrap),bootstrapPodName=debug,bootstrapCommand=sleep,bootstrapCommandArgs={360000s},bootstrapMountBackups=1"
 kubectl get ingress    # hosts present, class nginx-test (certs stay Pending until DNS - OK)
 ```
 
@@ -1284,11 +1304,11 @@ kubectl get ingress    # hosts present, class nginx-test (certs stay Pending unt
 
 ```bash
 kubectl config use-context prod
-helm install devstats-prod-statics   ./devstats-helm --set "namespace=devstats-prod,$(skips_except Static),indexStaticsFrom=1"
-helm install devstats-prod-ingress   ./devstats-helm --set "namespace=devstats-prod,$(skips_except Ingress),skipAliases=1,indexDomainsFrom=1,ingressClass=nginx-prod,sslEnv=prod"
-helm install devstats-prod-bootstrap ./devstats-helm --set "namespace=devstats-prod,$(skips_except Bootstrap)"
+helm install devstats-prod-statics ./devstats-helm -n devstats-prod --set "namespace=devstats-prod,$(skips_except Static),indexStaticsFrom=1"
+helm install devstats-prod-ingress ./devstats-helm -n devstats-prod --set "namespace=devstats-prod,$(skips_except Ingress),skipAliases=1,indexDomainsFrom=1,ingressClass=nginx-prod,sslEnv=prod"
+helm install devstats-prod-bootstrap ./devstats-helm -n devstats-prod --set "namespace=devstats-prod,$(skips_except Bootstrap)"
 kubectl get po -w    # Ctrl-C when bootstrap Completed
-helm install devstats-prod-debug     ./devstats-helm --set "namespace=devstats-prod,$(skips_except Bootstrap),bootstrapPodName=debug,bootstrapCommand=sleep,bootstrapCommandArgs={360000s},bootstrapMountBackups=1"
+helm install devstats-prod-debug ./devstats-helm -n devstats-prod --set "namespace=devstats-prod,$(skips_except Bootstrap),bootstrapPodName=debug,bootstrapCommand=sleep,bootstrapCommandArgs={360000s},bootstrapMountBackups=1"
 ```
 
 ### 3.3 Grafana artifacts tar [workstation - needs cncf/devstats + cncf/devstatscode checkouts]
@@ -1362,9 +1382,9 @@ kubectl delete po --field-selector=status.phase=Succeeded
 # artificial rows via the debug pod - ONLY/RESTORE_FROM MUST be explicit:
 kubectl exec -it debug -- bash -c "ONLY='azf cii cncf fn godotengine linux opencontainers openfaas openwhisk riff sam zephyr' RESTORE_FROM='https://teststats.cncf.io' NOBACKUP='' ./devstats-helm/restore_artificial_all.sh"
 
-helm install devstats-test-affs-import ./devstats-helm --set "$(skips_except),skipAffiliationsImport=,affiliationsDB=affiliations,prodServer=,testServer=1,backupsCronProd=45 2 16\,28 * *"
-helm install devstats-test-api         ./devstats-helm --set "$(skips_except API),projectsOverride=${TEST_PROJECTS}"
-helm install devstats-test-backups     ./devstats-helm --set "$(skips_except Backups)"
+helm install devstats-test-affs-import ./devstats-helm -n devstats-test --set "$(skips_except),skipAffiliationsImport=,affiliationsDB=affiliations,prodServer=,testServer=1,backupsCronProd=45 2 16\,28 * *"
+helm install devstats-test-api ./devstats-helm -n devstats-test --set "$(skips_except API),projectsOverride=${TEST_PROJECTS}"
+helm install devstats-test-backups ./devstats-helm -n devstats-test --set "$(skips_except Backups)"
 # test backups are PERMANENTLY disabled (same as OCI today):
 kubectl patch cronjob devstats-backups -p '{"spec":{"suspend":true}}'
 ```
@@ -1494,7 +1514,7 @@ Monitor (any time, e.g. next Mon/Fri):
 kubectl get po | grep provision | grep -cv Completed          # still-running count
 kubectl get po -o wide | grep provision | awk '{print $8}' | sort | uniq -c   # ALL on devstats-compute-* (git clones/hostpath!)
 kubectl get po | grep provision | grep -Ev 'Completed|Running' # failures - MUST be empty
-# retry a failed one: helm delete devstats-prod-<proj> ; restore_prod <proj> <from> <to>
+# retry a failed one: helm delete -n devstats-prod devstats-prod-<proj> ; restore_prod <proj> <from> <to>
 # DB-level completeness vs the list above:
 kubectl exec devstats-postgres-0 -c devstats-postgres -- psql -U postgres -Atc "select datname from pg_database where datname not in ('postgres','template0','template1') order by 1" | wc -l
 # expect ~90: 88 project DBs (kubernetes=gha, all=allprj, ...) + affiliations + devstats;
@@ -1509,9 +1529,9 @@ Only after ALL provisions in 3.8/3.9 are Completed:
 kubectl config use-context prod
 kubectl exec -it debug -- bash -c "ONLY=\"\$(cat ./devstats-helm/all_prod_dbs.txt)\" RESTORE_FROM='https://devstats.cncf.io' NOBACKUP='' ./devstats-helm/restore_artificial_all.sh"
 
-helm install devstats-prod-affs-import ./devstats-helm --set "namespace=devstats-prod,$(skips_except),skipAffiliationsImport=,affiliationsDB=affiliations,prodServer=1,testServer="
-helm install devstats-prod-api         ./devstats-helm --set "namespace=devstats-prod,$(skips_except API),apiImage=lukaszgryglicki/devstats-api-prod"
-helm install devstats-prod-backups     ./devstats-helm --set "namespace=devstats-prod,$(skips_except Backups),backupsTestServer=,backupsProdServer=1"
+helm install devstats-prod-affs-import ./devstats-helm -n devstats-prod --set "namespace=devstats-prod,$(skips_except),skipAffiliationsImport=,affiliationsDB=affiliations,prodServer=1,testServer="
+helm install devstats-prod-api ./devstats-helm -n devstats-prod --set "namespace=devstats-prod,$(skips_except API),apiImage=lukaszgryglicki/devstats-api-prod"
+helm install devstats-prod-backups ./devstats-helm -n devstats-prod --set "namespace=devstats-prod,$(skips_except Backups),backupsTestServer=,backupsProdServer=1"
 kubectl edit cronjob devstats-backups   # set schedule: '45 2 10,20 * *'
 # keep it SUSPENDED until after cutover (two backup sources must never run at once):
 kubectl patch cronjob devstats-backups -p '{"spec":{"suspend":true}}'
@@ -1567,9 +1587,9 @@ S+=',skipBackups=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=
 S+=',skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1'
 S+=',bootstrapPodName=debug,bootstrapCommand=sleep,bootstrapCommandArgs={360000s}'
 S+=',bootstrapMountBackups=1,limitsBackupsCPU=4000m,limitsBackupsMemory=64Gi'
-helm install devstats-prod-debug ./devstats-helm --set "$S"
+helm install devstats-prod-debug ./devstats-helm -n devstats-prod --set "$S"
 kubectl -n devstats-prod exec -it debug -- bash -c "ONLY=\"\$(cat ./devel/all_prod_dbs.txt)\" FASTXZ=1 NOBACKUP='' ./devstats-helm/backup_artificial_all.sh"
-helm delete devstats-prod-debug
+helm delete -n devstats-prod devstats-prod-debug
 curl -s https://devstats.cncf.io/backups/ | grep -o 'gha.dump[^<]*'   # timestamp = today
 ```
 
@@ -1593,8 +1613,8 @@ done
 ```bash
 cd /root/devstats-helm && source linodes.env.secret
 kubectl config use-context prod    # LINODE kubeconfig (on the master)
-helm delete devstats-prod-kubernetes; sleep 10; restore_prod kubernetes 0 1
-helm delete devstats-prod-all;        sleep 10; restore_prod all 38 39
+helm delete -n devstats-prod devstats-prod-kubernetes; sleep 10; restore_prod kubernetes 0 1
+helm delete -n devstats-prod devstats-prod-all;        sleep 10; restore_prod all 38 39
 # fresh affiliations too (same one-liner as 3.4, prod + test)
 # fresh artificial rows AFTER the two provisions complete (same as 3.10):
 watch 'kubectl get po | grep provision'   # Ctrl-C when Completed

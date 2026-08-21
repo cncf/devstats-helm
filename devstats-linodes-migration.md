@@ -313,13 +313,13 @@ Also refresh artificial-events backups (used by `restore_artificial.sh` later):
 
 ```bash
 # debug pod on OCI prod (sleep pod with backups PV mounted) - README "backups pod" recipe:
-helm install devstats-prod-debug ./devstats-helm --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,bootstrapPodName=debug,bootstrapCommand=sleep,bootstrapCommandArgs={360000s},bootstrapMountBackups=1,limitsBackupsCPU=4000m,limitsBackupsMemory=64Gi
+helm install devstats-prod-debug ./devstats-helm -n devstats-prod --set namespace='devstats-prod',skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,bootstrapPodName=debug,bootstrapCommand=sleep,bootstrapCommandArgs={360000s},bootstrapMountBackups=1,limitsBackupsCPU=4000m,limitsBackupsMemory=64Gi
 ../devstats-k8s-lf/util/pod_shell.sh debug
 # inside (explicit ONLY - the debug pod defaults to testServer=1, so an empty ONLY would
 # silently select devel/all_test_dbs.txt; the prod list file ships in the image):
 ONLY="$(cat ./devel/all_prod_dbs.txt)" FASTXZ=1 NOBACKUP='' ./devstats-helm/backup_artificial_all.sh
 exit
-helm delete devstats-prod-debug
+helm delete -n devstats-prod devstats-prod-debug
 ```
 
 ### 3.3 Keep OCI syncing until cutover
@@ -875,7 +875,7 @@ Artificial rows for all prod projects (debug pod):
 # pick the TEST db list (devstats-helm/all_test_dbs.txt) instead of the ~240 prod DBs:
 ONLY="$(cat ./devstats-helm/all_prod_dbs.txt)" \
   RESTORE_FROM='https://devstats.cncf.io' NOBACKUP='' ./devstats-helm/restore_artificial_all.sh
-exit; helm delete devstats-prod-debug
+exit; helm delete -n devstats-prod devstats-prod-debug
 ```
 
 Finish:
