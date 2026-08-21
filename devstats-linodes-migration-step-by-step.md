@@ -16,6 +16,11 @@ Conventions used below:
   admin box: repo cloned at `/root/devstats-helm`, kubectl contexts `prod`/`test`/`shared`
   point at the **new Linode cluster**. All Linode `kubectl`/`helm` work happens here.
 - **[OCI]** - the workstation again, but explicitly using the OLD OCI contexts.
+- **CWD/env assumption**: EVERY command block (any host tag) assumes the shell is at the repo
+  root (workstation: this checkout; master: `/root/devstats-helm`) with
+  `source linodes.env.secret` already run. Blocks only repeat the
+  `cd ... && source linodes.env.secret` line as a reminder where a fresh shell/host switch is
+  likely - if any `$VAR` comes up empty, re-run that resume line first.
 - **State/resume**: every value is exported AND persisted into `./linodes.env.secret`
   (`*.secret` is gitignored). If you stop at any point, resume with:
   `cd <this repo> && source linodes.env.secret` (on master: `cd /root/devstats-helm && source linodes.env.secret`).
@@ -1064,12 +1069,19 @@ kubectl config use-context prod; kubectl -n devstats-prod delete ingress ingress
 ### 1.18 cert-manager + issuers [master]
 
 ```bash
+cd /root/devstats-helm && source linodes.env.secret
 helm repo add jetstack https://charts.jetstack.io && helm repo update
+# pin every component to app nodes (node=devstats-app) - prod-db nodes stay DB-only:
 helm upgrade --install cert-manager jetstack/cert-manager -n cert-manager --create-namespace \
-  --version "$CERT_MANAGER_VERSION" --set crds.enabled=true
-kubectl -n cert-manager get po -w    # Ctrl-C when Ready
-cp cert/cert-issuer.yaml.secret cert/cert-issuer.yaml
-kubectl apply -f cert/cert-issuer.yaml
+  --version "$CERT_MANAGER_VERSION" --set crds.enabled=true \
+  --set nodeSelector.node=devstats-app \
+  --set webhook.nodeSelector.node=devstats-app \
+  --set cainjector.nodeSelector.node=devstats-app \
+  --set startupapicheck.nodeSelector.node=devstats-app
+kubectl -n cert-manager get po -o wide -w   # Ctrl-C when Ready; NODE = computes/test-dbs only
+# apply the issuers straight from the .secret file (NEVER copy secrets into non-.secret names):
+kubectl apply -f cert/cert-issuer.yaml.secret
+kubectl get issuer -A                       # both letsencrypt-{prod,test} must reach READY=True
 # certificates only get ISSUED after DNS points here (HTTP-01 on port 80) - that is expected
 ```
 

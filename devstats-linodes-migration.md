@@ -716,11 +716,16 @@ nginx response (404/308 is fine at this stage) - and same for test NB.
 
 ```bash
 helm repo add jetstack https://charts.jetstack.io && helm repo update
-kubectl create namespace cert-manager --dry-run=client -o yaml | kubectl apply -f -
-helm upgrade --install cert-manager jetstack/cert-manager -n cert-manager --set crds.enabled=true
-cp cert/cert-issuer.yaml.secret cert/cert-issuer.yaml   # already-tweaked issuers (or re-derive from .example)
-kubectl apply -f cert/cert-issuer.yaml
+helm upgrade --install cert-manager jetstack/cert-manager -n cert-manager --create-namespace \
+  --version "$CERT_MANAGER_VERSION" --set crds.enabled=true \
+  --set nodeSelector.node=devstats-app --set webhook.nodeSelector.node=devstats-app \
+  --set cainjector.nodeSelector.node=devstats-app --set startupapicheck.nodeSelector.node=devstats-app
+kubectl apply -f cert/cert-issuer.yaml.secret   # apply straight from the .secret file - never
+                                                # copy secret data into a non-.secret filename
 ```
+
+All components pinned to `node=devstats-app` (computes + test-dbs) so nothing can ever
+reschedule onto the reserved PROD Patroni nodes.
 
 Certificates will only be issued AFTER DNS points at the NodeBalancers (HTTP-01 through port 80).
 That is expected; ingresses can be installed before DNS cutover.
