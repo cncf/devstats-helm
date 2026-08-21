@@ -134,6 +134,10 @@ export PROD_POSTGRES_STORAGE='4500Gi'
 export PROD_PG_REQ_CPU='16000m';  export PROD_PG_LIM_CPU='48000m'
 export PROD_PG_REQ_MEM='64Gi';    export PROD_PG_LIM_MEM='180Gi'
 export TEST_POSTGRES_NODES=2
+# DELIBERATE design change vs the earlier 3-node-minimum discussion: TEST Patroni runs
+# with only 2 members on the 8x256 layout. Replication + automatic failover still work,
+# but while one member is down TEST has NO remaining replica (no further failover) until
+# it recovers. Acceptable for TEST; PROD keeps 3 members and full redundancy.
 export TEST_POSTGRES_STORAGE='3600Gi'
 export TEST_PG_REQ_CPU='8000m';   export TEST_PG_LIM_CPU='40000m'
 export TEST_PG_REQ_MEM='48Gi';    export TEST_PG_LIM_MEM='160Gi'
@@ -175,7 +179,7 @@ restore_prod () {
 # restore_test <proj> <indexFrom> <indexTo>: same for TEST (context `test`; teststats source)
 restore_test () {
   local s='skipSecrets=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1'
-  s+=',skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,skikAddAll=1'
+  s+=',skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,skipAddAll=1'
   s+=",indexPVsFrom=$2,indexPVsTo=$3,indexProvisionsFrom=$2,indexProvisionsTo=$3"
   s+=",indexCronsFrom=$2,indexCronsTo=$3,indexGrafanasFrom=$2,indexGrafanasTo=$3"
   s+=",indexServicesFrom=$2,indexServicesTo=$3,indexAffiliationsFrom=$2,indexAffiliationsTo=$3"
