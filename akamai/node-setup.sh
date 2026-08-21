@@ -178,10 +178,12 @@ if [ ! -f "/etc/apt/keyrings/kubernetes-${K8S_STREAM}.gpg" ]; then
 fi
 apt-get update
 # deterministic install: resolve the exact Debian package version for K8S_PATCH and fail
-# loudly if it is missing - never let "whatever is newest today" onto a node
+# loudly if it is missing - never let "whatever is newest today" onto a node.
+# NO `exit` inside awk: an early exit SIGPIPEs apt-cache and set -o pipefail kills the
+# whole script silently - consume all input, print first match only
 K8S_PACKAGE_VERSION="$(
   apt-cache madison kubeadm |
-    awk -v prefix="${K8S_PATCH}-" 'index($3, prefix) == 1 { print $3; exit }'
+    awk -v prefix="${K8S_PATCH}-" 'index($3, prefix) == 1 && !found { print $3; found=1 }'
 )"
 if [ -z "${K8S_PACKAGE_VERSION}" ]; then
   echo "Kubernetes package ${K8S_PATCH} not found in the ${K8S_STREAM} apt stream:"

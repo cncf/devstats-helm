@@ -575,7 +575,9 @@ if [ ! -f "/etc/apt/keyrings/kubernetes-${K8S_STREAM}.gpg" ]; then
   echo "deb [signed-by=/etc/apt/keyrings/kubernetes-${K8S_STREAM}.gpg] https://pkgs.k8s.io/core:/stable:/${K8S_STREAM}/deb/ /" > "/etc/apt/sources.list.d/kubernetes-${K8S_STREAM/v/}.list"
 fi
 apt-get update
-PKG="$(apt-cache madison kubeadm | awk -v p="${K8S_PATCH}-" 'index($3,p)==1{print $3; exit}')"
+# NO `exit` inside awk: an early exit SIGPIPEs apt-cache and set -o pipefail kills the
+# whole script silently (bit us live on 2 nodes) - consume all input, print first match
+PKG="$(apt-cache madison kubeadm | awk -v p="${K8S_PATCH}-" 'index($3,p)==1 && !f {print $3; f=1}')"
 [ -n "$PKG" ] || { echo "kubernetes ${K8S_PATCH} not in the ${K8S_STREAM} apt stream:"; apt-cache madison kubeadm; exit 1; }
 apt-get install -y --allow-change-held-packages kubelet="$PKG" kubeadm="$PKG" kubectl="$PKG"
 apt-mark hold kubelet kubeadm kubectl
