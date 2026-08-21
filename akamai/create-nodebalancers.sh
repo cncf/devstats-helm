@@ -60,7 +60,8 @@ add_backends () { # nb_id, cfg_id, node_port, backends...
   for ip in "$@"; do
     if ! linode-cli nodebalancers nodes-list "${nb_id}" "${cfg_id}" --json | jq -e --arg a "${ip}:${node_port}" '.[] | select(.address==$a)' >/dev/null 2>&1; then
       echo "  backend ${ip}:${node_port}"
-      linode-cli nodebalancers node-create "${nb_id}" "${cfg_id}" \
+      # VPC-attached NB backends REQUIRE --subnet_id (API 400 "node address of vpc type" without it):
+      linode-cli nodebalancers node-create "${nb_id}" "${cfg_id}" --subnet_id "${SUBNET_ID}" \
         --address "${ip}:${node_port}" --label "n-${ip//./-}" --mode accept >/dev/null
     fi
   done

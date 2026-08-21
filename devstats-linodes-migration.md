@@ -657,7 +657,7 @@ Hardened vs the plain OCI install (all in `install-ingresses.sh`, versions in `l
 
 - chart pinned `--version 4.15.1`; resolved chart `version`/`appVersion` verified pre-install;
   controller + webhook-certgen images pinned **by digest** (from the official v1.15.1 release
-  notes - re-verify there on install day); `--atomic` installs;
+  notes - re-verify there on install day); `--rollback-on-failure` installs (helm v4 name for `--atomic`);
 - distinct controller identities so neither controller can claim the other's class (upstream
   multi-controller guidance): `nginx-prod` → `devstats.cncf.io/ingress-nginx-prod`,
   `nginx-test` → `devstats.cncf.io/ingress-nginx-test`, election IDs `nginx-{prod,test}-leader`,
@@ -701,7 +701,8 @@ plus `kubectl get ingress -A -o yaml | grep -c snippet` (must be 0).
   classic NB - but classic NB backends require Linode *private* IPv4s, and our nodes are created
   WITHOUT them (`--private_ip false`). First: `linode-cli linodes ip-add <linode-id> --type ipv4
   --public false` on each backend node + reboot it, then add `192.168.x.y:<NodePort>` backends
-  (UI or `nodebalancers node-create`). With firewall Option B additionally allow TCP
+  (UI or `nodebalancers node-create` - VPC-attached NBs require `--subnet_id` on every
+  backend, else API 400 "node address of vpc type"). With firewall Option B additionally allow TCP
   30000-32767 from `192.168.255.0/24` (classic NB source range). The VPC path avoids all this.
 - Record both public IPs in `akamai/linode-env.sh` (`PROD_NB_IP`, `TEST_NB_IP`).
 

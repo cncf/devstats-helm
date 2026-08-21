@@ -882,7 +882,7 @@ helm show chart ingress-nginx/ingress-nginx --version "$INGRESS_NGINX_CHART_VERS
 
 COMMON_SETS=(
   --version "$INGRESS_NGINX_CHART_VERSION"
-  --atomic
+  --rollback-on-failure    # helm v4 name for the deprecated --atomic
   --set controller.image.tag="$INGRESS_NGINX_CONTROLLER_VERSION"
   --set controller.image.digest="$INGRESS_NGINX_CONTROLLER_DIGEST"
   --set controller.admissionWebhooks.patch.image.tag="$INGRESS_NGINX_WEBHOOK_VERSION"
@@ -981,7 +981,8 @@ sv TEST_NB_ID "$(linode-cli nodebalancers create --label devstats-test-nb --regi
 mk_cfg () { linode-cli nodebalancers config-create "$1" --port "$2" --protocol tcp --algorithm roundrobin \
   --check connection --check_interval 10 --check_timeout 5 --check_attempts 3 --json | jq -r '.[0].id'; }
 add_be () { local nb="$1" cfg="$2" port="$3"; shift 3
-  for ip in "$@"; do linode-cli nodebalancers node-create "$nb" "$cfg" \
+  # VPC-attached NB backends REQUIRE --subnet_id (API 400 "node address of vpc type" without it):
+  for ip in "$@"; do linode-cli nodebalancers node-create "$nb" "$cfg" --subnet_id "$SUBNET_ID" \
     --address "${ip}:${port}" --label "n-${ip//./-}" --mode accept >/dev/null && echo "  backend ${ip}:${port}"; done; }
 
 CFG="$(mk_cfg "$PROD_NB_ID" 80)";  add_be "$PROD_NB_ID" "$CFG" "$PROD_HTTP_NODEPORT"  $PROD_INGRESS_BACKEND_VPC_IPS

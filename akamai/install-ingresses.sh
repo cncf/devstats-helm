@@ -16,7 +16,7 @@
 #   - selects Ingresses strictly by class name (ingressClassByName, no class-less pickup);
 #   - isolates each admission webhook to its own namespace (no cross-validation);
 #   - pins controller/webhook images by digest;
-#   - verifies resolved chart metadata before installing, installs with --atomic.
+#   - verifies resolved chart metadata before installing, installs with --rollback-on-failure.
 #
 # Requires: label-nodes.sh already applied; contexts test/prod configured (README "Contexts").
 # After this run: ULIMIT_N=65535 ./k8s/update_ingress_limits.sh
@@ -47,7 +47,7 @@ echo "chart ${CHART_VERSION} / controller ${APP_VERSION} confirmed"
 
 COMMON_SETS=(
   --version "${INGRESS_NGINX_CHART_VERSION}"
-  --atomic
+  --rollback-on-failure    # helm v4 name for the deprecated --atomic
   --set controller.image.tag="${INGRESS_NGINX_CONTROLLER_VERSION}"
   --set defaultBackend.enabled=false
   --set controller.ingressClassByName=true
