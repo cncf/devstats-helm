@@ -1958,7 +1958,13 @@ cd /root/devstats-helm && source linodes.env.secret
 kubectl config use-context prod    # LINODE kubeconfig (on the master)
 helm delete -n devstats-prod devstats-prod-kubernetes; sleep 10; restore_prod kubernetes 0 1
 helm delete -n devstats-prod devstats-prod-all;        sleep 10; restore_prod all 38 39
-# fresh affiliations too (same one-liner as 3.4, prod + test)
+# fresh affiliations too - §4.2's NOAGE run re-dumped it AFTER gha+allprj (backups.sh
+# dumps affiliations outside the ONLY loop), so this pulls today's copy:
+kubectl -n devstats-prod exec -it devstats-postgres-0 -c devstats-postgres -- bash -c \
+  'cd /tmp && curl -fsSL -o aff.dump https://devstats.cncf.io/backups/affiliations.dump && \
+   dropdb -U postgres --if-exists affiliations && createdb -U postgres affiliations && \
+   pg_restore -U postgres -j 4 -d affiliations aff.dump && rm aff.dump && \
+   psql -U postgres affiliations -c "select count(*) from gha_actors_affiliations"'
 # fresh artificial rows AFTER the two provisions complete (same as 3.10):
 watch 'kubectl -n devstats-prod get po | grep provision'   # Ctrl-C when Completed
 kubectl -n devstats-prod exec -it debug -- bash -c "ONLY=\"\$(cat ./devstats-helm/all_prod_dbs.txt)\" RESTORE_FROM='https://devstats.cncf.io' NOBACKUP='' ./devstats-helm/restore_artificial_all.sh"
