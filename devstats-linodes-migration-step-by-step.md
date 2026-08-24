@@ -1264,7 +1264,7 @@ PARAMS+='"maximum_lag_on_failover":53687091200,'
 PARAMS+='"postgresql":{"use_pg_rewind":true,"use_slots":true,"parameters":{'
 PARAMS+='"max_connections":1024,"max_worker_processes":32,"max_wal_senders":10,'
 PARAMS+='"max_replication_slots":10,"wal_level":"replica","wal_log_hints":"on","hot_standby":"on",'
-PARAMS+='"wal_keep_size":"100GB","max_slot_wal_keep_size":"200GB",'
+PARAMS+='"wal_keep_size":"100GB","max_slot_wal_keep_size":"300GB",'
 PARAMS+='"password_encryption":"scram-sha-256","checkpoint_timeout":"15min"}}}'
 echo $PARAMS
 echo "$PARAMS" | jq . >/dev/null && echo "PARAMS JSON OK"
@@ -1300,7 +1300,9 @@ Already-bounded by design (verify, don't change): container logs incl. PostgreSQ
 (image logs to stderr, `logging_collector=off` -> kubelet caps at 10Mi x 5 files per
 container), etcd (2GB backend quota, lives on /data), `temp_file_limit` (§1.20/§1.21),
 `archive_mode=off` (no WAL archive pile-up). The DCS PATCHes above already include
-`max_slot_wal_keep_size` (100GB test / 200GB prod) - WITHOUT it a dead replica pins WAL
+`max_slot_wal_keep_size` (100GB test / 300GB prod - prod bootstraps directly at its FINAL
+value; §3.8's pre-flight re-applies the same 300GB as an idempotent verify/no-op and it is
+never lowered afterwards) - WITHOUT it a dead replica pins WAL
 via its replication slot (`use_slots=true`) until the LEADER's disk fills = full outage;
 PG default is -1 = unlimited. Reloadable, no restart. What remains is OS log caps, on ALL 8:
 
@@ -1722,7 +1724,9 @@ max_slot_wal_keep_size cap; slot stayed `reserved` and lag drained to 0 in minut
 scales that up: a 120 GB-dump restore streams WAL for hours WHILE already-restored
 projects run their live 4x/day sync crons in parallel (same overlap seen on test) - and
 replica replay is single-threaded. Slot invalidation would force a full replica rebuild.
-Disk is multi-TB, so buy headroom (DCS-level param per §1.20 - patch, don't edit helm):
+Disk is multi-TB, so buy headroom (DCS-level param per §1.20 - patch, don't edit helm).
+NOTE: §1.20 now bootstraps prod at 300GB directly (its final value), so on a fresh install
+this is an idempotent no-op - run it anyway as the pre-§3.8 verification gate:
 
 ```bash
 kubectl config use-context prod
@@ -1730,6 +1734,10 @@ kubectl -n devstats-prod exec devstats-postgres-0 -c devstats-postgres -- patron
 kubectl -n devstats-prod exec devstats-postgres-0 -c devstats-postgres -- psql -U postgres -Atc 'show max_slot_wal_keep_size'   # 300GB (no restart needed)
 # DONE 2026-08-24: applied+verified live (leader+2 replicas streaming, lag 0; test stays 100GB).
 # keep 300GB permanently: Part-4 delta re-restores overlap live crons the same way.
+# INTENTIONALLY NEVER REVERTED (Part 5 does not touch it): the cap costs nothing in
+# steady state (WAL is only retained while a replica lags/is down), it is ~6% of the
+# 4.8TB volume worst-case, and a higher cap lets a dead replica catch up instead of
+# invalidating the slot and forcing a full multi-TB replica rebuild.
 ```
 
 ```bash
