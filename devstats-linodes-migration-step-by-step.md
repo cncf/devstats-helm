@@ -1869,7 +1869,7 @@ verify_pack kubean kusionstack cdevents kuberhealthy trickster gitopswg
 # --- PACK 5/39 (total 5 MB)
 restore_prod agones 274 275          # 755 KB
 restore_prod kubeclipper 198 199     # 838 KB
-restore_prod inclavarecontainers 136 137# 844 KB
+restore_prod inclavarecontainers 136 137   # 844 KB
 restore_prod akri 133 134            # 894 KB
 restore_prod nmstate 277 278         # 931 KB
 restore_prod clusterpedia 153 154    # 968 KB
@@ -2002,7 +2002,7 @@ restore_prod k8sgpt 211 212          # 9 MB
 verify_pack keylime higress graphiql opencost dex k8sgpt
 
 # --- PACK 20/39 (total 56 MB)
-restore_prod serverlessworkflow 88 89# 9 MB
+restore_prod serverlessworkflow 88 89   # 9 MB
 restore_prod tuf 13 14               # 9 MB
 restore_prod cloudevents 20 21       # 9 MB
 restore_prod lima 169 170            # 10 MB
@@ -2038,7 +2038,7 @@ restore_prod tremor 91 92            # 13 MB
 verify_pack microcks perses kubearmor kuadrant kubevela tremor
 
 # --- PACK 24/39 (total 85 MB)
-restore_prod apicurioregistry 280 281# 13 MB
+restore_prod apicurioregistry 280 281   # 13 MB
 restore_prod kgateway 255 256        # 14 MB
 restore_prod oras 131 132            # 14 MB
 restore_prod wasmedge 117 118        # 14 MB
@@ -2075,10 +2075,10 @@ verify_pack kubescape hami litmuschaos radius graphql inspektorgadget
 
 # --- PACK 28/39 (total 154 MB)
 restore_prod cortex 27 28            # 23 MB
-restore_prod confidentialcontainers 149 150# 25 MB
-restore_prod podmancontainertools 249 250# 26 MB
+restore_prod confidentialcontainers 149 150   # 25 MB
+restore_prod podmancontainertools 249 250   # 26 MB
 restore_prod coredns 6 7             # 26 MB
-restore_prod openclustermanagement 141 142# 27 MB
+restore_prod openclustermanagement 141 142   # 27 MB
 restore_prod kubeedge 32 33          # 27 MB
 verify_pack cortex confidentialcontainers podmancontainertools coredns openclustermanagement kubeedge
 
@@ -2092,7 +2092,7 @@ restore_prod volcano 73 74           # 33 MB
 verify_pack k3s antrea thanos buildpacks konveyor volcano
 
 # --- PACK 30/39 (total 208 MB)
-restore_prod externalsecretsoperator 163 164# 34 MB
+restore_prod externalsecretsoperator 163 164   # 34 MB
 restore_prod strimzi 58 59           # 34 MB
 restore_prod cozystack 254 255       # 34 MB
 restore_prod kairos 214 215          # 34 MB
@@ -2119,7 +2119,7 @@ restore_prod flux 56 57              # 48 MB
 verify_pack keda openfga llmd nats headlamp flux
 
 # --- PACK 33/39 (total 356 MB)
-restore_prod networkservicemesh 35 36# 50 MB
+restore_prod networkservicemesh 35 36   # 50 MB
 restore_prod fluentd 3 4             # 56 MB
 restore_prod submariner 122 123      # 61 MB
 restore_prod metal3 92 93            # 61 MB
