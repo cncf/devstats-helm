@@ -225,11 +225,11 @@ restore_test () {
     && echo "watch: kubectl -n devstats-test logs -f devstats-provision-${1}"
 }
 
-# wait_provisions [N]: block while N or more provision pods are still running (default 6)
+# wait_provisions [N] [ns]: block while N or more provision pods still run in ns
 wait_provisions () {
-  local cap="${1:-6}"
-  while [ "$(kubectl get po --no-headers 2>/dev/null | grep -c 'devstats-provision')" -ge "${cap}" ]; do
-    echo "$(date '+%H:%M') - >=${cap} provision pods running, waiting..."; sleep 60
+  local cap="${1:-6}" ns="${2:-devstats-prod}"
+  while [ "$(kubectl -n "${ns}" get po --no-headers 2>/dev/null | grep -c 'devstats-provision')" -ge "${cap}" ]; do
+    echo "$(date '+%H:%M') - >=${cap} provision pods running in ${ns}, waiting..."; sleep 60
   done
 }
 ENVEOF
@@ -1510,7 +1510,8 @@ git clones, all equally readable from Linode:
 Per-project freshness gate after its provision pod completes (expect ≤ ~2-3 h behind now):
 
 ```bash
-kubectl exec devstats-postgres-0 -c devstats-postgres -- psql -U postgres <db> -tAc 'select max(created_at) from gha_events'
+kubectl -n devstats-test exec devstats-postgres-0 -c devstats-postgres -- psql -U postgres <db> -tAc 'select max(created_at) from gha_events'
+# (same gate for PROD restores: -n devstats-prod)
 ```
 
 ### 3.1 TEST env: statics, ingress, bootstrap, debug pod
@@ -1521,9 +1522,9 @@ kubectl config use-context test
 helm install devstats-test-statics ./devstats-helm -n devstats-test --set "$(skips_except Static),projectsOverride=${TEST_PROJECTS},indexStaticsFrom=0,indexStaticsTo=1"
 helm install devstats-test-ingress ./devstats-helm -n devstats-test --set "$(skips_except Ingress),indexDomainsFrom=0,indexDomainsTo=1,projectsOverride=${TEST_PROJECTS},ingressClass=nginx-test,sslEnv=test"
 helm install devstats-test-bootstrap ./devstats-helm -n devstats-test --set "$(skips_except Bootstrap),projectsOverride=${TEST_PROJECTS}"
-kubectl get po -w    # Ctrl-C when bootstrap Completed and statics Running
+kubectl -n devstats-test get po -w    # Ctrl-C when bootstrap Completed and statics Running
 helm install devstats-test-debug ./devstats-helm -n devstats-test --set "$(skips_except Bootstrap),bootstrapPodName=debug,bootstrapCommand=sleep,bootstrapCommandArgs={360000s},bootstrapMountBackups=1"
-kubectl get ingress    # hosts present, class nginx-test (certs stay Pending until DNS - OK)
+kubectl -n devstats-test get ingress    # hosts present, class nginx-test (certs stay Pending until DNS - OK)
 ```
 
 ### 3.2 PROD env: statics, ingress, bootstrap, debug pod
@@ -1533,7 +1534,7 @@ kubectl config use-context prod
 helm install devstats-prod-statics ./devstats-helm -n devstats-prod --set "namespace=devstats-prod,$(skips_except Static),indexStaticsFrom=1"
 helm install devstats-prod-ingress ./devstats-helm -n devstats-prod --set "namespace=devstats-prod,$(skips_except Ingress),skipAliases=1,indexDomainsFrom=1,ingressClass=nginx-prod,sslEnv=prod"
 helm install devstats-prod-bootstrap ./devstats-helm -n devstats-prod --set "namespace=devstats-prod,$(skips_except Bootstrap)"
-kubectl get po -w    # Ctrl-C when bootstrap Completed
+kubectl -n devstats-prod get po -w    # Ctrl-C when bootstrap Completed
 helm install devstats-prod-debug ./devstats-helm -n devstats-prod --set "namespace=devstats-prod,$(skips_except Bootstrap),bootstrapPodName=debug,bootstrapCommand=sleep,bootstrapCommandArgs={360000s},bootstrapMountBackups=1"
 ```
 
@@ -1556,11 +1557,11 @@ re-run with `for ctx in prod;` right after §3.2:
 
 ```bash
 for ctx in test prod; do
-  kubectl config use-context "$ctx"
-  SPOD="$(kubectl get po -o name | grep devstats-static | head -1 | cut -d/ -f2)"
-  kubectl cp /root/devstats-grafana.tar "$SPOD":/usr/share/nginx/html/backups/devstats-grafana.tar
-  kubectl exec "$SPOD" -- sh -c 'cd /usr/share/nginx/html/backups && rm -rf grafana && tar xf devstats-grafana.tar && rm devstats-grafana.tar && chmod -R ugo+rwx grafana'
-  kubectl exec "$SPOD" -- ls /usr/share/nginx/html/backups/grafana
+  kubectl config use-context "$ctx"; ns="devstats-$ctx"
+  SPOD="$(kubectl -n "$ns" get po -o name | grep devstats-static | head -1 | cut -d/ -f2)"
+  kubectl -n "$ns" cp /root/devstats-grafana.tar "$SPOD":/usr/share/nginx/html/backups/devstats-grafana.tar
+  kubectl -n "$ns" exec "$SPOD" -- sh -c 'cd /usr/share/nginx/html/backups && rm -rf grafana && tar xf devstats-grafana.tar && rm devstats-grafana.tar && chmod -R ugo+rwx grafana'
+  kubectl -n "$ns" exec "$SPOD" -- ls /usr/share/nginx/html/backups/grafana
 done
 ```
 
@@ -1572,13 +1573,13 @@ TEST-FIRST: run the `test` block now; run the `prod` block when starting the pro
 ```bash
 # check the exact dump name first: curl -s https://devstats.cncf.io/backups/ | grep -o 'affiliations[^<]*dump'
 kubectl config use-context prod
-kubectl exec -it devstats-postgres-0 -c devstats-postgres -- bash -c \
+kubectl -n devstats-prod exec -it devstats-postgres-0 -c devstats-postgres -- bash -c \
   'cd /tmp && curl -fsSL -o aff.dump https://devstats.cncf.io/backups/affiliations.dump && \
    dropdb -U postgres --if-exists affiliations && createdb -U postgres affiliations && \
    pg_restore -U postgres -j 4 -d affiliations aff.dump && rm aff.dump && \
    psql -U postgres affiliations -c "\dt+" | head'
 kubectl config use-context test
-kubectl exec -it devstats-postgres-0 -c devstats-postgres -- bash -c \
+kubectl -n devstats-test exec -it devstats-postgres-0 -c devstats-postgres -- bash -c \
   'cd /tmp && curl -fsSL -o aff.dump https://teststats.cncf.io/backups/affiliations.dump && \
    dropdb -U postgres --if-exists affiliations && createdb -U postgres affiliations && \
    pg_restore -U postgres -j 4 -d affiliations aff.dump && rm aff.dump && \
@@ -1605,12 +1606,12 @@ restore_test azf 60 61             #  510 MB
 restore_test zephyr 53 54          #  1.5 GB
 restore_test godotengine 97 98     #  1.8 GB
 restore_test cii 67 68             #  5.0 GB
-watch 'kubectl get po | grep provision'   # Ctrl-C when all Completed
-kubectl delete po --field-selector=status.phase=Succeeded
+watch 'kubectl -n devstats-test get po | grep provision'   # Ctrl-C when all Completed
+kubectl -n devstats-test delete po --field-selector=status.phase=Succeeded
 ```
 
 NOTE: each `restore_test` returns immediately (helm install is async - the provision pod
-does the work), so you CAN fire several in parallel; `wait_provisions 6` throttles at 6.
+does the work), so you CAN fire several in parallel; `wait_provisions 6 devstats-test` throttles at 6.
 Completed pods are bare Pods (kind: Pod, no Job/TTL) - nothing auto-cleans them; they cost
 zero resources, the `kubectl delete po --field-selector=...` line below removes them.
 NOTE: `git-clone failed: ... exit status 128` / `repo not cloned` warnings in provision
@@ -1623,7 +1624,7 @@ Validated live on cncf 2026-08-24: FDW server -> local socket /var/run/postgresq
 count(*) on 1.98M-row foreign gha_actors = 154 ms, gha_admin mapping works:
 
 ```bash
-kubectl exec devstats-postgres-0 -c devstats-postgres -- \
+kubectl -n devstats-test exec devstats-postgres-0 -c devstats-postgres -- \
   psql -U postgres -d cncf -At -c 'select extname from pg_extension'
 # expect: plpgsql, pgcrypto, postgres_fdw, hll (affiliations having only plpgsql is correct)
 ```
@@ -1650,7 +1651,14 @@ helm install devstats-test-api ./devstats-helm -n devstats-test --set "$(skips_e
 # are the only ones barred from backups/git-clones/anything-similarly-growable (§1.12;
 # prod backups NFS lives on compute-02).
 helm install devstats-test-backups ./devstats-helm -n devstats-test --set "$(skips_except Backups)"
-kubectl patch cronjob devstats-backups -p '{"spec":{"suspend":true}}'
+kubectl -n devstats-test patch cronjob devstats-backups -p '{"spec":{"suspend":true}}'
+
+# VERIFY all three landed (everything -n scoped, context-independent) - expect:
+# cronjob devstats-affiliations-import + suspended devstats-backups + api 1/1 Running:
+kubectl -n devstats-test get cj devstats-affiliations-import
+kubectl -n devstats-test get cj devstats-backups -o jsonpath='{.spec.suspend}{"\n"}'   # true
+kubectl -n devstats-test get deploy devstats-api                                       # READY 1/1
+# (validated live 2026-08-24: all three present; helm -n flag makes context irrelevant)
 ```
 
 ### 3.7 TEST smoke (via NodeBalancer, fake Host - DNS still points to OCI)
@@ -1676,8 +1684,9 @@ Disk is multi-TB, so buy headroom (DCS-level param per §1.20 - patch, don't edi
 
 ```bash
 kubectl config use-context prod
-kubectl exec devstats-postgres-0 -c devstats-postgres -- patronictl edit-config --force -s postgresql.parameters.max_slot_wal_keep_size=300GB
-kubectl exec devstats-postgres-0 -c devstats-postgres -- psql -U postgres -Atc 'show max_slot_wal_keep_size'   # 300GB (no restart needed)
+kubectl -n devstats-prod exec devstats-postgres-0 -c devstats-postgres -- patronictl edit-config --force -s postgresql.parameters.max_slot_wal_keep_size=300GB
+kubectl -n devstats-prod exec devstats-postgres-0 -c devstats-postgres -- psql -U postgres -Atc 'show max_slot_wal_keep_size'   # 300GB (no restart needed)
+# DONE 2026-08-24: applied+verified live (leader+2 replicas streaming, lag 0; test stays 100GB).
 # keep 300GB permanently: Part-4 delta re-restores overlap live crons the same way.
 ```
 
@@ -1687,7 +1696,7 @@ restore_prod kubernetes 0 1     # biggest DB (~120 GB dump)
 restore_prod all 38 39          # allprj - second biggest
 ```
 
-Leave them running and start the rest immediately - `wait_provisions 8` caps parallelism
+Leave them running and start the rest immediately - `wait_provisions 8 devstats-prod` caps parallelism
 at 8 concurrent provisions (the two above included) so Patroni is never overwhelmed.
 
 ### 3.9 PROD restores - the remaining 86 projects (runs for 1-3 days unattended)
@@ -1697,7 +1706,7 @@ Paste as ONE block (e.g. inside `tmux` on the master so it survives disconnects)
 ```bash
 kubectl config use-context prod
 while read -r p f t; do
-  wait_provisions 8
+  wait_provisions 8 devstats-prod
   restore_prod "$p" "$f" "$t"
   kubectl delete po --field-selector=status.phase=Succeeded 2>/dev/null
 done <<'RESTORELIST'
@@ -1794,12 +1803,12 @@ echo 'ALL PROD RESTORES SUBMITTED'
 Monitor (any time, e.g. next Mon/Fri):
 
 ```bash
-kubectl get po | grep provision | grep -cv Completed          # still-running count
-kubectl get po -o wide | grep provision | awk '{print $8}' | sort | uniq -c   # ALL on devstats-compute-* (git clones/hostpath!)
-kubectl get po | grep provision | grep -Ev 'Completed|Running' # failures - MUST be empty
+kubectl -n devstats-prod get po | grep provision | grep -cv Completed          # still-running count
+kubectl -n devstats-prod get po -o wide | grep provision | awk '{print $8}' | sort | uniq -c   # ALL on devstats-compute-* (git clones/hostpath!)
+kubectl -n devstats-prod get po | grep provision | grep -Ev 'Completed|Running' # failures - MUST be empty
 # retry a failed one: helm delete -n devstats-prod devstats-prod-<proj> ; restore_prod <proj> <from> <to>
 # DB-level completeness vs the list above:
-kubectl exec devstats-postgres-0 -c devstats-postgres -- psql -U postgres -Atc "select datname from pg_database where datname not in ('postgres','template0','template1') order by 1" | wc -l
+kubectl -n devstats-prod exec devstats-postgres-0 -c devstats-postgres -- psql -U postgres -Atc "select datname from pg_database where datname not in ('postgres','template0','template1') order by 1" | wc -l
 # expect ~90: 88 project DBs (kubernetes=gha, all=allprj, ...) + affiliations + devstats;
 # compare the name list against the RESTORELIST above if the count is off 
 ```
@@ -1810,14 +1819,15 @@ Only after ALL provisions in 3.8/3.9 are Completed:
 
 ```bash
 kubectl config use-context prod
-kubectl exec -it debug -- bash -c "ONLY=\"\$(cat ./devstats-helm/all_prod_dbs.txt)\" RESTORE_FROM='https://devstats.cncf.io' NOBACKUP='' ./devstats-helm/restore_artificial_all.sh"
+# OPTIONAL for full-dump restores (§3.6 note: dumps already carry artificial rows):
+kubectl -n devstats-prod exec -it debug -- bash -c "ONLY=\"\$(cat ./devstats-helm/all_prod_dbs.txt)\" RESTORE_FROM='https://devstats.cncf.io' NOBACKUP='' ./devstats-helm/restore_artificial_all.sh"
 
 helm install devstats-prod-affs-import ./devstats-helm -n devstats-prod --set "namespace=devstats-prod,$(skips_except),skipAffiliationsImport=,affiliationsDB=affiliations,prodServer=1,testServer="
 helm install devstats-prod-api ./devstats-helm -n devstats-prod --set "namespace=devstats-prod,$(skips_except API),apiImage=lukaszgryglicki/devstats-api-prod"
 helm install devstats-prod-backups ./devstats-helm -n devstats-prod --set "namespace=devstats-prod,$(skips_except Backups),backupsTestServer=,backupsProdServer=1"
-kubectl edit cronjob devstats-backups   # set schedule: '45 2 10,20 * *'
+kubectl -n devstats-prod edit cronjob devstats-backups   # set schedule: '45 2 10,20 * *'
 # keep it SUSPENDED until after cutover (two backup sources must never run at once):
-kubectl patch cronjob devstats-backups -p '{"spec":{"suspend":true}}'
+kubectl -n devstats-prod patch cronjob devstats-backups -p '{"spec":{"suspend":true}}'
 ```
 
 ### 3.11 PROD smoke + full validation gate
@@ -1910,8 +1920,9 @@ helm delete -n devstats-prod devstats-prod-kubernetes; sleep 10; restore_prod ku
 helm delete -n devstats-prod devstats-prod-all;        sleep 10; restore_prod all 38 39
 # fresh affiliations too (same one-liner as 3.4, prod + test)
 # fresh artificial rows AFTER the two provisions complete (same as 3.10):
-watch 'kubectl get po | grep provision'   # Ctrl-C when Completed
-kubectl exec -it debug -- bash -c "ONLY=\"\$(cat ./devstats-helm/all_prod_dbs.txt)\" RESTORE_FROM='https://devstats.cncf.io' NOBACKUP='' ./devstats-helm/restore_artificial_all.sh"
+watch 'kubectl -n devstats-prod get po | grep provision'   # Ctrl-C when Completed
+kubectl -n devstats-prod exec -it debug -- bash -c "ONLY=\"\$(cat ./devstats-helm/all_prod_dbs.txt)\" RESTORE_FROM='https://devstats.cncf.io' NOBACKUP='' ./devstats-helm/restore_artificial_all.sh"
+# (artificial rows OPTIONAL here - the delta full dumps already carry them, §3.6 note)
 ```
 
 The helpers compute `ghapiRecentRange` from dump age automatically (§3.0), so these two
@@ -1945,9 +1956,9 @@ domain, chart packs ≤35 hosts per cert.
 
 ```bash
 kubectl config use-context prod
-kubectl get certificate,order,challenge    # certificates: READY=True (minutes, not hours)
+kubectl -n devstats-prod get certificate,order,challenge    # certificates: READY=True (minutes, not hours)
 kubectl config use-context test
-kubectl get certificate,order,challenge
+kubectl -n devstats-test get certificate,order,challenge
 curl -sI https://devstats.cncf.io/  | head -3    # real cert now, no -k needed
 curl -sI https://k8s.devstats.cncf.io/ | head -3
 curl -sI https://teststats.cncf.io/ | head -3
@@ -1960,11 +1971,11 @@ which is empty. gitdm/cncf tooling and future restores need it populated:
 
 ```bash
 kubectl config use-context prod
-kubectl patch cronjob devstats-backups -p '{"spec":{"suspend":false}}'
-kubectl create job --from=cronjob/devstats-backups devstats-backups-initial
-kubectl logs -f job/devstats-backups-initial    # hours; runs unattended
+kubectl -n devstats-prod patch cronjob devstats-backups -p '{"spec":{"suspend":false}}'
+kubectl -n devstats-prod create job --from=cronjob/devstats-backups devstats-backups-initial
+kubectl -n devstats-prod logs -f job/devstats-backups-initial    # hours; runs unattended
 # ALSO refresh artificial dumps INTO the Linode PV (debug pod, backup direction):
-kubectl exec -it debug -- bash -c "ONLY=\"\$(cat ./devstats-helm/all_prod_dbs.txt)\" FASTXZ=1 NOBACKUP='' ./devstats-helm/backup_artificial_all.sh"
+kubectl -n devstats-prod exec -it debug -- bash -c "ONLY=\"\$(cat ./devstats-helm/all_prod_dbs.txt)\" FASTXZ=1 NOBACKUP='' ./devstats-helm/backup_artificial_all.sh"
 ```
 
 ### 4.7 Re-apply intentional cron suspends from the OCI snapshot [master]
@@ -2014,11 +2025,11 @@ is 100% intact until Part 5.
 
 ```bash
 # 2+ days of green syncs everywhere:
-for ctx in prod test; do kubectl config use-context $ctx; kubectl get jobs --sort-by=.metadata.creationTimestamp | tail -30; done
+for ctx in prod test; do kubectl config use-context $ctx; kubectl -n devstats-$ctx get jobs --sort-by=.metadata.creationTimestamp | tail -30; done
 # affiliations import cron ran (or run it once manually) and dashboards show updated affs
 # scheduled prod backup (10th/20th 02:45) or the manual one is green AND restorable:
 kubectl config use-context prod
-kubectl exec -it debug -- bash -c 'cd /tmp && curl -fsSL -o t.dump https://devstats.cncf.io/backups/homebrew.dump && pg_restore --list t.dump | head && rm t.dump'
+kubectl -n devstats-prod exec -it debug -- bash -c 'cd /tmp && curl -fsSL -o t.dump https://devstats.cncf.io/backups/homebrew.dump && pg_restore --list t.dump | head && rm t.dump'
 # certificates all READY, no pending challenges:
 kubectl get certificate -A | grep -v True    # empty
 ```
@@ -2040,10 +2051,10 @@ Test backups were installed suspended in §3.6 - with cutover confirmed, enable 
 
 ```bash
 kubectl config use-context test
-kubectl patch cronjob devstats-backups -p '{"spec":{"suspend":false}}'
-kubectl get cj devstats-backups -o jsonpath='{.spec.suspend}{"\n"}'   # false
+kubectl -n devstats-test patch cronjob devstats-backups -p '{"spec":{"suspend":false}}'
+kubectl -n devstats-test get cj devstats-backups -o jsonpath='{.spec.suspend}{"\n"}'   # false
 # optional: fire one immediately and confirm dumps appear on the backups page:
-kubectl create job --from=cronjob/devstats-backups devstats-backups-first
+kubectl -n devstats-test create job --from=cronjob/devstats-backups devstats-backups-first
 curl -s https://teststats.cncf.io/backups/ | grep -c '\.dump'   # grows as it runs
 ```
 
