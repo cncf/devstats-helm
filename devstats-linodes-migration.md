@@ -305,9 +305,10 @@ verified 2026-08-24 (12/12 `full` + affiliations; azf re-dumped from primary aft
 
 Freshness gaps are safe by design (runbook §3.0): DBs are caches over GH Archive/GitHub
 API/git; `restore.sh` ends with `gha2db_sync` resuming from the restored DB's max event
-time (events never lost), and the restore helpers pass
-`ghapiRecentRange=$API_CATCHUP_RANGE` ('12 days') so `ghapi2db` re-fetches API-only
-mutations (labels/milestones/state) for the whole backup→restore window from GitHub
+time (events never lost), and the restore helpers compute a per-restore
+`ghapiRecentRange` = dump age + 2 days (helper `catchup_range`; fallback '12 days') so
+`ghapi2db` re-fetches API-only mutations (labels/milestones/state) for exactly the
+backup→restore window from GitHub
 itself - no OCI→Linode delta copying needed, ever.
 
 The migration restores from the OCI backups page over HTTPS, so backups must be fresh.

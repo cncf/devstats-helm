@@ -168,11 +168,27 @@ skips_except () {
   echo "${out#,}"
 }
 
-# API_CATCHUP_RANGE: how far back ghapi2db re-checks GitHub-API-only state (labels,
-# milestones, issue/PR state edited WITHOUT producing events) during each restore's
-# catch-up sync. Must span oldest-backup -> restore + margin. Events themselves need
-# no window - gha2db_sync replays GH Archive from the max event time in the restored DB.
+# API_CATCHUP_RANGE: FALLBACK ghapi2db lookback, used only when the dump's Last-Modified
+# header cannot be read. Normally the window is COMPUTED per restore: dump age + 2 days
+# margin (see catchup_range below) - so a fresh dump costs minutes of GitHub API work, not
+# hours. Events themselves need no window - gha2db_sync replays GH Archive from the max
+# event time in the restored DB. Only applies to the one-shot provision pod: hourly-sync
+# crons do not template ghapi* values and keep the 8h default.
 export API_CATCHUP_RANGE='12 days'
+
+# proj_db <proj>: dump/DB name for a project (kubernetes->gha, all->allprj, else proj)
+proj_db () {
+  case "$1" in kubernetes) echo gha;; all) echo allprj;; *) echo "$1";; esac
+}
+
+# catchup_range <dump-url>: ghapi2db window = dump age (from Last-Modified) + 2 days margin
+catchup_range () {
+  local lm secs
+  lm="$(curl -fsSI "$1" 2>/dev/null | tr -d '\r' | awk -F': ' 'tolower($1)=="last-modified"{print $2}')"
+  secs="$(date -d "${lm}" +%s 2>/dev/null)" || secs=''
+  if [ -z "${lm}" ] || [ -z "${secs}" ]; then echo "${API_CATCHUP_RANGE}"; return; fi
+  echo "$(( ( $(date +%s) - secs ) / 86400 + 2 )) days"
+}
 
 # restore_prod <proj> <indexFrom> <indexTo>: restores one PROD project from the OCI backups
 # page (kubectl context MUST be `prod` on the master). Installs release devstats-prod-<proj>
@@ -186,8 +202,9 @@ restore_prod () {
   s+=",indexServicesFrom=$2,indexServicesTo=$3,indexAffiliationsFrom=$2,indexAffiliationsTo=$3"
   s+=',provisionImage=lukaszgryglicki/devstats-prod,provisionCommand=devstats-helm/restore.sh'
   s+=',restoreFrom=https://devstats.cncf.io/backups/,testServer=,prodServer=1'
-  s+=",ghapiRecentRange=${API_CATCHUP_RANGE},ghapiOrphanCommitsRange=${API_CATCHUP_RANGE}"
-  s+=",ghapiRecentReposRange=${API_CATCHUP_RANGE}"
+  local cr; cr="$(catchup_range "https://devstats.cncf.io/backups/$(proj_db "$1").dump")"
+  echo "ghapi2db catch-up window for ${1}: ${cr}"
+  s+=",ghapiRecentRange=${cr},ghapiOrphanCommitsRange=${cr},ghapiRecentReposRange=${cr}"
   helm install "devstats-prod-${1}" ./devstats-helm -n devstats-prod --set "${s}" \
     && echo "watch: kubectl -n devstats-prod logs -f devstats-provision-${1}"
 }
@@ -201,8 +218,9 @@ restore_test () {
   s+=",indexServicesFrom=$2,indexServicesTo=$3,indexAffiliationsFrom=$2,indexAffiliationsTo=$3"
   s+=',provisionCommand=devstats-helm/restore.sh,restoreFrom=https://teststats.cncf.io/backups/'
   s+=",projectsOverride=+${1}"
-  s+=",ghapiRecentRange=${API_CATCHUP_RANGE},ghapiOrphanCommitsRange=${API_CATCHUP_RANGE}"
-  s+=",ghapiRecentReposRange=${API_CATCHUP_RANGE}"
+  local cr; cr="$(catchup_range "https://teststats.cncf.io/backups/$(proj_db "$1").dump")"
+  echo "ghapi2db catch-up window for ${1}: ${cr}"
+  s+=",ghapiRecentRange=${cr},ghapiOrphanCommitsRange=${cr},ghapiRecentReposRange=${cr}"
   helm install "devstats-test-${1}" ./devstats-helm -n devstats-test --set "${s}" \
     && echo "watch: kubectl -n devstats-test logs -f devstats-provision-${1}"
 }
@@ -1477,11 +1495,13 @@ git clones, all equally readable from Linode:
   from there. Zero loss regardless of how old the dump is.
 - **API-only mutations** (labels/milestones/issue-PR state edited without generating
   events, stars/forks): normally `ghapi2db` (invoked by every sync) only re-checks the
-  last `GHA2DB_RECENT_RANGE` = 8 hours. The `restore_test`/`restore_prod` helpers pass
-  `ghapiRecentRange=$API_CATCHUP_RANGE` ('12 days', linodes.env.secret) so the catch-up
-  sync inside each provision re-fetches the whole backup→restore window straight from
+  last `GHA2DB_RECENT_RANGE` = 8 hours. The `restore_test`/`restore_prod` helpers COMPUTE
+  the window per restore: dump age (Last-Modified) + 2 days margin (`catchup_range`,
+  fallback `$API_CATCHUP_RANGE`='12 days') so the catch-up sync inside each provision
+  re-fetches exactly the backup→restore window straight from
   GitHub (same for orphan commits + recently-modified repos ranges). This is the
   upstream-documented catch-up knob (values.yaml ships `# ghapiRecentRange: '220 days'`).
+  Hourly-sync crons do NOT get this value - they keep the 8h default (verified live).
 - **Affiliations / artificial events**: restored explicitly (§3.4, §3.6, §3.10).
 
 Per-project freshness gate after its provision pod completes (expect ≤ ~2-3 h behind now):
@@ -1569,24 +1589,35 @@ from teststats.cncf.io and pg_restores it, then keeps hourly syncs running via c
 
 ```bash
 kubectl config use-context test
-restore_test cncf 49 50
-restore_test opencontainers 50 51
-restore_test zephyr 53 54
-restore_test linux 54 55
-restore_test sam 59 60
-restore_test azf 60 61
-restore_test riff 61 62
-restore_test fn 62 63
-restore_test openwhisk 63 64
-restore_test openfaas 64 65
-restore_test cii 67 68
-restore_test godotengine 97 98
+restore_test cncf 49 50            # DONE 2026-08-24 (validated: sync success, FDW + hll OK)
+# smallest dump first -> catch issues fast, then progressively bigger (sizes = dump bytes):
+restore_test fn 62 63              #   34 MB
+restore_test openwhisk 63 64       #   40 MB
+restore_test sam 59 60             #   47 MB
+restore_test riff 61 62            #   68 MB
+restore_test openfaas 64 65        #  110 MB
+restore_test opencontainers 50 51  #  140 MB
+restore_test linux 54 55           #  356 MB
+restore_test azf 60 61             #  510 MB
+restore_test zephyr 53 54          #  1.5 GB
+restore_test godotengine 97 98     #  1.8 GB
+restore_test cii 67 68             #  5.0 GB
 watch 'kubectl get po | grep provision'   # Ctrl-C when all Completed
 kubectl delete po --field-selector=status.phase=Succeeded
 ```
 
+NOTE: each `restore_test` returns immediately (helm install is async - the provision pod
+does the work), so you CAN fire several in parallel; `wait_provisions 6` throttles at 6.
+Completed pods are bare Pods (kind: Pod, no Job/TTL) - nothing auto-cleans them; they cost
+zero resources, the `kubectl delete po --field-selector=...` line below removes them.
+NOTE: `git-clone failed: ... exit status 128` / `repo not cloned` warnings in provision
+logs are benign (archived/renamed/deleted repos - same on OCI). PASS per project =
+`Sync success` + `database '<db>' marked as provisioned` at the end of the provision log.
+
 PASS: extensions restored per project DB (image devstats-patroni-18-hll has all three;
-restore.sh creates pgcrypto, pg_restore brings hll+postgres_fdw back from the dump - OCI parity):
+restore.sh creates pgcrypto, pg_restore brings hll+postgres_fdw back from the dump - OCI parity).
+Validated live on cncf 2026-08-24: FDW server -> local socket /var/run/postgresql,
+count(*) on 1.98M-row foreign gha_actors = 154 ms, gha_admin mapping works:
 
 ```bash
 kubectl exec devstats-postgres-0 -c devstats-postgres -- \
@@ -1618,6 +1649,10 @@ curl -s  -H 'Host: teststats.cncf.io'     "http://$TEST_NB_IP/"  | head -5
 ```
 
 ### 3.8 PROD restores - kick off the two LONG poles first (many hours each)
+
+Deliberately OPPOSITE order to §3.5: the test track (smallest-first) already shook out
+process issues with fast feedback; prod starts with the two HUGE DBs so any scale-related
+problems (disk, WAL, restore duration) surface first while the rest run in parallel.
 
 ```bash
 kubectl config use-context prod
@@ -1852,7 +1887,7 @@ watch 'kubectl get po | grep provision'   # Ctrl-C when Completed
 kubectl exec -it debug -- bash -c "ONLY=\"\$(cat ./devstats-helm/all_prod_dbs.txt)\" RESTORE_FROM='https://devstats.cncf.io' NOBACKUP='' ./devstats-helm/restore_artificial_all.sh"
 ```
 
-The helpers already pass `ghapiRecentRange=$API_CATCHUP_RANGE` (§3.0), so these two
+The helpers compute `ghapiRecentRange` from dump age automatically (§3.0), so these two
 re-provisions also re-heal API-only state (labels/milestones/state) for the whole window
 since their Monday dumps - the other ~86 projects were healed the same way during §3.9
 and stay current via hourly syncs.
