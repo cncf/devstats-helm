@@ -1633,6 +1633,16 @@ NOTE: each `restore_test` returns immediately (helm install is async - the provi
 does the work), so you CAN fire several in parallel; `wait_provisions 6 devstats-test` throttles at 6.
 Completed pods are bare Pods (kind: Pod, no Job/TTL) - nothing auto-cleans them; they cost
 zero resources, the `kubectl delete po --field-selector=...` line below removes them.
+
+DONE 2026-08-24: `allprj` on TEST is NOT a live project (no crons/flags/syncs on OCI test) -
+it is a 19 MB placeholder used only as the `merge_dbs` output target (ADDING_NEW_PROJECTS.md).
+Copied in full OCI-test -> Linode-test (owner postgres, default ACL, single transaction):
+```bash
+kubectl --context prod -n devstats-test exec devstats-postgres-0 -c devstats-postgres -- pg_dump -U postgres -Fc allprj > /tmp/allprj-test.dump
+kubectl --context linode-prod -n devstats-test exec devstats-postgres-0 -c devstats-postgres -- psql -U postgres -c 'create database allprj'
+kubectl --context linode-prod -n devstats-test exec -i devstats-postgres-0 -c devstats-postgres -- pg_restore -U postgres -d allprj -1 < /tmp/allprj-test.dump
+```
+Verified: gha_* metadata fingerprint identical both sides; 114 tables, sannotations_shared=428 rows, 19 MB.
 NOTE: `git-clone failed: ... exit status 128` / `repo not cloned` warnings in provision
 logs are benign (archived/renamed/deleted repos - same on OCI). PASS per project =
 `Sync success` + `database '<db>' marked as provisioned` at the end of the provision log.
@@ -2328,6 +2338,13 @@ cd /root/devstats-helm && source linodes.env.secret
 kubectl config use-context prod    # LINODE kubeconfig (on the master)
 helm delete -n devstats-prod devstats-prod-kubernetes; sleep 10; restore_prod kubernetes 0 1
 helm delete -n devstats-prod devstats-prod-all;        sleep 10; restore_prod all 38 39
+# CRITICAL (kubevirt 2026-08-24 lesson): restore_prod re-creates each project's CronJobs
+# ENABLED, and the dump carries the `provisioned` flag - so a cron sync can fire MID-pg_restore
+# (devstats-kubernetes 03:04, devstats-all 09:09 - allprj restore takes hours = near-certain hit),
+# insert rows before the unique indexes are built, and silently corrupt PKs. Suspend both
+# sync CJs IMMEDIATELY after the two restore_prod calls (affiliations CJs are monthly - no risk):
+kubectl -n devstats-prod patch cronjob devstats-kubernetes -p '{"spec":{"suspend":true}}'
+kubectl -n devstats-prod patch cronjob devstats-all        -p '{"spec":{"suspend":true}}'
 # fresh affiliations too - §4.2's NOAGE run re-dumped it AFTER gha+allprj (backups.sh
 # dumps affiliations outside the ONLY loop), so this pulls today's copy:
 kubectl -n devstats-prod exec -it devstats-postgres-0 -c devstats-postgres -- bash -c \
@@ -2337,6 +2354,9 @@ kubectl -n devstats-prod exec -it devstats-postgres-0 -c devstats-postgres -- ba
    psql -U postgres affiliations -c "select count(*) from gha_actors_affiliations"'
 # fresh artificial rows AFTER the two provisions complete (same as 3.10):
 watch 'kubectl -n devstats-prod get po | grep provision'   # Ctrl-C when Completed
+# provisions done -> re-enable the two sync CJs suspended above:
+kubectl -n devstats-prod patch cronjob devstats-kubernetes -p '{"spec":{"suspend":false}}'
+kubectl -n devstats-prod patch cronjob devstats-all        -p '{"spec":{"suspend":false}}'
 kubectl -n devstats-prod exec -it debug -- bash -c "ONLY=\"\$(cat ./devstats-helm/all_prod_dbs.txt)\" RESTORE_FROM='https://devstats.cncf.io' NOBACKUP='' ./devstats-helm/restore_artificial_all.sh"
 # (artificial rows OPTIONAL here - the delta full dumps already carry them, §3.6 note)
 ```
