@@ -1551,14 +1551,16 @@ scp devstats-grafana.tar root@$MASTER_IP:/root/
 
 Unpack ONCE PER NAMESPACE **[master]** - all pods in a namespace (both static deployments
 AND every grafana pod, which mounts it at `/root`) share the same `devstats-backups` PVC,
-so unpacking in ANY static pod of that namespace is enough (`head -1` picking either pod is fine).
+so unpacking in ANY static pod of that namespace is enough - but grep the env-specific
+deployment (`devstats-static-test`/`devstats-static-prod`) to keep the choice deterministic
+(prod also runs `-cdf`/`-graphql`/`-default` statics).
 TEST-FIRST: while only the test track is deployed, run the loop with `for ctx in test;` -
 re-run with `for ctx in prod;` right after §3.2:
 
 ```bash
 for ctx in test prod; do
   kubectl config use-context "$ctx"; ns="devstats-$ctx"
-  SPOD="$(kubectl -n "$ns" get po -o name | grep devstats-static | head -1 | cut -d/ -f2)"
+  SPOD="$(kubectl -n "$ns" get po -o name | grep "devstats-static-$ctx-" | head -1 | cut -d/ -f2)"
   kubectl -n "$ns" cp /root/devstats-grafana.tar "$SPOD":/usr/share/nginx/html/backups/devstats-grafana.tar
   kubectl -n "$ns" exec "$SPOD" -- sh -c 'cd /usr/share/nginx/html/backups && rm -rf grafana && tar xf devstats-grafana.tar && rm devstats-grafana.tar && chmod -R ugo+rwx grafana'
   kubectl -n "$ns" exec "$SPOD" -- ls /usr/share/nginx/html/backups/grafana
