@@ -1783,9 +1783,12 @@ linux, prestodb). Every entry below had a FRESH 24-Aug tar.xz verified live on
 devstats.cncf.io/backups. Archived projects keep their values.yaml index, so `i` numbers
 have gaps - that is correct, do NOT renumber.
 
-Fire packs ONE AT A TIME, smallest-first: run a pack's `restore_prod` lines, then re-run
-its `verify_pack` line (instant, idempotent - also cleans Succeeded pods) until EVERY
-project prints OK, only then start the next pack. While the two §3.8 giants are still
+Fire packs ONE AT A TIME, smallest-first: run a pack's `restore_prod` lines, then its
+`verify_pack` line - it BLOCKS (polls every 30s) until EVERY listed project is done,
+prints `PACK DONE` and returns 0; only then start the next pack. Done = provision pod
+Succeeded / final `Sync success` in pod logs / `Sync success` row in the `devstats`
+logs DB (authoritative - still works after Succeeded pods were cleaned away, which the
+function also does each round; Ctrl+C is safe, just re-run). While the two §3.8 giants are still
 restoring this keeps total concurrency <= 8 (6 + 2), the same cap `wait_provisions 8`
 would enforce. The final 4 SINGLES are the daily-cron giants - strictly ONE at a time.
 If a project fails: `helm delete -n devstats-prod devstats-prod-<proj>` then re-run its
@@ -1794,12 +1797,33 @@ If a project fails: `helm delete -n devstats-prod devstats-prod-<proj>` then re-
 
 ```bash
 kubectl config use-context prod
+# BLOCKS until every listed project's provision is done, then prints PACK DONE (rc 0).
+# A Failed pod is reported every round (fix: helm delete + re-run restore_prod).
 verify_pack() {
-  for p in "$@"; do
-    kubectl -n devstats-prod logs devstats-provision-$p --tail=3 2>/dev/null \
-      | grep -qE 'Sync success|marked as provisioned' && echo "$p OK" || echo "$p NOT-READY"
+  local ns=devstats-prod round=0 p st all inlist sql done_projs
+  inlist=$(printf "'%s'," "$@"); inlist=${inlist%,}
+  sql="select distinct proj from gha_logs where proj in ($inlist) and prog = 'gha2db_sync' and msg = 'Sync success' and dt > now() - '2 days'::interval"
+  while true; do
+    all=1
+    done_projs=$(kubectl -n $ns exec devstats-postgres-0 -c devstats-postgres -- psql -U postgres -Atc "$sql" devstats 2>/dev/null)
+    for p in "$@"; do
+      st=$(kubectl -n $ns get po "devstats-provision-$p" -o jsonpath='{.status.phase}' 2>/dev/null)
+      if [ "$st" = "Failed" ]; then
+        echo "$p FAILED -> helm delete -n $ns devstats-prod-$p ; then re-run its restore_prod line"; all=0
+      elif echo "$done_projs" | grep -qx "$p"; then
+        echo "$p OK"
+      elif [ "$st" = "Succeeded" ]; then
+        echo "$p OK"
+      elif kubectl -n $ns logs "devstats-provision-$p" --tail=3 2>/dev/null | grep -qE 'Sync success|marked as provisioned'; then
+        echo "$p OK"
+      else
+        echo "$p NOT-READY${st:+ (pod $st)}"; all=0
+      fi
+    done
+    kubectl -n $ns delete po --field-selector=status.phase=Succeeded >/dev/null 2>&1
+    if [ "$all" = 1 ]; then echo "PACK DONE: $*"; return 0; fi
+    round=$((round+1)); echo "--- waiting 30s (round $round) ---"; sleep 30
   done
-  kubectl -n devstats-prod delete po --field-selector=status.phase=Succeeded 2>/dev/null
 }
 ```
 
