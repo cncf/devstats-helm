@@ -322,7 +322,8 @@ with `NOAGE=1` + `PG_HOST=devstats-postgres` (primary), then every fresh dump ge
 This runs `./devstats-helm/backups.sh` and publishes `*.dump` files under
 `https://devstats.cncf.io/backups/` and `https://teststats.cncf.io/backups/`.
 Verify a few dumps exist and have today's date:
-`curl -s https://devstats.cncf.io/backups/ | grep -o 'gha.dump[^<]*'`.
+`curl -s https://devstats.cncf.io/backups/ | grep -E 'href="(gha|allprj)\.dump"'` (the
+timestamp sits AFTER `</a>`, so grep whole lines).
 
 Also refresh artificial-events backups (used by `restore_artificial.sh` later):
 
@@ -784,12 +785,11 @@ Then:
 ./akamai/deploy-devstats-test.sh bootstrap   # logs DB bootstrap; k logs -f devstats-provision-bootstrap; delete pod after OK
 ```
 
-Grafana shared data (one-time, from `cncf/devstats` repo on your workstation - README recipe):
+Grafana shared data (one-time, from `cncf/devstats` repo on your workstation - the
+canonical `ADDING_NEW_PROJECTS.md` "Update shared Grafana data" flow):
 
 ```bash
-cp ../devstatscode/sqlitedb ../devstatscode/runq ../devstatscode/replacer grafana/
-tar cf devstats-grafana.tar grafana/runq grafana/sqlitedb grafana/replacer grafana/shared \
-  grafana/img/*.svg grafana/img/*.png grafana/*/change_title_and_icons.sh grafana/*/custom_sqlite.sql grafana/dashboards/*/*.json
+./devel/create_grafana_shared_data.sh   # cps sqlitedb/runq/replacer + tars the exact list
 # scp to a node, k cp into the devstats-static-test pod, then inside the pod:
 # rm -rf /grafana && tar xf /devstats-grafana.tar && rm -rf /usr/share/nginx/html/backups/grafana \
 #   && mv /grafana /usr/share/nginx/html/backups/grafana && rm /devstats-grafana.tar \

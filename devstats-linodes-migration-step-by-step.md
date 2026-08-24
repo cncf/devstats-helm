@@ -1309,7 +1309,8 @@ data anywhere yet.
 
 **Execution order - TEST-FIRST.** Drive the TEST env end-to-end before touching prod data:
 1. §2.1 TEST block only (DONE 2026-08-24: all 12 projects `full` + affiliations; azf
-   re-dumped from primary and `pg_restore -l` verified) → §2.3 for test dumps.
+   re-dumped from primary and `pg_restore -l` verified) → §2.3 test block → §2.4 test
+   block (+ §2.2 test dry-run if you want to rehearse the debug-pod flow).
 2. Immediately continue to the TEST restore track: §3.1 → §3.3 → §3.4(test) → §3.5 →
    §3.6 → §3.7. Test hourly syncs then run on Linode and keep it current on their own
    (OCI test keeps syncing too - both replay GH Archive independently, no conflict,
@@ -1382,6 +1383,25 @@ That is also why there is NO test twin of this step: the §2.1 TEST run already 
 (verified 2026-08-24). This recipe stays here as the standalone way to refresh artificial
 archives WITHOUT a multi-hour full backups run - reused at §4.2.
 
+OPTIONAL dry-run on TEST first (validates the debug-pod flow cheaply before prod):
+
+```bash
+kubectl config use-context test
+S='skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1'
+S+=',skipBackups=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1'
+S+=',skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1'
+S+=',bootstrapPodName=debug,bootstrapCommand=sleep,bootstrapCommandArgs={360000s}'
+S+=',bootstrapMountBackups=1'
+helm install devstats-test-debug ./devstats-helm -n devstats-test --set "$S"
+kubectl -n devstats-test exec -it debug -- bash -c "ONLY=\"\$(cat ./devel/all_test_dbs.txt)\" FASTXZ=1 NOBACKUP='' ./devstats-helm/backup_artificial_all.sh"
+helm delete -n devstats-test devstats-test-debug
+# verify the artificial archives (<db>.tar.xz) got refreshed - timestamps = just now
+# (DONE 2026-08-24 05:27-05:29; ignore the stale 308-byte allprj.tar.xz - prod stub):
+curl -s https://teststats.cncf.io/backups/ | grep -E 'href="(azf|cii|cncf|fn|godotengine|linux|opencontainers|openfaas|openwhisk|riff|sam|zephyr)\.tar\.xz"'
+```
+
+PROD version (same skips + namespace/limits overrides):
+
 ```bash
 kubectl config use-context prod
 S='namespace=devstats-prod,skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1'
@@ -1395,6 +1415,8 @@ kubectl -n devstats-prod exec -it debug -- bash
 ONLY="$(cat ./devel/all_prod_dbs.txt)" FASTXZ=1 NOBACKUP='' ./devstats-helm/backup_artificial_all.sh
 exit
 helm delete -n devstats-prod devstats-prod-debug
+# verify prod artificial archives got refreshed (spot-check a few of the ~130):
+curl -s https://devstats.cncf.io/backups/ | grep -E 'href="(gha|allprj|prometheus|opentelemetry|argo)\.tar\.xz"'
 ```
 
 ### 2.3 Verify dumps are fresh [workstation]
@@ -1405,16 +1427,24 @@ PASS = every listed `.dump` shows today's date:
 ```bash
 # TEST (run now, after the 2.1 test block):
 curl -s https://teststats.cncf.io/backups/ | grep -E 'href="(azf|cii|cncf|fn|godotengine|linux|opencontainers|openfaas|openwhisk|riff|sam|zephyr|affiliations)\.dump"'
+# ... and the artificial-events archives (refreshed by the same 2.1 run):
+curl -s https://teststats.cncf.io/backups/ | grep -E 'href="(azf|cii|cncf|fn|godotengine|linux|opencontainers|openfaas|openwhisk|riff|sam|zephyr)\.tar\.xz"'
 # PROD (run later, after the 2.1 prod block):
 curl -s https://devstats.cncf.io/backups/  | grep -E 'href="(gha|allprj|affiliations)\.dump"'
+curl -s https://devstats.cncf.io/backups/  | grep -E 'href="(gha|allprj|prometheus|opentelemetry|argo)\.tar\.xz"'
 ```
 
 ### 2.4 Snapshot OCI cronjob suspend-state (needed at cutover) [OCI]
 
+OCI is ONE cluster - both kubectl contexts see all namespaces, so a single `-A` snapshot
+covers test AND prod (DONE 2026-08-24, live-verified: 512 cronjobs - 486 devstats-prod +
+26 devstats-test - and ZERO suspended; copy saved to `~ubuntu/oci-cron-suspends.secret`
+on the OCI master). Re-run any time; §4.7 re-applies intentional suspends after cutover:
+
 ```bash
-kubectl config use-context prod
 kubectl get cj -A -o json | jq -r '.items[] | "\(.metadata.namespace) \(.metadata.name) suspend=\(.spec.suspend)"' > oci-cron-suspends.secret
-wc -l oci-cron-suspends.secret    # keep this file - re-apply intentional suspends after cutover
+wc -l oci-cron-suspends.secret    # 512 as of 2026-08-24; keep this file
+grep 'suspend=true' oci-cron-suspends.secret || echo "none suspended"
 ```
 
 Do NOT suspend anything on OCI yet - it keeps syncing until Part 4.
@@ -1488,16 +1518,16 @@ helm install devstats-prod-debug ./devstats-helm -n devstats-prod --set "namespa
 
 ```bash
 cd ~/dev/go/src/github.com/cncf/devstats        # adjust to your checkout
-cp ../devstatscode/sqlitedb ../devstatscode/runq ../devstatscode/replacer grafana/
-tar cf /tmp/devstats-grafana.tar \
-  grafana/runq grafana/sqlitedb grafana/replacer grafana/shared \
-  grafana/img/*.svg grafana/img/*.png \
-  grafana/*/change_title_and_icons.sh grafana/*/custom_sqlite.sql \
-  grafana/dashboards/*/*.json
-scp /tmp/devstats-grafana.tar root@$MASTER_IP:/root/
+# canonical script (does the cp of sqlitedb/runq/replacer + the exact file list itself;
+# equivalent to ADDING_NEW_PROJECTS.md "Update shared Grafana data"):
+# (needs the three binaries built in ../devstatscode - run `make` there if missing)
+./devel/create_grafana_shared_data.sh           # writes ./devstats-grafana.tar
+scp devstats-grafana.tar root@$MASTER_IP:/root/
 ```
 
-Unpack into BOTH static pods **[master]** (grafana provisioning fetches from there).
+Unpack ONCE PER NAMESPACE **[master]** - all pods in a namespace (both static deployments
+AND every grafana pod, which mounts it at `/root`) share the same `devstats-backups` PVC,
+so unpacking in ANY static pod of that namespace is enough (`head -1` picking either pod is fine).
 TEST-FIRST: while only the test track is deployed, run the loop with `for ctx in test;` -
 re-run with `for ctx in prod;` right after §3.2:
 
@@ -1528,7 +1558,8 @@ kubectl config use-context test
 kubectl exec -it devstats-postgres-0 -c devstats-postgres -- bash -c \
   'cd /tmp && curl -fsSL -o aff.dump https://teststats.cncf.io/backups/affiliations.dump && \
    dropdb -U postgres --if-exists affiliations && createdb -U postgres affiliations && \
-   pg_restore -U postgres -j 4 -d affiliations aff.dump && rm aff.dump'
+   pg_restore -U postgres -j 4 -d affiliations aff.dump && rm aff.dump && \
+   psql -U postgres affiliations -c "\dt+" | head'
 ```
 
 ### 3.5 TEST restores - the 12 live test projects (`restore_test` from linodes.env.secret)
@@ -1554,6 +1585,15 @@ watch 'kubectl get po | grep provision'   # Ctrl-C when all Completed
 kubectl delete po --field-selector=status.phase=Succeeded
 ```
 
+PASS: extensions restored per project DB (image devstats-patroni-18-hll has all three;
+restore.sh creates pgcrypto, pg_restore brings hll+postgres_fdw back from the dump - OCI parity):
+
+```bash
+kubectl exec devstats-postgres-0 -c devstats-postgres -- \
+  psql -U postgres -d cncf -At -c 'select extname from pg_extension'
+# expect: plpgsql, pgcrypto, postgres_fdw, hll (affiliations having only plpgsql is correct)
+```
+
 ### 3.6 TEST artificial rows + affiliations import + API + backups(suspended)
 
 ```bash
@@ -1563,7 +1603,10 @@ kubectl exec -it debug -- bash -c "ONLY='azf cii cncf fn godotengine linux openc
 helm install devstats-test-affs-import ./devstats-helm -n devstats-test --set "$(skips_except),skipAffiliationsImport=,affiliationsDB=affiliations,prodServer=,testServer=1,backupsCronProd=45 2 16\,28 * *"
 helm install devstats-test-api ./devstats-helm -n devstats-test --set "$(skips_except API),projectsOverride=${TEST_PROJECTS}"
 helm install devstats-test-backups ./devstats-helm -n devstats-test --set "$(skips_except Backups)"
-# test backups are PERMANENTLY disabled (same as OCI today):
+# DECISION (master plan §8): test backups stay SUSPENDED on Linode - test data is
+# rebuildable from prod dumps + git, and nothing external reads teststats dumps.
+# (Live OCI DOES run them - 2026-08-24 snapshot suspend=false - this is a deliberate
+# divergence, NOT parity. The cron stays installed; unsuspend later if ever wanted.)
 kubectl patch cronjob devstats-backups -p '{"spec":{"suspend":true}}'
 ```
 
@@ -1778,7 +1821,7 @@ S+=',bootstrapMountBackups=1,limitsBackupsCPU=4000m,limitsBackupsMemory=64Gi'
 helm install devstats-prod-debug ./devstats-helm -n devstats-prod --set "$S"
 kubectl -n devstats-prod exec -it debug -- bash -c "ONLY=\"\$(cat ./devel/all_prod_dbs.txt)\" FASTXZ=1 NOBACKUP='' ./devstats-helm/backup_artificial_all.sh"
 helm delete -n devstats-prod devstats-prod-debug
-curl -s https://devstats.cncf.io/backups/ | grep -o 'gha.dump[^<]*'   # timestamp = today
+curl -s https://devstats.cncf.io/backups/ | grep -E 'href="(gha|allprj|affiliations)\.dump"'   # timestamp = today
 ```
 
 ### 4.3 Delta re-restore of the big DBs on Linode [master]
@@ -1865,10 +1908,13 @@ kubectl exec -it debug -- bash -c "ONLY=\"\$(cat ./devstats-helm/all_prod_dbs.tx
 ### 4.7 Re-apply intentional cron suspends from the OCI snapshot [master]
 
 ```bash
-grep 'suspend=true' oci-cron-suspends.secret   # (scp it to the master if needed)
+grep 'suspend=true' oci-cron-suspends.secret   # (scp to the master if needed)
+# 2026-08-24 snapshot: NOTHING suspended on OCI (512/512 suspend=false) - so nothing to
+# mirror unless the final pre-cutover re-snapshot (4.1 freeze happens AFTER it) differs:
 # for each intentionally-suspended cron that exists on Linode, mirror it:
 # kubectl -n <ns> patch cronjob <name> -p '{"spec":{"suspend":true}}'
-# verify test backups stayed suspended:
+# test backups stay SUSPENDED - deliberate Linode divergence (master plan §8 decision),
+# even though OCI ran them (2026-08-24 snapshot: suspend=false):
 kubectl -n devstats-test get cj devstats-backups -o jsonpath='{.spec.suspend}{"\n"}'   # true
 ```
 
