@@ -521,7 +521,7 @@ projects:
   affCronTest: 0 20 14 * *
   affCronProd: 4 0 1 * *
   affSkipTemp: "1"
-  disk: 50Gi
+  disk: 52Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 0
@@ -544,7 +544,7 @@ projects:
   affCronTest: 0 8 16 * *
   affCronProd: 23 11 4 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 1
@@ -585,7 +585,7 @@ projects:
   affCronTest: 45 12 16 * *
   affCronProd: 24 20 4 * *
   affSkipTemp: "1"
-  disk: 10Gi
+  disk: 8Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 3
@@ -605,7 +605,7 @@ projects:
   affCronTest: 8 15 16 * *
   affCronProd: 16 3 5 * *
   affSkipTemp: "1"
-  disk: 4Gi
+  disk: 2Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 4
@@ -625,7 +625,7 @@ projects:
   affCronTest: 31 17 16 * *
   affCronProd: 29 5 5 * *
   affSkipTemp: "1"
-  disk: 4Gi
+  disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 5
@@ -645,7 +645,7 @@ projects:
   affCronTest: 54 19 16 * *
   affCronProd: 37 10 5 * *
   affSkipTemp: "1"
-  disk: 4Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 6
@@ -665,7 +665,7 @@ projects:
   affCronTest: 17 22 16 * *
   affCronProd: 9 12 5 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 7
@@ -707,7 +707,7 @@ projects:
   affCronTest: 2 3 17 * *
   affCronProd: 39 15 5 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 9
@@ -727,7 +727,7 @@ projects:
   affCronTest: 25 5 17 * *
   affCronProd: 38 16 5 * *
   affSkipTemp: "1"
-  disk: 4Gi
+  disk: 39Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 10
@@ -747,7 +747,7 @@ projects:
   affCronTest: 48 7 17 * *
   affCronProd: 34 22 5 * *
   affSkipTemp: "1"
-  disk: 4Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 11
@@ -767,7 +767,7 @@ projects:
   affCronTest: 11 10 17 * *
   affCronProd: 27 1 6 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 12
@@ -787,7 +787,7 @@ projects:
   affCronTest: 34 12 17 * *
   affCronProd: 45 2 6 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 13
@@ -807,7 +807,7 @@ projects:
   affCronTest: 57 14 17 * *
   affCronProd: 54 3 6 * *
   affSkipTemp: "1"
-  disk: 4Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 14
@@ -847,7 +847,7 @@ projects:
   affCronTest: 42 19 17 * *
   affCronProd: 48 7 6 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 4Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 16
@@ -867,7 +867,7 @@ projects:
   affCronTest: 5 22 17 * *
   affCronProd: 46 13 6 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 9Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 17
@@ -887,7 +887,7 @@ projects:
   affCronTest: 28 0 18 * *
   affCronProd: 34 16 6 * *
   affSkipTemp: "1"
-  disk: 4Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 18
@@ -907,7 +907,7 @@ projects:
   affCronTest: 51 2 18 * *
   affCronProd: 55 17 6 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 19
@@ -927,7 +927,7 @@ projects:
   affCronTest: 14 5 18 * *
   affCronProd: 56 18 6 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 20
@@ -947,7 +947,7 @@ projects:
   affCronTest: 37 7 18 * *
   affCronProd: 9 20 6 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 21
@@ -967,7 +967,7 @@ projects:
   affCronTest: 0 10 18 * *
   affCronProd: 49 20 6 * *
   affSkipTemp: "1"
-  disk: 8Gi
+  disk: 2Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 22
@@ -1007,7 +1007,7 @@ projects:
   affCronTest: 45 14 18 * *
   affCronProd: 21 1 7 * *
   affSkipTemp: "1"
-  disk: 4Gi
+  disk: 6Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 24
@@ -1027,7 +1027,7 @@ projects:
   affCronTest: 8 17 18 * *
   affCronProd: 41 3 7 * *
   affSkipTemp: "1"
-  disk: 4Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 25
@@ -1047,7 +1047,7 @@ projects:
   affCronTest: 31 19 18 * *
   affCronProd: 20 6 7 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 6Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 26
@@ -1087,7 +1087,7 @@ projects:
   affCronTest: 17 0 19 * *
   affCronProd: 21 12 7 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 2Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 28
@@ -1127,7 +1127,7 @@ projects:
   affCronTest: 2 5 19 * *
   affCronProd: 48 18 7 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 2Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 30
@@ -1147,7 +1147,7 @@ projects:
   affCronTest: 25 7 19 * *
   affCronProd: 30 20 7 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 31
@@ -1167,7 +1167,7 @@ projects:
   affCronTest: 48 9 19 * *
   affCronProd: 5 21 7 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 32
@@ -1208,7 +1208,7 @@ projects:
   affCronTest: 34 14 19 * *
   affCronProd: 27 22 7 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 2Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 34
@@ -1228,7 +1228,7 @@ projects:
   affCronTest: 57 16 19 * *
   affCronProd: 53 0 8 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 2Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 35
@@ -1248,7 +1248,7 @@ projects:
   affCronTest: 20 19 19 * *
   affCronProd: 31 4 8 * *
   affSkipTemp: "1"
-  disk: 10Gi
+  disk: 8Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 36
@@ -1271,7 +1271,7 @@ projects:
   affCronTest: 42 21 19 * *
   affCronProd: 59 7 8 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 11Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 37
@@ -1294,7 +1294,7 @@ projects:
   affCronTest: 0 8 13 * *
   affCronProd: 30 2 9 * *
   affSkipTemp: "1"
-  disk: 150Gi
+  disk: 1051Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 38
@@ -1317,7 +1317,7 @@ projects:
   affCronTest: 5 0 20 * *
   affCronProd: 7 9 17 * *
   affSkipTemp: "1"
-  disk: 6Gi
+  disk: 4Gi
   domains: [0, 1, 1, 0]
   ga: ""
   i: 39
@@ -1337,7 +1337,7 @@ projects:
   affCronTest: 28 2 20 * *
   affCronProd: 30 13 17 * *
   affSkipTemp: "1"
-  disk: 4Gi
+  disk: 2Gi
   domains: [0, 0, 1, 0]
   ga: ""
   i: 40
@@ -1357,7 +1357,7 @@ projects:
   affCronTest: 51 4 20 * *
   affCronProd: 37 16 17 * *
   affSkipTemp: "1"
-  disk: 6Gi
+  disk: 7Gi
   domains: [0, 0, 1, 0]
   ga: ""
   i: 41
@@ -1380,7 +1380,7 @@ projects:
   affCronTest: 14 7 20 * *
   affCronProd: 38 20 17 * *
   affSkipTemp: "1"
-  disk: 40Gi
+  disk: 52Gi
   domains: [0, 0, 1, 0]
   ga: ""
   i: 42
@@ -1404,7 +1404,7 @@ projects:
   affCronTest: 37 9 20 * *
   affCronProd: 46 21 18 * *
   affSkipTemp: "1"
-  disk: 50Gi
+  disk: 65Gi
   domains: [0, 0, 1, 0]
   ga: ""
   i: 43
@@ -1425,7 +1425,7 @@ projects:
   affCronTest: 0 12 20 * *
   affCronProd: 13 15 19 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 0, 0, 1]
   ga: ""
   i: 44
@@ -1445,7 +1445,7 @@ projects:
   affCronTest: 22 14 20 * *
   affCronProd: 53 15 19 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 0, 0, 1]
   ga: ""
   i: 45
@@ -1465,7 +1465,7 @@ projects:
   affCronTest: 45 16 20 * *
   affCronProd: 32 16 19 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 0, 0, 1]
   ga: ""
   i: 46
@@ -1485,7 +1485,7 @@ projects:
   affCronTest: 8 19 20 * *
   affCronProd: 12 17 19 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 0, 0, 1]
   ga: ""
   i: 47
@@ -1505,7 +1505,7 @@ projects:
   affCronTest: 31 21 20 * *
   affCronProd: 37 17 19 * *
   affSkipTemp: "1"
-  disk: 30Gi
+  disk: 3Gi
   domains: [0, 0, 0, 1]
   ga: ""
   i: 48
@@ -1526,7 +1526,7 @@ projects:
   affCronProd: 0 6 * * 6
   suspendCronProd: true
   affSkipTemp: "1"
-  disk: 30Gi
+  disk: 44Gi
   domains: [1, 0, 0, 0]
   ga: ""
   i: 49
@@ -1547,7 +1547,7 @@ projects:
   affCronProd: 15 6 * * 0
   suspendCronProd: true
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [1, 0, 0, 0]
   ga: ""
   i: 50
@@ -1570,7 +1570,7 @@ projects:
   affCronTest: 40 4 21 * *
   affCronProd: 31 20 19 * *
   affSkipTemp: "1"
-  disk: 8Gi
+  disk: 24Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 51
@@ -1590,7 +1590,7 @@ projects:
   affCronTest: 2 7 21 * *
   affCronProd: 10 4 20 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 18Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 52
@@ -1611,7 +1611,7 @@ projects:
   affCronProd: 15 6 * * 3
   suspendCronProd: true
   affSkipTemp: "1"
-  disk: 8Gi
+  disk: 72Gi
   domains: [1, 0, 0, 0]
   ga: ""
   i: 53
@@ -1652,7 +1652,7 @@ projects:
   affCronTest: 11 14 21 * *
   affCronProd: 38 11 20 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 2Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 55
@@ -1692,7 +1692,7 @@ projects:
   affCronTest: 57 18 21 * *
   affCronProd: 48 15 20 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 57
@@ -1733,7 +1733,7 @@ projects:
   affCronProd: 30 6 * * 2
   suspendCronProd: true
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [1, 0, 0, 0]
   ga: ""
   i: 59
@@ -1754,7 +1754,7 @@ projects:
   affCronProd: 30 6 * * 3
   suspendCronProd: true
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [1, 0, 0, 0]
   ga: ""
   i: 60
@@ -1775,7 +1775,7 @@ projects:
   affCronProd: 30 6 * * 4
   suspendCronProd: true
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 4Gi
   domains: [1, 0, 0, 0]
   ga: ""
   i: 61
@@ -1796,7 +1796,7 @@ projects:
   affCronProd: 30 6 * * 5
   suspendCronProd: true
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 2Gi
   domains: [1, 0, 0, 0]
   ga: ""
   i: 62
@@ -1817,7 +1817,7 @@ projects:
   affCronProd: 30 6 * * 6
   suspendCronProd: true
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [1, 0, 0, 0]
   ga: ""
   i: 63
@@ -1838,7 +1838,7 @@ projects:
   affCronProd: 45 6 * * 0
   suspendCronProd: true
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 2Gi
   domains: [1, 0, 0, 0]
   ga: ""
   i: 64
@@ -1858,7 +1858,7 @@ projects:
   affCronTest: 0 14 22 * *
   affCronProd: 52 18 20 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 15Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 65
@@ -1878,7 +1878,7 @@ projects:
   affCronTest: 22 16 22 * *
   affCronProd: 47 2 21 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 4Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 66
@@ -1899,7 +1899,7 @@ projects:
   affCronProd: 45 6 * * 3
   suspendCronProd: true
   affSkipTemp: "1"
-  disk: 50Gi
+  disk: 22Gi
   domains: [1, 0, 0, 0]
   ga: ""
   i: 67
@@ -1922,7 +1922,7 @@ projects:
   suspendCronTest: true
   suspendCronProd: true
   affSkipTemp: "1"
-  disk: 6Gi
+  disk: 1Gi
   domains: [0, 0, 0, 0]
   ga: ""
   i: 68
@@ -1942,7 +1942,7 @@ projects:
   affCronTest: 8 21 22 * *
   affCronProd: 45 5 21 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 69
@@ -1962,7 +1962,7 @@ projects:
   affCronTest: 31 23 22 * *
   affCronProd: 26 6 21 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 70
@@ -1982,7 +1982,7 @@ projects:
   affCronTest: 54 1 23 * *
   affCronProd: 42 19 7 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 0, 0, 0]
   ga: ""
   i: 71
@@ -2003,7 +2003,7 @@ projects:
   affCronTest: 17 4 23 * *
   affCronProd: 7 8 21 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 6Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 72
@@ -2023,7 +2023,7 @@ projects:
   affCronTest: 40 6 23 * *
   affCronProd: 57 12 21 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 2Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 73
@@ -2043,7 +2043,7 @@ projects:
   affCronTest: 2 9 23 * *
   affCronProd: 1 3 8 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 0, 0, 0]
   ga: ""
   i: 74
@@ -2064,7 +2064,7 @@ projects:
   affCronTest: 25 11 23 * *
   affCronProd: 27 5 8 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 0, 0, 0]
   ga: ""
   i: 75
@@ -2084,7 +2084,7 @@ projects:
   affCronTest: 48 13 23 * *
   affCronProd: 19 14 21 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 2Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 76
@@ -2104,7 +2104,7 @@ projects:
   affCronTest: 11 16 23 * *
   affCronProd: 46 14 21 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 2Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 77
@@ -2124,7 +2124,7 @@ projects:
   affCronTest: 34 18 23 * *
   affCronProd: 38 15 21 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 78
@@ -2144,7 +2144,7 @@ projects:
   affCronTest: 57 20 23 * *
   affCronProd: 26 16 21 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 7Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 79
@@ -2164,7 +2164,7 @@ projects:
   affCronTest: 20 23 23 * *
   affCronProd: 5 18 21 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 80
@@ -2184,7 +2184,7 @@ projects:
   affCronTest: 42 1 24 * *
   affCronProd: 27 18 21 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 2Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 81
@@ -2204,7 +2204,7 @@ projects:
   affCronTest: 5 4 24 * *
   affCronProd: 8 20 21 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 82
@@ -2224,7 +2224,7 @@ projects:
   affCronTest: 28 6 24 * *
   affCronProd: 39 20 21 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 83
@@ -2244,7 +2244,7 @@ projects:
   affCronTest: 51 8 24 * *
   affCronProd: 55 20 21 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 84
@@ -2264,7 +2264,7 @@ projects:
   affCronTest: 14 11 24 * *
   affCronProd: 54 0 22 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 85
@@ -2284,7 +2284,7 @@ projects:
   affCronTest: 37 13 24 * *
   affCronProd: 50 1 22 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 4Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 86
@@ -2304,7 +2304,7 @@ projects:
   affCronTest: 0 16 24 * *
   affCronProd: 40 4 22 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 2Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 87
@@ -2324,7 +2324,7 @@ projects:
   affCronTest: 22 18 24 * *
   affCronProd: 40 5 22 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 88
@@ -2364,7 +2364,7 @@ projects:
   affCronTest: 8 23 24 * *
   affCronProd: 29 7 22 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 22Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 90
@@ -2382,7 +2382,7 @@ projects:
   affCronTest: 31 1 25 * *
   affCronProd: 9 14 22 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 2Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 91
@@ -2402,7 +2402,7 @@ projects:
   affCronTest: 54 3 25 * *
   affCronProd: 48 14 22 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 92
@@ -2422,7 +2422,7 @@ projects:
   affCronTest: 17 6 25 * *
   affCronProd: 56 16 22 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 93
@@ -2462,7 +2462,7 @@ projects:
   affCronTest: 2 11 25 * *
   affCronProd: 14 6 10 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 0, 0, 0]
   ga: ""
   i: 95
@@ -2483,7 +2483,7 @@ projects:
   affCronTest: 25 13 25 * *
   affCronProd: 23 18 22 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 96
@@ -2504,7 +2504,7 @@ projects:
   affCronProd: 0 11 * * 3
   suspendCronProd: true
   affSkipTemp: "1"
-  disk: 6Gi
+  disk: 20Gi
   domains: [1, 0, 0, 0]
   ga: ""
   i: 97
@@ -2524,7 +2524,7 @@ projects:
   affCronTest: 11 18 25 * *
   affCronProd: 53 18 22 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 98
@@ -2544,7 +2544,7 @@ projects:
   affCronTest: 34 20 25 * *
   affCronProd: 15 19 22 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 8Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 99
@@ -2564,7 +2564,7 @@ projects:
   affCronTest: 57 22 25 * *
   affCronProd: 24 20 22 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 100
@@ -2584,7 +2584,7 @@ projects:
   affCronTest: 20 1 26 * *
   affCronProd: 9 23 22 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 4Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 101
@@ -2604,7 +2604,7 @@ projects:
   affCronTest: 42 3 26 * *
   affCronProd: 8 0 23 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 102
@@ -2645,7 +2645,7 @@ projects:
   affCronTest: 28 8 26 * *
   affCronProd: 13 1 23 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 104
@@ -2665,7 +2665,7 @@ projects:
   affCronTest: 51 10 26 * *
   affCronProd: 32 3 23 * *
   affSkipTemp: "1"
-  disk: 2Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 105
@@ -2685,7 +2685,7 @@ projects:
   affCronTest: 14 13 26 * *
   affCronProd: 10 4 23 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 106
@@ -2726,7 +2726,7 @@ projects:
   affCronTest: 0 18 26 * *
   affCronProd: 52 4 23 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 108
@@ -2746,7 +2746,7 @@ projects:
   affCronTest: 22 20 26 * *
   affCronProd: 35 5 23 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 2Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 109
@@ -2787,7 +2787,7 @@ projects:
   affCronTest: 8 1 27 * *
   affCronProd: 21 6 23 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 111
@@ -2807,7 +2807,7 @@ projects:
   affCronTest: 31 3 27 * *
   affCronProd: 16 21 11 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 0, 0, 0]
   ga: ""
   i: 112
@@ -2828,7 +2828,7 @@ projects:
   affCronTest: 54 5 27 * *
   affCronProd: 14 7 23 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 113
@@ -2848,7 +2848,7 @@ projects:
   affCronTest: 17 8 27 * *
   affCronProd: 41 7 23 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 4Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 114
@@ -2868,7 +2868,7 @@ projects:
   affCronTest: 40 10 27 * *
   affCronProd: 10 8 23 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 115
@@ -2888,7 +2888,7 @@ projects:
   affCronTest: 2 13 27 * *
   affCronProd: 31 8 23 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 116
@@ -2908,7 +2908,7 @@ projects:
   affCronTest: 25 15 27 * *
   affCronProd: 10 9 23 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 2Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 117
@@ -2928,7 +2928,7 @@ projects:
   affCronTest: 48 17 27 * *
   affCronProd: 9 10 23 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 2Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 118
@@ -2969,7 +2969,7 @@ projects:
   affCronTest: 34 22 27 * *
   affCronProd: 37 10 23 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 120
@@ -2989,7 +2989,7 @@ projects:
   affCronTest: 57 0 28 * *
   affCronProd: 29 11 23 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 121
@@ -3009,7 +3009,7 @@ projects:
   affCronTest: 20 3 28 * *
   affCronProd: 58 11 23 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 122
@@ -3049,7 +3049,7 @@ projects:
   affCronTest: 5 8 28 * *
   affCronProd: 16 14 23 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 300Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 124
@@ -3090,7 +3090,7 @@ projects:
   affCronTest: 51 12 28 * *
   affCronProd: 59 0 24 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 6Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 126
@@ -3110,7 +3110,7 @@ projects:
   affCronTest: 14 15 28 * *
   affCronProd: 50 1 24 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 127
@@ -3193,7 +3193,7 @@ projects:
   affCronTest: 22 22 28 * *
   affCronProd: 18 2 24 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 131
@@ -3213,7 +3213,7 @@ projects:
   affCronTest: 45 0 1 * *
   affCronProd: 18 3 24 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 10Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 132
@@ -3233,7 +3233,7 @@ projects:
   affCronTest: 8 3 1 * *
   affCronProd: 19 5 24 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 133
@@ -3253,7 +3253,7 @@ projects:
   affCronTest: 31 5 1 * *
   affCronProd: 38 5 24 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 134
@@ -3334,7 +3334,7 @@ projects:
   affCronTest: 40 12 1 * *
   affCronProd: 52 7 24 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 25Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 138
@@ -3354,7 +3354,7 @@ projects:
   affCronTest: 2 15 1 * *
   affCronProd: 41 14 24 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 139
@@ -3395,7 +3395,7 @@ projects:
   affCronTest: 48 19 1 * *
   affCronProd: 34 17 24 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 141
@@ -3415,7 +3415,7 @@ projects:
   affCronTest: 11 22 1 * *
   affCronProd: 51 18 24 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 142
@@ -3476,7 +3476,7 @@ projects:
   affCronTest: 57 2 2 * *
   affCronProd: 59 19 24 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 145
@@ -3496,7 +3496,7 @@ projects:
   affCronTest: 20 5 2 * *
   affCronProd: 29 20 24 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 146
@@ -3516,7 +3516,7 @@ projects:
   affCronTest: 42 7 2 * *
   affCronProd: 6 21 24 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 2Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 147
@@ -3557,7 +3557,7 @@ projects:
   affCronTest: 28 12 2 * *
   affCronProd: 55 21 24 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 10Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 149
@@ -3577,7 +3577,7 @@ projects:
   affCronTest: 51 14 2 * *
   affCronProd: 18 23 24 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 150
@@ -3597,7 +3597,7 @@ projects:
   affCronTest: 14 17 2 * *
   affCronProd: 23 20 15 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 0, 0, 0]
   ga: ""
   i: 151
@@ -3618,7 +3618,7 @@ projects:
   affCronTest: 37 19 2 * *
   affCronProd: 49 22 15 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 0, 0, 0]
   ga: ""
   i: 152
@@ -3639,7 +3639,7 @@ projects:
   affCronTest: 0 22 2 * *
   affCronProd: 42 23 24 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 153
@@ -3659,7 +3659,7 @@ projects:
   affCronTest: 22 0 3 * *
   affCronProd: 57 23 24 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 154
@@ -3679,7 +3679,7 @@ projects:
   affCronTest: 45 2 3 * *
   affCronProd: 23 0 25 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 2Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 155
@@ -3740,7 +3740,7 @@ projects:
   affCronTest: 31 7 3 * *
   affCronProd: 48 2 25 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 6Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 158
@@ -3802,7 +3802,7 @@ projects:
   affCronTest: 40 14 3 * *
   affCronProd: 54 5 25 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 8Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 161
@@ -3822,7 +3822,7 @@ projects:
   affCronTest: 2 17 3 * *
   affCronProd: 30 8 25 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 162
@@ -3842,7 +3842,7 @@ projects:
   affCronTest: 25 19 3 * *
   affCronProd: 59 8 25 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 6Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 163
@@ -3862,7 +3862,7 @@ projects:
   affCronTest: 48 21 3 * *
   affCronProd: 57 9 25 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 2Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 164
@@ -3882,7 +3882,7 @@ projects:
   affCronTest: 11 0 4 * *
   affCronProd: 23 10 25 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 165
@@ -3902,7 +3902,7 @@ projects:
   affCronTest: 34 2 4 * *
   affCronProd: 47 10 25 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 4Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 166
@@ -3922,7 +3922,7 @@ projects:
   affCronTest: 57 4 4 * *
   affCronProd: 59 11 25 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 167
@@ -3942,7 +3942,7 @@ projects:
   affCronTest: 20 7 4 * *
   affCronProd: 29 12 25 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 168
@@ -3962,7 +3962,7 @@ projects:
   affCronTest: 42 9 4 * *
   affCronProd: 40 13 25 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 169
@@ -4003,7 +4003,7 @@ projects:
   affCronTest: 28 14 4 * *
   affCronProd: 19 14 25 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 4Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 171
@@ -4023,7 +4023,7 @@ projects:
   affCronTest: 51 16 4 * *
   affCronProd: 58 14 25 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 172
@@ -4043,7 +4043,7 @@ projects:
   affCronTest: 14 19 4 * *
   affCronProd: 25 15 25 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 2Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 173
@@ -4063,7 +4063,7 @@ projects:
   affCronTest: 37 21 4 * *
   affCronProd: 10 16 25 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 174
@@ -4083,7 +4083,7 @@ projects:
   affCronTest: 0 0 5 * *
   affCronProd: 24 16 25 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 175
@@ -4103,7 +4103,7 @@ projects:
   affCronTest: 22 2 5 * *
   affCronProd: 34 16 25 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 176
@@ -4123,7 +4123,7 @@ projects:
   affCronTest: 45 4 5 * *
   affCronProd: 4 17 25 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 177
@@ -4143,7 +4143,7 @@ projects:
   affCronTest: 8 7 5 * *
   affCronProd: 16 17 25 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 4Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 178
@@ -4183,7 +4183,7 @@ projects:
   affCronTest: 54 11 5 * *
   affCronProd: 30 19 25 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 14Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 180
@@ -4203,7 +4203,7 @@ projects:
   affCronTest: 17 14 5 * *
   affCronProd: 23 20 25 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 181
@@ -4223,7 +4223,7 @@ projects:
   affCronTest: 40 16 5 * *
   affCronProd: 36 20 25 * *
   affSkipTemp: "1"
-  disk: 4Gi
+  disk: 1Gi
   domains: [0, 0, 1, 0]
   ga: ""
   i: 182
@@ -4243,7 +4243,7 @@ projects:
   affCronTest: 2 19 5 * *
   affCronProd: 50 20 25 * *
   affSkipTemp: "1"
-  disk: 4Gi
+  disk: 3Gi
   domains: [0, 0, 1, 0]
   ga: ""
   i: 183
@@ -4263,7 +4263,7 @@ projects:
   affCronTest: 25 21 5 * *
   affCronProd: 30 21 25 * *
   affSkipTemp: "1"
-  disk: 4Gi
+  disk: 1Gi
   domains: [0, 0, 1, 0]
   ga: ""
   i: 184
@@ -4283,7 +4283,7 @@ projects:
   affCronTest: 48 23 5 * *
   affCronProd: 42 21 25 * *
   affSkipTemp: "1"
-  disk: 4Gi
+  disk: 1Gi
   domains: [0, 0, 1, 0]
   ga: ""
   i: 185
@@ -4303,7 +4303,7 @@ projects:
   affCronTest: 11 2 6 * *
   affCronProd: 19 23 25 * *
   affSkipTemp: "1"
-  disk: 4Gi
+  disk: 2Gi
   domains: [0, 0, 1, 0]
   ga: ""
   i: 186
@@ -4323,7 +4323,7 @@ projects:
   affCronTest: 34 4 6 * *
   affCronProd: 49 23 25 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 11Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 187
@@ -4343,7 +4343,7 @@ projects:
   affCronTest: 57 6 6 * *
   affCronProd: 54 4 26 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 188
@@ -4363,7 +4363,7 @@ projects:
   affCronTest: 20 9 6 * *
   affCronProd: 38 5 26 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 10Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 189
@@ -4383,7 +4383,7 @@ projects:
   affCronTest: 42 11 6 * *
   affCronProd: 45 6 26 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 190
@@ -4403,7 +4403,7 @@ projects:
   affCronTest: 5 14 6 * *
   affCronProd: 17 7 26 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 16Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 191
@@ -4423,7 +4423,7 @@ projects:
   affCronTest: 28 16 6 * *
   affCronProd: 53 7 26 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 192
@@ -4443,7 +4443,7 @@ projects:
   affCronTest: 51 18 6 * *
   affCronProd: 26 8 26 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 193
@@ -4504,7 +4504,7 @@ projects:
   affCronTest: 0 2 7 * *
   affCronProd: 55 8 26 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 2Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 196
@@ -4524,7 +4524,7 @@ projects:
   affCronTest: 22 4 7 * *
   affCronProd: 39 9 26 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 9Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 197
@@ -4544,7 +4544,7 @@ projects:
   affCronTest: 45 6 7 * *
   affCronProd: 5 11 26 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 198
@@ -4564,7 +4564,7 @@ projects:
   affCronTest: 8 9 7 * *
   affCronProd: 16 11 26 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 7Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 199
@@ -4584,7 +4584,7 @@ projects:
   affCronTest: 31 11 7 * *
   affCronProd: 4 17 26 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 200
@@ -4604,7 +4604,7 @@ projects:
   affCronTest: 54 13 7 * *
   affCronProd: 23 17 26 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 2Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 201
@@ -4624,7 +4624,7 @@ projects:
   affCronTest: 17 16 7 * *
   affCronProd: 8 18 26 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 202
@@ -4664,7 +4664,7 @@ projects:
   affCronTest: 2 21 7 * *
   affCronProd: 41 19 26 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 14Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 204
@@ -4684,7 +4684,7 @@ projects:
   affCronTest: 25 23 7 * *
   affCronProd: 27 21 26 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 205
@@ -4704,7 +4704,7 @@ projects:
   affCronTest: 48 1 8 * *
   affCronProd: 50 21 26 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 206
@@ -4724,7 +4724,7 @@ projects:
   affCronTest: 11 4 8 * *
   affCronProd: 4 22 26 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 207
@@ -4744,7 +4744,7 @@ projects:
   affCronTest: 34 6 8 * *
   affCronProd: 47 22 26 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 5Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 208
@@ -4784,7 +4784,7 @@ projects:
   affCronTest: 19 11 8 * *
   affCronProd: 55 0 27 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 8Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 210
@@ -4804,7 +4804,7 @@ projects:
   affCronTest: 42 13 8 * *
   affCronProd: 27 1 27 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 211
@@ -4824,7 +4824,7 @@ projects:
   affCronTest: 5 16 8 * *
   affCronProd: 49 1 27 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 2Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 212
@@ -4844,7 +4844,7 @@ projects:
   affCronTest: 28 18 8 * *
   affCronProd: 18 2 27 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 213
@@ -4864,7 +4864,7 @@ projects:
   affCronTest: 51 20 8 * *
   affCronProd: 6 3 27 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 214
@@ -4884,7 +4884,7 @@ projects:
   affCronTest: 14 23 8 * *
   affCronProd: 31 4 27 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 215
@@ -4904,7 +4904,7 @@ projects:
   affCronTest: 37 1 9 * *
   affCronProd: 45 4 27 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 216
@@ -4924,7 +4924,7 @@ projects:
   affCronTest: 0 4 9 * *
   affCronProd: 12 5 27 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 217
@@ -4944,7 +4944,7 @@ projects:
   affCronTest: 22 6 9 * *
   affCronProd: 47 5 27 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 218
@@ -4964,7 +4964,7 @@ projects:
   affCronTest: 45 8 9 * *
   affCronProd: 52 6 27 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 219
@@ -4984,7 +4984,7 @@ projects:
   affCronTest: 8 11 9 * *
   affCronProd: 12 8 27 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 220
@@ -5004,7 +5004,7 @@ projects:
   affCronTest: 31 13 9 * *
   affCronProd: 35 8 27 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 221
@@ -5024,7 +5024,7 @@ projects:
   affCronTest: 54 15 9 * *
   affCronProd: 6 9 27 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 2Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 222
@@ -5044,7 +5044,7 @@ projects:
   affCronTest: 17 18 9 * *
   affCronProd: 21 10 27 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 223
@@ -5064,7 +5064,7 @@ projects:
   affCronTest: 40 20 9 * *
   affCronProd: 39 10 27 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 224
@@ -5084,7 +5084,7 @@ projects:
   affCronTest: 2 23 9 * *
   affCronProd: 4 11 27 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 2Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 225
@@ -5104,7 +5104,7 @@ projects:
   affCronTest: 25 1 10 * *
   affCronProd: 25 11 27 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 226
@@ -5124,7 +5124,7 @@ projects:
   affCronTest: 48 3 10 * *
   affCronProd: 42 11 27 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 227
@@ -5144,7 +5144,7 @@ projects:
   affCronTest: 11 6 10 * *
   affCronProd: 22 12 27 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 228
@@ -5164,7 +5164,7 @@ projects:
   affCronTest: 34 8 10 * *
   affCronProd: 6 13 27 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 229
@@ -5184,7 +5184,7 @@ projects:
   affCronTest: 57 10 10 * *
   affCronProd: 25 13 27 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 230
@@ -5204,7 +5204,7 @@ projects:
   affCronTest: 20 13 10 * *
   affCronProd: 52 13 27 * *
   affSkipTemp: "1"
-  disk: 3Gi
+  disk: 2Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 231
@@ -5224,7 +5224,7 @@ projects:
   affCronTest: 42 15 10 * *
   affCronProd: 29 14 27 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 9Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 232
@@ -5244,7 +5244,7 @@ projects:
   affCronTest: 5 18 10 * *
   affCronProd: 15 17 27 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 8Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 233
@@ -5264,7 +5264,7 @@ projects:
   affCronTest: 28 20 10 * *
   affCronProd: 6 18 27 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 234
@@ -5284,7 +5284,7 @@ projects:
   affCronTest: 51 22 10 * *
   affCronProd: 30 18 27 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 235
@@ -5304,7 +5304,7 @@ projects:
   affCronTest: 14 1 11 * *
   affCronProd: 51 18 27 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 236
@@ -5324,7 +5324,7 @@ projects:
   affCronTest: 37 3 11 * *
   affCronProd: 11 19 27 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 237
@@ -5344,7 +5344,7 @@ projects:
   affCronTest: 0 6 11 * *
   affCronProd: 26 19 27 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 2Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 238
@@ -5364,7 +5364,7 @@ projects:
   affCronTest: 22 8 11 * *
   affCronProd: 46 20 27 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 239
@@ -5384,7 +5384,7 @@ projects:
   affCronTest: 45 10 11 * *
   affCronProd: 52 20 27 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 4Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 240
@@ -5404,7 +5404,7 @@ projects:
   affCronTest: 8 13 11 * *
   affCronProd: 55 21 27 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 241
@@ -5424,7 +5424,7 @@ projects:
   affCronTest: 31 15 11 * *
   affCronProd: 32 22 27 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 242
@@ -5444,7 +5444,7 @@ projects:
   affCronTest: 54 17 11 * *
   affCronProd: 39 22 27 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 243
@@ -5464,7 +5464,7 @@ projects:
   affCronTest: 17 20 11 * *
   affCronProd: 48 22 27 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 244
@@ -5484,7 +5484,7 @@ projects:
   affCronTest: 40 22 11 * *
   affCronProd: 43 23 27 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 7Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 245
@@ -5524,7 +5524,7 @@ projects:
   affCronTest: 25 3 12 * *
   affCronProd: 35 1 28 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 247
@@ -5544,7 +5544,7 @@ projects:
   affCronTest: 48 5 12 * *
   affCronProd: 53 1 28 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 15Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 248
@@ -5564,7 +5564,7 @@ projects:
   affCronTest: 11 8 12 * *
   affCronProd: 25 4 28 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 2Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 249
@@ -5584,7 +5584,7 @@ projects:
   affCronTest: 34 10 12 * *
   affCronProd: 23 7 28 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 250
@@ -5604,7 +5604,7 @@ projects:
   affCronTest: 57 12 12 * *
   affCronProd: 42 7 28 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 251
@@ -5624,7 +5624,7 @@ projects:
   affCronTest: 20 15 12 * *
   affCronProd: 54 7 28 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 252
@@ -5644,7 +5644,7 @@ projects:
   affCronTest: 42 17 12 * *
   affCronProd: 10 8 28 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 253
@@ -5664,7 +5664,7 @@ projects:
   affCronTest: 5 20 12 * *
   affCronProd: 20 8 28 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 254
@@ -5684,7 +5684,7 @@ projects:
   affCronTest: 28 22 12 * *
   affCronProd: 59 8 28 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 3Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 255
@@ -5704,7 +5704,7 @@ projects:
   affCronTest: 51 0 13 * *
   affCronProd: 14 10 28 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 256
@@ -5724,7 +5724,7 @@ projects:
   affCronTest: 14 3 13 * *
   affCronProd: 26 10 28 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 257
@@ -5744,7 +5744,7 @@ projects:
   affCronTest: 37 5 13 * *
   affCronProd: 39 10 28 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 22Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 258
@@ -5764,7 +5764,7 @@ projects:
   affCronTest: 37 5 13 * *
   affCronProd: 32 12 28 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 259
@@ -5784,7 +5784,7 @@ projects:
   affCronTest: 37 5 13 * *
   affCronProd: 33 13 28 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 260
@@ -5804,7 +5804,7 @@ projects:
   affCronTest: 37 5 13 * *
   affCronProd: 48 13 28 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 261
@@ -5824,7 +5824,7 @@ projects:
   affCronTest: 37 5 13 * *
   affCronProd: 58 13 28 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 262
@@ -5844,7 +5844,7 @@ projects:
   affCronTest: 37 5 13 * *
   affCronProd: 12 14 28 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 263
@@ -5864,7 +5864,7 @@ projects:
   affCronTest: 37 5 13 * *
   affCronProd: 19 14 28 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 4Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 264
@@ -5884,7 +5884,7 @@ projects:
   affCronTest: 37 5 13 * *
   affCronProd: 21 15 28 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 265
@@ -5904,7 +5904,7 @@ projects:
   affCronTest: 37 5 13 * *
   affCronProd: 4 16 28 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 266
@@ -5924,7 +5924,7 @@ projects:
   affCronTest: 37 5 13 * *
   affCronProd: 13 16 28 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 4Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 267
@@ -5944,7 +5944,7 @@ projects:
   affCronTest: 37 5 13 * *
   affCronProd: 27 16 28 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 268
@@ -5964,7 +5964,7 @@ projects:
   affCronTest: 37 5 13 * *
   affCronProd: 6 17 28 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 269
@@ -5984,7 +5984,7 @@ projects:
   affCronTest: 37 5 13 * *
   affCronProd: 16 17 28 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 2Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 270
@@ -6004,7 +6004,7 @@ projects:
   affCronTest: 37 5 13 * *
   affCronProd: 32 17 28 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 271
@@ -6024,7 +6024,7 @@ projects:
   affCronTest: 37 5 13 * *
   affCronProd: 36 17 28 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 272
@@ -6044,7 +6044,7 @@ projects:
   affCronTest: 37 5 13 * *
   affCronProd: 41 17 28 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 273
@@ -6064,7 +6064,7 @@ projects:
   affCronTest: 37 5 13 * *
   affCronProd: 49 17 28 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 2Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 274
@@ -6084,7 +6084,7 @@ projects:
   affCronTest: 37 5 13 * *
   affCronProd: 34 18 28 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 275
@@ -6104,7 +6104,7 @@ projects:
   affCronTest: 37 5 13 * *
   affCronProd: 59 19 28 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 4Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 276
@@ -6124,7 +6124,7 @@ projects:
   affCronTest: 37 5 13 * *
   affCronProd: 25 20 28 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 2Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 277
@@ -6144,7 +6144,7 @@ projects:
   affCronTest: 37 5 13 * *
   affCronProd: 23 21 28 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 4Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 278
@@ -6164,7 +6164,7 @@ projects:
   affCronTest: 37 5 13 * *
   affCronProd: 14 22 28 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 2Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 279
@@ -6184,7 +6184,7 @@ projects:
   affCronTest: 37 5 13 * *
   affCronProd: 44 22 28 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 280
@@ -6204,7 +6204,7 @@ projects:
   affCronTest: 37 5 13 * *
   affCronProd: 44 23 28 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 281
@@ -6224,7 +6224,7 @@ projects:
   affCronTest: 37 5 13 * *
   affCronProd: 54 23 28 * *
   affSkipTemp: "1"
-  disk: 5Gi
+  disk: 1Gi
   domains: [0, 1, 0, 0]
   ga: ""
   i: 282
