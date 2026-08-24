@@ -83,6 +83,8 @@ spec:
               value: '{{ or .recentRange $root.Values.ghapiRecentRange }}'
             - name: GHA2DB_ORPHAN_COMMITS_RANGE
               value: '{{ .orphanCommitsRange }}'
+            - name: GHA2DB_RECENT_REPOS_RANGE
+              value: '{{ or .recentReposRange $root.Values.ghapiRecentReposRange }}'
             - name: NO_DURABLE
               value: '{{ .noDurable }}'
             - name: DURABLE_PQ
