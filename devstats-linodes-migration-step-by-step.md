@@ -1118,6 +1118,21 @@ kubectl get issuer -A                       # both letsencrypt-{prod,test} must 
 # certificates only get ISSUED after DNS points here (HTTP-01 on port 80) - that is expected
 ```
 
+### 1.18.1 metrics-server (kubectl top) [master]
+
+Not required by DevStats, but makes `kubectl top nodes/pods` work - very handy for watching
+restore/provision load. kubeadm kubelets use self-signed serving certs, so the
+`--kubelet-insecure-tls` flag is REQUIRED (without it metrics-server logs x509 errors and
+stays NotReady):
+
+```bash
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+kubectl -n kube-system patch deployment metrics-server --type=json \
+  -p '[{"op":"add","path":"/spec/template/spec/containers/0/args/-","value":"--kubelet-insecure-tls"}]'
+kubectl -n kube-system rollout status deployment metrics-server --timeout=120s
+sleep 20 && kubectl top nodes   # all 8 nodes must show CPU/MEM percentages
+```
+
 ### 1.19 DevStats secrets + backups PV + project PVCs (both envs) [master]
 
 Always pass `-n devstats-{test,prod}` to helm: without it the RELEASE metadata lands in the
