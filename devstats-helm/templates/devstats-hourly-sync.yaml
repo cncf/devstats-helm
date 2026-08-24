@@ -79,6 +79,10 @@ spec:
               value: '{{ .maxHist }}'
             - name: GHA2DB_MAX_RUN_DURATION
               value: '{{ or .maxRunDuration $root.Values.maxRunDuration }}'
+            - name: GHA2DB_RECENT_RANGE
+              value: '{{ or .recentRange $root.Values.ghapiRecentRange }}'
+            - name: GHA2DB_ORPHAN_COMMITS_RANGE
+              value: '{{ .orphanCommitsRange }}'
             - name: NO_DURABLE
               value: '{{ .noDurable }}'
             - name: DURABLE_PQ
