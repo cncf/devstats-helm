@@ -823,11 +823,13 @@ FDW - restore it early like on prod (`./scripts/deploy_backup_to_test.sh affilia
 ./akamai/deploy-devstats-test.sh backups     # installs the cron then SUSPENDS it immediately
 ```
 
-**Decision - test backups are DISABLED on Linode** (OCI ran them 4×/month). Rationale:
-test data is rebuildable from prod backups + git in hours, dumps eat NFS space and I/O on a
-much smaller cluster, and nothing external depends on fresh `teststats.cncf.io/backups/*`
-dumps (velocity/gitdm read the PROD backups page). The script leaves the cronjob installed
-but `suspend: true`; flip to monthly (`45 2 28 * *`, unsuspend) later if ever wanted. NOTE:
+**Decision - test backups run SUSPENDED during the migration, unsuspended after cutover**
+(OCI ran them 4×/month). During migration they stay off: test data is rebuildable, dumps eat
+NFS space/IO, and nothing external reads `teststats.cncf.io/backups/*` mid-migration. The
+cron is installed suspended (runbook §3.6) and gets **unsuspended in runbook §5.1b** once
+the switchover is confirmed. Placement rule: the 3 prod-db nodes hold ONLY prod patroni
+data + small-to-medium stuff - NEVER backups/git-clones/anything similarly growable; test
+backups NFS on a test-db node is fine (live: prod backups on compute-02, test on test-db-01). NOTE:
 the new cluster's 2Ti backups PV starts **empty** - restores do NOT read it; they pull dumps
 over HTTPS from `https://teststats.cncf.io/backups/`, which resolves to **OCI** until the DNS
 cutover. That is exactly why every restore (and re-restore) must happen before §11 step 3.
@@ -1047,7 +1049,7 @@ remains the logical phase ordering; the dates come from §13.2.
 | 7-8 | PROD: bulk project restores in slices; affiliations early; fix failures |
 | 9 | PROD: artificial restores; API; backups cron (suspended; NO vacuum cron - OCI parity); validation gates |
 | 10 | Full validation pass; final OCI backup; suspend OCI crons; delta restores |
-| 11 | DNS cutover; certs; un-suspend Linode crons (test backups STAY suspended - §8); monitoring |
+| 11 | DNS cutover; certs; un-suspend Linode crons (test backups follow in soak - §8/runbook §5.1b); monitoring |
 | 12-13 | Soak; Linode-native backup + restore test; reports check; fix stragglers |
 | 14 | OCI decommission sign-off; docs updated |
 

@@ -821,9 +821,12 @@ kubectl config use-context shared
 
 ### 1.12 Node labels + namespaces [master]
 
-Storage-placement policy (only PROD-db disks are tight): the 3 PROD Patroni nodes store
-ONLY their databases; ALL other data - git clones, backups PV, grafana/provision workdirs -
-goes to the 3 compute nodes + the 2 test-db nodes (test DBs are small, plenty of room).
+Storage-placement policy (only PROD-db disks are tight): the 3 PROD Patroni nodes hold
+ONLY prod patroni DB data plus small-to-medium stuff (ingress controller pods, DaemonSets,
+short-lived/temporary migration pods - deleted right after the migration). They are NEVER
+allowed to hold backups, git clones, or anything that can grow to a comparable size.
+ALL such data - git clones, backups PV, grafana/provision workdirs - goes to the
+3 compute nodes + the 2 test-db nodes (test DBs are small, plenty of room).
 The chart enforces this via `appNodeSelector`/`backupsNodeSelector`
 (= `node: devstats-app`) on every pod that writes to `openebs-hostpath` (provisions,
 hourly syncs, grafanas, bootstrap, affs-sync, backups), and hostpath PVCs bind to the
@@ -1625,19 +1628,28 @@ kubectl exec devstats-postgres-0 -c devstats-postgres -- \
 # expect: plpgsql, pgcrypto, postgres_fdw, hll (affiliations having only plpgsql is correct)
 ```
 
-### 3.6 TEST artificial rows + affiliations import + API + backups(suspended)
+### 3.6 TEST artificial rows(OPTIONAL) + affiliations import + API + backups(suspended)
+
+NOTE: none of 3.6 gates the §3.7 smoke (that only needs grafana+ingress, already live).
+But affs-import + API ARE required before the Part-4 cutover - do them now anyway.
 
 ```bash
-# artificial rows via the debug pod - ONLY/RESTORE_FROM MUST be explicit:
-kubectl exec -it debug -- bash -c "ONLY='azf cii cncf fn godotengine linux opencontainers openfaas openwhisk riff sam zephyr' RESTORE_FROM='https://teststats.cncf.io' NOBACKUP='' ./devstats-helm/restore_artificial_all.sh"
+# OPTIONAL - artificial rows: REDUNDANT for our full pg_restore flow (dumps already
+# contain them - live-verified: gha_events id<0 fn=11, cncf=806; re-running just hits
+# benign PK conflicts). Only needed for from-scratch gha2db provisions. Kept for reference:
+# kubectl exec -it debug -- bash -c "ONLY='azf cii cncf fn godotengine linux opencontainers openfaas openwhisk riff sam zephyr' RESTORE_FROM='https://teststats.cncf.io' NOBACKUP='' ./devstats-helm/restore_artificial_all.sh"
 
+# REQUIRED - global gitdm affs-import cron (live check: only per-project
+# devstats-affiliations-<proj> crons exist; this global import cron does not yet):
 helm install devstats-test-affs-import ./devstats-helm -n devstats-test --set "$(skips_except),skipAffiliationsImport=,affiliationsDB=affiliations,prodServer=,testServer=1,backupsCronProd=45 2 16\,28 * *"
+# REQUIRED (before Part 4, not for §3.7) - API deployment (live check: absent):
 helm install devstats-test-api ./devstats-helm -n devstats-test --set "$(skips_except API),projectsOverride=${TEST_PROJECTS}"
+# REQUIRED - install backups cron now, but keep it SUSPENDED until after the
+# switchover is confirmed - it gets unsuspended in §5.1b (NOT permanently disabled).
+# Placement is fine: test backups NFS on devstats-test-db-01 is allowed - prod-db nodes
+# are the only ones barred from backups/git-clones/anything-similarly-growable (§1.12;
+# prod backups NFS lives on compute-02).
 helm install devstats-test-backups ./devstats-helm -n devstats-test --set "$(skips_except Backups)"
-# DECISION (master plan §8): test backups stay SUSPENDED on Linode - test data is
-# rebuildable from prod dumps + git, and nothing external reads teststats dumps.
-# (Live OCI DOES run them - 2026-08-24 snapshot suspend=false - this is a deliberate
-# divergence, NOT parity. The cron stays installed; unsuspend later if ever wanted.)
 kubectl patch cronjob devstats-backups -p '{"spec":{"suspend":true}}'
 ```
 
@@ -1948,8 +1960,8 @@ grep 'suspend=true' oci-cron-suspends.secret   # (scp to the master if needed)
 # mirror unless the final pre-cutover re-snapshot (4.1 freeze happens AFTER it) differs:
 # for each intentionally-suspended cron that exists on Linode, mirror it:
 # kubectl -n <ns> patch cronjob <name> -p '{"spec":{"suspend":true}}'
-# test backups stay SUSPENDED - deliberate Linode divergence (master plan §8 decision),
-# even though OCI ran them (2026-08-24 snapshot: suspend=false):
+# test backups remain suspended AT THIS POINT - they get unsuspended in §5.1b once the
+# switchover is confirmed (do NOT enable during cutover day):
 kubectl -n devstats-test get cj devstats-backups -o jsonpath='{.spec.suspend}{"\n"}'   # true
 ```
 
@@ -2004,6 +2016,20 @@ source linodes.env.secret
 for h in $PUB_DEVSTATS_PROD_DB_01 $PUB_DEVSTATS_PROD_DB_02 $PUB_DEVSTATS_PROD_DB_03; do
   ssh root@$h 'btrfs subvolume delete /data/.snap-openebs-pre-delta; btrfs filesystem usage -T /data | head -12'
 done
+```
+
+### 5.1b Unsuspend TEST backups (now that the switchover is confirmed) [master]
+
+Test backups were installed suspended in §3.6 - with cutover confirmed, enable them
+(they write to the test backups NFS on devstats-test-db-01 - allowed placement per §1.12):
+
+```bash
+kubectl config use-context test
+kubectl patch cronjob devstats-backups -p '{"spec":{"suspend":false}}'
+kubectl get cj devstats-backups -o jsonpath='{.spec.suspend}{"\n"}'   # false
+# optional: fire one immediately and confirm dumps appear on the backups page:
+kubectl create job --from=cronjob/devstats-backups devstats-backups-first
+curl -s https://teststats.cncf.io/backups/ | grep -c '\.dump'   # grows as it runs
 ```
 
 ### 5.2 Final state snapshot (goes into the repo/docs) [master]
