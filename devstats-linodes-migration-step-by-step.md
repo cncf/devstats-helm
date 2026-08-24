@@ -1299,12 +1299,27 @@ data anywhere yet.
 
 ### 2.1 Trigger the regular backups now [OCI]
 
+The cronjob runs with `NOAGE` unset - `backups.sh` then SKIPS every DB whose dump is
+younger than 4-11 days (randomized), so a plain `create job --from=cronjob` would mostly
+no-op right after a scheduled run (schedule is `45 2 10,20 * *`). Force full dumps of ALL
+DBs by cloning the cronjob spec with `NOAGE=1` injected:
+
 ```bash
+J='{apiVersion:"batch/v1",kind:"Job",metadata:{name:"devstats-backups-manual"},spec:.spec.jobTemplate.spec}'
+J+=' | .spec.template.spec.containers[0].env |= map(if .name=="NOAGE" then .value="1" else . end)'
 kubectl config use-context prod
-kubectl -n devstats-prod create job --from=cronjob/devstats-backups devstats-backups-manual
+kubectl -n devstats-prod delete job devstats-backups-manual --ignore-not-found
+kubectl -n devstats-prod get cronjob devstats-backups -o json | jq "$J" | kubectl -n devstats-prod create -f -
+kubectl -n devstats-prod wait --for=condition=ready pod -l job-name=devstats-backups-manual --timeout=180s
 kubectl -n devstats-prod logs -f job/devstats-backups-manual     # hours - leave running
 kubectl config use-context test
-kubectl -n devstats-test create job --from=cronjob/devstats-backups devstats-backups-manual
+kubectl -n devstats-test delete job devstats-backups-manual --ignore-not-found
+kubectl -n devstats-test get cronjob devstats-backups -o json | jq "$J" | kubectl -n devstats-test create -f -
+kubectl -n devstats-test wait --for=condition=ready pod -l job-name=devstats-backups-manual --timeout=180s
+kubectl -n devstats-test logs -f job/devstats-backups-manual
+# PASS signal: every DB prints "<date> full <db>" (forced pg_dump) after its artificial
+# archive block; finish line "N full backups OK" with N = DB count (test 12+affiliations).
+# Old no-op symptom: only COPY/tar.xz blocks, no "full" lines, "0 full backups" at end.
 ```
 
 ### 2.2 Refresh artificial-events backups (debug pod on OCI prod) [OCI]
