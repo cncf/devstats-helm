@@ -296,15 +296,28 @@ extensions in use: hll 2.19, pgcrypto, postgres_fdw.)
 
 ### 3.2 Refresh backups on OCI
 
-The migration restores from the OCI backups page over HTTPS, so backups must be fresh:
+**Execution order is TEST-FIRST** (runbook Part 2 intro): take test backups, run the whole
+test restore track on Linode to completion (§3.5-§3.7 there), let test hourly syncs run,
+and only then take prod backups + run the prod track - prod dumps stay maximally fresh
+and every procedural problem is found on the small env first. Test backups were taken and
+verified 2026-08-24 (12/12 `full` + affiliations; azf re-dumped from primary after an RO
+`conflict with recovery` kill; `pg_restore -l` OK).
 
-```bash
-# prod: trigger the backups cronjob now instead of waiting for its schedule
-k -n devstats-prod create job --from=cronjob/devstats-backups devstats-backups-manual
-k -n devstats-prod logs -f job/devstats-backups-manual
-# test:
-k -n devstats-test create job --from=cronjob/devstats-backups devstats-backups-manual
-```
+Freshness gaps are safe by design (runbook §3.0): DBs are caches over GH Archive/GitHub
+API/git; `restore.sh` ends with `gha2db_sync` resuming from the restored DB's max event
+time (events never lost), and the restore helpers pass
+`ghapiRecentRange=$API_CATCHUP_RANGE` ('12 days') so `ghapi2db` re-fetches API-only
+mutations (labels/milestones/state) for the whole backup→restore window from GitHub
+itself - no OCI→Linode delta copying needed, ever.
+
+The migration restores from the OCI backups page over HTTPS, so backups must be fresh.
+Two pitfalls (details + exact jq commands in runbook §2.1): plain
+`create job --from=cronjob` inherits `NOAGE=''` (DBs dumped <4-11 days ago are SKIPPED)
+and dumps from the RO replica, where a long COPY can be killed by WAL replay
+(`conflict with recovery`) - AND a killed pg_dump leaves a truncated `<db>.dump` on the
+PV, corrupting the previous good backup. So the manual job must clone the cronjob spec
+with `NOAGE=1` + `PG_HOST=devstats-postgres` (primary), then every fresh dump gets a
+`pg_restore -l` readability check - see runbook §2.1 for the copy-paste blocks.
 
 This runs `./devstats-helm/backups.sh` and publishes `*.dump` files under
 `https://devstats.cncf.io/backups/` and `https://teststats.cncf.io/backups/`.
@@ -973,6 +986,9 @@ Order matters; total DevStats "stale window" is a few hours, no visible downtime
    Linode (OCI's 792 dump files became unreachable at the DNS flip):
    ```bash
    k -n devstats-prod create job --from=cronjob/devstats-backups devstats-backups-manual
+   # on Linode the cronjob's PG_HOST already points at the local primary-side service and
+   # dumps age out naturally - the plain --from=cronjob form is fine here (NOAGE quirk
+   # only matters when forcing FRESH dumps; see runbook §2.1)
    # ~hours for the full set; alternatively pre-seed by curl-ing the newest OCI dumps into
    # the backups debug pod BEFORE the flip (only needed if something reads dumps on day 1)
    ```

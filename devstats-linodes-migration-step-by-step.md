@@ -168,6 +168,12 @@ skips_except () {
   echo "${out#,}"
 }
 
+# API_CATCHUP_RANGE: how far back ghapi2db re-checks GitHub-API-only state (labels,
+# milestones, issue/PR state edited WITHOUT producing events) during each restore's
+# catch-up sync. Must span oldest-backup -> restore + margin. Events themselves need
+# no window - gha2db_sync replays GH Archive from the max event time in the restored DB.
+export API_CATCHUP_RANGE='12 days'
+
 # restore_prod <proj> <indexFrom> <indexTo>: restores one PROD project from the OCI backups
 # page (kubectl context MUST be `prod` on the master). Installs release devstats-prod-<proj>
 # (provision pod running devstats-helm/restore.sh + the project crons/grafanas/services).
@@ -180,6 +186,8 @@ restore_prod () {
   s+=",indexServicesFrom=$2,indexServicesTo=$3,indexAffiliationsFrom=$2,indexAffiliationsTo=$3"
   s+=',provisionImage=lukaszgryglicki/devstats-prod,provisionCommand=devstats-helm/restore.sh'
   s+=',restoreFrom=https://devstats.cncf.io/backups/,testServer=,prodServer=1'
+  s+=",ghapiRecentRange=${API_CATCHUP_RANGE},ghapiOrphanCommitsRange=${API_CATCHUP_RANGE}"
+  s+=",ghapiRecentReposRange=${API_CATCHUP_RANGE}"
   helm install "devstats-prod-${1}" ./devstats-helm -n devstats-prod --set "${s}" \
     && echo "watch: kubectl -n devstats-prod logs -f devstats-provision-${1}"
 }
@@ -193,6 +201,8 @@ restore_test () {
   s+=",indexServicesFrom=$2,indexServicesTo=$3,indexAffiliationsFrom=$2,indexAffiliationsTo=$3"
   s+=',provisionCommand=devstats-helm/restore.sh,restoreFrom=https://teststats.cncf.io/backups/'
   s+=",projectsOverride=+${1}"
+  s+=",ghapiRecentRange=${API_CATCHUP_RANGE},ghapiOrphanCommitsRange=${API_CATCHUP_RANGE}"
+  s+=",ghapiRecentReposRange=${API_CATCHUP_RANGE}"
   helm install "devstats-test-${1}" ./devstats-helm -n devstats-test --set "${s}" \
     && echo "watch: kubectl -n devstats-test logs -f devstats-provision-${1}"
 }
@@ -1297,32 +1307,80 @@ data anywhere yet.
 
 ## Part 2 - fresh backups on the CURRENT OCI infra (Monday morning)
 
+**Execution order - TEST-FIRST.** Drive the TEST env end-to-end before touching prod data:
+1. §2.1 TEST block only (DONE 2026-08-24: all 12 projects `full` + affiliations; azf
+   re-dumped from primary and `pg_restore -l` verified) → §2.3 for test dumps.
+2. Immediately continue to the TEST restore track: §3.1 → §3.3 → §3.4(test) → §3.5 →
+   §3.6 → §3.7. Test hourly syncs then run on Linode and keep it current on their own
+   (OCI test keeps syncing too - both replay GH Archive independently, no conflict,
+   DNS still points at OCI). Shake out every restore/scheduling/chart problem here.
+3. Only after test looks healthy for ~a day: §2.1 PROD block (dumps stay maximally
+   fresh), §2.2, §2.3, §2.4, then the PROD restore track §3.2 / §3.4(prod) / §3.8-§3.11.
+
+This also shrinks the freshness gap per env - see §3.0 for why restore age is safe anyway.
+
 ### 2.1 Trigger the regular backups now [OCI]
 
-The cronjob runs with `NOAGE` unset - `backups.sh` then SKIPS every DB whose dump is
-younger than 4-11 days (randomized), so a plain `create job --from=cronjob` would mostly
-no-op right after a scheduled run (schedule is `45 2 10,20 * *`). Force full dumps of ALL
-DBs by cloning the cronjob spec with `NOAGE=1` injected:
+Two pitfalls make the naive `create job --from=cronjob` insufficient:
+- `NOAGE` unset - `backups.sh` SKIPS every DB whose dump is younger than 4-11 days
+  (randomized); right after a scheduled run (`45 2 10,20 * *`) it mostly no-ops.
+- the backups pod dumps from the RO service (replica) - long `pg_dump` COPYs get killed
+  by WAL replay (`canceling statement due to conflict with recovery`, 30s default) when
+  an hourly sync's lock replays; worse, a failed dump leaves a TRUNCATED `<db>.dump` on
+  the PV, silently corrupting the previous good backup. Fix both: `NOAGE=1` + dump from
+  the PRIMARY (`devstats-postgres` RW service; conflicts impossible there):
 
 ```bash
 J='{apiVersion:"batch/v1",kind:"Job",metadata:{name:"devstats-backups-manual"},spec:.spec.jobTemplate.spec}'
-J+=' | .spec.template.spec.containers[0].env |= map(if .name=="NOAGE" then .value="1" else . end)'
+J+=' | .spec.template.spec.containers[0].env |= map(if .name=="NOAGE" then .value="1"'
+J+=' elif .name=="PG_HOST" then {name:"PG_HOST",value:"devstats-postgres"} else . end)'
 kubectl config use-context prod
 kubectl -n devstats-prod delete job devstats-backups-manual --ignore-not-found
 kubectl -n devstats-prod get cronjob devstats-backups -o json | jq "$J" | kubectl -n devstats-prod create -f -
 kubectl -n devstats-prod wait --for=condition=ready pod -l job-name=devstats-backups-manual --timeout=180s
-kubectl -n devstats-prod logs -f job/devstats-backups-manual     # hours - leave running
+kubectl -n devstats-prod logs -f job/devstats-backups-manual     # ~4.5-6h - leave running
 kubectl config use-context test
 kubectl -n devstats-test delete job devstats-backups-manual --ignore-not-found
 kubectl -n devstats-test get cronjob devstats-backups -o json | jq "$J" | kubectl -n devstats-test create -f -
 kubectl -n devstats-test wait --for=condition=ready pod -l job-name=devstats-backups-manual --timeout=180s
-kubectl -n devstats-test logs -f job/devstats-backups-manual
-# PASS signal: every DB prints "<date> full <db>" (forced pg_dump) after its artificial
-# archive block; finish line "N full backups OK" with N = DB count (test 12+affiliations).
-# Old no-op symptom: only COPY/tar.xz blocks, no "full" lines, "0 full backups" at end.
+kubectl -n devstats-test logs -f job/devstats-backups-manual     # ~30-60 min
+# PASS signal: "Force backup <all dbs>" header, then "<date> full <db>" per DB, ending
+# "N full backups OK" and "All artificial events backups OK". On prod, "does not exist"
+# failures for ~22 ARCHIVED projects (brigade, smi, keptn, ... xline) are expected+benign.
+# Any OTHER "<db> full backup failed" line = that db's .dump on the PV is now TRUNCATED -
+# re-dump just the failed ones (space-separated list) with an extra ONLY override:
+#   J2="$J"' | .spec.template.spec.containers[0].env |= map(if .name=="ONLY" then .value="<failed dbs>" else . end)'
+#   ... delete job, then create with jq "$J2" as above, watch for "full <db>" + OK.
 ```
 
-### 2.2 Refresh artificial-events backups (debug pod on OCI prod) [OCI]
+Verify EVERY fresh dump is a readable archive before relying on it (TOC read; catches
+truncation; run per env - context test shown, repeat with prod):
+
+```bash
+POD=$(kubectl -n devstats-test get po -o name | grep backups-manual | head -1 | cut -d/ -f2)
+kubectl -n devstats-test exec $POD -- sh -c 'cd /root; for f in *.dump; do pg_restore -l "$f" >/dev/null 2>&1 && echo "OK $f" || echo "CORRUPT $f"; done'
+# every line must be OK; CORRUPT for an archived project's ancient dump is ignorable,
+# CORRUPT for a live project = re-dump it via the ONLY override above.
+```
+
+Optional (recommended during the prod run): suspend hourly syncs so the primary is quiet
+while dumping - remember to RESUME after. Snapshot suspend-state FIRST (§2.4):
+
+```bash
+kubectl config use-context prod
+for cj in $(kubectl -n devstats-prod get cj -o name | grep hourly-sync); do kubectl -n devstats-prod patch $cj -p '{"spec":{"suspend":true}}'; done
+# ... run the backup job ...
+for cj in $(kubectl -n devstats-prod get cj -o name | grep hourly-sync); do kubectl -n devstats-prod patch $cj -p '{"spec":{"suspend":false}}'; done
+```
+
+### 2.2 Refresh artificial-events backups (debug pod on OCI prod) [OCI] - OPTIONAL
+
+**Skip if §2.1 prod completed cleanly**: `backups.sh` ALWAYS refreshes every project's
+artificial archive (`<db>.tar.xz`) regardless of NOAGE - look for per-DB
+`Creating backup archive <db>.tar.xz` lines + the final `All artificial events backups OK`.
+That is also why there is NO test twin of this step: the §2.1 TEST run already did it
+(verified 2026-08-24). This recipe stays here as the standalone way to refresh artificial
+archives WITHOUT a multi-hour full backups run - reused at §4.2.
 
 ```bash
 kubectl config use-context prod
@@ -1341,10 +1399,14 @@ helm delete -n devstats-prod devstats-prod-debug
 
 ### 2.3 Verify dumps are fresh [workstation]
 
+nginx autoindex puts the timestamp AFTER `</a>`, so grep whole lines (not `[^<]*`).
+PASS = every listed `.dump` shows today's date:
+
 ```bash
-curl -s https://devstats.cncf.io/backups/  | grep -o 'gha.dump[^<]*'      # today's date
-curl -s https://devstats.cncf.io/backups/  | grep -o 'allprj.dump[^<]*'
-curl -s https://teststats.cncf.io/backups/ | grep -o 'cncf.dump[^<]*'
+# TEST (run now, after the 2.1 test block):
+curl -s https://teststats.cncf.io/backups/ | grep -E 'href="(azf|cii|cncf|fn|godotengine|linux|opencontainers|openfaas|openwhisk|riff|sam|zephyr|affiliations)\.dump"'
+# PROD (run later, after the 2.1 prod block):
+curl -s https://devstats.cncf.io/backups/  | grep -E 'href="(gha|allprj|affiliations)\.dump"'
 ```
 
 ### 2.4 Snapshot OCI cronjob suspend-state (needed at cutover) [OCI]
@@ -1373,6 +1435,30 @@ their queries only load data from Postgres): `requestsGrafanas* 50m/256Mi`,
 `limitsGrafanas* 1000m/2Gi` - already the defaults in this repo's values.yaml, nothing
 to pass; if a big-project grafana ever OOMs, raise per release with
 `--set limitsGrafanasMemory=3Gi`.
+
+### 3.0 Freshness model - why "data added on OCI after the backup" is never lost
+
+No OCI→Linode delta copy is needed; the Postgres DBs are CACHES, not sources of truth -
+every row recomputes from GH Archive (immutable public hourly files), the GitHub API and
+git clones, all equally readable from Linode:
+
+- **Events** (the core): `restore.sh` ends with `gha2db_sync`, which resumes from the max
+  event time IN THE RESTORED DB and replays GH Archive up to now; hourly syncs continue
+  from there. Zero loss regardless of how old the dump is.
+- **API-only mutations** (labels/milestones/issue-PR state edited without generating
+  events, stars/forks): normally `ghapi2db` (invoked by every sync) only re-checks the
+  last `GHA2DB_RECENT_RANGE` = 8 hours. The `restore_test`/`restore_prod` helpers pass
+  `ghapiRecentRange=$API_CATCHUP_RANGE` ('12 days', linodes.env.secret) so the catch-up
+  sync inside each provision re-fetches the whole backup→restore window straight from
+  GitHub (same for orphan commits + recently-modified repos ranges). This is the
+  upstream-documented catch-up knob (values.yaml ships `# ghapiRecentRange: '220 days'`).
+- **Affiliations / artificial events**: restored explicitly (§3.4, §3.6, §3.10).
+
+Per-project freshness gate after its provision pod completes (expect ≤ ~2-3 h behind now):
+
+```bash
+kubectl exec devstats-postgres-0 -c devstats-postgres -- psql -U postgres <db> -tAc 'select max(created_at) from gha_events'
+```
 
 ### 3.1 TEST env: statics, ingress, bootstrap, debug pod
 
@@ -1411,7 +1497,9 @@ tar cf /tmp/devstats-grafana.tar \
 scp /tmp/devstats-grafana.tar root@$MASTER_IP:/root/
 ```
 
-Unpack into BOTH static pods **[master]** (grafana provisioning fetches from there):
+Unpack into BOTH static pods **[master]** (grafana provisioning fetches from there).
+TEST-FIRST: while only the test track is deployed, run the loop with `for ctx in test;` -
+re-run with `for ctx in prod;` right after §3.2:
 
 ```bash
 for ctx in test prod; do
@@ -1424,6 +1512,9 @@ done
 ```
 
 ### 3.4 Restore `affiliations` DB manually (BOTH envs; it is NOT a chart project)
+
+TEST-FIRST: run the `test` block now; run the `prod` block when starting the prod track
+(§3.8) so its copy is fresh (it is re-restored at §4.3 delta anyway).
 
 ```bash
 # check the exact dump name first: curl -s https://devstats.cncf.io/backups/ | grep -o 'affiliations[^<]*dump'
@@ -1663,12 +1754,22 @@ kubectl -n devstats-prod get jobs | grep -v Complete   # wait for in-flight sync
 ### 4.2 FINAL OCI backups of the delta-restore set [OCI]
 
 Only the big consolidated DBs need a byte-fresh final dump (everything else self-syncs on
-Linode from GH Archive within the hour):
+Linode from GH Archive within the hour). Plain `--from=cronjob` would hit the §2.1 NOAGE
+pitfall (Friday run vs Monday dumps = 4-day age vs the randomized 4-11-day threshold →
+kubernetes/allprj could be SILENTLY SKIPPED and 4.3 would re-restore stale dumps), so use
+the §2.1 jq clone with an ONLY override - crons are frozen (4.1), primary is quiet:
 
 ```bash
-kubectl -n devstats-prod create job --from=cronjob/devstats-backups devstats-backups-final
-kubectl -n devstats-prod logs -f job/devstats-backups-final    # wait - this gates everything
-# refresh artificial + affiliations dumps too (debug pod, as in 2.2):
+J='{apiVersion:"batch/v1",kind:"Job",metadata:{name:"devstats-backups-final"},spec:.spec.jobTemplate.spec}'
+J+=' | .spec.template.spec.containers[0].env |= map(if .name=="NOAGE" then .value="1"'
+J+=' elif .name=="ONLY" then {name:"ONLY",value:"gha allprj"}'
+J+=' elif .name=="PG_HOST" then {name:"PG_HOST",value:"devstats-postgres"} else . end)'
+kubectl -n devstats-prod delete job devstats-backups-final --ignore-not-found
+kubectl -n devstats-prod get cronjob devstats-backups -o json | jq "$J" | kubectl -n devstats-prod create -f -
+kubectl -n devstats-prod wait --for=condition=ready pod -l job-name=devstats-backups-final --timeout=180s
+kubectl -n devstats-prod logs -f job/devstats-backups-final    # ~2-3h, gates everything
+# PASS: "Force backup gha allprj", "full gha", "full allprj", "full affiliations", "3 full backups OK"
+# refresh artificial archives for ALL prod projects too (debug pod, as in 2.2):
 S='namespace=devstats-prod,skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1'
 S+=',skipBackups=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1'
 S+=',skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1'
@@ -1707,6 +1808,11 @@ helm delete -n devstats-prod devstats-prod-all;        sleep 10; restore_prod al
 watch 'kubectl get po | grep provision'   # Ctrl-C when Completed
 kubectl exec -it debug -- bash -c "ONLY=\"\$(cat ./devstats-helm/all_prod_dbs.txt)\" RESTORE_FROM='https://devstats.cncf.io' NOBACKUP='' ./devstats-helm/restore_artificial_all.sh"
 ```
+
+The helpers already pass `ghapiRecentRange=$API_CATCHUP_RANGE` (§3.0), so these two
+re-provisions also re-heal API-only state (labels/milestones/state) for the whole window
+since their Monday dumps - the other ~86 projects were healed the same way during §3.9
+and stay current via hourly syncs.
 
 Go/no-go now (13:00): 3.11 checklist still green + the two deltas restored → GO.
 
