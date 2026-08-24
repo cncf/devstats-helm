@@ -1597,19 +1597,19 @@ from teststats.cncf.io and pg_restores it, then keeps hourly syncs running via c
 
 ```bash
 kubectl config use-context test
-restore_test cncf 49 50            # DONE 2026-08-24 (validated: sync success, FDW + hll OK)
+restore_test cncf 49 50                         # DONE 2026-08-24 (validated: sync success, FDW + hll OK)
 # smallest dump first -> catch issues fast, then progressively bigger (sizes = dump bytes):
-restore_test fn 62 63              #   34 MB
-restore_test openwhisk 63 64       #   40 MB
-restore_test sam 59 60             #   47 MB
-restore_test riff 61 62            #   68 MB
-restore_test openfaas 64 65        #  110 MB
-restore_test opencontainers 50 51  #  140 MB
-restore_test linux 54 55           #  356 MB
-restore_test azf 60 61             #  510 MB
-restore_test zephyr 53 54          #  1.5 GB
-restore_test godotengine 97 98     #  1.8 GB
-restore_test cii 67 68             #  5.0 GB
+restore_test fn 62 63                           #   34 MB
+restore_test openwhisk 63 64                    #   40 MB
+restore_test sam 59 60                          #   47 MB
+restore_test riff 61 62                         #   68 MB
+restore_test openfaas 64 65                     #  110 MB
+restore_test opencontainers 50 51               #  140 MB
+restore_test linux 54 55                        #  356 MB
+restore_test azf 60 61                          #  510 MB
+restore_test zephyr 53 54                       #  1.5 GB
+restore_test godotengine 97 98                  #  1.8 GB
+restore_test cii 67 68                          #  5.0 GB
 watch 'kubectl -n devstats-test get po | grep provision'   # Ctrl-C when all Completed
 kubectl -n devstats-test delete po --field-selector=status.phase=Succeeded
 ```
@@ -1742,8 +1742,8 @@ kubectl -n devstats-prod exec devstats-postgres-0 -c devstats-postgres -- psql -
 
 ```bash
 kubectl config use-context prod
-restore_prod kubernetes 0 1     # biggest DB (~120 GB dump)
-restore_prod all 38 39          # allprj - second biggest
+restore_prod kubernetes 0 1                     # biggest DB (~120 GB dump)
+restore_prod all 38 39                          # allprj - second biggest
 ```
 
 Leave them running and start the rest immediately - `wait_provisions 8 devstats-prod` caps parallelism
@@ -1758,12 +1758,12 @@ before the bulk §3.9 batch. Total = 8 concurrent provisions, the `wait_provisio
 
 ```bash
 kubectl config use-context prod
-restore_prod carina 175 176          #  36 KB
-restore_prod pyrsia 184 185          #  47 KB
-restore_prod tratteria 239 240       #  67 KB
-restore_prod sermant 236 237         #  78 KB
-restore_prod container2wasm 243 244  # 100 KB
-restore_prod opcr 177 178            # 105 KB
+restore_prod carina 175 176                     #  36 KB
+restore_prod pyrsia 184 185                     #  47 KB
+restore_prod tratteria 239 240                  #  67 KB
+restore_prod sermant 236 237                    #  78 KB
+restore_prod container2wasm 243 244             # 100 KB
+restore_prod opcr 177 178                       # 105 KB
 watch 'kubectl -n devstats-prod get po | grep provision'   # 6 small ones Complete in ~1-2 min
 # PASS per project = provision log ends with: Sync success + database '<db>' marked as provisioned
 for p in carina pyrsia tratteria sermant container2wasm opcr; do
@@ -1831,366 +1831,366 @@ The 39 packs + 4 singles (sizes = tar.xz bytes on the backups server):
 
 ```bash
 # --- PACK 1/39 (total 1 MB)
-restore_prod slimfaas 242 243        # 72 KB
-restore_prod kuasar 206 207          # 89 KB
-restore_prod composefs 251 252       # 189 KB
-restore_prod cohdi 271 272           # 210 KB
-restore_prod slimtoolkit 190 191     # 217 KB
-restore_prod kubeelasti 272 273      # 263 KB
+restore_prod slimfaas 242 243                   # 72 KB
+restore_prod kuasar 206 207                     # 89 KB
+restore_prod composefs 251 252                  # 189 KB
+restore_prod cohdi 271 272                      # 210 KB
+restore_prod slimtoolkit 190 191                # 217 KB
+restore_prod kubeelasti 272 273                 # 263 KB
 verify_pack slimfaas kuasar composefs cohdi slimtoolkit kubeelasti
 
 # --- PACK 2/39 (total 2 MB)
-restore_prod aerakimesh 155 156      # 271 KB
-restore_prod interlink 253 254       # 289 KB
-restore_prod expressgraphql 47 48    # 291 KB
-restore_prod serverlessdevs 164 165  # 377 KB
-restore_prod opengemini 223 224      # 383 KB
-restore_prod loxilb 226 227          # 408 KB
+restore_prod aerakimesh 155 156                 # 271 KB
+restore_prod interlink 253 254                  # 289 KB
+restore_prod expressgraphql 47 48               # 291 KB
+restore_prod serverlessdevs 164 165             # 377 KB
+restore_prod opengemini 223 224                 # 383 KB
+restore_prod loxilb 226 227                     # 408 KB
 verify_pack aerakimesh interlink expressgraphql serverlessdevs opengemini loxilb
 
 # --- PACK 3/39 (total 3 MB)
-restore_prod clusternet 181 182      # 417 KB
-restore_prod bfe 83 84               # 447 KB
-restore_prod kubeslice 212 213       # 482 KB
-restore_prod stacker 220 221         # 486 KB
-restore_prod hwameistor 195 196      # 506 KB
-restore_prod kbind 281 282           # 522 KB
+restore_prod clusternet 181 182                 # 417 KB
+restore_prod bfe 83 84                          # 447 KB
+restore_prod kubeslice 212 213                  # 482 KB
+restore_prod stacker 220 221                    # 486 KB
+restore_prod hwameistor 195 196                 # 506 KB
+restore_prod kbind 281 282                      # 522 KB
 verify_pack clusternet bfe kubeslice stacker hwameistor kbind
 
 # --- PACK 4/39 (total 4 MB)
-restore_prod kubean 215 216          # 566 KB
-restore_prod kusionstack 233 234     # 679 KB
-restore_prod cdevents 182 183        # 686 KB
-restore_prod kuberhealthy 113 114    # 689 KB
-restore_prod trickster 115 116       # 705 KB
-restore_prod gitopswg 105 106        # 748 KB
+restore_prod kubean 215 216                     # 566 KB
+restore_prod kusionstack 233 234                # 679 KB
+restore_prod cdevents 182 183                   # 686 KB
+restore_prod kuberhealthy 113 114               # 689 KB
+restore_prod trickster 115 116                  # 705 KB
+restore_prod gitopswg 105 106                   # 748 KB
 verify_pack kubean kusionstack cdevents kuberhealthy trickster gitopswg
 
 # --- PACK 5/39 (total 5 MB)
-restore_prod agones 274 275          # 755 KB
-restore_prod kubeclipper 198 199     # 838 KB
-restore_prod inclavarecontainers 136 137   # 844 KB
-restore_prod akri 133 134            # 894 KB
-restore_prod nmstate 277 278         # 931 KB
-restore_prod clusterpedia 153 154    # 968 KB
+restore_prod agones 274 275                     # 755 KB
+restore_prod kubeclipper 198 199                # 838 KB
+restore_prod inclavarecontainers 136 137        # 844 KB
+restore_prod akri 133 134                       # 894 KB
+restore_prod nmstate 277 278                    # 931 KB
+restore_prod clusterpedia 153 154               # 968 KB
 verify_pack agones kubeclipper inclavarecontainers akri nmstate clusterpedia
 
 # --- PACK 6/39 (total 7 MB)
-restore_prod modelpack 263 264       # 980 KB
-restore_prod easegress 209 210       # 1 MB
-restore_prod screwdrivercd 185 186   # 1 MB
-restore_prod paralus 174 175         # 1 MB
-restore_prod devspace 171 172        # 1 MB
-restore_prod oxia 266 267            # 1 MB
+restore_prod modelpack 263 264                  # 980 KB
+restore_prod easegress 209 210                  # 1 MB
+restore_prod screwdrivercd 185 186              # 1 MB
+restore_prod paralus 174 175                    # 1 MB
+restore_prod devspace 171 172                   # 1 MB
+restore_prod oxia 266 267                       # 1 MB
 verify_pack modelpack easegress screwdrivercd paralus devspace oxia
 
 # --- PACK 7/39 (total 10 MB)
-restore_prod xregistry 262 263       # 1 MB
-restore_prod youki 234 235           # 2 MB
-restore_prod kured 167 168           # 2 MB
-restore_prod containerssh 165 166    # 2 MB
-restore_prod oauth2proxy 265 266     # 2 MB
-restore_prod graphqlspec 46 47       # 2 MB
+restore_prod xregistry 262 263                  # 1 MB
+restore_prod youki 234 235                      # 2 MB
+restore_prod kured 167 168                      # 2 MB
+restore_prod containerssh 165 166               # 2 MB
+restore_prod oauth2proxy 265 266                # 2 MB
+restore_prod graphqlspec 46 47                  # 2 MB
 verify_pack xregistry youki kured containerssh oauth2proxy graphqlspec
 
 # --- PACK 8/39 (total 12 MB)
-restore_prod kudo 76 77              # 2 MB
-restore_prod dalec 269 270           # 2 MB
-restore_prod shipwrightcncf 231 232  # 2 MB
-restore_prod kitops 256 257          # 2 MB
-restore_prod kaischeduler 273 274    # 2 MB
-restore_prod chaosblade 118 119      # 2 MB
+restore_prod kudo 76 77                         # 2 MB
+restore_prod dalec 269 270                      # 2 MB
+restore_prod shipwrightcncf 231 232             # 2 MB
+restore_prod kitops 256 257                     # 2 MB
+restore_prod kaischeduler 273 274               # 2 MB
+restore_prod chaosblade 118 119                 # 2 MB
 verify_pack kudo dalec shipwrightcncf kitops kaischeduler chaosblade
 
 # --- PACK 9/39 (total 14 MB)
-restore_prod kmesh 237 238           # 2 MB
-restore_prod vscodek8stools 142 143  # 2 MB
-restore_prod runmenotebooks 245 246  # 2 MB
-restore_prod openfunction 150 151    # 2 MB
-restore_prod schemahero 98 99        # 2 MB
-restore_prod cni 9 10                # 3 MB
+restore_prod kmesh 237 238                      # 2 MB
+restore_prod vscodek8stools 142 143             # 2 MB
+restore_prod runmenotebooks 245 246             # 2 MB
+restore_prod openfunction 150 151               # 2 MB
+restore_prod schemahero 98 99                   # 2 MB
+restore_prod cni 9 10                           # 3 MB
 verify_pack kmesh vscodek8stools runmenotebooks openfunction schemahero cni
 
 # --- PACK 10/39 (total 16 MB)
-restore_prod eraser 193 194          # 3 MB
-restore_prod urunc 261 262           # 3 MB
-restore_prod kubeburner 205 206      # 3 MB
-restore_prod ko 176 177              # 3 MB
-restore_prod kubefleet 247 248       # 3 MB
-restore_prod cedarpolicy 268 269     # 3 MB
+restore_prod eraser 193 194                     # 3 MB
+restore_prod urunc 261 262                      # 3 MB
+restore_prod kubeburner 205 206                 # 3 MB
+restore_prod ko 176 177                         # 3 MB
+restore_prod kubefleet 247 248                  # 3 MB
+restore_prod cedarpolicy 268 269                # 3 MB
 verify_pack eraser urunc kubeburner ko kubefleet cedarpolicy
 
 # --- PACK 11/39 (total 18 MB)
-restore_prod velero 275 276          # 3 MB
-restore_prod openebs 36 37           # 3 MB
-restore_prod parsec 82 83            # 3 MB
-restore_prod ratify 229 230          # 3 MB
-restore_prod curvine 282 283         # 3 MB
-restore_prod score 224 225           # 3 MB
+restore_prod velero 275 276                     # 3 MB
+restore_prod openebs 36 37                      # 3 MB
+restore_prod parsec 82 83                       # 3 MB
+restore_prod ratify 229 230                     # 3 MB
+restore_prod curvine 282 283                    # 3 MB
+restore_prod score 224 225                      # 3 MB
 verify_pack velero openebs parsec ratify curvine score
 
 # --- PACK 12/39 (total 21 MB)
-restore_prod holmesgpt 267 268       # 3 MB
-restore_prod bootc 250 251           # 3 MB
-restore_prod trestlegrc 221 222      # 3 MB
-restore_prod graphqljs 44 45         # 4 MB
-restore_prod athenz 108 109          # 4 MB
-restore_prod distribution 111 112    # 4 MB
+restore_prod holmesgpt 267 268                  # 3 MB
+restore_prod bootc 250 251                      # 3 MB
+restore_prod trestlegrc 221 222                 # 3 MB
+restore_prod graphqljs 44 45                    # 4 MB
+restore_prod athenz 108 109                     # 4 MB
+restore_prod distribution 111 112               # 4 MB
 verify_pack holmesgpt bootc trestlegrc graphqljs athenz distribution
 
 # --- PACK 13/39 (total 23 MB)
-restore_prod kubevip 127 128         # 4 MB
-restore_prod spinkube 241 242        # 4 MB
-restore_prod spin 240 241            # 4 MB
-restore_prod shipwright 186 187      # 4 MB
-restore_prod emissaryingress 116 117 # 4 MB
-restore_prod bpfman 225 226          # 4 MB
+restore_prod kubevip 127 128                    # 4 MB
+restore_prod spinkube 241 242                   # 4 MB
+restore_prod spin 240 241                       # 4 MB
+restore_prod shipwright 186 187                 # 4 MB
+restore_prod emissaryingress 116 117            # 4 MB
+restore_prod bpfman 225 226                     # 4 MB
 verify_pack kubevip spinkube spin shipwright emissaryingress bpfman
 
 # --- PACK 14/39 (total 26 MB)
-restore_prod koordinator 216 217     # 4 MB
-restore_prod virtualkubelet 31 32    # 4 MB
-restore_prod piraeus 106 107         # 4 MB
-restore_prod pixie 123 124           # 4 MB
-restore_prod kpt 196 197             # 5 MB
-restore_prod k8up 145 146            # 5 MB
+restore_prod koordinator 216 217                # 4 MB
+restore_prod virtualkubelet 31 32               # 4 MB
+restore_prod piraeus 106 107                    # 4 MB
+restore_prod pixie 123 124                      # 4 MB
+restore_prod kpt 196 197                        # 5 MB
+restore_prod k8up 145 146                       # 5 MB
 verify_pack koordinator virtualkubelet piraeus pixie kpt k8up
 
 # --- PACK 15/39 (total 29 MB)
-restore_prod carvel 168 169          # 5 MB
-restore_prod chubaofs 69 70          # 5 MB
-restore_prod kubers 146 147          # 5 MB
-restore_prod kcp 203 204             # 5 MB
-restore_prod werf 178 179            # 5 MB
-restore_prod kepler 191 192          # 5 MB
+restore_prod carvel 168 169                     # 5 MB
+restore_prod chubaofs 69 70                     # 5 MB
+restore_prod kubers 146 147                     # 5 MB
+restore_prod kcp 203 204                        # 5 MB
+restore_prod werf 178 179                       # 5 MB
+restore_prod kepler 191 192                     # 5 MB
 verify_pack carvel chubaofs kubers kcp werf kepler
 
 # --- PACK 16/39 (total 34 MB)
-restore_prod cadence 259 260         # 5 MB
-restore_prod kanister 202 203        # 6 MB
-restore_prod capsule 172 173         # 6 MB
-restore_prod openeverest 276 277     # 6 MB
-restore_prod copacetic 200 201       # 6 MB
-restore_prod sops 188 189            # 6 MB
+restore_prod cadence 259 260                    # 5 MB
+restore_prod kanister 202 203                   # 6 MB
+restore_prod capsule 172 173                    # 6 MB
+restore_prod openeverest 276 277                # 6 MB
+restore_prod copacetic 200 201                  # 6 MB
+restore_prod sops 188 189                       # 6 MB
 verify_pack cadence kanister capsule openeverest copacetic sops
 
 # --- PACK 17/39 (total 37 MB)
-restore_prod kcl 204 205             # 6 MB
-restore_prod intoto 57 58            # 6 MB
-restore_prod kserve 264 265          # 6 MB
-restore_prod cartography 227 228     # 6 MB
-restore_prod krknchaos 207 208       # 6 MB
-restore_prod artifacthub 80 81       # 6 MB
+restore_prod kcl 204 205                        # 6 MB
+restore_prod intoto 57 58                       # 6 MB
+restore_prod kserve 264 265                     # 6 MB
+restore_prod cartography 227 228                # 6 MB
+restore_prod krknchaos 207 208                  # 6 MB
+restore_prod artifacthub 80 81                  # 6 MB
 verify_pack kcl intoto kserve cartography krknchaos artifacthub
 
 # --- PACK 18/39 (total 45 MB)
-restore_prod drasi 252 253           # 7 MB
-restore_prod fluid 121 122           # 7 MB
-restore_prod telepresence 21 22      # 8 MB
-restore_prod armada 162 163          # 8 MB
-restore_prod spiderpool 210 211      # 8 MB
-restore_prod pipecd 192 193          # 8 MB
+restore_prod drasi 252 253                      # 7 MB
+restore_prod fluid 121 122                      # 7 MB
+restore_prod telepresence 21 22                 # 8 MB
+restore_prod armada 162 163                     # 8 MB
+restore_prod spiderpool 210 211                 # 8 MB
+restore_prod pipecd 192 193                     # 8 MB
 verify_pack drasi fluid telepresence armada spiderpool pipecd
 
 # --- PACK 19/39 (total 50 MB)
-restore_prod keylime 96 97           # 8 MB
-restore_prod higress 278 279         # 8 MB
-restore_prod graphiql 45 46          # 8 MB
-restore_prod opencost 154 155        # 9 MB
-restore_prod dex 78 79               # 9 MB
-restore_prod k8sgpt 211 212          # 9 MB
+restore_prod keylime 96 97                      # 8 MB
+restore_prod higress 278 279                    # 8 MB
+restore_prod graphiql 45 46                     # 8 MB
+restore_prod opencost 154 155                   # 9 MB
+restore_prod dex 78 79                          # 9 MB
+restore_prod k8sgpt 211 212                     # 9 MB
 verify_pack keylime higress graphiql opencost dex k8sgpt
 
 # --- PACK 20/39 (total 56 MB)
-restore_prod serverlessworkflow 88 89   # 9 MB
-restore_prod tuf 13 14               # 9 MB
-restore_prod cloudevents 20 21       # 9 MB
-restore_prod lima 169 170            # 10 MB
-restore_prod loggingoperator 201 202 # 10 MB
-restore_prod ortelius 183 184        # 10 MB
+restore_prod serverlessworkflow 88 89           # 9 MB
+restore_prod tuf 13 14                          # 9 MB
+restore_prod cloudevents 20 21                  # 9 MB
+restore_prod lima 169 170                       # 10 MB
+restore_prod loggingoperator 201 202            # 10 MB
+restore_prod ortelius 183 184                   # 10 MB
 verify_pack serverlessworkflow tuf cloudevents lima loggingoperator ortelius
 
 # --- PACK 21/39 (total 62 MB)
-restore_prod porter 93 94            # 10 MB
-restore_prod k8gb 114 115            # 10 MB
-restore_prod metallb 134 135         # 10 MB
-restore_prod cloudcustodian 77 78    # 10 MB
-restore_prod notary 12 13            # 11 MB
-restore_prod kagent 260 261          # 11 MB
+restore_prod porter 93 94                       # 10 MB
+restore_prod k8gb 114 115                       # 10 MB
+restore_prod metallb 134 135                    # 10 MB
+restore_prod cloudcustodian 77 78               # 10 MB
+restore_prod notary 12 13                       # 11 MB
+restore_prod kagent 260 261                     # 11 MB
 verify_pack porter k8gb metallb cloudcustodian notary kagent
 
 # --- PACK 22/39 (total 67 MB)
-restore_prod spiffe 18 19            # 11 MB
-restore_prod ovnkubernetes 238 239   # 11 MB
-restore_prod bankvaults 218 219      # 11 MB
-restore_prod hyperlight 257 258      # 11 MB
-restore_prod openyurt 94 95          # 11 MB
-restore_prod openkruise 101 102      # 11 MB
+restore_prod spiffe 18 19                       # 11 MB
+restore_prod ovnkubernetes 238 239              # 11 MB
+restore_prod bankvaults 218 219                 # 11 MB
+restore_prod hyperlight 257 258                 # 11 MB
+restore_prod openyurt 94 95                     # 11 MB
+restore_prod openkruise 101 102                 # 11 MB
 verify_pack spiffe ovnkubernetes bankvaults hyperlight openyurt openkruise
 
 # --- PACK 23/39 (total 77 MB)
-restore_prod microcks 197 198        # 12 MB
-restore_prod perses 228 229          # 12 MB
-restore_prod kubearmor 144 145       # 13 MB
-restore_prod kuadrant 222 223        # 13 MB
-restore_prod kubevela 126 127        # 13 MB
-restore_prod tremor 91 92            # 13 MB
+restore_prod microcks 197 198                   # 12 MB
+restore_prod perses 228 229                     # 12 MB
+restore_prod kubearmor 144 145                  # 13 MB
+restore_prod kuadrant 222 223                   # 13 MB
+restore_prod kubevela 126 127                   # 13 MB
+restore_prod tremor 91 92                       # 13 MB
 verify_pack microcks perses kubearmor kuadrant kubevela tremor
 
 # --- PACK 24/39 (total 85 MB)
-restore_prod apicurioregistry 280 281   # 13 MB
-restore_prod kgateway 255 256        # 14 MB
-restore_prod oras 131 132            # 14 MB
-restore_prod wasmedge 117 118        # 14 MB
-restore_prod zot 173 174             # 14 MB
-restore_prod atlantis 219 220        # 15 MB
+restore_prod apicurioregistry 280 281           # 13 MB
+restore_prod kgateway 255 256                   # 14 MB
+restore_prod oras 131 132                       # 14 MB
+restore_prod wasmedge 117 118                   # 14 MB
+restore_prod zot 173 174                        # 14 MB
+restore_prod atlantis 219 220                   # 15 MB
 verify_pack apicurioregistry kgateway oras wasmedge zot atlantis
 
 # --- PACK 25/39 (total 91 MB)
-restore_prod devfile 147 148         # 15 MB
-restore_prod connect 213 214         # 15 MB
-restore_prod opentofu 258 259        # 15 MB
-restore_prod k0s 244 245             # 15 MB
-restore_prod tinkerbell 102 103      # 15 MB
-restore_prod kaito 235 236           # 15 MB
+restore_prod devfile 147 148                    # 15 MB
+restore_prod connect 213 214                    # 15 MB
+restore_prod opentofu 258 259                   # 15 MB
+restore_prod k0s 244 245                        # 15 MB
+restore_prod tinkerbell 102 103                 # 15 MB
+restore_prod kaito 235 236                      # 15 MB
 verify_pack devfile connect opentofu k0s tinkerbell kaito
 
 # --- PACK 26/39 (total 105 MB)
-restore_prod flatcar 232 233         # 16 MB
-restore_prod cdk8s 99 100            # 17 MB
-restore_prod contour 85 86           # 17 MB
-restore_prod kubeovn 109 110         # 18 MB
-restore_prod chaosmesh 87 88         # 18 MB
-restore_prod openchoreo 270 271      # 19 MB
+restore_prod flatcar 232 233                    # 16 MB
+restore_prod cdk8s 99 100                       # 17 MB
+restore_prod contour 85 86                      # 17 MB
+restore_prod kubeovn 109 110                    # 18 MB
+restore_prod chaosmesh 87 88                    # 18 MB
+restore_prod openchoreo 270 271                 # 19 MB
 verify_pack flatcar cdk8s contour kubeovn chaosmesh openchoreo
 
 # --- PACK 27/39 (total 118 MB)
-restore_prod kubescape 179 180       # 19 MB
-restore_prod hami 230 231            # 19 MB
-restore_prod litmuschaos 79 80       # 19 MB
-restore_prod radius 217 218          # 20 MB
-restore_prod graphql 48 49           # 20 MB
-restore_prod inspektorgadget 180 181 # 21 MB
+restore_prod kubescape 179 180                  # 19 MB
+restore_prod hami 230 231                       # 19 MB
+restore_prod litmuschaos 79 80                  # 19 MB
+restore_prod radius 217 218                     # 20 MB
+restore_prod graphql 48 49                      # 20 MB
+restore_prod inspektorgadget 180 181            # 21 MB
 verify_pack kubescape hami litmuschaos radius graphql inspektorgadget
 
 # --- PACK 28/39 (total 154 MB)
-restore_prod cortex 27 28            # 23 MB
-restore_prod confidentialcontainers 149 150   # 25 MB
-restore_prod podmancontainertools 249 250   # 26 MB
-restore_prod coredns 6 7             # 26 MB
-restore_prod openclustermanagement 141 142   # 27 MB
-restore_prod kubeedge 32 33          # 27 MB
+restore_prod cortex 27 28                       # 23 MB
+restore_prod confidentialcontainers 149 150     # 25 MB
+restore_prod podmancontainertools 249 250       # 26 MB
+restore_prod coredns 6 7                        # 26 MB
+restore_prod openclustermanagement 141 142      # 27 MB
+restore_prod kubeedge 32 33                     # 27 MB
 verify_pack cortex confidentialcontainers podmancontainertools coredns openclustermanagement kubeedge
 
 # --- PACK 29/39 (total 181 MB)
-restore_prod k3s 89 90               # 28 MB
-restore_prod antrea 120 121          # 29 MB
-restore_prod thanos 55 56            # 29 MB
-restore_prod buildpacks 28 29        # 30 MB
-restore_prod konveyor 161 162        # 31 MB
-restore_prod volcano 73 74           # 33 MB
+restore_prod k3s 89 90                          # 28 MB
+restore_prod antrea 120 121                     # 29 MB
+restore_prod thanos 55 56                       # 29 MB
+restore_prod buildpacks 28 29                   # 30 MB
+restore_prod konveyor 161 162                   # 31 MB
+restore_prod volcano 73 74                      # 33 MB
 verify_pack k3s antrea thanos buildpacks konveyor volcano
 
 # --- PACK 30/39 (total 208 MB)
-restore_prod externalsecretsoperator 163 164   # 34 MB
-restore_prod strimzi 58 59           # 34 MB
-restore_prod cozystack 254 255       # 34 MB
-restore_prod kairos 214 215          # 34 MB
-restore_prod cloudnativepg 246 247   # 35 MB
-restore_prod wasmcloud 132 133       # 37 MB
+restore_prod externalsecretsoperator 163 164    # 34 MB
+restore_prod strimzi 58 59                      # 34 MB
+restore_prod cozystack 254 255                  # 34 MB
+restore_prod kairos 214 215                     # 34 MB
+restore_prod cloudnativepg 246 247              # 35 MB
+restore_prod wasmcloud 132 133                  # 37 MB
 verify_pack externalsecretsoperator strimzi cozystack kairos cloudnativepg wasmcloud
 
 # --- PACK 31/39 (total 236 MB)
-restore_prod dragonfly 30 31         # 37 MB
-restore_prod dapr 139 140            # 38 MB
-restore_prod podmandesktop 248 249   # 40 MB
-restore_prod karmada 135 136         # 40 MB
-restore_prod kubewarden 158 159      # 41 MB
-restore_prod spire 19 20             # 41 MB
+restore_prod dragonfly 30 31                    # 37 MB
+restore_prod dapr 139 140                       # 38 MB
+restore_prod podmandesktop 248 249              # 40 MB
+restore_prod karmada 135 136                    # 40 MB
+restore_prod kubewarden 158 159                 # 41 MB
+restore_prod spire 19 20                        # 41 MB
 verify_pack dragonfly dapr podmandesktop karmada kubewarden spire
 
 # --- PACK 32/39 (total 268 MB)
-restore_prod keda 70 71              # 42 MB
-restore_prod openfga 166 167         # 42 MB
-restore_prod llmd 279 280            # 45 MB
-restore_prod nats 16 17              # 46 MB
-restore_prod headlamp 189 190        # 46 MB
-restore_prod flux 56 57              # 48 MB
+restore_prod keda 70 71                         # 42 MB
+restore_prod openfga 166 167                    # 42 MB
+restore_prod llmd 279 280                       # 45 MB
+restore_prod nats 16 17                         # 46 MB
+restore_prod headlamp 189 190                   # 46 MB
+restore_prod flux 56 57                         # 48 MB
 verify_pack keda openfga llmd nats headlamp flux
 
 # --- PACK 33/39 (total 356 MB)
-restore_prod networkservicemesh 35 36   # 50 MB
-restore_prod fluentd 3 4             # 56 MB
-restore_prod submariner 122 123      # 61 MB
-restore_prod metal3 92 93            # 61 MB
-restore_prod etcd 25 26              # 63 MB
-restore_prod harbor 24 25            # 65 MB
+restore_prod networkservicemesh 35 36           # 50 MB
+restore_prod fluentd 3 4                        # 56 MB
+restore_prod submariner 122 123                 # 61 MB
+restore_prod metal3 92 93                       # 61 MB
+restore_prod etcd 25 26                         # 63 MB
+restore_prod harbor 24 25                       # 65 MB
 verify_pack networkservicemesh fluentd submariner metal3 etcd harbor
 
 # --- PACK 34/39 (total 441 MB)
-restore_prod jenkinsx 41 42          # 65 MB
-restore_prod opa 17 18               # 71 MB
-restore_prod spinnaker 40 41         # 71 MB
-restore_prod keycloak 187 188        # 74 MB
-restore_prod rook 14 15              # 80 MB
-restore_prod crossplane 84 85        # 81 MB
+restore_prod jenkinsx 41 42                     # 65 MB
+restore_prod opa 17 18                          # 71 MB
+restore_prod spinnaker 40 41                    # 71 MB
+restore_prod keycloak 187 188                   # 74 MB
+restore_prod rook 14 15                         # 80 MB
+restore_prod crossplane 84 85                   # 81 MB
 verify_pack jenkinsx opa spinnaker keycloak rook crossplane
 
 # --- PACK 35/39 (total 511 MB)
-restore_prod jaeger 11 12            # 83 MB
-restore_prod kuma 81 82              # 83 MB
-restore_prod meshery 124 125         # 84 MB
-restore_prod vitess 15 16            # 85 MB
-restore_prod containerd 7 8          # 86 MB
-restore_prod operatorframework 86 87 # 90 MB
+restore_prod jaeger 11 12                       # 83 MB
+restore_prod kuma 81 82                         # 83 MB
+restore_prod meshery 124 125                    # 84 MB
+restore_prod vitess 15 16                       # 85 MB
+restore_prod containerd 7 8                     # 86 MB
+restore_prod operatorframework 86 87            # 90 MB
 verify_pack jaeger kuma meshery vitess containerd operatorframework
 
 # --- PACK 36/39 (total 592 MB)
-restore_prod certmanager 100 101     # 92 MB
-restore_prod longhorn 66 67          # 92 MB
-restore_prod openfeature 157 158     # 98 MB
-restore_prod falco 29 30             # 99 MB
-restore_prod kyverno 104 105         # 104 MB
-restore_prod crio 34 35              # 106 MB
+restore_prod certmanager 100 101                # 92 MB
+restore_prod longhorn 66 67                     # 92 MB
+restore_prod openfeature 157 158                # 98 MB
+restore_prod falco 29 30                        # 99 MB
+restore_prod kyverno 104 105                    # 104 MB
+restore_prod crio 34 35                         # 106 MB
 verify_pack certmanager longhorn openfeature falco kyverno crio
 
 # --- PACK 37/39 (total 840 MB)
-restore_prod linkerd 4 5             # 118 MB
-restore_prod kubeflow 199 200        # 130 MB
-restore_prod kubestellar 208 209     # 130 MB
-restore_prod prometheus 1 2          # 136 MB
-restore_prod tikv 26 27              # 137 MB
-restore_prod helm 22 23              # 189 MB
+restore_prod linkerd 4 5                        # 118 MB
+restore_prod kubeflow 199 200                   # 130 MB
+restore_prod kubestellar 208 209                # 130 MB
+restore_prod prometheus 1 2                     # 136 MB
+restore_prod tikv 26 27                         # 137 MB
+restore_prod helm 22 23                         # 189 MB
 verify_pack linkerd kubeflow kubestellar prometheus tikv helm
 
 # --- PACK 38/39 (total 1.6 GB)
-restore_prod grpc 5 6                # 214 MB
-restore_prod knative 52 53           # 224 MB
-restore_prod tekton 39 40            # 253 MB
-restore_prod argo 72 73              # 274 MB
-restore_prod backstage 90 91         # 317 MB
-restore_prod envoy 10 11             # 325 MB
+restore_prod grpc 5 6                           # 214 MB
+restore_prod knative 52 53                      # 224 MB
+restore_prod tekton 39 40                       # 253 MB
+restore_prod argo 72 73                         # 274 MB
+restore_prod backstage 90 91                    # 317 MB
+restore_prod envoy 10 11                        # 325 MB
 verify_pack grpc knative tekton argo backstage envoy
 
 # --- PACK 39/39 (total 811 MB)
-restore_prod cilium 138 139          # 348 MB
-restore_prod kubevirt 65 66          # 463 MB
+restore_prod cilium 138 139                     # 348 MB
+restore_prod kubevirt 65 66                     # 463 MB
 verify_pack cilium kubevirt
 
 # --- SINGLE 1/4 (daily-cron giant)
-restore_prod istio 51 52             # 318 MB
+restore_prod istio 51 52                        # 318 MB
 verify_pack istio
 
 # --- SINGLE 2/4 (daily-cron giant)
-restore_prod jenkins 42 43           # 526 MB
+restore_prod jenkins 42 43                      # 526 MB
 verify_pack jenkins
 
 # --- SINGLE 3/4 (daily-cron giant)
-restore_prod allcdf 43 44            # 881 MB
+restore_prod allcdf 43 44                       # 881 MB
 verify_pack allcdf
 
 # --- SINGLE 4/4 (daily-cron giant)
-restore_prod opentelemetry 37 38     # 1.1 GB
+restore_prod opentelemetry 37 38                # 1.1 GB
 verify_pack opentelemetry
 echo 'ALL PROD RESTORES SUBMITTED'
 ```
