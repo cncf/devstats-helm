@@ -1645,8 +1645,9 @@ But affs-import + API ARE required before the Part-4 cutover - do them now anywa
 helm install devstats-test-affs-import ./devstats-helm -n devstats-test --set "$(skips_except),skipAffiliationsImport=,affiliationsDB=affiliations,prodServer=,testServer=1,backupsCronProd=45 2 16\,28 * *"
 # REQUIRED (before Part 4, not for §3.7) - API deployment (live check: absent):
 helm install devstats-test-api ./devstats-helm -n devstats-test --set "$(skips_except API),projectsOverride=${TEST_PROJECTS}"
-# REQUIRED - install backups cron now, but keep it SUSPENDED until after the
-# switchover is confirmed - it gets unsuspended in §5.1b (NOT permanently disabled).
+# REQUIRED - install backups cron suspended; UNSUSPENDED 2026-08-24 right after the test
+# track finished (user decision, ahead of the original §5.1b post-cutover plan); the OCI
+# test backups cron got suspended at the same time - do NOT mirror that suspend in §4.7.
 # Placement is fine: test backups NFS on devstats-test-db-01 is allowed - prod-db nodes
 # are the only ones barred from backups/git-clones/anything-similarly-growable (§1.12;
 # prod backups NFS lives on compute-02).
@@ -1667,6 +1668,45 @@ kubectl -n devstats-test get deploy devstats-api                                
 curl -sk -H 'Host: k8s.teststats.cncf.io' "https://$TEST_NB_IP/" | grep -i grafana && echo TEST-OK
 curl -s  -H 'Host: teststats.cncf.io'     "http://$TEST_NB_IP/"  | head -5
 ```
+
+### 3.7b TEST cron rehearsal - manual-fire one of EACH future recurring job (medium project)
+
+DONE 2026-08-24 (godotengine; ran as detached driver /root/rehearsal-test.sh on compute-01,
+log: /root/rehearsal-test.log). Proves every job type that will ever fire from a cron
+completes on Linode BEFORE relying on schedules: sync (4x/day), backups (monthly),
+affiliations-import (weekly-ish) and per-project monthly affiliations. Run sequentially -
+each waits for the previous (they share DB flags/locks like real cron overlaps would):
+
+```bash
+kubectl config use-context test
+# 1/4 - hourly/4x-daily sync for a medium project:
+kubectl -n devstats-test create job manual-sync-godotengine --from=cronjob/devstats-godotengine
+kubectl -n devstats-test wait --for=condition=complete job/manual-sync-godotengine --timeout=45m
+kubectl -n devstats-test logs job/manual-sync-godotengine --tail=4
+
+# 2/4 - backups limited to that one project (ONLY=<proj>, NOAGE=1 skips dump aging):
+J='{apiVersion:"batch/v1",kind:"Job",metadata:{name:"manual-backup-godotengine"},spec:.spec.jobTemplate.spec}'
+J+=' | .spec.template.spec.containers[0].env |= map(if .name=="ONLY" then .value="godotengine"'
+J+=' elif .name=="NOAGE" then .value="1" else . end)'
+kubectl -n devstats-test get cronjob devstats-backups -o json | jq "$J" | kubectl -n devstats-test create -f -
+kubectl -n devstats-test wait --for=condition=complete job/manual-backup-godotengine --timeout=30m
+
+# 3/4 - global affiliations import (github_users.json refresh):
+kubectl -n devstats-test create job manual-affs-import --from=cronjob/devstats-affiliations-import
+kubectl -n devstats-test wait --for=condition=complete job/manual-affs-import --timeout=90m
+
+# 4/4 - monthly per-project affiliations sync:
+kubectl -n devstats-test create job manual-affs-godotengine --from=cronjob/devstats-affiliations-godotengine
+kubectl -n devstats-test wait --for=condition=complete job/manual-affs-godotengine --timeout=120m
+
+# verify all 4 Complete, check the dump landed on the backups PV (statics nginx serves it), clean up:
+kubectl -n devstats-test get jobs | grep manual-
+kubectl -n devstats-test exec deploy/devstats-static-default -- ls -l /usr/share/nginx/html/backups | grep godotengine
+kubectl -n devstats-test delete job manual-sync-godotengine manual-backup-godotengine manual-affs-import manual-affs-godotengine
+```
+
+Repeat the same pattern on PROD (ns devstats-prod, e.g. proj=sam/karmada-sized medium) after
+§3.10 installs prod crons - BEFORE trusting the first scheduled runs on cutover day.
 
 ### 3.8 PROD restores - kick off the two LONG poles first (many hours each)
 
@@ -1986,9 +2026,9 @@ grep 'suspend=true' oci-cron-suspends.secret   # (scp to the master if needed)
 # mirror unless the final pre-cutover re-snapshot (4.1 freeze happens AFTER it) differs:
 # for each intentionally-suspended cron that exists on Linode, mirror it:
 # kubectl -n <ns> patch cronjob <name> -p '{"spec":{"suspend":true}}'
-# test backups remain suspended AT THIS POINT - they get unsuspended in §5.1b once the
-# switchover is confirmed (do NOT enable during cutover day):
-kubectl -n devstats-test get cj devstats-backups -o jsonpath='{.spec.suspend}{"\n"}'   # true
+# test backups: ALREADY unsuspended on Linode + suspended on OCI (2026-08-24, see §3.6/§5.1b)
+# - deliberate divergence from the OCI snapshot; do NOT re-suspend and do NOT mirror:
+kubectl -n devstats-test get cj devstats-backups -o jsonpath='{.spec.suspend}{"\n"}'   # false
 ```
 
 ### 4.8 Host-level extras that lived outside k8s on OCI
@@ -2046,8 +2086,9 @@ done
 
 ### 5.1b Unsuspend TEST backups (now that the switchover is confirmed) [master]
 
-Test backups were installed suspended in §3.6 - with cutover confirmed, enable them
-(they write to the test backups NFS on devstats-test-db-01 - allowed placement per §1.12):
+DONE EARLY 2026-08-24 (user decision): unsuspended right after the §3.5 test track
+completed + §3.7 smoke passed - and the OCI test backups cron was suspended at the same
+moment (Linode is now the only teststats backup writer). Kept here for the record:
 
 ```bash
 kubectl config use-context test
