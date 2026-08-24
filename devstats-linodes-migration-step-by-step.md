@@ -1749,10 +1749,33 @@ restore_prod all 38 39          # allprj - second biggest
 Leave them running and start the rest immediately - `wait_provisions 8 devstats-prod` caps parallelism
 at 8 concurrent provisions (the two above included) so Patroni is never overwhelmed.
 
-### 3.9 PROD restores - the remaining 240 projects (runs for 1-3 days unattended)
+### 3.8b PROD smoke set - the 6 SMALLEST projects in parallel with the long poles
+
+While the two giants download/restore, fire the 6 tiniest dumps (<0.2 MB each, seconds to
+restore) - this exercises the FULL provision path (helm release, DB create, download,
+pg_restore, grafana pod, crons) end-to-end 6 more times and surfaces any systemic issue
+before the bulk §3.9 batch. Total = 8 concurrent provisions, the `wait_provisions 8` cap:
+
+```bash
+kubectl config use-context prod
+restore_prod carina 175 176          #  36 KB
+restore_prod pyrsia 184 185          #  47 KB
+restore_prod tratteria 239 240       #  67 KB
+restore_prod sermant 236 237         #  78 KB
+restore_prod container2wasm 243 244  # 100 KB
+restore_prod opcr 177 178            # 105 KB
+watch 'kubectl -n devstats-prod get po | grep provision'   # 6 small ones Complete in ~1-2 min
+# PASS per project = provision log ends with: Sync success + database '<db>' marked as provisioned
+for p in carina pyrsia tratteria sermant container2wasm opcr; do
+  kubectl -n devstats-prod logs devstats-provision-$p --tail=3 | grep -E 'Sync success|marked as provisioned' && echo "$p OK"
+done
+kubectl -n devstats-prod delete po --field-selector=status.phase=Succeeded 2>/dev/null
+```
+
+### 3.9 PROD restores - the remaining 234 projects (runs for 1-3 days unattended)
 
 LIST PROVENANCE (regenerated 2026-08-24): values.yaml projects (283) filtered to live OCI
-prod DBs = 242 restores (240 below + the 2 long poles in 3.8). Excluded = archived
+prod DBs = 242 restores (234 below + the 2 long poles in 3.8 + the 6 smallest in 3.8b). Excluded = archived
 projects whose DBs were already dropped on OCI (brigade, smi, keptn, openservicemesh,
 pravega, cnigenie, openmetrics->merged into prometheus, ...) and test-env-only projects
 (cncf, cii, godotengine, sam, azf, riff, fn, openwhisk, openfaas, opencontainers, zephyr,
@@ -1902,16 +1925,13 @@ devspace 171 172
 capsule 172 173
 zot 173 174
 paralus 174 175
-carina 175 176
 ko 176 177
-opcr 177 178
 werf 178 179
 kubescape 179 180
 inspektorgadget 180 181
 clusternet 181 182
 cdevents 182 183
 ortelius 183 184
-pyrsia 184 185
 screwdrivercd 185 186
 shipwright 186 187
 keycloak 187 188
@@ -1962,14 +1982,11 @@ flatcar 232 233
 kusionstack 233 234
 youki 234 235
 kaito 235 236
-sermant 236 237
 kmesh 237 238
 ovnkubernetes 238 239
-tratteria 239 240
 spin 240 241
 spinkube 241 242
 slimfaas 242 243
-container2wasm 243 244
 k0s 244 245
 runmenotebooks 245 246
 cloudnativepg 246 247
@@ -2022,7 +2039,7 @@ kubectl -n devstats-prod get po | grep provision | grep -Ev 'Completed|Running' 
 # retry a failed one: helm delete -n devstats-prod devstats-prod-<proj> ; restore_prod <proj> <from> <to>
 # DB-level completeness vs the list above:
 kubectl -n devstats-prod exec devstats-postgres-0 -c devstats-postgres -- psql -U postgres -Atc "select datname from pg_database where datname not in ('postgres','template0','template1') order by 1" | wc -l
-# expect 244: 242 project DBs (kubernetes=gha, all=allprj, + the 240 above) + affiliations + devstats;
+# expect 244: 242 project DBs (kubernetes=gha, all=allprj, 6 from 3.8b, + the 234 above) + affiliations + devstats;
 # compare the name list against the RESTORELIST above if the count is off 
 ```
 
