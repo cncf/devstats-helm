@@ -1741,7 +1741,16 @@ restore_prod all 38 39          # allprj - second biggest
 Leave them running and start the rest immediately - `wait_provisions 8 devstats-prod` caps parallelism
 at 8 concurrent provisions (the two above included) so Patroni is never overwhelmed.
 
-### 3.9 PROD restores - the remaining 86 projects (runs for 1-3 days unattended)
+### 3.9 PROD restores - the remaining 240 projects (runs for 1-3 days unattended)
+
+LIST PROVENANCE (regenerated 2026-08-24): values.yaml projects (283) filtered to live OCI
+prod DBs = 242 restores (240 below + the 2 long poles in 3.8). Excluded = archived
+projects whose DBs were already dropped on OCI (brigade, smi, keptn, openservicemesh,
+pravega, cnigenie, openmetrics->merged into prometheus, ...) and test-env-only projects
+(cncf, cii, godotengine, sam, azf, riff, fn, openwhisk, openfaas, opencontainers, zephyr,
+linux, prestodb). Every entry below had a FRESH 24-Aug tar.xz verified live on
+devstats.cncf.io/backups. Archived projects keep their values.yaml index, so `i` numbers
+have gaps - that is correct, do NOT renumber.
 
 Paste as ONE block (e.g. inside `tmux` on the master so it survives disconnects):
 
@@ -1772,7 +1781,6 @@ spire 19 20
 cloudevents 20 21
 telepresence 21 22
 helm 22 23
-openmetrics 23 24
 harbor 24 25
 etcd 25 26
 tikv 26 27
@@ -1782,7 +1790,6 @@ falco 29 30
 dragonfly 30 31
 virtualkubelet 31 32
 kubeedge 32 33
-brigade 33 34
 crio 34 35
 networkservicemesh 35 36
 openebs 36 37
@@ -1797,6 +1804,8 @@ graphiql 45 46
 graphqlspec 46 47
 expressgraphql 47 48
 graphql 48 49
+istio 51 52
+knative 52 53
 thanos 55 56
 flux 56 57
 intoto 57 58
@@ -1805,11 +1814,8 @@ kubevirt 65 66
 longhorn 66 67
 chubaofs 69 70
 keda 70 71
-smi 71 72
 argo 72 73
 volcano 73 74
-cnigenie 74 75
-keptn 75 76
 kudo 76 77
 cloudcustodian 77 78
 dex 78 79
@@ -1829,15 +1835,172 @@ tremor 91 92
 metal3 92 93
 porter 93 94
 openyurt 94 95
-openservicemesh 95 96
 keylime 96 97
 schemahero 98 99
 cdk8s 99 100
 certmanager 100 101
 openkruise 101 102
 tinkerbell 102 103
-pravega 103 104
 kyverno 104 105
+gitopswg 105 106
+piraeus 106 107
+athenz 108 109
+kubeovn 109 110
+distribution 111 112
+kuberhealthy 113 114
+k8gb 114 115
+trickster 115 116
+emissaryingress 116 117
+wasmedge 117 118
+chaosblade 118 119
+antrea 120 121
+fluid 121 122
+submariner 122 123
+pixie 123 124
+meshery 124 125
+kubevela 126 127
+kubevip 127 128
+oras 131 132
+wasmcloud 132 133
+akri 133 134
+metallb 134 135
+karmada 135 136
+inclavarecontainers 136 137
+cilium 138 139
+dapr 139 140
+openclustermanagement 141 142
+vscodek8stools 142 143
+kubearmor 144 145
+k8up 145 146
+kubers 146 147
+devfile 147 148
+confidentialcontainers 149 150
+openfunction 150 151
+clusterpedia 153 154
+opencost 154 155
+aerakimesh 155 156
+openfeature 157 158
+kubewarden 158 159
+konveyor 161 162
+armada 162 163
+externalsecretsoperator 163 164
+serverlessdevs 164 165
+containerssh 165 166
+openfga 166 167
+kured 167 168
+carvel 168 169
+lima 169 170
+devspace 171 172
+capsule 172 173
+zot 173 174
+paralus 174 175
+carina 175 176
+ko 176 177
+opcr 177 178
+werf 178 179
+kubescape 179 180
+inspektorgadget 180 181
+clusternet 181 182
+cdevents 182 183
+ortelius 183 184
+pyrsia 184 185
+screwdrivercd 185 186
+shipwright 186 187
+keycloak 187 188
+sops 188 189
+headlamp 189 190
+slimtoolkit 190 191
+kepler 191 192
+pipecd 192 193
+eraser 193 194
+hwameistor 195 196
+kpt 196 197
+microcks 197 198
+kubeclipper 198 199
+kubeflow 199 200
+copacetic 200 201
+loggingoperator 201 202
+kanister 202 203
+kcp 203 204
+kcl 204 205
+kubeburner 205 206
+kuasar 206 207
+krknchaos 207 208
+kubestellar 208 209
+easegress 209 210
+spiderpool 210 211
+k8sgpt 211 212
+kubeslice 212 213
+connect 213 214
+kairos 214 215
+kubean 215 216
+koordinator 216 217
+radius 217 218
+bankvaults 218 219
+atlantis 219 220
+stacker 220 221
+trestlegrc 221 222
+kuadrant 222 223
+opengemini 223 224
+score 224 225
+bpfman 225 226
+loxilb 226 227
+cartography 227 228
+perses 228 229
+ratify 229 230
+hami 230 231
+shipwrightcncf 231 232
+flatcar 232 233
+kusionstack 233 234
+youki 234 235
+kaito 235 236
+sermant 236 237
+kmesh 237 238
+ovnkubernetes 238 239
+tratteria 239 240
+spin 240 241
+spinkube 241 242
+slimfaas 242 243
+container2wasm 243 244
+k0s 244 245
+runmenotebooks 245 246
+cloudnativepg 246 247
+kubefleet 247 248
+podmandesktop 248 249
+podmancontainertools 249 250
+bootc 250 251
+composefs 251 252
+drasi 252 253
+interlink 253 254
+cozystack 254 255
+kgateway 255 256
+kitops 256 257
+hyperlight 257 258
+opentofu 258 259
+cadence 259 260
+kagent 260 261
+urunc 261 262
+xregistry 262 263
+modelpack 263 264
+kserve 264 265
+oauth2proxy 265 266
+oxia 266 267
+holmesgpt 267 268
+cedarpolicy 268 269
+dalec 269 270
+openchoreo 270 271
+cohdi 271 272
+kubeelasti 272 273
+kaischeduler 273 274
+agones 274 275
+velero 275 276
+openeverest 276 277
+nmstate 277 278
+higress 278 279
+llmd 279 280
+apicurioregistry 280 281
+kbind 281 282
+curvine 282 283
 RESTORELIST
 echo 'ALL PROD RESTORES SUBMITTED'
 ```
@@ -1851,7 +2014,7 @@ kubectl -n devstats-prod get po | grep provision | grep -Ev 'Completed|Running' 
 # retry a failed one: helm delete -n devstats-prod devstats-prod-<proj> ; restore_prod <proj> <from> <to>
 # DB-level completeness vs the list above:
 kubectl -n devstats-prod exec devstats-postgres-0 -c devstats-postgres -- psql -U postgres -Atc "select datname from pg_database where datname not in ('postgres','template0','template1') order by 1" | wc -l
-# expect ~90: 88 project DBs (kubernetes=gha, all=allprj, ...) + affiliations + devstats;
+# expect 244: 242 project DBs (kubernetes=gha, all=allprj, + the 240 above) + affiliations + devstats;
 # compare the name list against the RESTORELIST above if the count is off 
 ```
 
