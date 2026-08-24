@@ -1666,6 +1666,21 @@ Deliberately OPPOSITE order to §3.5: the test track (smallest-first) already sh
 process issues with fast feedback; prod starts with the two HUGE DBs so any scale-related
 problems (disk, WAL, restore duration) surface first while the rest run in parallel.
 
+PRE-FLIGHT - raise the replication-slot WAL cap first. Test observation (§3.5): 5 parallel
+restores of ~10 GB dumps pushed replica lag to 15 GB against the 100 GB
+max_slot_wal_keep_size cap; slot stayed `reserved` and lag drained to 0 in minutes. Prod
+scales that up: a 120 GB-dump restore streams WAL for hours WHILE already-restored
+projects run their live 4x/day sync crons in parallel (same overlap seen on test) - and
+replica replay is single-threaded. Slot invalidation would force a full replica rebuild.
+Disk is multi-TB, so buy headroom (DCS-level param per §1.20 - patch, don't edit helm):
+
+```bash
+kubectl config use-context prod
+kubectl exec devstats-postgres-0 -c devstats-postgres -- patronictl edit-config --force -s postgresql.parameters.max_slot_wal_keep_size=300GB
+kubectl exec devstats-postgres-0 -c devstats-postgres -- psql -U postgres -Atc 'show max_slot_wal_keep_size'   # 300GB (no restart needed)
+# keep 300GB permanently: Part-4 delta re-restores overlap live crons the same way.
+```
+
 ```bash
 kubectl config use-context prod
 restore_prod kubernetes 0 1     # biggest DB (~120 GB dump)
