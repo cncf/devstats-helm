@@ -1647,6 +1647,16 @@ NOTE: `git-clone failed: ... exit status 128` / `repo not cloned` warnings in pr
 logs are benign (archived/renamed/deleted repos - same on OCI). PASS per project =
 `Sync success` + `database '<db>' marked as provisioned` at the end of the provision log.
 
+INCIDENT 2026-08-24 (fixed same day; 3rd occurrence of the provision-vs-cron race): the
+two biggest test DBs (cii 5G, godotengine 1.8G) lost `trepo_groups`+`tcompanies` - their
+6-hourly crons (created ENABLED by restore_test, dumps carry the `provisioned` flag)
+fired while the provision gha2db_sync was still computing full-history metrics; the
+concurrent syncs interleaved a tags drop/create cycle. Symptom: `42P01 undefined_table`
+retry loops. Fix: `pg_dump -t trepo_groups -t tcompanies` from OCI test -> psql into the
+Linode DBs; verified t-table row counts match OCI 12/12 projects + next cron `Sync success`.
+PREVENTION on any future restore wave: suspend the project's sync cron until its
+provision pod completes (mirrors the §4.3 prod delta-restore guard).
+
 PASS: extensions restored per project DB (image devstats-patroni-18-hll has all three;
 restore.sh creates pgcrypto, pg_restore brings hll+postgres_fdw back from the dump - OCI parity).
 Validated live on cncf 2026-08-24: FDW server -> local socket /var/run/postgresql,
