@@ -2245,6 +2245,23 @@ kubectl -n devstats-prod exec devstats-postgres-0 -c devstats-postgres -- psql -
 
 ### 3.10 PROD artificial rows + affiliations import + API + backups(hold)
 
+INCIDENT 2026-08-25 (jenkins, fixed same day; pre-existing upstream bug, NOT migration-caused):
+`devstats-provision-jenkins` died in gha2db_sync 'Update structure' — `scripts/shared/repo_groups.sql`
+does `update gha_repos set repo_group = alias` but a vandal-renamed repo
+(`jenkinsci/Checkmarx-Fully-Hacked-...`, 81 chars) overflows `repo_group varchar(80)` →
+PqError 22001 retry-loop → 3600s timeout → exit 102. OCI prod jenkins had been failing the
+SAME way daily for ~2 weeks (104 hits/14d, no 'Sync success' there either), so the dump was
+already stale — no data was lost relative to OCI. Fix (applied to BOTH clusters):
+`alter table gha_repos|gha_repo_groups|gha_events_commits_files alter column repo_group type varchar(160)`
+on jenkins+allcdf+allprj+devspace (the 4 DBs with 81-char names); `left(...,80)` guards added to
+`../devstats/scripts/shared/repo_groups.sql` + `repo_group varchar(80)→varchar(160)` in
+`../devstatscode/structure.go` (both dirty for commit + next image build). Because OCI was ALTERed
+too, the §4.2 final dumps carry varchar(160) DDL → §4.3 delta re-restores self-heal, no re-ALTER needed.
+Same day also: Linode `github-oauth` secret had 13 revoked tokens (of 59) causing constant
+`401 Bad credentials` noise in every ghapi2db phase — replaced with OCI's live 49-token list in
+BOTH namespaces + master's `devstats-helm/secrets/GHA2DB_GITHUB_OAUTH.secret`; new sync pods pick
+it up automatically.
+
 Only after ALL provisions in 3.8/3.9 are Completed:
 
 ```bash
