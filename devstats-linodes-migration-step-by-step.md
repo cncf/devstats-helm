@@ -31,6 +31,10 @@ Conventions used below:
   Parts 2-3 on the following Monday (backups + restores; Jobs run unattended Tue-Thu),
   Part 4 (cutover) the next Friday - go/no-go 13:00, DNS flipped by 15:00 Europe/Warsaw.
   Part 5 (OCI teardown) only the Monday after a clean 72 h soak. Never cut DNS on a Monday.
+- UPDATE 2026-08-25: calendar accelerated - cutover is NOT postponed to Friday. Plan:
+  request DNS switchover from LF ASAP, test domain(s) first; once test DNS is confirmed
+  working, request prod. All Linode CJs run original schedules, unsuspended, under
+  observation. Part 4 steps below remain valid - just executed as soon as LF responds.
 
 ---
 
@@ -2275,6 +2279,9 @@ helm install devstats-prod-backups ./devstats-helm -n devstats-prod --set "names
 kubectl -n devstats-prod edit cronjob devstats-backups   # set schedule: '45 2 10,20 * *'
 # keep it SUSPENDED until after cutover (two backup sources must never run at once):
 kubectl -n devstats-prod patch cronjob devstats-backups -p '{"spec":{"suspend":true}}'
+# DONE 2026-08-25 differently: left ENABLED per operator decision (observe everything
+# running); schedule '45 2 10,20 * *' = OCI original, next fire Sep 10 - after the
+# accelerated cutover, so the two-sources conflict cannot happen anyway.
 ```
 
 ### 3.11 PROD smoke + full validation gate
@@ -2294,11 +2301,12 @@ kubectl -n devstats-prod get jobs --sort-by=.metadata.creationTimestamp | tail -
 ```
 
 Linode is now a fully working, self-syncing replica of production. OCI is still live and
-serving. Wait until the next Friday for the cutover.
+serving. Proceed to Part 4 as soon as ready (2026-08-25 decision: no Friday wait - cutover
+ASAP in parallel with LF; test domains switch first, prod right after test DNS confirmed).
 
 ---
 
-## Part 4 - delta restore + DNS cutover (a FRIDAY; go/no-go 13:00, DNS flipped by ~15:00 Warsaw)
+## Part 4 - delta restore + DNS cutover (ASAP; originally a Friday - accelerated 2026-08-25)
 
 Never cut over on a Monday (no working day follows). Rollback at ANY point = flip DNS back
 to OCI (prod `132.226.49.222`, test `152.70.192.23`) - OCI stays untouched until Part 5.
