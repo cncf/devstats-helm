@@ -13,14 +13,22 @@
 
 {{- $domain0InRange := and (le ($root.Values.indexDomainsFrom|int) 0) (gt ($root.Values.indexDomainsTo|int) 0) -}}
 
-{{- range $pIndex, $p := $root.Values.projects -}}
-  {{- if and (or (eq ($pIndex|int) ($root.Values.indexIngressesFrom|int)) (gt ($pIndex|int) ($root.Values.indexIngressesFrom|int)))
-            (lt ($pIndex|int) ($root.Values.indexIngressesTo|int)) -}}
+{{- /* Domain-major bucketing: every cert covers hosts of exactly one domain, so a
+      domain that cannot pass ACME validation (broken DNS, proxy, etc.) can never
+      block certificate issuance for hosts of the other domains. */ -}}
+{{- range $dIndex, $d := $root.Values.domains -}}
+  {{- if and (or (eq ($dIndex|int) ($root.Values.indexDomainsFrom|int)) (gt ($dIndex|int) ($root.Values.indexDomainsFrom|int)))
+            (lt ($dIndex|int) ($root.Values.indexDomainsTo|int)) -}}
 
-    {{- /* Add per-domain project hosts */ -}}
-    {{- range $dIndex, $d := $root.Values.domains -}}
-      {{- if and (or (eq ($dIndex|int) ($root.Values.indexDomainsFrom|int)) (gt ($dIndex|int) ($root.Values.indexDomainsFrom|int)))
-                (lt ($dIndex|int) ($root.Values.indexDomainsTo|int)) -}}
+    {{- /* Start a fresh bucket at each domain boundary */ -}}
+    {{- if gt $count 0 -}}
+      {{- $bucket = add $bucket 1 -}}
+      {{- $count = 0 -}}
+    {{- end -}}
+
+    {{- range $pIndex, $p := $root.Values.projects -}}
+      {{- if and (or (eq ($pIndex|int) ($root.Values.indexIngressesFrom|int)) (gt ($pIndex|int) ($root.Values.indexIngressesFrom|int)))
+                (lt ($pIndex|int) ($root.Values.indexIngressesTo|int)) -}}
 
         {{- if and (or (eq ($dIndex|int) 0) (not $p.archived)) (gt ((index $p.domains $dIndex)|int) 0) -}}
           {{- $host := printf "%s.%s" $p.url $d.name -}}
@@ -45,29 +53,41 @@
       {{- end -}}
     {{- end -}}
 
-    {{- /* Add aliases once per project (and keep archived-only-on-domain0 behavior) */ -}}
-    {{- if and (not $root.Values.skipAliases) (or (not $p.archived) $domain0InRange) -}}
-      {{- range $_, $alias := $p.aliases -}}
-        {{- $host := $alias -}}
-        {{- if not (hasKey $seen $host) -}}
-          {{- $_ := set $seen $host true -}}
+  {{- end -}}
+{{- end -}}
 
-          {{- if ge $count $maxHosts -}}
-            {{- $bucket = add $bucket 1 -}}
-            {{- $count = 0 -}}
+{{- /* Add aliases in their own bucket(s), never mixed with domain hosts
+      (keep archived-only-on-domain0 behavior) */ -}}
+{{- if not $root.Values.skipAliases -}}
+  {{- if gt $count 0 -}}
+    {{- $bucket = add $bucket 1 -}}
+    {{- $count = 0 -}}
+  {{- end -}}
+  {{- range $pIndex, $p := $root.Values.projects -}}
+    {{- if and (or (eq ($pIndex|int) ($root.Values.indexIngressesFrom|int)) (gt ($pIndex|int) ($root.Values.indexIngressesFrom|int)))
+              (lt ($pIndex|int) ($root.Values.indexIngressesTo|int)) -}}
+      {{- if or (not $p.archived) $domain0InRange -}}
+        {{- range $_, $alias := $p.aliases -}}
+          {{- $host := $alias -}}
+          {{- if not (hasKey $seen $host) -}}
+            {{- $_ := set $seen $host true -}}
+
+            {{- if ge $count $maxHosts -}}
+              {{- $bucket = add $bucket 1 -}}
+              {{- $count = 0 -}}
+            {{- end -}}
+
+            {{- $key := printf "%d" $bucket -}}
+            {{- $lst := get $buckets $key | default (list) -}}
+            {{- $lst = append $lst (dict "host" $host "svc" (printf "devstats-service-%s" $p.proj)) -}}
+            {{- $_ := set $buckets $key $lst -}}
+
+            {{- $count = add $count 1 -}}
+            {{- $maxBucket = $bucket -}}
           {{- end -}}
-
-          {{- $key := printf "%d" $bucket -}}
-          {{- $lst := get $buckets $key | default (list) -}}
-          {{- $lst = append $lst (dict "host" $host "svc" (printf "devstats-service-%s" $p.proj)) -}}
-          {{- $_ := set $buckets $key $lst -}}
-
-          {{- $count = add $count 1 -}}
-          {{- $maxBucket = $bucket -}}
         {{- end -}}
       {{- end -}}
     {{- end -}}
-
   {{- end -}}
 {{- end -}}
 

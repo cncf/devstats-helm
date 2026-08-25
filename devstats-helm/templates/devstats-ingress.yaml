@@ -19,22 +19,23 @@ metadata:
 spec:
   ingressClassName: '{{ .Values.ingressClass }}'
   tls:
-  - hosts:
-{{ range $jndex, $_ := .Values.domains }}
-{{ if and (or (eq ($jndex|int) ($root.Values.indexDomainsFrom|int)) (gt ($jndex|int) ($root.Values.indexDomainsFrom|int))) (lt ($jndex|int) ($root.Values.indexDomainsTo|int)) }}
-    - {{ .name }}
-{{ end }}
-{{ end }}
+{{- /* One tls entry (= one certificate secret) per domain, so a domain that cannot
+      pass ACME validation can never block cert issuance for the other domains.
+      The first in-range domain keeps the historical devstats-tls-1 name, additional
+      domains get devstats-tls-1-<shortname>. */}}
 {{ range $jndex, $_ := .Values.domains }}
 {{- $dom := .name -}}
+{{- $short := .shortname -}}
 {{ if and (or (eq ($jndex|int) ($root.Values.indexDomainsFrom|int)) (gt ($jndex|int) ($root.Values.indexDomainsFrom|int))) (lt ($jndex|int) ($root.Values.indexDomainsTo|int)) }}
+  - hosts:
+    - {{ $dom }}
 {{ range $index, $_ := $root.Values.projects }}
 {{ if and (or (eq ($index|int) ($root.Values.indexIngressesFrom|int)) (gt ($index|int) ($root.Values.indexIngressesFrom|int))) (lt ($index|int) ($root.Values.indexIngressesTo|int)) }}
 {{ if and (eq (.certNum|int) 1) (or (eq ($jndex|int) 0) (not .archived)) }}
 {{ if gt ((index .domains $jndex)|int) 0 }}
     - {{ .url }}.{{ $dom }}
 {{ end }}
-{{ if not $root.Values.skipAliases }}
+{{ if and (not $root.Values.skipAliases) (eq ($jndex|int) 0) }}
 {{ range $_, $alias := .aliases }}
     - {{ $alias }}
 {{ end }}
@@ -42,9 +43,9 @@ spec:
 {{ end }}
 {{ end }}
 {{ end }}
+    secretName: devstats-tls-1{{ if gt ($jndex|int) ($root.Values.indexDomainsFrom|int) }}-{{ $short }}{{ end }}
 {{ end }}
 {{ end }}
-    secretName: devstats-tls-1
   rules:
   - http:
       paths:
