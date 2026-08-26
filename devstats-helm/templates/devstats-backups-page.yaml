@@ -1,0 +1,116 @@
+{{ if .Values.backupsPage }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: '{{ .Values.namespace }}'
+  name: devstats-backups-page-nginx-conf
+  labels:
+    name: devstats
+    type: backups-page
+data:
+  nginx.conf: |
+    # Workers must run as root: the backups PV is an NFSv4.2 share where files
+    # being concurrently rewritten (grafana.<proj>.db, updated every 60s by all
+    # grafana pods) intermittently return EPERM on stat() for non-root users,
+    # which aborts nginx autoindex with 502. root stat() always succeeds.
+    user  root;
+    worker_processes  auto;
+    error_log  /var/log/nginx/error.log notice;
+    pid        /var/run/nginx.pid;
+    events {
+        worker_connections  1024;
+    }
+    http {
+        include       /etc/nginx/mime.types;
+        default_type  application/octet-stream;
+        log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                          '$status $body_bytes_sent "$http_referer" '
+                          '"$http_user_agent" "$http_x_forwarded_for"';
+        access_log  /var/log/nginx/access.log  main;
+        sendfile        on;
+        keepalive_timeout  65;
+        include /etc/nginx/conf.d/*.conf;
+    }
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: '{{ .Values.namespace }}'
+  name: devstats-backups-page
+  labels:
+    name: devstats
+    type: backups-page
+spec:
+  replicas: {{ .Values.backupsPageNReplicas }}
+  selector:
+    matchLabels:
+      name: devstats
+      type: backups-page
+  template:
+    metadata:
+      namespace: '{{ .Values.namespace }}'
+      labels:
+        name: devstats
+        type: backups-page
+    spec:
+      volumes:
+      - name: '{{ .Values.volumeName }}-backups'
+        persistentVolumeClaim:
+          claimName: '{{ .Values.backupsPVName }}'
+      - name: backups-page-nginx-conf
+        configMap:
+          name: devstats-backups-page-nginx-conf
+      containers:
+      - image: {{ .Values.backupsPageImage }}
+        imagePullPolicy: {{ .Values.imagePullPolicy }}
+        name: devstats-backups-page
+        volumeMounts:
+        - name: '{{ .Values.volumeMountName }}-backups'
+          mountPath: '{{ .Values.backupsVolumeMountPath }}'
+        - name: backups-page-nginx-conf
+          mountPath: /etc/nginx/nginx.conf
+          subPath: nginx.conf
+        ports:
+        - containerPort: 80
+        livenessProbe:
+          exec:
+            command:
+            - '/usr/bin/backups_health_check.sh'
+            - '127.0.0.1:80'
+          initialDelaySeconds: 30
+          periodSeconds: 30
+        readinessProbe:
+          exec:
+            command:
+            - '/usr/bin/backups_health_check.sh'
+            - '127.0.0.1:80'
+          initialDelaySeconds: 10
+          periodSeconds: 30
+{{ if .Values.useStaticsResourcesLimits }}
+        resources:
+          requests:
+            memory: '{{ .Values.requestsStaticsMemory }}'
+            cpu: '{{ .Values.requestsStaticsCPU }}'
+          limits:
+            memory: '{{ .Values.limitsStaticsMemory }}'
+            cpu: '{{ .Values.limitsStaticsCPU }}'
+{{ end }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: '{{ .Values.namespace }}'
+  name: devstats-backups-page-service
+  labels:
+    name: devstats
+    type: backups-page-service
+spec:
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
+  selector:
+    name: devstats
+    type: backups-page
+{{ end }}

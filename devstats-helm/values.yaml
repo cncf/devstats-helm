@@ -240,6 +240,12 @@ backupsSuspendCronProd: ''
 backupsSuspendCronTest: ''
 backupsTestServer: '1'
 backupsVolumeMountPath: '/usr/share/nginx/html/backups'
+# backupsPage: set to 1 to deploy the backups-page deployment+service (serves https://<domain>/backups/ file listing from the backups PV)
+backupsPage: ''
+# backupsPageIngress: set to 1 to add '/backups' paths to the main ingress, routing to the backups-page service
+backupsPageIngress: ''
+backupsPageImage: 'lukaszgryglicki/backups-page'
+backupsPageNReplicas: 1
 bootstrapCommand: './devstats-helm/deploy_all.sh'
 bootstrapLDrop: ''
 bootstrapNoCreate: ''

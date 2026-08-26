@@ -49,6 +49,15 @@ spec:
   rules:
   - http:
       paths:
+{{ if .Values.backupsPageIngress }}
+      - path: /backups
+        pathType: Prefix
+        backend:
+          service:
+            name: devstats-backups-page-service
+            port:
+              number: 80
+{{ end }}
       - path: /
         pathType: Prefix
         backend:
@@ -73,6 +82,15 @@ spec:
   - host: {{ .name }}
     http:
       paths:
+{{ if $root.Values.backupsPageIngress }}
+      - path: /backups
+        pathType: Prefix
+        backend:
+          service:
+            name: devstats-backups-page-service
+            port:
+              number: 80
+{{ end }}
       - path: /
         pathType: Prefix
         backend:

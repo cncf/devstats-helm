@@ -1546,8 +1546,8 @@ kubectl -n devstats-test exec devstats-postgres-0 -c devstats-postgres -- psql -
 ```bash
 cd /root/devstats-helm && source linodes.env.secret
 kubectl config use-context test
-helm install devstats-test-statics ./devstats-helm -n devstats-test --set "$(skips_except Static),projectsOverride=${TEST_PROJECTS},indexStaticsFrom=0,indexStaticsTo=1"
-helm install devstats-test-ingress ./devstats-helm -n devstats-test --set "$(skips_except Ingress),indexDomainsFrom=0,indexDomainsTo=1,projectsOverride=${TEST_PROJECTS},ingressClass=nginx-test,sslEnv=test"
+helm install devstats-test-statics ./devstats-helm -n devstats-test --set "$(skips_except Static),projectsOverride=${TEST_PROJECTS},indexStaticsFrom=0,indexStaticsTo=1,backupsPage=1"
+helm install devstats-test-ingress ./devstats-helm -n devstats-test --set "$(skips_except Ingress),indexDomainsFrom=0,indexDomainsTo=1,projectsOverride=${TEST_PROJECTS},ingressClass=nginx-test,sslEnv=test,backupsPageIngress=1"
 helm install devstats-test-bootstrap ./devstats-helm -n devstats-test --set "$(skips_except Bootstrap),projectsOverride=${TEST_PROJECTS}"
 kubectl -n devstats-test get po -w    # Ctrl-C when bootstrap Completed and statics Running
 helm install devstats-test-debug ./devstats-helm -n devstats-test --set "$(skips_except Bootstrap),bootstrapPodName=debug,bootstrapCommand=sleep,bootstrapCommandArgs={360000s},bootstrapMountBackups=1"
@@ -1558,12 +1558,28 @@ kubectl -n devstats-test get ingress    # hosts present, class nginx-test (certs
 
 ```bash
 kubectl config use-context prod
-helm install devstats-prod-statics ./devstats-helm -n devstats-prod --set "namespace=devstats-prod,$(skips_except Static),indexStaticsFrom=1"
-helm install devstats-prod-ingress ./devstats-helm -n devstats-prod --set "namespace=devstats-prod,$(skips_except Ingress),skipAliases=1,indexDomainsFrom=1,ingressClass=nginx-prod,sslEnv=prod"
+helm install devstats-prod-statics ./devstats-helm -n devstats-prod --set "namespace=devstats-prod,$(skips_except Static),indexStaticsFrom=1,backupsPage=1"
+helm install devstats-prod-ingress ./devstats-helm -n devstats-prod --set "namespace=devstats-prod,$(skips_except Ingress),skipAliases=1,indexDomainsFrom=1,ingressClass=nginx-prod,sslEnv=prod,backupsPageIngress=1"
 helm install devstats-prod-bootstrap ./devstats-helm -n devstats-prod --set "namespace=devstats-prod,$(skips_except Bootstrap)"
 kubectl -n devstats-prod get po -w    # Ctrl-C when bootstrap Completed
 helm install devstats-prod-debug ./devstats-helm -n devstats-prod --set "namespace=devstats-prod,$(skips_except Bootstrap),bootstrapPodName=debug,bootstrapCommand=sleep,bootstrapCommandArgs={360000s},bootstrapMountBackups=1"
 ```
+
+`backupsPage=1` (statics release) deploys the `devstats-backups-page` deployment+service
+(image `lukaszgryglicki/backups-page`, built from `devstats-docker-images`
+`images/Dockerfile.static.backups` - rebuild/push it if missing on Docker Hub) and
+`backupsPageIngress=1` (ingress release) adds `/backups` paths to `devstats-ingress-1`,
+so `https://<domain>/backups/` serves the backups PV file listing. The pod overrides
+`nginx.conf` (ConfigMap) to run nginx workers as **root**: the backups PV is NFSv4.2 and
+files concurrently rewritten by grafana pods (`grafana.<proj>.db`, every 60s) return
+transient `EPERM` on `stat()` for non-root users, which aborts nginx autoindex and
+yields `502 Bad Gateway` (this is why plain statics pods cannot serve `/backups/` on
+OpenEBS NFS, while it worked on OCI FSS). NOTE: when *upgrading* (not installing) the
+ingress release after projects changed, per-project cert buckets (`devstats-ingress-2..N`)
+may shift hosts between ingresses and the ingress-nginx admission webhook rejects the
+upgrade with "host X and path / is already defined in ingress Y" (helm creates new
+buckets before updating old ones) - in that case either delete+reinstall the ingress
+release or patch `devstats-ingress-1` paths manually with `kubectl`.
 
 ### 3.3 Grafana artifacts tar [workstation - needs cncf/devstats + cncf/devstatscode checkouts]
 
