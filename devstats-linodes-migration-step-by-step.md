@@ -1197,10 +1197,14 @@ Sizing MUST be passed as helm values: the patroni image renders `PATRONI_POSTGRE
 into the LOCAL `/home/postgres/patroni.yml`, and local `postgresql.parameters` OVERRIDE the
 DCS (`patronictl edit-config` / REST PATCH) for everything except the Patroni-controlled
 params. The DCS PATCH below only carries what ONLY the DCS can set: the Patroni-controlled
-params (`max_connections`, `max_worker_processes`, `max_wal_senders`, `max_replication_slots`,
-`wal_level`, `wal_log_hints`, `hot_standby`, `wal_keep_size` - Patroni defaults it to 128MB
-and ignores the local file for it) + params the local file does not define
-(`password_encryption`). To START OVER from scratch: `helm delete -n devstats-test
+params (`max_connections`, `max_worker_processes`, `max_locks_per_transaction`,
+`max_wal_senders`, `max_replication_slots`, `wal_level`, `wal_log_hints`, `hot_standby`,
+`wal_keep_size` - Patroni defaults it to 128MB and ignores the local file for it) + params
+the local file does not define (`password_encryption`). `max_locks_per_transaction=1024`
+(PG default 64 is NOT enough: TSDB reinit/provisioning drops+creates THOUSANDS of s*/t*
+tables per DB; on 2026-08-26 prod hit `FATAL: out of shared memory / HINT: increase
+max_locks_per_transaction` (SQLSTATE 53200) killing ALL concurrent queries when a reinit +
+import_affs + hourly syncs overlapped; 1024*1024 slots costs only ~200MB shared memory). To START OVER from scratch: `helm delete -n devstats-test
 devstats-test-patroni`, then delete the `pgdata-devstats-postgres-*` PVCs and the leftover
 `devstats-postgres-config` endpoints+service in the namespace (they hold the Patroni DCS
 state - a fresh cluster must not inherit it), wait until pods are gone.
@@ -1226,6 +1230,7 @@ PARAMS='{"loop_wait":15,"ttl":60,"retry_timeout":20,"primary_start_timeout":600,
 PARAMS+='"maximum_lag_on_failover":53687091200,'
 PARAMS+='"postgresql":{"use_pg_rewind":true,"use_slots":true,"parameters":{'
 PARAMS+='"max_connections":1024,"max_worker_processes":16,"max_wal_senders":10,'
+PARAMS+='"max_locks_per_transaction":1024,'
 PARAMS+='"max_replication_slots":10,"wal_level":"replica","wal_log_hints":"on",'
 PARAMS+='"hot_standby":"on","wal_keep_size":"50GB","max_slot_wal_keep_size":"100GB",'
 PARAMS+='"password_encryption":"scram-sha-256"}}}'
@@ -1243,8 +1248,8 @@ for m in 0 1; do echo "== member $m =="; kubectl exec -n devstats-test devstats-
 # expect per member: 32GB 512MB 64GB 50GB 50GB 1GB 32GB 2GB
 for m in 0 1; do echo "== member $m =="; kubectl exec -n devstats-test devstats-postgres-$m -c devstats-postgres -- \
   psql -U postgres -tAc "show max_connections; show max_worker_processes; show max_parallel_workers; show max_parallel_workers_per_gather" \
-  -c "show autovacuum_vacuum_cost_limit; show autovacuum_vacuum_scale_factor; show autovacuum_analyze_scale_factor; show password_encryption"; done
-# expect per member: 1024 16 8 4 then 200 0.1 0.05 scram-sha-256
+  -c "show autovacuum_vacuum_cost_limit; show autovacuum_vacuum_scale_factor; show autovacuum_analyze_scale_factor; show password_encryption; show max_locks_per_transaction"; done
+# expect per member: 1024 16 8 4 then 200 0.1 0.05 scram-sha-256 1024
 
 # failover sanity (empty cluster - free to test), then put the leader back on postgres-0:
 kubectl exec -itn devstats-test devstats-postgres-0 -c devstats-postgres -- patronictl switchover devstats-postgres --force
@@ -1282,6 +1287,7 @@ PARAMS='{"loop_wait":15,"ttl":60,"retry_timeout":20,"primary_start_timeout":600,
 PARAMS+='"maximum_lag_on_failover":53687091200,'
 PARAMS+='"postgresql":{"use_pg_rewind":true,"use_slots":true,"parameters":{'
 PARAMS+='"max_connections":1024,"max_worker_processes":32,"max_wal_senders":10,'
+PARAMS+='"max_locks_per_transaction":1024,'
 PARAMS+='"max_replication_slots":10,"wal_level":"replica","wal_log_hints":"on","hot_standby":"on",'
 PARAMS+='"wal_keep_size":"100GB","max_slot_wal_keep_size":"300GB",'
 PARAMS+='"password_encryption":"scram-sha-256","checkpoint_timeout":"15min"}}}'
@@ -1300,8 +1306,8 @@ for m in 0 1 2; do echo "== member $m =="; kubectl exec -n devstats-prod devstat
 for m in 0 1 2; do echo "== member $m =="; kubectl exec -n devstats-prod devstats-postgres-$m -c devstats-postgres -- \
   psql -U postgres -tAc "show max_connections; show max_worker_processes; show max_parallel_workers; show max_parallel_workers_per_gather" \
   -c "show autovacuum_max_workers; show autovacuum_naptime; show autovacuum_vacuum_cost_limit; show autovacuum_vacuum_scale_factor" \
-  -c "show autovacuum_analyze_scale_factor; show password_encryption"; done
-# expect per member: 1024 32 32 16 then 4 30s 1000 0.05 then 0.02 scram-sha-256
+  -c "show autovacuum_analyze_scale_factor; show password_encryption; show max_locks_per_transaction"; done
+# expect per member: 1024 32 32 16 then 4 30s 1000 0.05 then 0.02 scram-sha-256 1024
 
 # failover sanity, then put the leader back on postgres-0:
 kubectl exec -itn devstats-prod devstats-postgres-0 -c devstats-postgres -- patronictl switchover devstats-postgres --force
