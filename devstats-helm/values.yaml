@@ -2318,7 +2318,7 @@ projects:
   db: serverlessworkflow
   icon: serverlessworkflow
   org: Serverless Workflow
-  repo: serverlessworkflow/specification
+  repo: open-workflow-specification/specification
   cronTest: 5 5,11,17,23 * * *
   cronProd: 58 2,8,14,20 * * *
   affCronTest: 22 18 24 * *
@@ -5558,7 +5558,7 @@ projects:
   db: podmancontainertools
   icon: podmancontainertools
   org: Podman Container Tools
-  repo: containers/podman
+  repo: podman-container-tools/podman
   cronTest: 46 2,8,14,20 * * *
   cronProd: 53 5,11,17,23 * * *
   affCronTest: 11 8 12 * *
