@@ -2323,7 +2323,7 @@ projects:
   url: serverlessworkflow
   db: serverlessworkflow
   icon: serverlessworkflow
-  org: Serverless Workflow
+  org: Open Workflow Specification
   repo: open-workflow-specification/specification
   cronTest: 5 5,11,17,23 * * *
   cronProd: 58 2,8,14,20 * * *
