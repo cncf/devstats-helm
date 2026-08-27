@@ -2582,6 +2582,103 @@ the OCI console/CLI, in this order:
 git -C ~/dev/go/src/github.com/cncf/devstats-helm status
 ```
 
+### 5.5 OPTIONAL - Headlamp read-only cluster dashboard [workstation] (APPLIED 2026-08-27)
+
+Headlamp (CNCF Sandbox, tracked on devstats itself) gives a live browser view of nodes,
+pods, CronJobs, events and CPU/RAM (via the metrics-server installed in Part 1). One ~150 Mi
+pod, NO ingress, NO public exposure - reachable ONLY through `kubectl port-forward`, and the
+UI itself demands a ServiceAccount token even then. The chart's default binds the app's own
+pod to `cluster-admin` - we explicitly disable that; the pod runs with ZERO privileges and
+every session only has the rights of the token pasted at login (read-only, secrets excluded).
+
+```bash
+# install (one pod in its own namespace, chart's cluster-admin binding DISABLED):
+helm repo add headlamp https://kubernetes-sigs.github.io/headlamp/
+helm repo update headlamp
+helm install headlamp headlamp/headlamp -n headlamp --create-namespace \
+  --set clusterRoleBinding.create=false \
+  --set resources.requests.cpu=50m --set resources.requests.memory=128Mi \
+  --set resources.limits.cpu=500m --set resources.limits.memory=512Mi
+
+# read-only login identity: built-in 'view' ClusterRole (namespaced reads, NO secrets)
+# + small extra ClusterRole for cluster-scoped reads (nodes, PVs, CRDs, metrics)
+# + a non-expiring ServiceAccount token Secret:
+kubectl -n headlamp create serviceaccount headlamp-ro
+kubectl create clusterrolebinding headlamp-ro-view --clusterrole=view \
+  --serviceaccount=headlamp:headlamp-ro
+cat <<'EOF' | kubectl apply -f -
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: headlamp-ro-extra
+rules:
+- apiGroups: [""]
+  resources: ["nodes", "namespaces", "persistentvolumes"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["storage.k8s.io"]
+  resources: ["storageclasses"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["networking.k8s.io"]
+  resources: ["ingressclasses"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["apiextensions.k8s.io"]
+  resources: ["customresourcedefinitions"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["metrics.k8s.io"]
+  resources: ["nodes", "pods"]
+  verbs: ["get", "list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: headlamp-ro-extra
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: headlamp-ro-extra
+subjects:
+- kind: ServiceAccount
+  name: headlamp-ro
+  namespace: headlamp
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: headlamp-ro-token
+  namespace: headlamp
+  annotations:
+    kubernetes.io/service-account.name: headlamp-ro
+type: kubernetes.io/service-account-token
+EOF
+
+# sanity: reads allowed, writes + secrets Forbidden:
+RO=system:serviceaccount:headlamp:headlamp-ro
+kubectl auth can-i list nodes --as=$RO          # yes
+kubectl auth can-i delete pods -n devstats-prod --as=$RO   # no
+kubectl auth can-i get secrets -n devstats-prod --as=$RO   # no
+```
+
+Daily use (from the workstation that has kubectl; from a Mac first `ssh -Y` into it -
+XQuartz shows the workstation's browser; port-forward binds 127.0.0.1 ONLY, so nobody
+else can reach it):
+
+```bash
+# print the login token (paste it into the Headlamp login screen):
+kubectl -n headlamp get secret headlamp-ro-token -o jsonpath='{.data.token}' | base64 -d; echo
+# start the tunnel (leave running; Ctrl-C to stop):
+kubectl -n headlamp port-forward svc/headlamp 8080:80
+# then browse http://localhost:8080 and paste the token
+```
+
+Remove completely anytime:
+
+```bash
+helm uninstall headlamp -n headlamp
+kubectl delete clusterrolebinding headlamp-ro-view headlamp-ro-extra
+kubectl delete clusterrole headlamp-ro-extra
+kubectl delete namespace headlamp
+```
+
 **DONE.** DevStats runs on 8 × Linode G7 Dedicated 256 GB in us-ord, k8s ${K8S_PATCH},
 final-release ingress-nginx, Patroni HA on OpenEBS - and `linodes.env.secret` +
 `DNS-switchover.secret` + the snapshots document exactly how it was built.

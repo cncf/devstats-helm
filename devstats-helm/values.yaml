@@ -1002,6 +1002,7 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+  archived: true
 - proj: harbor
   url: harbor
   db: harbor
@@ -2079,6 +2080,7 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+  archived: true
 - proj: kudo
   url: kudo
   db: kudo
