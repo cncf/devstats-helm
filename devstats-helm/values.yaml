@@ -6241,3 +6241,23 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+- proj: sdc
+  url: sdc
+  db: sdc
+  icon: sdc
+  org: SDC
+  repo: sdcio/data-server
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 10 0,6,12,18 * * *
+  affCronTest: 37 5 13 * *
+  affCronProd: 10 21 28 * *
+  affSkipTemp: "1"
+  disk: 1Gi
+  domains: [0, 1, 0, 0]
+  ga: ""
+  i: 283
+  certNum: 0
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
