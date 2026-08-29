@@ -43,11 +43,12 @@
 ./scripts/deploy_backup_to_prod.sh jenkinsx 41 42
 ./scripts/deploy_backup_to_prod.sh jenkins 42 43
 ./scripts/deploy_backup_to_prod.sh allcdf 43 44
-./scripts/deploy_backup_to_prod.sh graphqljs 44 45
-./scripts/deploy_backup_to_prod.sh graphiql 45 46
-./scripts/deploy_backup_to_prod.sh graphqlspec 46 47
-./scripts/deploy_backup_to_prod.sh expressgraphql 47 48
-./scripts/deploy_backup_to_prod.sh graphql 48 49
+# archived 2026-08: GraphQL projects retired, removed from prod cluster
+#./scripts/deploy_backup_to_prod.sh graphqljs 44 45
+#./scripts/deploy_backup_to_prod.sh graphiql 45 46
+#./scripts/deploy_backup_to_prod.sh graphqlspec 46 47
+#./scripts/deploy_backup_to_prod.sh expressgraphql 47 48
+#./scripts/deploy_backup_to_prod.sh graphql 48 49
 #./scripts/deploy_backup_to_prod.sh cncf 49 50
 #./scripts/deploy_backup_to_prod.sh opencontainers 50 51
 #./scripts/deploy_backup_to_prod.sh istio 51 52

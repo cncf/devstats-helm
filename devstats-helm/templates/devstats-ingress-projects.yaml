@@ -17,7 +17,8 @@
       domain that cannot pass ACME validation (broken DNS, proxy, etc.) can never
       block certificate issuance for hosts of the other domains. */ -}}
 {{- range $dIndex, $d := $root.Values.domains -}}
-  {{- if and (or (eq ($dIndex|int) ($root.Values.indexDomainsFrom|int)) (gt ($dIndex|int) ($root.Values.indexDomainsFrom|int)))
+  {{- if and (not $d.archived)
+            (or (eq ($dIndex|int) ($root.Values.indexDomainsFrom|int)) (gt ($dIndex|int) ($root.Values.indexDomainsFrom|int)))
             (lt ($dIndex|int) ($root.Values.indexDomainsTo|int)) -}}
 
     {{- /* Start a fresh bucket at each domain boundary */ -}}

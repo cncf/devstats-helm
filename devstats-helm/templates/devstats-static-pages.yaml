@@ -82,7 +82,7 @@ spec:
     proj: default
 {{- $root := . -}}
 {{ range $jndex, $_ := .Values.domains }}
-{{ if and (or (eq ($jndex|int) ($root.Values.indexStaticsFrom|int)) (gt ($jndex|int) ($root.Values.indexStaticsFrom|int))) (lt ($jndex|int) ($root.Values.indexStaticsTo|int)) }}
+{{ if and (not .archived) (or (eq ($jndex|int) ($root.Values.indexStaticsFrom|int)) (gt ($jndex|int) ($root.Values.indexStaticsFrom|int))) (lt ($jndex|int) ($root.Values.indexStaticsTo|int)) }}
 ---
 apiVersion: apps/v1
 kind: Deployment

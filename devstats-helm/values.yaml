@@ -266,9 +266,11 @@ domains:
 - name: 'devstats.cd.foundation'
   image: 'lukaszgryglicki/devstats-static-cdf'
   shortname: cdf
+# archived 2026-08: GraphQL projects retired (domain scheduled for removal), all their objects deleted from the prod cluster; kept here only for historical record
 - name: 'devstats.graphql.org'
   image: 'lukaszgryglicki/devstats-static-graphql'
   shortname: graphql
+  archived: true
 fetchCommitsMode: 1
 forceAddAll: ''
 fullnameOverride: devstats
@@ -1433,7 +1435,7 @@ projects:
   affCronProd: 26 10 10 * *
   affSkipTemp: "1"
   disk: 1Gi
-  domains: [0, 0, 0, 1]
+  domains: [0, 0, 0, 0]
   ga: ""
   i: 44
   certNum: 0
@@ -1441,6 +1443,7 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+  archived: true
 - proj: graphiql
   url: graphiql
   db: graphiql
@@ -1453,7 +1456,7 @@ projects:
   affCronProd: 27 10 10 * *
   affSkipTemp: "1"
   disk: 1Gi
-  domains: [0, 0, 0, 1]
+  domains: [0, 0, 0, 0]
   ga: ""
   i: 45
   certNum: 0
@@ -1461,6 +1464,7 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+  archived: true
 - proj: graphqlspec
   url: graphqlspec
   db: graphqlspec
@@ -1473,7 +1477,7 @@ projects:
   affCronProd: 28 10 10 * *
   affSkipTemp: "1"
   disk: 1Gi
-  domains: [0, 0, 0, 1]
+  domains: [0, 0, 0, 0]
   ga: ""
   i: 46
   certNum: 0
@@ -1481,6 +1485,7 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+  archived: true
 - proj: expressgraphql
   url: expressgraphql
   db: expressgraphql
@@ -1493,7 +1498,7 @@ projects:
   affCronProd: 29 16 10 * *
   affSkipTemp: "1"
   disk: 1Gi
-  domains: [0, 0, 0, 1]
+  domains: [0, 0, 0, 0]
   ga: ""
   i: 47
   certNum: 0
@@ -1501,6 +1506,7 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+  archived: true
 - proj: graphql
   url: graphql
   db: graphql
@@ -1513,7 +1519,7 @@ projects:
   affCronProd: 30 16 10 * *
   affSkipTemp: "1"
   disk: 3Gi
-  domains: [0, 0, 0, 1]
+  domains: [0, 0, 0, 0]
   ga: ""
   i: 48
   certNum: 0
@@ -1521,6 +1527,7 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+  archived: true
 - proj: cncf
   url: cncf
   db: cncf
