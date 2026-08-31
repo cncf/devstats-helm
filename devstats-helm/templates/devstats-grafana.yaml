@@ -117,6 +117,10 @@ spec:
             - '127.0.0.1:3000'
           initialDelaySeconds: 60
           periodSeconds: 30
+          # exec probe forks a shell + HTTP check; 1s default timeout causes
+          # spurious kills (exit 137) when the node is busy
+          timeoutSeconds: 10
+          failureThreshold: 3
         readinessProbe:
           exec:
             command:
@@ -124,6 +128,8 @@ spec:
             - '127.0.0.1:3000'
           initialDelaySeconds: 10
           periodSeconds: 30
+          timeoutSeconds: 10
+          failureThreshold: 3
       restartPolicy: {{ $root.Values.grafanaRestartPolicy }}
       nodeSelector:
 {{- with $root.Values.appNodeSelector -}}
