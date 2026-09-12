@@ -31,6 +31,18 @@ Adding/archiving projects, backups and other operational docs:
 [ADDING_NEW_PROJECTS.md](ADDING_NEW_PROJECTS.md), [ARCHIVING.md](ARCHIVING.md),
 [BACKUPS.md](BACKUPS.md), [GRADUATING.md](GRADUATING.md), [ADD_ORG_REPO.md](ADD_ORG_REPO.md).
 
+# Images: Rust port (since 2026-09-12)
+
+DevStats binaries run from the Rust port ([devstatscode/rust](https://github.com/cncf/devstatscode/tree/master/rust)):
+every image that contains DevStats binaries is deployed under its `-rust` name (`devstats-prod-rust`,
+`devstats-minimal-prod-rust`, `devstats-test-rust`, `devstats-minimal-test-rust`, `devstats-api-prod-rust`,
+`devstats-api-test-rust`, `devstats-reports-rust`, `devstats-tests-rust`) - this is what `devstats-helm/values.yaml`
+and the runbooks here use. Images without DevStats binaries (grafana, patroni, static pages, backups page) keep their
+names; `devstats-static-{prod,test}` carry the Go `replacer`/`sqlitedb`/`runq` only for `REINIT_SHARED_GRAFANA` -
+the shared Grafana data (`devstats/devel/create_grafana_shared_data.sh`) ships the Rust ones for the grafana pods.
+The Go images are still built and pushed under their original names (`lukaszgryglicki/devstats-prod`, ...) as the
+rollback path: drop the `-rust` suffix in the `*Image` values (or `kubectl set image` the CronJobs/Deployments).
+
 # Historical deployments
 
 - Oracle Cloud Infrastructure (2025-2026): [oci/README_oci.md](oci/README_oci.md) + [oci/](oci/) scripts.
