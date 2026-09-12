@@ -166,7 +166,7 @@ spec:
       limits:
         memory: '32Gi'
         cpu: '2000m'
-    image: lukaszgryglicki/devstats-prod
+    image: lukaszgryglicki/devstats-prod-rust
     imagePullPolicy: Always
     name: 'devstats-columns-kubernetes'
     volumeMounts:

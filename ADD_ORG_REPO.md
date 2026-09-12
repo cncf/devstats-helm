@@ -1,7 +1,7 @@
 # How to add a new org or repo and backfill the data
 
 - First refer to `NEW_ORG.md` on the `cncf/devstats` repo to update configuration.
-- Add data from a new projects org that was added recently (Meshery example): `helm install devstats-prod-debug ./devstats-helm --set namespace='devstats-prod',provisionImage='lukaszgryglicki/devstats-prod',skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,indexProvisionsFrom=124,indexProvisionsTo=125,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,provisionCommand=sleep,provisionCommandArgs={360000s},nCPUs=16`.
+- Add data from a new projects org that was added recently (Meshery example): `helm install devstats-prod-debug ./devstats-helm --set namespace='devstats-prod',provisionImage='lukaszgryglicki/devstats-prod-rust',skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,indexProvisionsFrom=124,indexProvisionsTo=125,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,provisionCommand=sleep,provisionCommandArgs={360000s},nCPUs=16`.
 - Figure out when to start backfilling data for the new org: `` ./util_sh/org_name_changes_bigquery.sh prometheus-community ``.
 - Then shell into that pod: `../devstats-k8s-lf/util/pod_shell.sh devstats-provision-meshery`.
 - Inside the pod run something like `GHA2DB_PROJECT=meshery PG_DB=meshery GHA2DB_LOCAL=1 gha2db 2021-07-01 0 today now meshery 1>log.1 2>log.2 &`.

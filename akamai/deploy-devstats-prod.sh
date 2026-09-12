@@ -105,7 +105,7 @@ case "${PHASE}" in
     helm install devstats-prod-affs-import "${CHART}" -n "${NS}" --set "namespace=${NS},$(skips_except),skipAffiliationsImport=,affiliationsDB=affiliations,prodServer=1,testServer="
     ;;
   api)
-    helm install devstats-prod-api "${CHART}" -n "${NS}" --set "namespace=${NS},$(skips_except API),apiImage=lukaszgryglicki/devstats-api-prod"
+    helm install devstats-prod-api "${CHART}" -n "${NS}" --set "namespace=${NS},$(skips_except API),apiImage=lukaszgryglicki/devstats-api-prod-rust"
     ;;
   backups)
     helm install devstats-prod-backups "${CHART}" -n "${NS}" --set "namespace=${NS},$(skips_except Backups),backupsTestServer=,backupsProdServer=1"

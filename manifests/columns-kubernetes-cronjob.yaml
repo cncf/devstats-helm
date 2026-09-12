@@ -171,7 +171,7 @@ spec:
                 secretKeyRef:
                   name: pg-db
                   key: PG_ADMIN_USER.secret
-            image: lukaszgryglicki/devstats-prod
+            image: lukaszgryglicki/devstats-prod-rust
             imagePullPolicy: Always
             name: devstats-columns-kubernetes
             resources:

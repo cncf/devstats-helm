@@ -68,8 +68,8 @@
 # - arg2
 # affiliationsCommandArgs:
 # - "affsarg"
-# affiliationsImage: 'lukaszgryglicki/devstats-test'
-# backupsImage: 'lukaszgryglicki/devstats-prod'
+# affiliationsImage: 'lukaszgryglicki/devstats-test-rust'
+# backupsImage: 'lukaszgryglicki/devstats-prod-rust'
 # backupsOnlyProjects: 'kubernetes prometheus fluentd'
 # bootstrapCommand: 'sleep'
 # bootstrapCommandArgs:
@@ -114,7 +114,7 @@
 # periods: 'd7:t,m:f,q:t,y10:f,y3:t,m6:f,y100:f'
 # periods: 'c_j_i:t,c_i_g:t,c_g_n:t,c_i_n:t,c_j_g:t'
 # projectsOverride: '+azf,+cncf,+fn,+linux,+opencontainers,+openfaas,+openwhisk,+riff,+rkt,+sam,+zephyr,+opentracing,+brigade,+openservicemesh'
-# provisionImage: 'lukaszgryglicki/devstats-test'
+# provisionImage: 'lukaszgryglicki/devstats-test-rust'
 # provisionCommand: './devstats-helm/reinit.sh'
 # provisionCommand: './devstats-helm/repos.sh'
 # provisionCommand: './devstats-helm/repo_groups.sh'
@@ -176,7 +176,7 @@
 # storageClass: gp2
 # storageClass: openebs-hostpath
 # storageClass: nfs-openebs-localstorage
-# syncImage: 'lukaszgryglicki/devstats-minimal-test'
+# syncImage: 'lukaszgryglicki/devstats-minimal-test-rust'
 # syncCommandArgs:
 # - "syncarg"
 # backupsCommand: '/bin/sleep'
@@ -184,7 +184,9 @@
 # backupsNoAge: '1'
 # - "36000s"
 apiCommand: api
-apiImage: 'lukaszgryglicki/devstats-api-test'
+# Rust port of the DevStats binaries (devstatscode/rust) - images with the '-rust' suffix; the Go images keep their
+# names (e.g. 'lukaszgryglicki/devstats-api-test') and can be used to roll back.
+apiImage: 'lukaszgryglicki/devstats-api-test-rust'
 apiNReplicas: 1
 apiMaxSurge: 1
 apiMaxUnavailable: 0
@@ -200,7 +202,7 @@ affiliationsCronFailedHistoryLimit: 1
 affiliationsCronStartingDeadlineSeconds: 300
 affiliationsGetAffsFiles: ''
 affiliationsDB: 'affiliations'
-affiliationsImage: 'lukaszgryglicki/devstats-prod'
+affiliationsImage: 'lukaszgryglicki/devstats-prod-rust'
 affiliationsImportCheckSHA: '1'
 affiliationsImportCommand: './devstats-helm/import_affs_shared.sh'
 affiliationsImportCron: '10 2 * * *'
@@ -228,7 +230,7 @@ backupsCronStartingDeadlineSeconds: 300
 backupsCommand: './devstats-helm/backups.sh'
 backupsNoAge: ''
 backupsOnlyProjects: ''
-backupsImage: 'lukaszgryglicki/devstats-test'
+backupsImage: 'lukaszgryglicki/devstats-test-rust'
 backupsPodName: 'devstats-backups'
 backupsProdServer: ''
 backupsPVName: devstats-backups
@@ -372,7 +374,7 @@ prodNamespace: 'devstats-prod'
 projectsFile: 'devstats-helm/projects.yaml'
 projectsOverride: ''
 provisionCommand: './devstats-helm/deploy_all.sh'
-provisionImage: 'lukaszgryglicki/devstats-prod'
+provisionImage: 'lukaszgryglicki/devstats-prod-rust'
 provisionPodName: devstats-provision
 provisionRestartPolicy: Never
 postgresPort: 5432
@@ -433,7 +435,7 @@ reportsPod: ''
 reportsPodName: 'devstats-reports'
 reportsCommand: '/bin/sleep'
 reportsCommandArgs: ['36525d']
-reportsImage: 'lukaszgryglicki/devstats-reports'
+reportsImage: 'lukaszgryglicki/devstats-reports-rust'
 reportsRestartPolicy: 'Never'
 reportsVolumeMountPath: '/data'
 requestsAPICPU: '1000m'
@@ -474,14 +476,14 @@ syncCommand: devstats
 syncCronHistoryLimit: 2
 syncCronFailedHistoryLimit: 1
 syncCronStartingDeadlineSeconds: 180
-syncImage: 'lukaszgryglicki/devstats-minimal-prod'
+syncImage: 'lukaszgryglicki/devstats-minimal-prod-rust'
 syncPodName: devstats
 syncRestartPolicy: Never
 sslEnv: prod
 tagsYAML: ''
 testServer: '1'
 testNamespace: 'devstats-test'
-testsImage: 'lukaszgryglicki/devstats-tests'
+testsImage: 'lukaszgryglicki/devstats-tests-rust'
 testsPodName: devstats-tests
 testsRestartPolicy: Never
 tlsMaxHostsPerCert: 35
@@ -492,7 +494,7 @@ vacuumCronHistoryLimit: 1
 vacuumCronFailedHistoryLimit: 1
 vacuumCronStartingDeadlineSeconds: 300
 vacuumCommand: './devel/vacuum_all.sh'
-vacuumImage: 'lukaszgryglicki/devstats-test'
+vacuumImage: 'lukaszgryglicki/devstats-test-rust'
 vacuumPodName: 'devstats-vacuum'
 vacuumRestartPolicy: Never
 volumeMountName: data

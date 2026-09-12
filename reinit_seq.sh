@@ -130,7 +130,7 @@ do
   helm -n "$NS" uninstall "$rel" > /dev/null 2>&1
 
   helm -n "$NS" install "$rel" ./devstats-helm \
-    --set namespace="$NS",skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,testServer='',prodServer='1',provisionImage='lukaszgryglicki/devstats-prod',provisionPodName='reinit',indexProvisionsFrom=$i,indexProvisionsTo=$((i+1)),provisionCommand='./devstats-helm/reinit.sh',allowMetricFail=1,nCPUs="$NCPUS",maxRunDuration="$MAXRUN",tsdbDrop="$TSDBDROP",ghaAPISkip="$GHAAPISKIP",giantProv="$GIANT",skipECFRGReset="$SKIPECFRGRESET",skipGetRepos="$SKIPGETREPOS""$EXTRA" \
+    --set namespace="$NS",skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,testServer='',prodServer='1',provisionImage='lukaszgryglicki/devstats-prod-rust',provisionPodName='reinit',indexProvisionsFrom=$i,indexProvisionsTo=$((i+1)),provisionCommand='./devstats-helm/reinit.sh',allowMetricFail=1,nCPUs="$NCPUS",maxRunDuration="$MAXRUN",tsdbDrop="$TSDBDROP",ghaAPISkip="$GHAAPISKIP",giantProv="$GIANT",skipECFRGReset="$SKIPECFRGRESET",skipGetRepos="$SKIPGETREPOS""$EXTRA" \
     > /dev/null || exit 2
 
   pod="reinit-$proj"

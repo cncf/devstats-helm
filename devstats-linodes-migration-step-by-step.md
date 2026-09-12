@@ -204,7 +204,7 @@ restore_prod () {
   s+=",indexProvisionsFrom=$2,indexProvisionsTo=$3"
   s+=",indexCronsFrom=$2,indexCronsTo=$3,indexGrafanasFrom=$2,indexGrafanasTo=$3"
   s+=",indexServicesFrom=$2,indexServicesTo=$3,indexAffiliationsFrom=$2,indexAffiliationsTo=$3"
-  s+=',provisionImage=lukaszgryglicki/devstats-prod,provisionCommand=devstats-helm/restore.sh'
+  s+=',provisionImage=lukaszgryglicki/devstats-prod-rust,provisionCommand=devstats-helm/restore.sh'
   s+=',restoreFrom=https://devstats.cncf.io/backups/,testServer=,prodServer=1'
   local cr; cr="$(catchup_range "https://devstats.cncf.io/backups/$(proj_db "$1").dump")"
   echo "ghapi2db catch-up window for ${1}: ${cr}"
@@ -2296,7 +2296,7 @@ kubectl config use-context prod
 kubectl -n devstats-prod exec -it debug -- bash -c "ONLY=\"\$(cat ./devstats-helm/all_prod_dbs.txt)\" RESTORE_FROM='https://devstats.cncf.io' NOBACKUP='' ./devstats-helm/restore_artificial_all.sh"
 
 helm install devstats-prod-affs-import ./devstats-helm -n devstats-prod --set "namespace=devstats-prod,$(skips_except),skipAffiliationsImport=,affiliationsDB=affiliations,prodServer=1,testServer="
-helm install devstats-prod-api ./devstats-helm -n devstats-prod --set "namespace=devstats-prod,$(skips_except API),apiImage=lukaszgryglicki/devstats-api-prod"
+helm install devstats-prod-api ./devstats-helm -n devstats-prod --set "namespace=devstats-prod,$(skips_except API),apiImage=lukaszgryglicki/devstats-api-prod-rust"
 helm install devstats-prod-backups ./devstats-helm -n devstats-prod --set "namespace=devstats-prod,$(skips_except Backups),backupsTestServer=,backupsProdServer=1"
 kubectl -n devstats-prod edit cronjob devstats-backups   # set schedule: '45 2 10,20 * *'
 # keep it SUSPENDED until after cutover (two backup sources must never run at once):
