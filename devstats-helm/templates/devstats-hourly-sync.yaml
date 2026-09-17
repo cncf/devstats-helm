@@ -95,6 +95,8 @@ spec:
               value: '{{ $root.Values.allowMetricFail }}'
             - name: GHA2DB_GHAPISKIP
               value: '{{ $root.Values.ghaAPISkip }}'
+            - name: GHA2DB_RECONCILESKIP
+              value: '{{ $root.Values.skipReconcile }}'
             - name: GHA2DB_GHAPISKIPCOMMENTS
               value: '{{ $root.Values.ghapiSkipComments }}'
             - name: GHA2DB_GHAPISKIPREVIEWS

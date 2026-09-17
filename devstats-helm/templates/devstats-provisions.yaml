@@ -71,6 +71,8 @@ spec:
       value: '{{ or .maxRunDuration $root.Values.maxRunDuration }}'
     - name: GHA2DB_GHAPISKIP
       value: '{{ $root.Values.ghaAPISkip }}'
+    - name: GHA2DB_RECONCILESKIP
+      value: '{{ $root.Values.skipReconcile }}'
     - name: GHA2DB_NCPUS
       value: '{{ $root.Values.nCPUs }}'
     - name: GHA2DB_GHAPISKIPISSUES

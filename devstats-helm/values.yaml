@@ -100,6 +100,7 @@
 # onlyGHA: '1'
 # skipECFRGReset: '1'
 # skipGetRepos: '1'
+# skipReconcile: '1'
 # overwritePostgresCommand: true
 # postgresCommand: 'sleep'
 # postgresCommandArgs:
@@ -363,6 +364,8 @@ onlyGHA: ''
 skipECFRGReset: ''
 skipGetRepos: ''
 skipGHA: ''
+# Set to 1 to skip the reconcile_dbs step in gha2db_sync (set for the non-important devstats-test namespace which has no synced allprj).
+skipReconcile: ''
 skipRand: ''
 patroniLoopWait: 15
 patroniTtl: 60
