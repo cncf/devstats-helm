@@ -994,7 +994,7 @@ projects:
   db: openmetrics
   icon: openmetrics
   org: OpenMetrics
-  repo: OpenObservability/OpenMetrics
+  repo: prometheus/OpenMetrics
   cronTest: 33 3,9,15,21 * * *
   cronProd: 31 0,6,12,18 * * *
   affCronTest: 22 12 18 * *
@@ -3754,7 +3754,7 @@ projects:
   db: kubewarden
   icon: kubewarden
   org: kubewarden
-  repo: kubewarden/kubewarden-controller
+  repo: kubewarden/adm-controller
   cronTest: 37 0,6,12,18 * * *
   cronProd: 35 3,9,15,21 * * *
   affCronTest: 31 7 3 * *
@@ -5178,7 +5178,7 @@ projects:
   db: ratify
   icon: ratify
   org: Ratify
-  repo: ratify-project/ratify
+  repo: notaryproject/ratify
   cronTest: 20 2,8,14,20 * * *
   cronProd: 5 5,11,17,23 * * *
   affCronTest: 34 8 10 * *
