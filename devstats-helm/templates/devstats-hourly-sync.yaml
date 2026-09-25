@@ -109,8 +109,6 @@ spec:
               value: '{{ $root.Values.ghapiSkipStars }}'
             - name: GHA2DB_RESTORE_ORPHAN_COMMITS
               value: '{{ $root.Values.ghapiRestoreOrphanCommits }}'
-            - name: GHA2DB_RECALC_RECIPROCAL
-              value: '{{ $root.Values.recalcReciprocal }}'
             - name: GHA2DB_DEBUG
               value: '{{ $root.Values.debug }}'
             - name: GHA2DB_CMDDEBUG

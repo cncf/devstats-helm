@@ -52,8 +52,6 @@ spec:
       value: ''
     - name: GHA2DB_NCPUS
       value: ''
-    - name: GHA2DB_RECALC_RECIPROCAL
-      value: ''
     - name: GHA2DB_DEBUG
       value: 1
     - name: GHA2DB_CMDDEBUG
