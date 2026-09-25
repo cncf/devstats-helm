@@ -15,7 +15,7 @@
 #   ./akamai/deploy-devstats-prod.sh debug       # sleep pod w/ backups PV for restore_artificial_all.sh
 #   ./akamai/deploy-devstats-prod.sh affs-import # daily shared-affiliations import cronjob
 #   ./akamai/deploy-devstats-prod.sh api
-#   ./akamai/deploy-devstats-prod.sh backups     # then k edit cj devstats-backups -> schedule '45 2 10,20 * *'
+#   ./akamai/deploy-devstats-prod.sh backups     # then k edit cj devstats-backups -> schedule '45 20 10,20 * *'
 set -euo pipefail
 
 PHASE="${1:-}"
@@ -109,7 +109,7 @@ case "${PHASE}" in
     ;;
   backups)
     helm install devstats-prod-backups "${CHART}" -n "${NS}" --set "namespace=${NS},$(skips_except Backups),backupsTestServer=,backupsProdServer=1"
-    echo "Now: kubectl -n ${NS} edit cj devstats-backups  -> schedule: '45 2 10,20 * *' (and keep suspended until cutover)"
+    echo "Now: kubectl -n ${NS} edit cj devstats-backups  -> schedule: '45 20 10,20 * *' (and keep suspended until cutover)"
     ;;
   *)
     echo "usage: $0 secrets|backups-pv|pvcs|patroni|statics|ingress|bootstrap|debug|affs-import|api|backups"
