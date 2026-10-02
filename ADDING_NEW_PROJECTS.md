@@ -50,8 +50,8 @@
 3. Go to `cncf/devstats-docker-images`:
 
 - Consider upgrading Grafana: `vim ./images/Dockerfile.grafana`.
-- Run `DOCKER_USER=... [SKIP_TESTS=1] SKIP_PATRONI=1 ./images/build_images.sh` to build a new images.
-- Eventually run `DOCKER_USER=... ./images/remove_images.sh` to remove image(s) locally (new image is pushed to the Docker Hub).
+- Run `[RUST=1] DOCKER_USER=... [SKIP_TESTS=1] SKIP_PATRONI=1 ./images/build_images.sh` to build a new images.
+- Eventually run `[RUST=1] DOCKER_USER=... ./images/remove_images.sh` to remove image(s) locally (new image is pushed to the Docker Hub).
 
 
 4. Go to `cncf/devstats-helm`:
