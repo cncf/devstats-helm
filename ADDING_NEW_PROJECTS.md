@@ -154,6 +154,7 @@ If you used `nCPUs=n` flag during adding a new project, update deployed componen
 
 To generate affiliations task for the next project(s):
 
+- Wait until the project's provisioning has at least finished `gha2db` and `./shared/proj_affs_bootstrap.sh` (the shared `import_affs` must not be running: `k exec -n devstats-prod devstats-provision-proj -- sh -c 'ps -o args | grep -c "^import_affs"'` must print `0`), otherwise the task will list transiently-unknown actors.
 - On the `prod` node run: `helm install devstats-prod-reports ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,reportsPod=1,namespace='devstats-prod'`.
 - On the `test` node run: `helm install devstats-test-reports ./devstats-helm --set skipSecrets=1,skipPVs=1,skipBackupsPV=1,skipVacuum=1,skipBackups=1,skipBootstrap=1,skipProvisions=1,skipCrons=1,skipAffiliations=1,skipGrafanas=1,skipServices=1,skipPostgres=1,skipIngress=1,skipStatic=1,skipAPI=1,skipNamespaces=1,reportsPod=1,projectsOverride='+cncf\,+opencontainers\,+zephyr\,+linux\,+rkt\,+sam\,+azf\,+riff\,+fn\,+openwhisk\,+openfaas\,+cii\,+prestodb\,+godotengine\,+opentracing'`.
 - Shell into reporting pod: `../devstats-k8s-lf/util/pod_shell.sh devstats-reports` or `k exec -itn devstats-prod devstats-reports -- bash` from a different namespace (like `devstats-test`).
