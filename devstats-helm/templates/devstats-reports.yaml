@@ -75,7 +75,7 @@ spec:
       mountPath: '{{ .Values.reportsVolumeMountPath }}'
   restartPolicy: {{ .Values.reportsRestartPolicy }}
   nodeSelector:
-{{- with .Values.dbNodeSelector -}}
+{{- with .Values.appNodeSelector -}}
 {{ toYaml . | nindent 4 }}
 {{ end }}
 {{ end }}
