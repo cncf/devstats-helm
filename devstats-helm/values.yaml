@@ -6360,9 +6360,9 @@ projects:
   org: Praxis
   repo: praxis-proxy/praxis
   cronTest: 58 2,8,14,20 * * *
-  cronProd: 36 0,6,12,18 * * *
+  cronProd: 31 1,7,13,19 * * *
   affCronTest: 37 5 13 * *
-  affCronProd: 36 3 8 * *
+  affCronProd: 31 4 10 * *
   affSkipTemp: "1"
   disk: 1Gi
   domains: [0, 1, 0, 0]
@@ -6380,9 +6380,9 @@ projects:
   org: AI Runway
   repo: ai-runway/airunway
   cronTest: 58 2,8,14,20 * * *
-  cronProd: 26 1,7,13,19 * * *
+  cronProd: 33 1,7,13,19 * * *
   affCronTest: 37 5 13 * *
-  affCronProd: 26 16 10 * *
+  affCronProd: 33 4 10 * *
   affSkipTemp: "1"
   disk: 1Gi
   domains: [0, 1, 0, 0]
