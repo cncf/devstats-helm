@@ -229,7 +229,7 @@ backupsCronHistoryLimit: 2
 backupsCronFailedHistoryLimit: 1
 backupsCronStartingDeadlineSeconds: 300
 backupsCommand: './devstats-helm/backups.sh'
-backupsNoAge: ''
+backupsNoAge: '' # Compatibility only; every selected database is always backed up.
 backupsOnlyProjects: ''
 backupsImage: 'lukaszgryglicki/devstats-test-rust'
 backupsPodName: 'devstats-backups'
@@ -332,8 +332,8 @@ indexStaticsFrom: 0
 indexStaticsTo: 4
 limitsAPICPU: '4000m'
 limitsAPIMemory: '6Gi'
-limitsBackupsCPU: '4000m'
-limitsBackupsMemory: '100Gi'
+limitsBackupsCPU: '1000m'
+limitsBackupsMemory: '2Gi'
 limitsBootstrapCPU: '8000m'
 limitsBootstrapMemory: '32Gi'
 limitsAffiliationsCPU: '10000m'
@@ -443,8 +443,8 @@ reportsRestartPolicy: 'Never'
 reportsVolumeMountPath: '/data'
 requestsAPICPU: '1000m'
 requestsAPIMemory: '512Mi'
-requestsBackupsCPU: '1000m'
-requestsBackupsMemory: '1Gi'
+requestsBackupsCPU: '100m'
+requestsBackupsMemory: '256Mi'
 requestsBootstrapCPU: '1000m'
 requestsBootstrapMemory: '1Gi'
 requestsAffiliationsCPU: '1000m'
