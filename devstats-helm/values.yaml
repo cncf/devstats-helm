@@ -6353,3 +6353,43 @@ projects:
   durablePQ: 1
   skipGHAPI: 1
   skipGetRepos: 1
+- proj: praxis
+  url: praxis
+  db: praxis
+  icon: praxis
+  org: Praxis
+  repo: praxis-proxy/praxis
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 36 0,6,12,18 * * *
+  affCronTest: 37 5 13 * *
+  affCronProd: 36 3 8 * *
+  affSkipTemp: "1"
+  disk: 1Gi
+  domains: [0, 1, 0, 0]
+  ga: ""
+  i: 288
+  certNum: 0
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
+- proj: airunway
+  url: airunway
+  db: airunway
+  icon: airunway
+  org: AI Runway
+  repo: ai-runway/airunway
+  cronTest: 58 2,8,14,20 * * *
+  cronProd: 26 1,7,13,19 * * *
+  affCronTest: 37 5 13 * *
+  affCronProd: 26 16 10 * *
+  affSkipTemp: "1"
+  disk: 1Gi
+  domains: [0, 1, 0, 0]
+  ga: ""
+  i: 289
+  certNum: 0
+  maxHist: 8
+  durablePQ: 1
+  skipGHAPI: 1
+  skipGetRepos: 1
