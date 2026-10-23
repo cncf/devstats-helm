@@ -6400,9 +6400,9 @@ projects:
   org: Agent Substrate
   repo: agent-substrate/substrate
   cronTest: 58 2,8,14,20 * * *
-  cronProd: "36 0,6,12,18 * * *"
+  cronProd: "35 1,7,13,19 * * *"
   affCronTest: 37 5 13 * *
-  affCronProd: "36 3 8 * *"
+  affCronProd: "35 10 11 * *"
   affSkipTemp: "1"
   disk: 1Gi
   domains: [0, 1, 0, 0]
@@ -6420,9 +6420,9 @@ projects:
   org: OpenRL
   repo: gke-labs/open-rl
   cronTest: 58 2,8,14,20 * * *
-  cronProd: "26 1,7,13,19 * * *"
+  cronProd: "37 1,7,13,19 * * *"
   affCronTest: 37 5 13 * *
-  affCronProd: "26 16 10 * *"
+  affCronProd: "37 10 1 * *"
   affSkipTemp: "1"
   disk: 1Gi
   domains: [0, 1, 0, 0]
