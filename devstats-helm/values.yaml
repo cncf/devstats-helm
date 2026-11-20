@@ -6278,7 +6278,7 @@ projects:
   db: kuberay
   icon: kuberay
   org: KubeRay
-  repo: ray-project/kuberay
+  repo: kuberay-project/kuberay
   cronTest: 58 2,8,14,20 * * *
   cronProd: 11 0,6,12,18 * * *
   affCronTest: 37 5 13 * *
@@ -6298,7 +6298,7 @@ projects:
   db: k2s
   icon: k2s
   org: K2s
-  repo: Siemens-Healthineers/K2s
+  repo: k2s-project/k2s
   cronTest: 58 2,8,14,20 * * *
   cronProd: 28 1,7,13,19 * * *
   affCronTest: 37 5 13 * *
@@ -6418,7 +6418,7 @@ projects:
   db: openrl
   icon: openrl
   org: OpenRL
-  repo: gke-labs/open-rl
+  repo: openrl-dev/openrl
   cronTest: 58 2,8,14,20 * * *
   cronProd: "37 1,7,13,19 * * *"
   affCronTest: 37 5 13 * *
@@ -6458,7 +6458,7 @@ projects:
   db: gvisor
   icon: gvisor
   org: gVisor
-  repo: google/gvisor
+  repo: gvisor/gvisor
   cronTest: 58 2,8,14,20 * * *
   cronProd: "34 1,7,13,19 * * *"
   affCronTest: 37 5 13 * *
